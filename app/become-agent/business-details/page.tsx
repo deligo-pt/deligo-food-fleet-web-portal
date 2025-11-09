@@ -1,21 +1,24 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Building2,
-  Briefcase,
-  FileCheck2,
-  BadgeInfo,
-  MapPin,
-  Clock,
-  CalendarX2,
-} from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { TResponse } from "@/types";
+import { getCookie } from "@/utils/cookies";
+import { updateData } from "@/utils/requests";
+import { businessDetailsValidation } from "@/validations/become-agent/business-details.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { BadgeInfo, Building2, FileCheck2 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 type BusinessForm = {
   businessName: string;
@@ -23,25 +26,43 @@ type BusinessForm = {
   NIF: string;
 };
 
-const timeOptions = Array.from({ length: 24 * 2 }, (_, i) => {
-  const hour = Math.floor(i / 2);
-  const minute = i % 2 === 0 ? "00" : "30";
-  return `${String(hour).padStart(2, "0")}:${minute}`;
-});
-
-
-
 export default function BusinessDetailsPage() {
-  const { register, handleSubmit } = useForm<BusinessForm>();
-  
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const form = useForm<BusinessForm>({
+    resolver: zodResolver(businessDetailsValidation),
+    defaultValues: {
+      businessName: "",
+      businessLicenseNumber: "",
+      NIF: "",
+    },
+  });
+
   const router = useRouter();
 
-  
+  const onSubmit = async (data: BusinessForm) => {
+    try {
+      const result = (await updateData(
+        "/fleet-managers/" + id,
+        {
+          companyDetails: {
+            companyName: data.businessName,
+            companyLicenseNumber: data.businessLicenseNumber,
+            NIF: data.NIF,
+          },
+        },
+        {
+          headers: { authorization: getCookie("accessToken") },
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      )) as unknown as TResponse<any>;
 
-  const onSubmit = (data: BusinessForm) => {
-    console.log("✅ Business details:", data);
-    router.push("/become-agent/business-location");
-    
+      if (result.success) {
+        router.push("/become-agent/business-location?id=" + id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -62,64 +83,100 @@ export default function BusinessDetailsPage() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            {/* ========== Section 1: Basic Info ========== */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-3 border-b pb-1">
-                🏢 Basic Information
-              </h3>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              {/* ========== Section 1: Basic Info ========== */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700 mb-3 border-b pb-1">
+                  🏢 Basic Information
+                </h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Business Name */}
-                <div className="relative">
-                  <Building2 className="absolute left-3 top-3.5 text-[#DC3173]" />
-                  <Input
-                    {...register("businessName")}
-                    placeholder="Business Name"
-                    required
-                    className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Business Name */}
+                  <FormField
+                    control={form.control}
+                    name="businessName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <FormControl>
+                            <div className="relative">
+                              <Building2 className="absolute left-3 top-3.5 text-[#DC3173]" />
+                              <Input
+                                placeholder="Business Name"
+                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                
-                {/* License */}
-                <div className="relative">
-                  <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
-                  <Input
-                    {...register("businessLicenseNumber")}
-                    placeholder="License Number"
-                    required
-                    className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                  {/* License */}
+                  <FormField
+                    control={form.control}
+                    name="businessLicenseNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <FormControl>
+                            <div className="relative">
+                              <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
+                              <Input
+                                placeholder="License Number"
+                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                {/* NIF */}
-                <div className="relative">
-                  <BadgeInfo className="absolute left-3 top-3.5 text-[#DC3173]" />
-                  <Input
-                    {...register("NIF")}
-                    placeholder="NIF"
-                    required
-                    className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                  {/* NIF */}
+                  <FormField
+                    control={form.control}
+                    name="NIF"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <FormControl>
+                            <div className="relative">
+                              <BadgeInfo className="absolute left-3 top-3.5 text-[#DC3173]" />
+                              <Input
+                                placeholder="NIF"
+                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
               </div>
-            </div>
 
-           
-
-           
-
-            {/* Submit Button */}
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                type="submit"
-                className="w-full h-12 bg-[#DC3173] hover:bg-[#b12b61] text-white text-lg font-semibold shadow-md hover:shadow-lg transition-all"
+              {/* Submit Button */}
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
-                Save & Continue
-              </Button>
-            </motion.div>
-          </form>
+                <Button
+                  type="submit"
+                  className="w-full h-12 bg-[#DC3173] hover:bg-[#b12b61] text-white text-lg font-semibold shadow-md hover:shadow-lg transition-all"
+                >
+                  Save & Continue
+                </Button>
+              </motion.div>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </motion.div>
