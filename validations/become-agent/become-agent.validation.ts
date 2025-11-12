@@ -24,9 +24,4 @@ export const becomeAgentValidation = z.object({
     ),
 
   terms: z.boolean(),
-  // .refine((val) => {
-  //   console.log(val);
-
-  //   return val === "true";
-  // }, "You must accept the terms and conditions"),
 });

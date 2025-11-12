@@ -12,67 +12,128 @@ import {
 import { Input } from "@/components/ui/input";
 import { TResponse } from "@/types";
 import { getCookie } from "@/utils/cookies";
-import { updateData } from "@/utils/requests";
+import { fetchData, updateData } from "@/utils/requests";
 import { businessDetailsValidation } from "@/validations/become-agent/business-details.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { BadgeInfo, Building2, FileCheck2 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import { ArrowLeftCircle, Building2, FileCheck2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type BusinessForm = {
   businessName: string;
   businessLicenseNumber: string;
-  NIF: string;
 };
 
 export default function BusinessDetailsPage() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
   const form = useForm<BusinessForm>({
     resolver: zodResolver(businessDetailsValidation),
     defaultValues: {
       businessName: "",
       businessLicenseNumber: "",
-      NIF: "",
     },
   });
 
   const router = useRouter();
 
   const onSubmit = async (data: BusinessForm) => {
+    const toastId = toast.loading("Updating...");
     try {
+      const accessToken = getCookie("accessToken");
+      const decoded = jwtDecode(accessToken || "") as { id: string };
+
       const result = (await updateData(
-        "/fleet-managers/" + id,
+        "/fleet-managers/" + decoded?.id,
         {
           companyDetails: {
             companyName: data.businessName,
             companyLicenseNumber: data.businessLicenseNumber,
-            NIF: data.NIF,
           },
         },
         {
-          headers: { authorization: getCookie("accessToken") },
+          headers: { authorization: accessToken },
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       )) as unknown as TResponse<any>;
 
       if (result.success) {
-        router.push("/become-agent/business-location?id=" + id);
+        toast.success("Business details updated successfully!", {
+          id: toastId,
+        });
+
+        router.push("/become-agent/business-location");
+        return;
       }
-    } catch (error) {
+      toast.error(result.message, { id: toastId });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Business details update failed",
+        { id: toastId }
+      );
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    const accessToken = getCookie("accessToken");
+    if (accessToken) {
+      const decoded = jwtDecode(accessToken || "") as {
+        email: string;
+        id: string;
+      };
+      if (decoded?.email) {
+        const fetchUserData = async (id: string, token: string) => {
+          try {
+            const result = (await fetchData(`/fleet-managers/${id}`, {
+              headers: {
+                authorization: token,
+              },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            })) as unknown as TResponse<any>;
+
+            if (result.success) {
+              const data = result.data;
+
+              form.setValue(
+                "businessName",
+                data?.companyDetails?.companyName || ""
+              );
+              form.setValue(
+                "businessLicenseNumber",
+                data?.companyDetails?.companyLicenseNumber || ""
+              );
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchUserData(decoded.id, accessToken);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <motion.div
-      className="flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100 px-4"
+      className="flex justify-center items-center min-h-screen bg-linear-to-br from-pink-50 via-white to-pink-100 px-"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      <Card className="w-full max-w-2xl p-6 shadow-2xl border-t-4 border-[#DC3173] bg-white rounded-2xl">
+      <Card className="w-full max-w-2xl p-6 shadow-2xl border-t-4 border-[#DC3173] bg-white rounded-2xl relative">
+        <div className="absolute top-3 left-0">
+          <Button
+            onClick={() => router.push("/become-agent/personal-details")}
+            variant="link"
+            className="inline-flex items-center px-4 text-sm gap-2 text-[#DC3173] p-0 h-4 cursor-pointer"
+          >
+            <ArrowLeftCircle /> Go Back
+          </Button>
+        </div>
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold text-[#DC3173]">
             Business Details
@@ -127,29 +188,6 @@ export default function BusinessDetailsPage() {
                               <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
                               <Input
                                 placeholder="License Number"
-                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
-                                {...field}
-                              />
-                            </div>
-                          </FormControl>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* NIF */}
-                  <FormField
-                    control={form.control}
-                    name="NIF"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="relative">
-                          <FormControl>
-                            <div className="relative">
-                              <BadgeInfo className="absolute left-3 top-3.5 text-[#DC3173]" />
-                              <Input
-                                placeholder="NIF"
                                 className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
                                 {...field}
                               />

@@ -21,6 +21,5 @@ export const bankDetailsValidation = z.object({
   swiftCode: z
     .string()
     .min(8, "SWIFT code must be at least 8 characters")
-    .max(11, "SWIFT code must be at most 11 characters")
-
+    .max(11, "SWIFT code must be at most 11 characters"),
 });
