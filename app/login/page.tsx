@@ -16,7 +16,7 @@ import { loginValidation } from "@/validations/Auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { Eye, EyeOff, Lock, Mail, Send } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,6 +27,7 @@ type LoginFormInputs = {
 };
 
 export default function PremiumLoginPage() {
+  const redirect = useSearchParams()?.get("redirect");
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginValidation),
@@ -62,6 +63,10 @@ export default function PremiumLoginPage() {
               router.push("/become-agent/registration-status");
               return;
             case "APPROVED":
+              if (redirect) {
+                router.push(redirect);
+                return;
+              }
               router.push("/agent/dashboard");
               return;
           }

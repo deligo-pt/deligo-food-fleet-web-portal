@@ -16,7 +16,7 @@ async function verifyJWT(token: string) {
   }
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const accessToken = req.cookies.get("accessToken")?.value;
 
@@ -36,11 +36,12 @@ export async function middleware(req: NextRequest) {
           pathname === "/become-agent" ||
           pathname === "/become-agent/verify-otp"
         ) {
-          if (decoded.status !== USER_STATUS.REJECTED) {
-            return NextResponse.redirect(
-              new URL("/become-agent/registration-status", req.url)
-            );
+          if (decoded.status === USER_STATUS.APPROVED) {
+            return NextResponse.redirect(new URL("/agent/dashboard", req.url));
           }
+          return NextResponse.redirect(
+            new URL("/become-agent/registration-status", req.url)
+          );
         } else if (
           pathname === "/become-agent/personal-details" ||
           pathname === "/become-agent/business-details" ||
@@ -49,8 +50,8 @@ export async function middleware(req: NextRequest) {
           pathname === "/become-agent/document-image-details"
         ) {
           if (
-            decoded.status === USER_STATUS.APPROVED ||
-            decoded.status === USER_STATUS.SUBMITTED
+            decoded.status === USER_STATUS.SUBMITTED ||
+            decoded.status === USER_STATUS.APPROVED
           ) {
             return NextResponse.redirect(
               new URL("/become-agent/registration-status", req.url)

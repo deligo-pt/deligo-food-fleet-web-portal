@@ -39,7 +39,9 @@ export default function AgentLayout({
             <Topbar />
           </div>
           {/* Page content */}
-          <main className="flex-1 p-4 overflow-y-auto">{children}</main>
+          <main className="flex-1 p-4 overflow-y-auto overflow-x-hidden">
+            {children}
+          </main>
         </div>
       </div>
     </div>

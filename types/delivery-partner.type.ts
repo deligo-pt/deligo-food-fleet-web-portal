@@ -1,0 +1,97 @@
+import { USER_STATUS } from "@/consts/user.const";
+
+export type TVehicleType = "BIKE" | "CAR" | "SCOOTER" | "BICYCLE" | "OTHER";
+
+export type TDeliveryPartner = {
+  _id?: string;
+  userId: string;
+  registeredBy?: string;
+  role: "DELIVERY_PARTNER";
+  email: string;
+  password: string;
+  status: keyof typeof USER_STATUS;
+  isEmailVerified: boolean;
+  isDeleted: boolean;
+
+  // fcm tokens for push notifications
+  fcmTokens?: string[];
+
+  // OTP Details
+  otp?: string;
+  isOtpExpired?: Date;
+
+  // Personal Details
+  name?: {
+    firstName?: string;
+    lastName?: string;
+  };
+  contactNumber?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    zipCode?: string;
+  };
+
+  profilePhoto?: string;
+  passwordChangedAt?: Date;
+
+  // Operational Data
+  operationalData?: {
+    totalDeliveries?: number;
+    completedDeliveries?: number;
+    canceledDeliveries?: number;
+    rating?: {
+      average: number;
+      totalReviews: number;
+    };
+    vehicleType?: TVehicleType;
+    licenseNumber?: string;
+  };
+
+  // Bank Details
+  bankDetails?: {
+    bankName?: string;
+    accountHolderName?: string;
+    iban?: string;
+    swiftCode?: string;
+  };
+
+  // Earnings
+  earnings?: {
+    totalEarnings?: number;
+    pendingEarnings?: number;
+  };
+
+  // Documents
+  documents?: {
+    idProof?: string;
+    drivingLicense?: string;
+    vehicleRegistration?: string;
+  };
+
+  // Security & Access
+  twoFactorEnabled?: boolean;
+  loginDevices?: { deviceId: string; lastLogin: Date }[];
+
+  approvedBy?: string;
+  rejectedBy?: string;
+  blockedBy?: string;
+  submittedForApprovalAt?: Date;
+  approvedOrRejectedAt?: Date;
+  remarks?: string;
+
+  // timestamps
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type TDeliveryPartnersQueryParams = {
+  limit?: number;
+  page?: number;
+  searchTerm?: string;
+  sort?: string;
+  status?: string;
+  isEmailVerified?: string;
+};
