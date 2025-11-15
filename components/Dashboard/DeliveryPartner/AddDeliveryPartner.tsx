@@ -1,6 +1,7 @@
 "use client";
 
 import { DeliveryPartnerForm } from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerForm";
+import DeliveryPartnerVerifyOtp from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerVerifyOtp";
 import {
   Dialog,
   DialogContent,
@@ -14,14 +15,24 @@ import { useState } from "react";
 
 export function AddDeliveryPartner({ refetch }: { refetch: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
-  const onAddSuccess = () => {
+  const onAddSuccess = (emailArg: string) => {
+    setEmail(emailArg);
+  };
+
+  const onVerifySuccess = () => {
     setIsOpen(false);
     refetch();
   };
 
+  const onOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    setEmail("");
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <motion.button
           whileHover={{
@@ -32,10 +43,6 @@ export function AddDeliveryPartner({ refetch }: { refetch: () => void }) {
           }}
           className="mt-4 md:mt-0 bg-white text-[#DC3173] px-4 py-2 rounded-md font-medium flex items-center shadow-md"
         >
-          {/* <Button
-          className="bg-white text-[#DC3173] hover:bg-pink-50 transition-all"
-          size="lg"
-        ></Button> */}
           <PlusCircle className="mr-2 h-5 w-5" />
           Add New Partner
         </motion.button>
@@ -46,8 +53,12 @@ export function AddDeliveryPartner({ refetch }: { refetch: () => void }) {
         aria-describedby="AddDeliveryPartner"
       >
         <DialogTitle />
-        <DialogDescription />
-        <DeliveryPartnerForm onSuccess={onAddSuccess} />
+        <DialogDescription />{" "}
+        {!email ? (
+          <DeliveryPartnerForm onSuccess={onAddSuccess} />
+        ) : (
+          <DeliveryPartnerVerifyOtp email={email} onSuccess={onVerifySuccess} />
+        )}
       </DialogContent>
     </Dialog>
   );

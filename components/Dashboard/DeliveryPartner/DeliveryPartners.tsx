@@ -25,81 +25,48 @@ import { AnimatePresence, motion } from "framer-motion";
 import { RefreshCcw, Search, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const mockDeliveryPartners: TDeliveryPartner[] = Array(24)
-  .fill(null)
-  .map((_, index) => ({
-    email: `partner${index + 1}@example.com`,
-    status: Object.keys(USER_STATUS)[index % 4] as keyof typeof USER_STATUS,
-    isEmailVerified: index % 3 === 0,
-    isDeleted: false,
-    name: {
-      firstName: `Partner${index + 1}`,
-      lastName: `LastName${index + 1}`,
-    },
-    contactNumber: `+1 ${Math.floor(100000000 + Math.random() * 900000000)}`,
-    profilePhoto: undefined,
-    operationalData: {
-      rating: {
-        average: 3 + Math.random() * 2,
-        totalReviews: Math.floor(10 + Math.random() * 90),
-      },
-    },
-    createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
-    updatedAt: new Date(),
-  }));
-
 const sortOptions = {
-  "createdAt-desc": {
-    field: "-createdAt",
-    label: "Newest First",
-  },
-  "createdAt-asc": {
-    field: "createdAt",
-    label: "Oldest First",
-  },
-  "name-asc": {
-    field: "name",
-    label: "Name (A-Z)",
-  },
-  "name-desc": {
-    field: "-name",
-    label: "Name (Z-A)",
-  },
-  "rating-desc": {
-    field: "-operationalData.rating.average",
-
-    label: "Highest Rated",
-  },
-  "rating-asc": {
-    field: "operationalData.rating.average",
-
-    label: "Lowest Rated",
-  },
+  "-createdAt": "Newest First",
+  createdAt: "Oldest First",
+  name: "Name (A-Z)",
+  "-name": "Name (Z-A)",
+  "-operationalData.rating.average": "Highest Rated",
+  "operationalData.rating.average": "Lowest Rated",
 };
 
 export default function DeliveryPartners() {
   const [partnersResult, setPartnersResult] = useState<{
     data: TDeliveryPartner[];
     meta?: TMeta;
-  }>({ data: mockDeliveryPartners });
+  }>({ data: [] });
   const [queryParams, setQueryParams] = useState<TDeliveryPartnersQueryParams>({
     limit: 10,
     page: 1,
     searchTerm: "",
-    sort: "-createdAt",
+    sortBy: "-createdAt",
     status: "",
-    isEmailVerified: "",
   });
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
     status: "",
-    isEmailVerified: "",
   });
 
-  async function getDeliveryPartners(params?: TDeliveryPartnersQueryParams) {
+  async function getDeliveryPartners(queries?: TDeliveryPartnersQueryParams) {
     try {
+      let params: Partial<TDeliveryPartnersQueryParams> = {};
+
+      if (queries) {
+        queries = Object.fromEntries(
+          Object.entries(queries).filter((q) => !!q?.[1])
+        );
+      } else {
+        params = Object.fromEntries(
+          Object.entries(queryParams).filter((q) => !!q?.[1])
+        );
+      }
+
       const result = (await fetchData("/delivery-partners", {
-        params: params || queryParams,
+        params,
         headers: {
           authorization: getCookie("accessToken"),
         },
@@ -125,10 +92,10 @@ export default function DeliveryPartners() {
   };
 
   const handleSort = (value: string) => {
-    setQueryParams((prevQuery) => ({ ...prevQuery, sort: value }));
+    setQueryParams((prevQuery) => ({ ...prevQuery, sortBy: value }));
     getDeliveryPartners({
       ...queryParams,
-      sort: value,
+      sortBy: value,
     });
   };
 
@@ -139,16 +106,10 @@ export default function DeliveryPartners() {
         status: queryParams.status,
       }));
     }
-    if (activeFilters.isEmailVerified.length > 0) {
-      setQueryParams((prevQuery) => ({
-        ...prevQuery,
-        isEmailVerified: queryParams.isEmailVerified,
-      }));
-    }
+
     getDeliveryPartners({
       ...queryParams,
       status: queryParams.status,
-      isEmailVerified: queryParams.isEmailVerified,
     });
     setShowFilters(false);
   };
@@ -171,18 +132,13 @@ export default function DeliveryPartners() {
   const clearAllFilters = () => {
     setActiveFilters({
       status: "",
-      isEmailVerified: "",
     });
+
     setQueryParams((prevQuery) => ({
       ...prevQuery,
       status: "",
-      isEmailVerified: "",
     }));
-    getDeliveryPartners({
-      ...queryParams,
-      status: "",
-      isEmailVerified: "",
-    });
+    getDeliveryPartners({ ...queryParams, status: "" });
   };
 
   useEffect(() => {
@@ -219,7 +175,7 @@ export default function DeliveryPartners() {
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             <div className="w-full lg:w-48">
               <Select
-                value={queryParams.sort}
+                value={queryParams.sortBy}
                 onValueChange={(value) => handleSort(value)}
               >
                 <SelectTrigger className="w-full">
@@ -228,7 +184,7 @@ export default function DeliveryPartners() {
                 <SelectContent>
                   {Object.entries(sortOptions).map(([key, option]) => (
                     <SelectItem key={key} value={key}>
-                      {option.label}
+                      {option}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -238,11 +194,9 @@ export default function DeliveryPartners() {
               variant="outline"
               className={`flex items-center ${
                 showFilters ||
-                (activeFilters.isEmailVerified
-                  ? 1
-                  : 0 + activeFilters.status
-                  ? 1
-                  : 0) > 0
+                Object.entries(activeFilters)?.filter(
+                  (filter) => filter[1] !== ""
+                )?.length > 0
                   ? "border-[#DC3173] text-[#DC3173]"
                   : ""
               }`}
@@ -250,16 +204,15 @@ export default function DeliveryPartners() {
             >
               <SlidersHorizontal className="mr-2 h-4 w-4" />
               Filters{" "}
-              {activeFilters.isEmailVerified
-                ? 1
-                : 0 + activeFilters.status
-                ? 1
-                : 0}
+              {Object.entries(activeFilters)?.filter(
+                (filter) => filter[1] !== ""
+              )?.length || ""}
             </Button>
           </div>
         </div>
 
-        {Object.values(activeFilters).length > 0 && (
+        {Object.entries(activeFilters)?.filter((filter) => filter[1] !== "")
+          ?.length > 0 && (
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {activeFilters.status.length > 0 && (
               <Badge
@@ -270,18 +223,6 @@ export default function DeliveryPartners() {
                 <X
                   className="ml-2 h-4 w-4"
                   onClick={() => removeFilter("status")}
-                />
-              </Badge>
-            )}
-            {activeFilters.isEmailVerified.length > 0 && (
-              <Badge
-                variant="outline"
-                className="text-[#DC3173] border-[#DC3173]"
-              >
-                {activeFilters.isEmailVerified}
-                <X
-                  className="ml-2 h-4 w-4"
-                  onClick={() => removeFilter("isEmailVerified")}
                 />
               </Badge>
             )}
@@ -343,31 +284,6 @@ export default function DeliveryPartners() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Email Verification
-                    </label>
-                    <Select
-                      value={queryParams.isEmailVerified}
-                      onValueChange={(value) =>
-                        setActiveFilters((prevFilters) => ({
-                          ...prevFilters,
-                          isEmailVerified: value,
-                        }))
-                      }
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select an option" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        <SelectItem value="verified">Verified</SelectItem>
-                        <SelectItem value="not-verified">
-                          Not Verified
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
                 </div>
                 <div className="mt-4 flex justify-end">
                   <Button
@@ -385,18 +301,20 @@ export default function DeliveryPartners() {
         </AnimatePresence>
       </div>
 
-      <div className="flex justify-between items-center mb-4">
-        <p className="text-sm text-gray-500">
-          Showing{" "}
-          {((partnersResult.meta?.page || 1) - 1) *
-            (partnersResult.meta?.limit || 10) +
-            1}
-          -
-          {(partnersResult.meta?.page || 1) *
-            (partnersResult.meta?.limit || 10)}{" "}
-          of {partnersResult.meta?.total || 0} partners
-        </p>
-      </div>
+      {partnersResult?.data?.length > 0 && (
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-sm text-gray-500">
+            Showing{" "}
+            {((partnersResult.meta?.page || 1) - 1) *
+              (partnersResult.meta?.limit || 10) +
+              1}
+            -
+            {(partnersResult.meta?.page || 1) *
+              (partnersResult.meta?.limit || 10)}{" "}
+            of {partnersResult.meta?.total || 0} partners
+          </p>
+        </div>
+      )}
 
       {partnersResult?.data?.length > 0 ? (
         <motion.div

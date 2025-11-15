@@ -21,10 +21,7 @@ export const personalDetailsValidation = z
 
     prefixPhoneNumber: z.string(),
 
-    phoneNumber: z
-      .string()
-      .nonempty("Phone number is required")
-      .nonempty("Phone number is required"),
+    phoneNumber: z.string().nonempty("Phone number is required"),
   })
   .refine(
     (data) => {

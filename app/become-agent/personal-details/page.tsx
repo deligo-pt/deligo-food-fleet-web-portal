@@ -25,7 +25,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
-import "react-international-phone/style.css";
 import { toast } from "sonner";
 
 type PersonalForm = {

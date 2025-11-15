@@ -31,9 +31,12 @@ import z from "zod";
 
 type FormData = z.infer<typeof deliveryPartnerValidation>;
 
-export function DeliveryPartnerForm({ onSuccess }: { onSuccess: () => void }) {
+export function DeliveryPartnerForm({
+  onSuccess,
+}: {
+  onSuccess: (emailArg: string) => void;
+}) {
   const [showPassword, setShowPassword] = useState(false);
-
   const form = useForm<FormData>({
     resolver: zodResolver(deliveryPartnerValidation),
     defaultValues: {
@@ -49,13 +52,14 @@ export function DeliveryPartnerForm({ onSuccess }: { onSuccess: () => void }) {
         "/auth/register/create-delivery-partner",
         data,
         { headers: { authorization: getCookie("accessToken") } }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      )) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner created successfully!", {
           id: toastId,
         });
-        onSuccess();
+        form.reset();
+        onSuccess(result?.data?.[0]?.email || "");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

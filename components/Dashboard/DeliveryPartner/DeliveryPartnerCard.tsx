@@ -34,12 +34,14 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
     }
   };
 
-  const fullName = partner.name
-    ? `${partner.name.firstName || ""} ${partner.name.lastName || ""}`.trim()
+  const fullName = partner?.personalInfo?.Name
+    ? `${partner?.personalInfo?.Name?.firstName || ""} ${
+        partner?.personalInfo?.Name?.lastName || ""
+      }`.trim()
     : "No Name";
 
-  const formattedDate = partner.createdAt
-    ? new Date(partner.createdAt).toLocaleDateString()
+  const formattedDate = partner?.createdAt
+    ? new Date(partner?.createdAt).toLocaleDateString()
     : "N/A";
 
   return (
@@ -69,9 +71,9 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
         <CardHeader className="relative pb-0 pt-4">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border-2 border-[#DC3173]">
-              {partner.profilePhoto ? (
+              {partner?.profilePhoto ? (
                 <Image
-                  src={partner.profilePhoto}
+                  src={partner?.profilePhoto}
                   alt={fullName}
                   className="h-full w-full object-cover"
                   width={500}
@@ -89,20 +91,20 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
             </div>
             <div>
               <Badge
-                className={getStatusVariant(partner.status)}
+                className={getStatusVariant(partner?.status)}
                 variant="default"
               >
-                {partner.status}
+                {partner?.status}
               </Badge>
               <div className="flex items-center mt-1">
-                {partner.operationalData?.rating && (
+                {partner?.operationalData?.rating && (
                   <div className="flex items-center text-sm">
                     <Star className="h-4 w-4 text-yellow-500 mr-1" />
                     <span className="font-medium">
-                      {partner.operationalData.rating.average.toFixed(1)}
+                      {partner?.operationalData.rating.average.toFixed(1)}
                     </span>
                     <span className="text-gray-500 ml-1">
-                      ({partner.operationalData.rating.totalReviews} reviews)
+                      ({partner?.operationalData.rating.totalReviews} reviews)
                     </span>
                   </div>
                 )}
@@ -115,17 +117,17 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
           <div className="space-y-2">
             <div className="flex items-center text-sm">
               <Mail className="h-4 w-4 text-[#DC3173] mr-2" />
-              <span>{partner.email}</span>
-              {partner.isEmailVerified && (
+              <span>{partner?.email}</span>
+              {partner?.isEmailVerified && (
                 <Badge variant="outline" className="ml-2 bg-green-50">
                   Verified
                 </Badge>
               )}
             </div>
-            {partner.contactNumber && (
+            {partner?.personalInfo?.contactNumber && (
               <div className="flex items-center text-sm">
                 <Phone className="h-4 w-4 text-[#DC3173] mr-2" />
-                <span>{partner.contactNumber}</span>
+                <span>{partner?.personalInfo?.contactNumber}</span>
               </div>
             )}
             <div className="flex items-center text-sm">
@@ -138,7 +140,7 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
           <Button
             variant="link"
             size="sm"
-            onClick={() => router(`/delivery-partner/${partner.userId}`)}
+            onClick={() => router.push(`/delivery-partner/${partner?.userId}`)}
             className=" w-full py-3 text-white"
           >
             View Details

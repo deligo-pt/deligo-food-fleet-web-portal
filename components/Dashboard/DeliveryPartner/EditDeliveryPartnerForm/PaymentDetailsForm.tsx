@@ -1,0 +1,259 @@
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { TResponse } from "@/types";
+import { TDeliveryPartner } from "@/types/delivery-partner.type";
+import { getCookie } from "@/utils/cookies";
+import { fetchData, updateData } from "@/utils/requests";
+import { paymentDetailsValidation } from "@/validations/edit-delivery-partner/payment-details.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import {
+  ArrowRightIcon,
+  BuildingIcon,
+  CreditCardIcon,
+  UserIcon,
+} from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
+interface IProps {
+  onNext: () => void;
+}
+
+type FormData = z.infer<typeof paymentDetailsValidation>;
+
+export function PaymentDetailsForm({ onNext }: IProps) {
+  const id = useParams()?.id;
+  const form = useForm<FormData>({
+    resolver: zodResolver(paymentDetailsValidation),
+    defaultValues: {
+      iban: "",
+      bankName: "",
+      swiftCode: "",
+      accountHolderName: "",
+    },
+  });
+
+  const onSubmit = async (values: FormData) => {
+    const toastId = toast.loading("Updating Delivery Partner details...");
+    try {
+      const bankDetails = {
+        iban: values.iban,
+        bankName: values.bankName,
+        swiftCode: values.swiftCode,
+        accountHolderName: values.accountHolderName,
+      };
+      const result = (await updateData(
+        `/delivery-partners/${id}`,
+        {
+          bankDetails,
+        },
+        {
+          headers: { authorization: getCookie("accessToken") },
+        }
+      )) as unknown as TResponse<TDeliveryPartner[]>;
+
+      if (result.success) {
+        toast.success("Delivery Partner details updated successfully!", {
+          id: toastId,
+        });
+        onNext();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update Delivery Partner details", {
+        id: toastId,
+      });
+    }
+  };
+
+  const getPartnerData = async () => {
+    try {
+      const result = (await fetchData(`/delivery-partners/${id}`, {
+        headers: {
+          authorization: getCookie("accessToken"),
+        },
+      })) as unknown as TResponse<TDeliveryPartner>;
+
+      if (result.success) {
+        form.setValue("iban", result?.data?.bankDetails?.iban || "");
+        form.setValue("bankName", result?.data?.bankDetails?.bankName || "");
+        form.setValue("swiftCode", result?.data?.bankDetails?.swiftCode || "");
+        form.setValue(
+          "accountHolderName",
+          result?.data?.bankDetails?.accountHolderName || ""
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching delivery partner data:", error);
+    }
+  };
+
+  useEffect(() => {
+    (() => getPartnerData())();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div>
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+        className="mb-6"
+      >
+        <h2 className="text-2xl font-bold text-gray-800">
+          Payment & Banking Details
+        </h2>
+        <p className="text-gray-600">
+          Please provide partner&lsquo;s banking information for payments
+        </p>
+      </motion.div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-6">
+            <FormField
+              control={form.control}
+              name="bankName"
+              render={({ field }) => (
+                <FormItem className="content-start">
+                  <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                    <div className="flex items-center">
+                      <BuildingIcon className="w-5 h-5 text-[#DC3173]" />
+                      <span className="ml-2">Bank Name</span>
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="e.g. Santander Bank"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="accountHolderName"
+              render={({ field }) => (
+                <FormItem className="content-start">
+                  <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                    <div className="flex items-center">
+                      <UserIcon className="w-5 h-5 text-[#DC3173]" />
+                      <span className="ml-2">Account Holder</span>
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Full name as on account"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="iban"
+              render={({ field }) => (
+                <FormItem className="content-start">
+                  <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                    <div className="flex items-center">
+                      <CreditCardIcon className="w-5 h-5 text-[#DC3173]" />
+                      <span className="ml-2">IBAN</span>
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="e.g. GB29NWBK60161331926819"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300 uppercase"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="swiftCode"
+              render={({ field }) => (
+                <FormItem className="content-start">
+                  <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                    <div className="flex items-center">
+                      <BuildingIcon className="w-5 h-5 text-[#DC3173]" />
+                      <span className="ml-2">SWIFT </span>
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="e.g. NWBKGB2L"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300 uppercase"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="bg-[#DC3173]/10 p-4 rounded-lg border border-[#DC3173]/20">
+              <p className="text-sm text-gray-700 flex items-start">
+                <svg
+                  className="w-5 h-5 mr-2 text-[#DC3173] shrink-0 mt-0.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                This payment information is secure and will only be used for
+                processing their earnings. The account holder name must match
+                delivery partner&lsquo;s ID for verification purposes.
+              </p>
+            </div>
+          </div>
+          <motion.button
+            whileHover={{
+              scale: 1.02,
+            }}
+            whileTap={{
+              scale: 0.98,
+            }}
+            type="submit"
+            className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
+          >
+            Continue to Vehicle Information
+            <ArrowRightIcon className="w-5 h-5 ml-1" />
+          </motion.button>
+        </form>
+      </Form>
+    </div>
+  );
+}

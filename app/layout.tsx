@@ -1,5 +1,6 @@
 import SonnerToaster from "@/components/SonnerToaster/SonnerToaster";
 import type { Metadata } from "next";
+import "react-international-phone/style.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
