@@ -1,5 +1,6 @@
 "use client";
 
+import { removeCookie } from "@/utils/cookies";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -11,6 +12,7 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PRIMARY = "#DC3173";
@@ -22,6 +24,13 @@ type Props = {
 export default function Topbar({ sidebarWidth = 280 }: Props) {
   const [langOpen, setLangOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const router = useRouter();
+
+  const logOut = () => {
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+    router.push("/login");
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -191,7 +200,7 @@ export default function Topbar({ sidebarWidth = 280 }: Props) {
                       className="w-full px-4 py-3 flex items-center gap-2 text-red-600 hover:bg-red-50"
                       onClick={() => {
                         setProfileOpen(false);
-                        alert("Logged out (demo)");
+                        logOut();
                       }}
                     >
                       <LogOut size={16} /> Logout
