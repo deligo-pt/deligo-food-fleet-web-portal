@@ -59,7 +59,12 @@ export default function BankDetailsPage() {
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
         {
-          bankDetails: data,
+          bankDetails: {
+            bankName: data.bankName,
+            accountHolderName: data.accountHolderName,
+            iban: data.iban.toUpperCase(),
+            swiftCode: data.swiftCode.toUpperCase(),
+          },
         },
         {
           headers: { authorization: accessToken },

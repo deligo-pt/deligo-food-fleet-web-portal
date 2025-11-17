@@ -17,6 +17,10 @@ export type TFleetManager = {
   otp?: string;
   isOtpExpired?: Date | string;
 
+  // Password Reset Details
+  passwordResetToken?: string;
+  passwordResetTokenExpiresAt?: Date;
+
   // Personal Details
   name?: {
     firstName?: string;
@@ -35,13 +39,13 @@ export type TFleetManager = {
 
   passwordChangedAt?: Date | string;
 
-  //  Company Details
-  companyDetails?: {
-    companyName: string;
-    companyLicenseNumber?: string;
+  //  Business Details
+  businessDetails?: {
+    businessName: string;
+    businessLicenseNumber?: string;
   };
-  // Company Location
-  companyLocation?: {
+  // business Location
+  businessLocation?: {
     streetAddress: string;
     streetNumber: string;
     city: string;
@@ -60,7 +64,7 @@ export type TFleetManager = {
   // Documents & Verification
   documents?: {
     idProof?: string;
-    companyLicense?: string;
+    businessLicense?: string;
   };
 
   // Operation Data
@@ -81,6 +85,9 @@ export type TFleetManager = {
   // Admin & Audit Fields
   approvedBy?: string;
   rejectedBy?: string;
+  blockedBy?: string;
+  submittedForApprovalAt?: Date | string;
+  approvedOrRejectedOrBlockedAt?: Date | string;
   remarks?: string;
 
   createdAt: Date;

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TResponse } from "@/types";
+import { TFleetManager } from "@/types/fleet-manager.type";
 import { getCookie } from "@/utils/cookies";
 import { fetchData, updateData } from "@/utils/requests";
 import { businessLocationValidation } from "@/validations/become-agent/business-location.validation";
@@ -157,22 +158,22 @@ const AddYourBusinessLocation = () => {
           try {
             const result = (await fetchData(`/fleet-managers/${decoded.id}`, {
               headers: { authorization: accessToken },
-            })) as unknown as TResponse<any>;
+            })) as unknown as TResponse<TFleetManager>;
 
             if (result.success) {
-              const loc = result.data?.companyLocation;
+              const loc = result.data?.businessLocation;
 
-              form.setValue("streetAddress", loc.streetAddress || "");
-              form.setValue("streetNumber", loc.streetNumber || "");
-              form.setValue("city", loc.city || "");
-              form.setValue("postalCode", loc.postalCode || "");
+              form.setValue("streetAddress", loc?.streetAddress || "");
+              form.setValue("streetNumber", loc?.streetNumber || "");
+              form.setValue("city", loc?.city || "");
+              form.setValue("postalCode", loc?.postalCode || "");
 
               // Geocode saved address and move marker without creating a new map
               const fullAddress = [
-                loc.streetNumber,
-                loc.streetAddress,
-                loc.city,
-                loc.postalCode,
+                loc?.streetNumber,
+                loc?.streetAddress,
+                loc?.city,
+                loc?.postalCode,
               ]
                 .filter(Boolean)
                 .join(", ");
@@ -211,7 +212,7 @@ const AddYourBusinessLocation = () => {
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
         {
-          companyLocation: data,
+          businessLocation: data,
         },
         {
           headers: { authorization: accessToken },

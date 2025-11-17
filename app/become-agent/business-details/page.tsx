@@ -48,9 +48,9 @@ export default function BusinessDetailsPage() {
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
         {
-          companyDetails: {
-            companyName: data.businessName,
-            companyLicenseNumber: data.businessLicenseNumber,
+          businessDetails: {
+            businessName: data.businessName,
+            businessLicenseNumber: data.businessLicenseNumber.toUpperCase(),
           },
         },
         {
@@ -100,11 +100,11 @@ export default function BusinessDetailsPage() {
 
               form.setValue(
                 "businessName",
-                data?.companyDetails?.companyName || ""
+                data?.businessDetails?.businessName || ""
               );
               form.setValue(
                 "businessLicenseNumber",
-                data?.companyDetails?.companyLicenseNumber || ""
+                data?.businessDetails?.businessLicenseNumber || ""
               );
             }
           } catch (error) {
@@ -188,7 +188,7 @@ export default function BusinessDetailsPage() {
                               <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
                               <Input
                                 placeholder="License Number"
-                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 uppercase"
                                 {...field}
                               />
                             </div>

@@ -31,7 +31,7 @@ import { toast } from "sonner";
  * - When all documents selected -> full-screen success modal with confetti
  */
 
-type DocKey = "companyLicense" | "idProof";
+type DocKey = "businessLicense" | "idProof";
 
 const DOCUMENTS: {
   key: DocKey;
@@ -39,7 +39,7 @@ const DOCUMENTS: {
   prefersImagePreview: boolean;
 }[] = [
   {
-    key: "companyLicense",
+    key: "businessLicense",
     label: "Business License",
     prefersImagePreview: false,
   }, // PDF/name
@@ -55,7 +55,7 @@ type FilePreview = {
 export default function UploadDocumentPage() {
   // store one preview per doc key
   const [previews, setPreviews] = useState<Record<DocKey, FilePreview | null>>({
-    companyLicense: null,
+    businessLicense: null,
     idProof: null,
   });
 
@@ -237,13 +237,12 @@ export default function UploadDocumentPage() {
           const docs = result?.data?.documents || {};
 
           const newPreviews: Record<DocKey, FilePreview | null> = {
-            companyLicense: null,
-
+            businessLicense: null,
             idProof: null,
           };
 
           (Object.keys(docs) as DocKey[]).forEach((key) => {
-            const url = docs[key];
+            const url = docs[key] as string;
             if (url) {
               newPreviews[key] = {
                 file: null,
