@@ -64,10 +64,10 @@ export default function Sidebar() {
       title: "Riders Management",
       icon: <Bike size={18} />,
       items: [
-        { name: "All Riders", path: "/agent/all-riders" },
+        { name: "All Riders", path: "/agent/delivery-partners" },
         { name: "Add New Rider", path: "/agent/add-rider" },
         { name: "Pending Verification", path: "/agent/pending-verification" },
-        { name: "Active Riders", path: "/agent/active-riders-" },
+        { name: "Active Riders", path: "/agent/active-riders" },
         { name: "Suspended Riders", path: "/agent/suspended-riders" },
         { name: "Rider Performance", path: "/agent/rider-performance" },
         { name: "Rider Documents", path: "/agent/rider-documents" },
@@ -268,7 +268,7 @@ export default function Sidebar() {
                   <div className="flex items-center gap-3">
                     <div className="text-pink-600">{menu.icon}</div>
                     {open && (
-                      <span className="font-medium text-gray-700">
+                      <span className="font-medium text-gray-700 text-left">
                         {menu.title}
                       </span>
                     )}
