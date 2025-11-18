@@ -209,11 +209,16 @@ const AddYourBusinessLocation = () => {
       const accessToken = getCookie("accessToken");
       const decoded = jwtDecode(accessToken || "") as { id: string };
 
+      const businessLocation = {
+        businessLocation: data,
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(businessLocation));
+
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        {
-          businessLocation: data,
-        },
+        formData,
         {
           headers: { authorization: accessToken },
         }

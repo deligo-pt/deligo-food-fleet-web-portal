@@ -54,12 +54,17 @@ export default function PersonalDetailsPage() {
       const accessToken = getCookie("accessToken");
       const decoded = jwtDecode(accessToken || "") as { id: string };
 
+      const personalDetails = {
+        name: { firstName: data.firstName, lastName: data.lastName },
+        contactNumber: data.phoneNumber,
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(personalDetails));
+
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        {
-          name: { firstName: data.firstName, lastName: data.lastName },
-          contactNumber: data.phoneNumber,
-        },
+        formData,
         {
           headers: {
             authorization: accessToken,

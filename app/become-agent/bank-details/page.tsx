@@ -56,16 +56,22 @@ export default function BankDetailsPage() {
     try {
       const accessToken = getCookie("accessToken");
       const decoded = jwtDecode(accessToken || "") as { id: string };
+
+      const bankDetails = {
+        bankDetails: {
+          bankName: data.bankName,
+          accountHolderName: data.accountHolderName,
+          iban: data.iban.toUpperCase(),
+          swiftCode: data.swiftCode.toUpperCase(),
+        },
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(bankDetails));
+
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        {
-          bankDetails: {
-            bankName: data.bankName,
-            accountHolderName: data.accountHolderName,
-            iban: data.iban.toUpperCase(),
-            swiftCode: data.swiftCode.toUpperCase(),
-          },
-        },
+        formData,
         {
           headers: { authorization: accessToken },
         }

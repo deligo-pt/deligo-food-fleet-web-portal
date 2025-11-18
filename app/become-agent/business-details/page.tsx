@@ -45,14 +45,20 @@ export default function BusinessDetailsPage() {
       const accessToken = getCookie("accessToken");
       const decoded = jwtDecode(accessToken || "") as { id: string };
 
+      const businessDetails = {
+        businessDetails: {
+          businessName: data.businessName,
+          businessLicenseNumber: data.businessLicenseNumber.toUpperCase(),
+        },
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(businessDetails));
+
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        {
-          businessDetails: {
-            businessName: data.businessName,
-            businessLicenseNumber: data.businessLicenseNumber.toUpperCase(),
-          },
-        },
+        formData,
+
         {
           headers: { authorization: accessToken },
         }
