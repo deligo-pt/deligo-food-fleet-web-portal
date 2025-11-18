@@ -58,7 +58,6 @@ export default function BusinessDetailsPage() {
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
         formData,
-
         {
           headers: { authorization: accessToken },
         }
