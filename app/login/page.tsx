@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { TResponse } from "@/types";
 import { setCookie } from "@/utils/cookies";
 import { postData } from "@/utils/requests";
-import { loginValidation } from "@/validations/Auth/auth.validation";
+import { loginValidation } from "@/validations/auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { Eye, EyeOff, Lock, Mail, Send } from "lucide-react";
