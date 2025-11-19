@@ -1,17 +1,36 @@
 import Sidebar from "@/components/Dashboard/AgentDashboardSidebar/AgentDashboardSidebar";
 import Topbar from "@/components/Dashboard/AgentTopbar/Topbar";
+import { serverRequest } from "@/lib/serverFetch";
+import { TFleetManager } from "@/types/fleet-manager.type";
+import { jwtDecode } from "jwt-decode";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Fleet Manager Dashboard",
   description: "Deligo Fleet Manager dashboard",
 };
 
-export default function AgentLayout({
+export default async function AgentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const accessToken = (await cookies()).get("accessToken")?.value || "";
+  const decoded = jwtDecode(accessToken) as { id: string };
+
+  let agentData: TFleetManager = {} as TFleetManager;
+
+  try {
+    const result = await serverRequest.get(`/fleet-managers/${decoded.id}`);
+
+    if (result?.success) {
+      agentData = result?.data;
+    }
+  } catch (err) {
+    console.error("Server fetch error:", err);
+  }
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
       {/* Mobile view: Sidebar on top, Topbar below */}
@@ -36,7 +55,7 @@ export default function AgentLayout({
         <div className="flex-1 flex flex-col md:ml-[280px]">
           {/* Topbar sticky */}
           <div className="w-full sticky top-0 z-40">
-            <Topbar />
+            <Topbar agent={agentData} />
           </div>
           {/* Page content */}
           <main className="flex-1 p-4 overflow-y-auto overflow-x-hidden">
