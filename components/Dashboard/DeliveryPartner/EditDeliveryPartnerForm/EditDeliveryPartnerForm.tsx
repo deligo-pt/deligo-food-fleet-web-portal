@@ -1,6 +1,7 @@
 "use client";
 
 import { BackgroundCheckForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/BackgroundCheckForm";
+import Documents from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/Documents";
 import { EquipmentForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/EquipmentForm";
 import { LegalStatusForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/LegalStatusForm";
 import { PaymentDetailsForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/PaymentDetailsForm";
@@ -14,6 +15,7 @@ import {
   CheckCircleIcon,
   ChevronLeftIcon,
   CreditCardIcon,
+  FileText,
   ShieldCheckIcon,
   UserIcon,
 } from "lucide-react";
@@ -50,6 +52,11 @@ const formSteps = [
     title: "Equipment & Availability",
     icon: <CalendarIcon className="w-5 h-5" />,
   },
+  {
+    id: "documents",
+    title: "Documents",
+    icon: <FileText className="w-5 h-5" />,
+  },
 ];
 
 export function EditDeliveryPartnerForm() {
@@ -82,7 +89,9 @@ export function EditDeliveryPartnerForm() {
       case 4:
         return <BackgroundCheckForm onNext={handleNext} />;
       case 5:
-        return <EquipmentForm />;
+        return <EquipmentForm onNext={handleNext} />;
+      case 6:
+        return <Documents />;
       default:
         return null;
     }

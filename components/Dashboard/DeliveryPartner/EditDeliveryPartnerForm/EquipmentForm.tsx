@@ -25,16 +25,16 @@ import { equipmentValidation } from "@/validations/edit-delivery-partner/equipme
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import {
+  ArrowRightIcon,
   BackpackIcon,
   BriefcaseBusiness,
-  CheckIcon,
   ClockIcon,
   MapPinIcon,
   PlusIcon,
   TruckIcon,
   XIcon,
 } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -57,9 +57,12 @@ const equipment = [
 
 type FormData = z.infer<typeof equipmentValidation>;
 
-export function EquipmentForm() {
+interface IProps {
+  onNext: () => void;
+}
+
+export function EquipmentForm({ onNext }: IProps) {
   const id = useParams()?.id;
-  const router = useRouter();
   const [zone, setZone] = useState("");
   const form = useForm<FormData>({
     resolver: zodResolver(equipmentValidation),
@@ -122,25 +125,27 @@ export function EquipmentForm() {
         toast.success("Delivery Partner details updated successfully!", {
           id: toastId,
         });
-        toast.loading("Submitting for approval...", {
-          id: toastId,
-        });
-        const result = (await updateData(
-          `/auth/${id}/submitForApproval`,
-          {},
-          {
-            headers: {
-              authorization: getCookie("accessToken"),
-            },
-          }
-        )) as unknown as TResponse<TDeliveryPartner>;
-        if (result.success) {
-          toast.success("Request submitted successfully!", {
-            id: toastId,
-          });
-          router.push("/agent/delivery-partners");
-          return;
-        }
+
+        onNext();
+        // toast.loading("Submitting for approval...", {
+        //   id: toastId,
+        // });
+        // const result = (await updateData(
+        //   `/auth/${id}/submitForApproval`,
+        //   {},
+        //   {
+        //     headers: {
+        //       authorization: getCookie("accessToken"),
+        //     },
+        //   }
+        // )) as unknown as TResponse<TDeliveryPartner>;
+        // if (result.success) {
+        //   toast.success("Request submitted successfully!", {
+        //     id: toastId,
+        //   });
+        //   router.push("/agent/delivery-partners");
+        //   return;
+        // }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -442,8 +447,8 @@ export function EquipmentForm() {
             type="submit"
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
-            Complete & Submit
-            <CheckIcon className="w-5 h-5 ml-1" />
+            Continue to Documents
+            <ArrowRightIcon className="w-5 h-5 ml-1" />
           </motion.button>
         </form>
       </Form>
