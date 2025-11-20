@@ -89,8 +89,8 @@ export function EditDeliveryPartnerForm() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-linear-to-b from-white to-gray-50">
-      <div className="max-w-5xl mx-auto px-4 py-8 md:py-16">
+    <div className="w-full min-h-screen bg-linear-to-b from-white to-gray-50 px-4 md:px-6">
+      <div className="">
         <motion.div
           initial={{
             opacity: 0,
@@ -115,7 +115,7 @@ export function EditDeliveryPartnerForm() {
         <div className="bg-white rounded-xl shadow-xl overflow-hidden mb-8">
           {/* Progress Indicator */}
           <div className="bg-[#DC3173]/10 px-6 py-4">
-            <div className="hidden lg:flex justify-between items-center">
+            <div className="hidden xl:flex justify-between items-center">
               {formSteps.map((step, index) => (
                 <div key={step.id} className="flex flex-col items-center">
                   <div
@@ -140,7 +140,7 @@ export function EditDeliveryPartnerForm() {
                   >
                     {step.title}
                   </span>
-                  {index < formSteps.length - 1 && (
+                  {/* {index < formSteps.length - 1 && (
                     <div className="absolute h-0.5 bg-gray-200 w-[calc(100%/6-2rem)] left-[calc(50%+1rem)]">
                       <div
                         className="h-full bg-[#DC3173]"
@@ -149,11 +149,11 @@ export function EditDeliveryPartnerForm() {
                         }}
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               ))}
             </div>
-            <div className="flex items-center lg:hidden">
+            <div className="flex items-center xl:hidden">
               <span className="text-[#DC3173] font-medium">
                 Step {currentStep + 1} of {formSteps.length}:
               </span>

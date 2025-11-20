@@ -115,23 +115,24 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
         <CardContent>
           <h3 className="text-xl font-bold mb-4">{fullName}</h3>
           <div className="space-y-2">
-            <div className="flex items-center text-sm">
-              <Mail className="h-4 w-4 text-[#DC3173] mr-2" />
+            <div className="flex items-center text-sm wrap-anywhere">
+              <div className="w-4 text-[#DC3173] mr-2">
+                <Mail className="w-4 h-4" />
+              </div>
               <span>{partner?.email}</span>
-              {partner?.isEmailVerified && (
-                <Badge variant="outline" className="ml-2 bg-green-50">
-                  Verified
-                </Badge>
-              )}
             </div>
             {partner?.personalInfo?.contactNumber && (
               <div className="flex items-center text-sm">
-                <Phone className="h-4 w-4 text-[#DC3173] mr-2" />
+                <div className="w-4 text-[#DC3173] mr-2">
+                  <Phone className="w-4 h-4" />
+                </div>
                 <span>{partner?.personalInfo?.contactNumber}</span>
               </div>
             )}
             <div className="flex items-center text-sm">
-              <Calendar className="h-4 w-4 text-[#DC3173] mr-2" />
+              <div className="w-4 text-[#DC3173] mr-2">
+                <Calendar className="w-4 h-4" />
+              </div>
               <span>Joined: {formattedDate}</span>
             </div>
           </div>
@@ -140,7 +141,9 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
           <Button
             variant="link"
             size="sm"
-            onClick={() => router.push(`/delivery-partner/${partner?.userId}`)}
+            onClick={() =>
+              router.push(`/agent/delivery-partners/${partner?.userId}`)
+            }
             className=" w-full py-3 text-white"
           >
             View Details

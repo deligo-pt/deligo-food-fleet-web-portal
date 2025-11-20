@@ -1,11 +1,14 @@
+"use client";
+
 import ImagePreview from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerImagePreview";
 import InfoRow from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerInfoRow";
 import DeliveryPartnerSection from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerSection";
-
 import DeliveryPartnerStatusBadge from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerStatusBadge";
+import { Button } from "@/components/ui/button";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import {
+  ArrowLeftCircle,
   Bike,
   Briefcase,
   CalendarClock,
@@ -16,6 +19,7 @@ import {
   Gavel,
   Mail,
   MapPin,
+  Motorbike,
   Package,
   Phone,
   Star,
@@ -44,19 +48,27 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
   const getVehicleIcon = () => {
     switch (partner.vehicleInfo?.vehicleType) {
       case "BICYCLE":
+      case "SCOOTER":
       case "E-BIKE":
         return <Bike className="w-5 h-5" />;
+      case "MOTORBIKE":
+        return <Motorbike className="w-5 h-5" />;
       default:
         return <Car className="w-5 h-5" />;
     }
   };
 
-  const onDeleteClick = (id: string) => {
-    console.log(id);
-  };
-
   return (
-    <div className="max-w-4xl mx-auto">
+    <div>
+      <div className="mb-4">
+        <Button
+          onClick={() => router.push("/agent/delivery-partners")}
+          variant="link"
+          className="inline-flex items-center text-sm gap-2 text-[#DC3173] px-0! py-0 h-4 cursor-pointer"
+        >
+          <ArrowLeftCircle /> Go Home
+        </Button>
+      </div>
       <motion.div
         initial={{
           opacity: 0,
@@ -154,7 +166,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           icon={<User />}
           defaultOpen={true}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow label="Full Name" value={fullName} />
               <InfoRow label="Email" value={partner.email} />
@@ -198,7 +210,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Address" icon={<MapPin />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
                 label="Street"
@@ -229,7 +241,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           title="Vehicle Information"
           icon={getVehicleIcon()}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
                 label="Vehicle Type"
@@ -269,7 +281,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Bank Details" icon={<CreditCard />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
                 label="Bank Name"
@@ -293,7 +305,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Legal Status" icon={<Gavel />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
                 label="Residence Permit Type"
@@ -329,7 +341,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Documents" icon={<FileText />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             {partner.personalInfo?.idDocumentFront && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
@@ -423,7 +435,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               <h4 className="text-sm font-medium text-gray-700 mb-2">
                 Earnings
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <div className="text-gray-500 text-xs mb-1">
                     Total Earnings
@@ -445,7 +457,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           )}
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Work Preferences" icon={<Briefcase />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
                 label="Preferred Zones"
@@ -522,7 +534,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           title="Account Information"
           icon={<CalendarClock />}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
                 label="Account Created"
@@ -563,18 +575,18 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <div className="mt-8 flex flex-wrap justify-end gap-3">
-          {partner.status !== "SUBMITTED" && (
+          {partner.status === "PENDING" && (
             <motion.button
+              onClick={() =>
+                router.push(`/agent/delivery-partners/edit/${partner.userId}`)
+              }
               whileHover={{
                 scale: 1.05,
               }}
               whileTap={{
                 scale: 0.95,
               }}
-              className="flex items-center space-x-1 px-4 py-2 bg-[#DC3173] bg-opacity-10 text-[#DC3173] rounded-lg transition-all hover:bg-opacity-20"
-              onClick={() =>
-                router.push(`/agent/delivery-partners/${partner._id}`)
-              }
+              className="flex items-center space-x-1 px-4 py-2 bg-[#DC3173] bg-opacity-10 text-white rounded-lg transition-all hover:bg-opacity-20"
             >
               <Edit className="w-4 h-4" />
               <span>Edit</span>
@@ -587,8 +599,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             whileTap={{
               scale: 0.95,
             }}
-            className="flex items-center space-x-1 px-4 py-2 bg-red-500 bg-opacity-10 text-red-500 rounded-lg transition-all hover:bg-opacity-20"
-            onClick={() => onDeleteClick(partner._id || "")}
+            className="flex items-center space-x-1 px-4 py-2 bg-red-500 bg-opacity-10 text-white rounded-lg transition-all hover:bg-opacity-20"
           >
             <Trash2 className="w-4 h-4" />
             <span>Delete</span>
