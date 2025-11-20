@@ -13,7 +13,8 @@ export default function ImagePreview({
       {url?.toLowerCase()?.endsWith(".pdf") ? (
         <iframe
           src={url || ""}
-          className="w-full h-40 rounded-lg  border border-gray-200"
+          className="w-full h-48 rounded-lg  border border-gray-200"
+          allow="fullscreen"
         />
       ) : (
         <Image
