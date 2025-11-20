@@ -172,6 +172,7 @@ export default function Documents() {
         });
 
       await Promise.all(uploadPromises);
+
       const result = (await updateData(
         `/auth/${id}/submitForApproval`,
         {},
@@ -354,7 +355,7 @@ export default function Documents() {
           }}
           type="submit"
           className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
-          disabled={!DOCUMENTS.every((d) => !!previews[d.key])}
+          //   disabled={!DOCUMENTS.every((d) => !!previews[d.key])}
           onClick={completeReg}
         >
           Complete & Submit

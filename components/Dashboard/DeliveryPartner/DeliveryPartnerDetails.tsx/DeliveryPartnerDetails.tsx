@@ -4,7 +4,10 @@ import ImagePreview from "@/components/Dashboard/DeliveryPartner/DeliveryPartner
 import InfoRow from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerInfoRow";
 import DeliveryPartnerSection from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerSection";
 import DeliveryPartnerStatusBadge from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerStatusBadge";
+import DeleteModal from "@/components/Modals/DeleteModal";
 import { Button } from "@/components/ui/button";
+import { deleteDeliveryPartner } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import {
@@ -28,6 +31,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface IProps {
   partner: TDeliveryPartner;
@@ -40,6 +45,8 @@ const formatDate = (date: Date | undefined) => {
 
 export const DeliveryPartnerDetails = ({ partner }: IProps) => {
   const router = useRouter();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const fullName =
     `${partner.personalInfo?.Name?.firstName || ""} ${
       partner.personalInfo?.Name?.lastName || ""
@@ -58,6 +65,28 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
     }
   };
 
+  const handleDeletePartner = async () => {
+    const toastId = toast.loading("Deleting Delivery Partner...");
+
+    try {
+      const result = (await deleteDeliveryPartner(
+        partner.userId
+      )) as TResponse<null>;
+
+      if (result.success) {
+        toast.success("Delivery Partner deleted successfully", { id: toastId });
+        router.push("/agent/delivery-partners");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+      toast.error(
+        error?.response?.data?.message || "Delivery Partner deletion failed",
+        { id: toastId }
+      );
+    }
+  };
+
   return (
     <div>
       <div className="mb-4">
@@ -66,7 +95,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           variant="link"
           className="inline-flex items-center text-sm gap-2 text-[#DC3173] px-0! py-0 h-4 cursor-pointer"
         >
-          <ArrowLeftCircle /> Go Home
+          <ArrowLeftCircle /> Go Back
         </Button>
       </div>
       <motion.div
@@ -341,27 +370,11 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Documents" icon={<FileText />}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
-            {partner.personalInfo?.idDocumentFront && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
+            {partner.documents?.idProof && (
               <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  ID Document Front
-                </div>
-                <ImagePreview
-                  url={partner.personalInfo.idDocumentFront}
-                  alt="ID Front"
-                />
-              </div>
-            )}
-            {partner.personalInfo?.idDocumentBack && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  ID Document Back
-                </div>
-                <ImagePreview
-                  url={partner.personalInfo.idDocumentBack}
-                  alt="ID Back"
-                />
+                <div className="mb-2 text-gray-500 text-sm">ID Proof</div>
+                <ImagePreview url={partner.documents?.idProof} alt="ID Prrof" />
               </div>
             )}
             {partner.documents?.drivingLicense && (
@@ -500,7 +513,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                   <div
                     className={`w-4 h-4 rounded-full ${
                       partner.workPreferences?.hasEquipment?.isothermalBag
-                        ? "bg-green-500"
+                        ? "bg-[#DC3173]"
                         : "bg-gray-300"
                     }`}
                   ></div>
@@ -510,7 +523,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                   <div
                     className={`w-4 h-4 rounded-full ${
                       partner.workPreferences?.hasEquipment?.helmet
-                        ? "bg-green-500"
+                        ? "bg-[#DC3173]"
                         : "bg-gray-300"
                     }`}
                   ></div>
@@ -520,7 +533,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                   <div
                     className={`w-4 h-4 rounded-full ${
                       partner.workPreferences?.hasEquipment?.powerBank
-                        ? "bg-green-500"
+                        ? "bg-[#DC3173]"
                         : "bg-gray-300"
                     }`}
                   ></div>
@@ -606,6 +619,11 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </motion.button>
         </div>
       </div>
+      <DeleteModal
+        open={showDeleteModal}
+        onOpenChange={setShowDeleteModal}
+        onConfirm={handleDeletePartner}
+      />
     </div>
   );
 };
