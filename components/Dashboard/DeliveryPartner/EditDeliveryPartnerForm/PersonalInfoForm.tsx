@@ -76,35 +76,38 @@ export function PersonalInfoForm({ onNext }: IProps) {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
       const personalInfo = {
-        Name: {
-          firstName: values.firstName,
-          lastName: values.lastName,
-        },
-        contactNumber: values.phoneNumber,
-        dateOfBirth: new Date(values.dateOfBirth).toISOString(),
-        nationality: values.nationality,
-        gender: values.gender,
-        nifNumber: values.nifNumber,
-        citizenCardNumber: values.citizenCardNumber,
-        passportNumber: values.passportNumber,
-        idExpiryDate: new Date(values.idExpiryDate).toISOString(),
-        address: {
-          street: values.street,
-          city: values.city,
-          zipCode: values.zipCode,
-          state: values.state,
-          country: values.country,
+        personalInfo: {
+          Name: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+          },
+          contactNumber: values.phoneNumber,
+          dateOfBirth: new Date(values.dateOfBirth).toISOString(),
+          nationality: values.nationality,
+          gender: values.gender,
+          nifNumber: values.nifNumber,
+          citizenCardNumber: values.citizenCardNumber,
+          passportNumber: values.passportNumber,
+          idExpiryDate: new Date(values.idExpiryDate).toISOString(),
+          address: {
+            street: values.street,
+            city: values.city,
+            zipCode: values.zipCode,
+            state: values.state,
+            country: values.country,
+          },
         },
       };
-      const result = (await updateData(
-        `/delivery-partners/${id}`,
-        {
-          personalInfo,
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(personalInfo));
+
+      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+        headers: {
+          authorization: getCookie("accessToken"),
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: { authorization: getCookie("accessToken") },
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      })) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -112,11 +115,16 @@ export function PersonalInfoForm({ onNext }: IProps) {
         });
         onNext();
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
-      toast.error("Failed to update Delivery Partner details", {
-        id: toastId,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update Delivery Partner details",
+        {
+          id: toastId,
+        }
+      );
     }
   };
 
@@ -132,7 +140,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
         const phone = parsePhoneNumberFromString(
           result?.data?.personalInfo?.contactNumber || ""
         );
-        
+
         form.setValue(
           "firstName",
           result?.data?.personalInfo?.Name?.firstName || ""
@@ -180,6 +188,10 @@ export function PersonalInfoForm({ onNext }: IProps) {
         form.setValue(
           "state",
           result?.data?.personalInfo?.address?.state || ""
+        );
+        form.setValue(
+          "country",
+          result?.data?.personalInfo?.address?.country || ""
         );
       }
     } catch (error) {

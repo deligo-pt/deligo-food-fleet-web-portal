@@ -42,21 +42,26 @@ export function BackgroundCheckForm({ onNext }: IProps) {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
       const criminalRecord = {
-        certificate: values.haveCriminalRecordCertificate,
-        issueDate: values.issueDate,
-      };
-      if (!values.haveCriminalRecordCertificate) {
-        delete criminalRecord.issueDate;
-      }
-      const result = (await updateData(
-        `/delivery-partners/${id}`,
-        {
-          criminalRecord,
+        criminalRecord: {
+          certificate: values.haveCriminalRecordCertificate,
+          ...(values.haveCriminalRecordCertificate && {
+            issueDate: new Date(values.issueDate || "").toISOString(),
+          }),
         },
-        {
-          headers: { authorization: getCookie("accessToken") },
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      };
+      if (
+        !values.haveCriminalRecordCertificate &&
+        criminalRecord?.criminalRecord?.issueDate
+      ) {
+        delete criminalRecord?.criminalRecord?.issueDate;
+      }
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(criminalRecord));
+
+      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+        headers: { authorization: getCookie("accessToken") },
+      })) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -64,11 +69,16 @@ export function BackgroundCheckForm({ onNext }: IProps) {
         });
         onNext();
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
-      toast.error("Failed to update Delivery Partner details", {
-        id: toastId,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update Delivery Partner details",
+        {
+          id: toastId,
+        }
+      );
     }
   };
 

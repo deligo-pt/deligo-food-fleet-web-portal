@@ -16,11 +16,7 @@ export const equipmentValidation = z
       "Worked with other platform is required"
     ),
 
-    otherPlatformName: z
-      .string()
-      .min(2, "Other platform name must be at least 2 characters long")
-      .max(50, "Other platform name must be at most 50 characters long")
-      .optional(),
+    otherPlatformName: z.string().optional(),
   })
   .refine(
     (data) => {

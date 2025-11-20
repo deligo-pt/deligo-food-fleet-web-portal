@@ -52,14 +52,16 @@ export function DeliveryPartnerForm({
         "/auth/register/create-delivery-partner",
         data,
         { headers: { authorization: getCookie("accessToken") } }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      )) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         toast.success("Delivery Partner created successfully!", {
           id: toastId,
         });
         form.reset();
-        onSuccess(result?.data?.[0]?.email || "");
+        console.log(result.data);
+
+        onSuccess(result?.data?.email || "");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

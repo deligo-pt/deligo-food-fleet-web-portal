@@ -1,6 +1,5 @@
 "use client";
 
-import { AddDeliveryPartner } from "@/components/Dashboard/DeliveryPartner/AddDeliveryPartner";
 import DeliveryPartnerCard from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,7 +21,14 @@ import {
 import { getCookie } from "@/utils/cookies";
 import { fetchData } from "@/utils/requests";
 import { AnimatePresence, motion } from "framer-motion";
-import { RefreshCcw, Search, SlidersHorizontal, X } from "lucide-react";
+import {
+  PlusCircleIcon,
+  RefreshCcw,
+  Search,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const sortOptions = {
@@ -50,6 +56,7 @@ export default function DeliveryPartners() {
   const [activeFilters, setActiveFilters] = useState({
     status: "",
   });
+  const router = useRouter();
 
   async function getDeliveryPartners(queries?: TDeliveryPartnersQueryParams) {
     try {
@@ -158,7 +165,19 @@ export default function DeliveryPartners() {
               Manage your delivery partner network
             </p>
           </div>
-          <AddDeliveryPartner refetch={getDeliveryPartners} />
+          <motion.button
+            onClick={() => router.push("/agent/add-delivery-partner")}
+            whileHover={{
+              scale: 1.05,
+            }}
+            whileTap={{
+              scale: 0.95,
+            }}
+            className="mt-4 md:mt-0 bg-white text-[#DC3173] px-4 py-2 rounded-md font-medium flex items-center shadow-md"
+          >
+            <PlusCircleIcon className="mr-2 h-5 w-5" />
+            Add New Partner
+          </motion.button>
         </div>
       </div>
       <div className="mb-6">

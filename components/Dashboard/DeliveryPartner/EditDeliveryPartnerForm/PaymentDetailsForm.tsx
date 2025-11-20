@@ -48,20 +48,20 @@ export function PaymentDetailsForm({ onNext }: IProps) {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
       const bankDetails = {
-        iban: values.iban,
-        bankName: values.bankName,
-        swiftCode: values.swiftCode,
-        accountHolderName: values.accountHolderName,
-      };
-      const result = (await updateData(
-        `/delivery-partners/${id}`,
-        {
-          bankDetails,
+        bankDetails: {
+          iban: values.iban,
+          bankName: values.bankName,
+          swiftCode: values.swiftCode,
+          accountHolderName: values.accountHolderName,
         },
-        {
-          headers: { authorization: getCookie("accessToken") },
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(bankDetails));
+
+      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+        headers: { authorization: getCookie("accessToken") },
+      })) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -69,11 +69,16 @@ export function PaymentDetailsForm({ onNext }: IProps) {
         });
         onNext();
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
-      toast.error("Failed to update Delivery Partner details", {
-        id: toastId,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update Delivery Partner details",
+        {
+          id: toastId,
+        }
+      );
     }
   };
 

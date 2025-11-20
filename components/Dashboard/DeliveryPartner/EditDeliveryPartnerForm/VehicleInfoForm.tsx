@@ -61,26 +61,26 @@ export function VehicleInfoForm({ onNext }: IProps) {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
       const vehicleInfo = {
-        vehicleType: values.vehicleType,
-        brand: values.brand,
-        model: values.model,
-        licensePlate: values.licensePlate,
-        drivingLicenseNumber: values.drivingLicenseNumber,
-        drivingLicenseExpiry: new Date(
-          values?.drivingLicenseExpiry || ""
-        ).toISOString(),
-        insurancePolicyNumber: values.insurancePolicyNumber,
-        insuranceExpiry: new Date(values.insuranceExpiry).toISOString(),
-      };
-      const result = (await updateData(
-        `/delivery-partners/${id}`,
-        {
-          vehicleInfo,
+        vehicleInfo: {
+          vehicleType: values.vehicleType,
+          brand: values.brand,
+          model: values.model,
+          licensePlate: values.licensePlate,
+          drivingLicenseNumber: values.drivingLicenseNumber,
+          drivingLicenseExpiry: new Date(
+            values?.drivingLicenseExpiry || ""
+          ).toISOString(),
+          insurancePolicyNumber: values.insurancePolicyNumber,
+          insuranceExpiry: new Date(values.insuranceExpiry).toISOString(),
         },
-        {
-          headers: { authorization: getCookie("accessToken") },
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(vehicleInfo));
+
+      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+        headers: { authorization: getCookie("accessToken") },
+      })) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -88,11 +88,16 @@ export function VehicleInfoForm({ onNext }: IProps) {
         });
         onNext();
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
-      toast.error("Failed to update Delivery Partner details", {
-        id: toastId,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update Delivery Partner details",
+        {
+          id: toastId,
+        }
+      );
     }
   };
 

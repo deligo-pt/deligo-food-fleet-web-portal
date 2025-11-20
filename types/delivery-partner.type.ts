@@ -1,6 +1,11 @@
 import { USER_STATUS } from "@/consts/user.const";
 
-export type TVehicleType = "BIKE" | "CAR" | "SCOOTER" | "BICYCLE" | "OTHER";
+export type TVehicleType =
+  | "BICYCLE"
+  | "E-BIKE"
+  | "SCOOTER"
+  | "MOTORBIKE"
+  | "CAR";
 
 export type TDeliveryPartner = {
   _id?: string;
@@ -20,6 +25,10 @@ export type TDeliveryPartner = {
   otp?: string;
   isOtpExpired?: Date;
 
+  // Password Reset Details
+  passwordResetToken?: string;
+  passwordResetTokenExpiresAt?: Date;
+
   // 1) Personal Information
   personalInfo?: {
     Name?: {
@@ -33,8 +42,6 @@ export type TDeliveryPartner = {
     citizenCardNumber?: string;
     passportNumber?: string;
     idExpiryDate?: Date;
-    idDocumentFront?: string;
-    idDocumentBack?: string;
     address?: {
       street?: string;
       city?: string;
@@ -64,7 +71,7 @@ export type TDeliveryPartner = {
 
   // 4) Vehicle Information
   vehicleInfo?: {
-    vehicleType?: "BICYCLE" | "E-BIKE" | "SCOOTER" | "MOTORBIKE" | "CAR";
+    vehicleType?: TVehicleType;
     brand?: string;
     model?: string;
     licensePlate?: string;
@@ -112,7 +119,8 @@ export type TDeliveryPartner = {
 
   // Documents (existing)
   documents?: {
-    idProof?: string;
+    idDocumentFront?: string;
+    idDocumentBack?: string;
     drivingLicense?: string;
     vehicleRegistration?: string;
     criminalRecordCertificate?: string;

@@ -9,6 +9,7 @@ import {
   ChevronRight,
   FileBarChart,
   Home,
+  LayoutDashboard,
   Map,
   Menu,
   MessageSquare,
@@ -49,10 +50,13 @@ export default function Sidebar() {
     {
       id: "dashboard",
       title: "Dashboard",
-      icon: <Home size={18} />,
+      icon: <LayoutDashboard size={18} />,
       items: [
         { name: "Overview", path: "/agent/overview" },
-        { name: "Active Riders", path: "/agent/active-riders" },
+        {
+          name: "Active Delivery Partners",
+          path: "/agent/active-delivery-partners",
+        },
         { name: "Pending Deliveries", path: "/agent/pending-deliveries" },
         { name: "Earnings Summary", path: "/agent/earnings-summary" },
         { name: "Alerts & Notifications", path: "/agent/alerts-notifications" },
@@ -60,18 +64,36 @@ export default function Sidebar() {
     },
 
     {
-      id: "riders",
-      title: "Riders Management",
+      id: "delivery-partners",
+      title: "Delivery Partners Management",
       icon: <Bike size={18} />,
       items: [
-        { name: "All Riders", path: "/agent/delivery-partners" },
-        { name: "Add New Rider", path: "/agent/add-rider" },
+        { name: "All Delivery Partners", path: "/agent/delivery-partners" },
+        {
+          name: "Add New Delivery Partner",
+          path: "/agent/add-delivery-partner",
+        },
         { name: "Pending Verification", path: "/agent/pending-verification" },
-        { name: "Active Riders", path: "/agent/active-riders" },
-        { name: "Suspended Riders", path: "/agent/suspended-riders" },
-        { name: "Rider Performance", path: "/agent/rider-performance" },
-        { name: "Rider Documents", path: "/agent/rider-documents" },
-        { name: "Rider Reviews", path: "/agent/rider-reviews" },
+        {
+          name: "Active Delivery Partners",
+          path: "/agent/active-delivery-partners",
+        },
+        {
+          name: "Suspended Delivery Partners",
+          path: "/agent/suspended-delivery-partners",
+        },
+        {
+          name: "Delivery Partner Performance",
+          path: "/agent/delivery-partner-performance",
+        },
+        {
+          name: "Delivery Partner Documents",
+          path: "/agent/delivery-partner-documents",
+        },
+        {
+          name: "Delivery Partner Reviews",
+          path: "/agent/delivery-partner-reviews",
+        },
       ],
     },
 
@@ -96,7 +118,10 @@ export default function Sidebar() {
       icon: <BadgeEuro size={18} />,
       items: [
         { name: "Fleet Earnings Overview", path: "/agent/earnings-overview" },
-        { name: "Rider Payouts", path: "/agent/rider-payouts" },
+        {
+          name: "Delivery Partner Payouts",
+          path: "/agent/delivery-partner-payouts",
+        },
         { name: "Payment History", path: "/agent/payment-history" },
         { name: "Transaction Details", path: "/agent/transaction-details" },
         { name: "Pending Settlements", path: "/agent/pending-settlements" },
@@ -150,8 +175,8 @@ export default function Sidebar() {
       icon: <FileBarChart size={18} />,
       items: [
         {
-          name: "Rider Performance Report",
-          path: "/agent/report-rider-performance",
+          name: "Delivery Partner Performance Report",
+          path: "/agent/report-delivery-partner-performance",
         },
         { name: "Earnings Report", path: "/agent/report-earnings" },
         { name: "Delivery Summary", path: "/agent/report-delivery-summary" },
@@ -166,7 +191,7 @@ export default function Sidebar() {
       icon: <MessageSquare size={18} />,
       items: [
         { name: "Support Tickets", path: "/agent/support-tickets" },
-        { name: "Rider Chat", path: "/agent/rider-chat" },
+        { name: "Delivery Partner Chat", path: "/agent/delivery-partner-chat" },
         { name: "Report an Issue", path: "/agent/report-issue" },
         { name: "Help Center", path: "/agent/help-center" },
       ],
@@ -178,12 +203,15 @@ export default function Sidebar() {
       icon: <AlertTriangle size={18} />,
       items: [
         {
-          name: "Rider Emergency Alerts",
-          path: "/agent/rider-emergency-alerts",
+          name: "Delivery Partner Emergency Alerts",
+          path: "/agent/delivery-partner-emergency-alerts",
         },
         { name: "Contact Admin", path: "/agent/contact-admin" },
         { name: "Report Accident / Incident", path: "/agent/report-incident" },
-        { name: "Live Rider Tracking", path: "/agent/live-tracking" },
+        {
+          name: "Live Delivery Partner Tracking",
+          path: "/agent/live-tracking",
+        },
       ],
     },
   ];
@@ -283,7 +311,7 @@ export default function Sidebar() {
                     <div className="flex items-center gap-3">
                       <div className="text-pink-600">{menu.icon}</div>
                       {open && (
-                        <span className="font-medium text-gray-700">
+                        <span className="font-medium text-gray-700 text-left">
                           {menu.title}
                         </span>
                       )}

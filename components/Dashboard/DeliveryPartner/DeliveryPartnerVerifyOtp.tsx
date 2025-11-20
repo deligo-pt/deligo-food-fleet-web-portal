@@ -18,13 +18,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export default function DeliveryPartnerVerifyOtp({
-  email,
-  onSuccess,
-}: {
-  email: string;
-  onSuccess: () => void;
-}) {
+export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
   const router = useRouter();
   const [timer, setTimer] = useState(300);
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -75,7 +69,6 @@ export default function DeliveryPartnerVerifyOtp({
 
         if (result.success) {
           toast.success("OTP verified successfully!", { id: toastId });
-          onSuccess();
           const decoded = jwtDecode(result.data.accessToken) as { id: string };
           router.push(`/agent/delivery-partners/edit/${decoded?.id}`);
           return;

@@ -98,25 +98,25 @@ export function EquipmentForm() {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
       const workPreferences = {
-        preferredZones: values.preferredZones,
-        preferredHours: values.preferredHours,
-        hasEquipment: {
-          isothermalBag: values.isothermalBag,
-          helmet: values.helmet,
-          powerBank: values.powerBank,
+        workPreferences: {
+          preferredZones: values.preferredZones,
+          preferredHours: values.preferredHours,
+          hasEquipment: {
+            isothermalBag: values.isothermalBag,
+            helmet: values.helmet,
+            powerBank: values.powerBank,
+          },
+          workedWithOtherPlatform: values.workedWithOtherPlatform,
+          otherPlatformName: values.otherPlatformName,
         },
-        workedWithOtherPlatform: values.workedWithOtherPlatform,
-        otherPlatformName: values.otherPlatformName,
       };
-      const result = (await updateData(
-        `/delivery-partners/${id}`,
-        {
-          workPreferences,
-        },
-        {
-          headers: { authorization: getCookie("accessToken") },
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(workPreferences));
+
+      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+        headers: { authorization: getCookie("accessToken") },
+      })) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -142,11 +142,16 @@ export function EquipmentForm() {
           return;
         }
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
-      toast.error("Failed to update Delivery Partner details", {
-        id: toastId,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update Delivery Partner details",
+        {
+          id: toastId,
+        }
+      );
     }
   };
 

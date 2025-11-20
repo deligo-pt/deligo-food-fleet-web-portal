@@ -65,21 +65,21 @@ export function LegalStatusForm({ onNext }: IProps) {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
       const legalStatus = {
-        residencePermitType: values.residencePermitType,
-        residencePermitNumber: values.residencePermitNumber,
-        residencePermitExpiry: new Date(
-          values.residencePermitExpiry
-        ).toISOString(),
-      };
-      const result = (await updateData(
-        `/delivery-partners/${id}`,
-        {
-          legalStatus,
+        legalStatus: {
+          residencePermitType: values.residencePermitType,
+          residencePermitNumber: values.residencePermitNumber,
+          residencePermitExpiry: new Date(
+            values.residencePermitExpiry
+          ).toISOString(),
         },
-        {
-          headers: { authorization: getCookie("accessToken") },
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      };
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(legalStatus));
+
+      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+        headers: { authorization: getCookie("accessToken") },
+      })) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -87,11 +87,16 @@ export function LegalStatusForm({ onNext }: IProps) {
         });
         onNext();
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
-      toast.error("Failed to update Delivery Partner details", {
-        id: toastId,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update Delivery Partner details",
+        {
+          id: toastId,
+        }
+      );
     }
   };
 
