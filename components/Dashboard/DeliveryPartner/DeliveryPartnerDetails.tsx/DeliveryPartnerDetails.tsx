@@ -606,6 +606,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </motion.button>
           )}
           <motion.button
+            onClick={() => setShowDeleteModal(true)}
             whileHover={{
               scale: 1.05,
             }}
