@@ -51,16 +51,7 @@ export default function Sidebar() {
       id: "dashboard",
       title: "Dashboard",
       icon: <LayoutDashboard size={18} />,
-      items: [
-        { name: "Overview", path: "/agent/overview" },
-        {
-          name: "Active Delivery Partners",
-          path: "/agent/active-delivery-partners",
-        },
-        { name: "Pending Deliveries", path: "/agent/pending-deliveries" },
-        { name: "Earnings Summary", path: "/agent/earnings-summary" },
-        { name: "Alerts & Notifications", path: "/agent/alerts-notifications" },
-      ],
+      path: "/agent/dashboard",
     },
 
     {
