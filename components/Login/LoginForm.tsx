@@ -16,6 +16,7 @@ import { loginValidation } from "@/validations/auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { Eye, EyeOff, Lock, Mail, Send } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -171,14 +172,25 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
           </form>
         </Form>
 
+        {/* Forgot Password */}
+        <p className="text-gray-400 text-center mt-4">
+          Forgot your password?{" "}
+          <Link
+            href="/forgot-password"
+            className="text-pink-400 font-medium hover:underline"
+          >
+            Reset here
+          </Link>
+        </p>
+
         <p className="mt-6 text-center text-gray-700 text-sm">
           Don&apos;t have an account?{" "}
-          <a
+          <Link
             href="/become-agent"
             className="text-[#DC3173] font-medium hover:underline"
           >
-            Register Agent
-          </a>
+            Register Fleet Manager
+          </Link>
         </p>
       </div>
 

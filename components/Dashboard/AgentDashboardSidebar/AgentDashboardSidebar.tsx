@@ -78,10 +78,6 @@ export default function Sidebar() {
           path: "/agent/delivery-partner-performance",
         },
         {
-          name: "Delivery Partner Documents",
-          path: "/agent/delivery-partner-documents",
-        },
-        {
           name: "Delivery Partner Reviews",
           path: "/agent/delivery-partner-reviews",
         },
@@ -99,7 +95,6 @@ export default function Sidebar() {
         { name: "Delivered", path: "/agent/delivered" },
         { name: "Cancelled Deliveries", path: "/agent/cancelled-deliveries" },
         { name: "Delivery History", path: "/agent/delivery-history" },
-        { name: "Manual Assign Orders", path: "/agent/manual-assign-orders" },
       ],
     },
 
