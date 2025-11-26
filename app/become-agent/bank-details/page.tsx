@@ -66,12 +66,9 @@ export default function BankDetailsPage() {
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(bankDetails));
-
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        formData,
+        bankDetails,
         {
           headers: { authorization: accessToken },
         }

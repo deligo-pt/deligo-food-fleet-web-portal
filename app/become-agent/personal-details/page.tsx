@@ -59,12 +59,9 @@ export default function PersonalDetailsPage() {
         contactNumber: data.phoneNumber,
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(personalDetails));
-
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        formData,
+        personalDetails,
         {
           headers: {
             authorization: accessToken,

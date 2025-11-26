@@ -52,12 +52,9 @@ export default function BusinessDetailsPage() {
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(businessDetails));
-
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
-        formData,
+        businessDetails,
         {
           headers: { authorization: accessToken },
         }
