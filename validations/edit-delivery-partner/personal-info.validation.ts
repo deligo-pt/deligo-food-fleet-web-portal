@@ -70,11 +70,11 @@ export const personalInfoValidation = z
       .min(2, "City must be at least 2 characters")
       .max(50, "City must be at most 50 characters"),
 
-    zipCode: z
+    postalCode: z
       .string()
-      .nonempty("Zip code is required")
-      .min(4, "Zip code must be at least 4 characters")
-      .max(10, "Zip code must be at most 10 characters"),
+      .nonempty("Postal code is required")
+      .min(1, "Postal code must be at least 1 characters")
+      .max(10, "Postal code must be at most 10 characters"),
 
     state: z
       .string()

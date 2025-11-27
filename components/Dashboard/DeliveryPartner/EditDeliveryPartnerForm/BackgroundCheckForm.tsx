@@ -41,7 +41,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
-      const criminalRecord = {
+      const payload = {
         criminalRecord: {
           certificate: values.haveCriminalRecordCertificate,
           ...(values.haveCriminalRecordCertificate && {
@@ -51,15 +51,12 @@ export function BackgroundCheckForm({ onNext }: IProps) {
       };
       if (
         !values.haveCriminalRecordCertificate &&
-        criminalRecord?.criminalRecord?.issueDate
+        payload?.criminalRecord?.issueDate
       ) {
-        delete criminalRecord?.criminalRecord?.issueDate;
+        delete payload?.criminalRecord?.issueDate;
       }
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(criminalRecord));
-
-      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+      const result = (await updateData(`/delivery-partners/${id}`, payload, {
         headers: { authorization: getCookie("accessToken") },
       })) as unknown as TResponse<TDeliveryPartner[]>;
 

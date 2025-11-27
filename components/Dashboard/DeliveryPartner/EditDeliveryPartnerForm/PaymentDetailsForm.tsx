@@ -47,7 +47,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
-      const bankDetails = {
+      const payload = {
         bankDetails: {
           iban: values.iban,
           bankName: values.bankName,
@@ -56,10 +56,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(bankDetails));
-
-      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+      const result = (await updateData(`/delivery-partners/${id}`, payload, {
         headers: { authorization: getCookie("accessToken") },
       })) as unknown as TResponse<TDeliveryPartner[]>;
 

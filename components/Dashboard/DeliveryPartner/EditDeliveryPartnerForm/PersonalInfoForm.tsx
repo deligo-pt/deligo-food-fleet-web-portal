@@ -66,7 +66,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
       idExpiryDate: "",
       street: "",
       city: "",
-      zipCode: "",
+      postalCode: "",
       state: "",
       country: "",
     },
@@ -75,13 +75,13 @@ export function PersonalInfoForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
-      const personalInfo = {
+      const payload = {
+        name: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+        },
+        contactNumber: values.phoneNumber,
         personalInfo: {
-          Name: {
-            firstName: values.firstName,
-            lastName: values.lastName,
-          },
-          contactNumber: values.phoneNumber,
           dateOfBirth: new Date(values.dateOfBirth).toISOString(),
           nationality: values.nationality,
           gender: values.gender,
@@ -89,23 +89,19 @@ export function PersonalInfoForm({ onNext }: IProps) {
           citizenCardNumber: values.citizenCardNumber,
           passportNumber: values.passportNumber,
           idExpiryDate: new Date(values.idExpiryDate).toISOString(),
-          address: {
-            street: values.street,
-            city: values.city,
-            zipCode: values.zipCode,
-            state: values.state,
-            country: values.country,
-          },
+        },
+        address: {
+          street: values.street,
+          city: values.city,
+          postalCode: values.postalCode,
+          state: values.state,
+          country: values.country,
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(personalInfo));
-
-      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+      const result = (await updateData(`/delivery-partners/${id}`, payload, {
         headers: {
           authorization: getCookie("accessToken"),
-          "Content-Type": "multipart/form-data",
         },
       })) as unknown as TResponse<TDeliveryPartner[]>;
 
@@ -138,17 +134,11 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
       if (result.success) {
         const phone = parsePhoneNumberFromString(
-          result?.data?.personalInfo?.contactNumber || ""
+          result?.data?.contactNumber || ""
         );
 
-        form.setValue(
-          "firstName",
-          result?.data?.personalInfo?.Name?.firstName || ""
-        );
-        form.setValue(
-          "lastName",
-          result?.data?.personalInfo?.Name?.lastName || ""
-        );
+        form.setValue("firstName", result?.data?.name?.firstName || "");
+        form.setValue("lastName", result?.data?.name?.lastName || "");
         form.setValue(
           "prefixPhoneNumber",
           (phone?.countryCallingCode && `+${phone?.countryCallingCode}`) || ""
@@ -176,23 +166,11 @@ export function PersonalInfoForm({ onNext }: IProps) {
           "idExpiryDate",
           (result?.data?.personalInfo?.idExpiryDate as unknown as string) || ""
         );
-        form.setValue(
-          "street",
-          result?.data?.personalInfo?.address?.street || ""
-        );
-        form.setValue("city", result?.data?.personalInfo?.address?.city || "");
-        form.setValue(
-          "zipCode",
-          result?.data?.personalInfo?.address?.zipCode || ""
-        );
-        form.setValue(
-          "state",
-          result?.data?.personalInfo?.address?.state || ""
-        );
-        form.setValue(
-          "country",
-          result?.data?.personalInfo?.address?.country || ""
-        );
+        form.setValue("street", result?.data?.address?.street || "");
+        form.setValue("city", result?.data?.address?.city || "");
+        form.setValue("postalCode", result?.data?.address?.postalCode || "");
+        form.setValue("state", result?.data?.address?.state || "");
+        form.setValue("country", result?.data?.address?.country || "");
       }
     } catch (error) {
       console.error("Error fetching delivery partner data:", error);
@@ -569,13 +547,13 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
             <FormField
               control={form.control}
-              name="zipCode"
+              name="postalCode"
               render={({ field }) => (
                 <FormItem className="content-start">
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Zip Code</span>
+                      <span className="ml-2">Postal Code</span>
                     </div>
                   </FormLabel>
                   <FormControl>

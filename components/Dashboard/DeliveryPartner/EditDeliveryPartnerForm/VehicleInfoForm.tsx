@@ -60,7 +60,7 @@ export function VehicleInfoForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
-      const vehicleInfo = {
+      const payload = {
         vehicleInfo: {
           vehicleType: values.vehicleType,
           brand: values.brand,
@@ -75,10 +75,7 @@ export function VehicleInfoForm({ onNext }: IProps) {
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(vehicleInfo));
-
-      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+      const result = (await updateData(`/delivery-partners/${id}`, payload, {
         headers: { authorization: getCookie("accessToken") },
       })) as unknown as TResponse<TDeliveryPartner[]>;
 

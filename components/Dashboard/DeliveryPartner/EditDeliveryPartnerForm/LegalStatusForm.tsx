@@ -64,7 +64,7 @@ export function LegalStatusForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
-      const legalStatus = {
+      const payload = {
         legalStatus: {
           residencePermitType: values.residencePermitType,
           residencePermitNumber: values.residencePermitNumber,
@@ -74,10 +74,7 @@ export function LegalStatusForm({ onNext }: IProps) {
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(legalStatus));
-
-      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+      const result = (await updateData(`/delivery-partners/${id}`, payload, {
         headers: { authorization: getCookie("accessToken") },
       })) as unknown as TResponse<TDeliveryPartner[]>;
 

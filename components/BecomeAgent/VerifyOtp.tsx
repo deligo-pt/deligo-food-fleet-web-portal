@@ -80,7 +80,7 @@ export default function VerifyOtp({ email }: { email: string }) {
         console.log(error);
       }
     } else {
-      alert("Please enter a valid 4-digit OTP");
+      toast.error("Please enter a valid 4-digit OTP", { id: toastId });
     }
   };
 

@@ -100,7 +100,7 @@ export function EquipmentForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
     try {
-      const workPreferences = {
+      const payload = {
         workPreferences: {
           preferredZones: values.preferredZones,
           preferredHours: values.preferredHours,
@@ -114,10 +114,7 @@ export function EquipmentForm({ onNext }: IProps) {
         },
       };
 
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(workPreferences));
-
-      const result = (await updateData(`/delivery-partners/${id}`, formData, {
+      const result = (await updateData(`/delivery-partners/${id}`, payload, {
         headers: { authorization: getCookie("accessToken") },
       })) as unknown as TResponse<TDeliveryPartner[]>;
 
@@ -127,25 +124,6 @@ export function EquipmentForm({ onNext }: IProps) {
         });
 
         onNext();
-        // toast.loading("Submitting for approval...", {
-        //   id: toastId,
-        // });
-        // const result = (await updateData(
-        //   `/auth/${id}/submitForApproval`,
-        //   {},
-        //   {
-        //     headers: {
-        //       authorization: getCookie("accessToken"),
-        //     },
-        //   }
-        // )) as unknown as TResponse<TDeliveryPartner>;
-        // if (result.success) {
-        //   toast.success("Request submitted successfully!", {
-        //     id: toastId,
-        //   });
-        //   router.push("/agent/delivery-partners");
-        //   return;
-        // }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
