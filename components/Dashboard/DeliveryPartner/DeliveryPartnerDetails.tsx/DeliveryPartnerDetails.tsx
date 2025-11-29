@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { deleteDeliveryPartner } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
+import { format } from "date-fns";
 import { motion } from "framer-motion";
 import {
   ArrowLeftCircle,
@@ -38,18 +39,13 @@ interface IProps {
   partner: TDeliveryPartner;
 }
 
-const formatDate = (date: Date | undefined) => {
-  if (!date) return "N/A";
-  return new Date(date).toLocaleDateString();
-};
-
 export const DeliveryPartnerDetails = ({ partner }: IProps) => {
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const fullName =
-    `${partner.personalInfo?.Name?.firstName || ""} ${
-      partner.personalInfo?.Name?.lastName || ""
+    `${partner?.name?.firstName || ""} ${
+      partner?.name?.lastName || ""
     }`.trim() || "No Name Provided";
 
   const getVehicleIcon = () => {
@@ -162,7 +158,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               <Mail className="w-4 h-4" />
               <span className="text-sm">{partner.email}</span>
             </motion.div>
-            {partner.personalInfo?.contactNumber && (
+            {partner?.contactNumber && (
               <motion.div
                 initial={{
                   opacity: 0,
@@ -178,9 +174,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 className="flex items-center space-x-1 text-white/80"
               >
                 <Phone className="w-4 h-4" />
-                <span className="text-sm">
-                  {partner.personalInfo.contactNumber}
-                </span>
+                <span className="text-sm">{partner?.contactNumber}</span>
               </motion.div>
             )}
           </div>
@@ -201,7 +195,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               <InfoRow label="Email" value={partner.email} />
               <InfoRow
                 label="Contact Number"
-                value={partner.personalInfo?.contactNumber || "N/A"}
+                value={partner?.contactNumber || "N/A"}
               />
               <InfoRow
                 label="Gender"
@@ -211,7 +205,11 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             <div>
               <InfoRow
                 label="Date of Birth"
-                value={formatDate(partner.personalInfo?.dateOfBirth)}
+                value={
+                  partner.personalInfo?.dateOfBirth
+                    ? format(partner.personalInfo?.dateOfBirth, "dd/MM/yyyy")
+                    : "N/A"
+                }
               />
               <InfoRow
                 label="Nationality"
@@ -233,7 +231,11 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               />
               <InfoRow
                 label="ID Expiry Date"
-                value={formatDate(partner.personalInfo?.idExpiryDate)}
+                value={
+                  partner.personalInfo?.idExpiryDate
+                    ? format(partner.personalInfo?.idExpiryDate, "dd/MM/yyyy")
+                    : "N/A"
+                }
               />
             </div>
           </div>
@@ -243,25 +245,19 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             <div>
               <InfoRow
                 label="Street"
-                value={partner.personalInfo?.address?.street || "N/A"}
+                value={partner?.address?.street || "N/A"}
               />
-              <InfoRow
-                label="City"
-                value={partner.personalInfo?.address?.city || "N/A"}
-              />
+              <InfoRow label="City" value={partner?.address?.city || "N/A"} />
             </div>
             <div>
-              <InfoRow
-                label="State"
-                value={partner.personalInfo?.address?.state || "N/A"}
-              />
+              <InfoRow label="State" value={partner?.address?.state || "N/A"} />
               <InfoRow
                 label="Country"
-                value={partner.personalInfo?.address?.country || "N/A"}
+                value={partner?.address?.country || "N/A"}
               />
               <InfoRow
                 label="Zip Code"
-                value={partner.personalInfo?.address?.zipCode || "N/A"}
+                value={partner?.address?.postalCode || "N/A"}
               />
             </div>
           </div>
@@ -296,7 +292,14 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               />
               <InfoRow
                 label="License Expiry"
-                value={formatDate(partner.vehicleInfo?.drivingLicenseExpiry)}
+                value={
+                  partner.vehicleInfo?.drivingLicenseExpiry
+                    ? format(
+                        partner.vehicleInfo?.drivingLicenseExpiry,
+                        "dd/MM/yyyy"
+                      )
+                    : "N/A"
+                }
               />
               <InfoRow
                 label="Insurance Policy Number"
@@ -304,7 +307,11 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               />
               <InfoRow
                 label="Insurance Expiry"
-                value={formatDate(partner.vehicleInfo?.insuranceExpiry)}
+                value={
+                  partner.vehicleInfo?.insuranceExpiry
+                    ? format(partner.vehicleInfo?.insuranceExpiry, "dd/MM/yyyy")
+                    : "N/A"
+                }
               />
             </div>
           </div>
@@ -348,7 +355,14 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             <div>
               <InfoRow
                 label="Permit Expiry Date"
-                value={formatDate(partner.legalStatus?.residencePermitExpiry)}
+                value={
+                  partner.legalStatus?.residencePermitExpiry
+                    ? format(
+                        partner.legalStatus?.residencePermitExpiry,
+                        "dd/MM/yyyy"
+                      )
+                    : "N/A"
+                }
               />
               <InfoRow
                 label="Criminal Record Certificate"
@@ -371,10 +385,22 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Documents" icon={<FileText />}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
-            {partner.documents?.idProof && (
+            {partner.documents?.idDocumentFront && (
               <div>
-                <div className="mb-2 text-gray-500 text-sm">ID Proof</div>
-                <ImagePreview url={partner.documents?.idProof} alt="ID Prrof" />
+                <div className="mb-2 text-gray-500 text-sm">ID Proof Front</div>
+                <ImagePreview
+                  url={partner.documents?.idDocumentFront}
+                  alt="ID Prrof"
+                />
+              </div>
+            )}
+            {partner.documents?.idDocumentBack && (
+              <div>
+                <div className="mb-2 text-gray-500 text-sm">ID Proof Back</div>
+                <ImagePreview
+                  url={partner.documents?.idDocumentBack}
+                  alt="ID Prrof"
+                />
               </div>
             )}
             {partner.documents?.drivingLicense && (
@@ -551,44 +577,49 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             <div>
               <InfoRow
                 label="Account Created"
-                value={formatDate(partner.createdAt)}
+                value={
+                  partner.createdAt
+                    ? format(partner.createdAt, "dd/MM/yyyy")
+                    : "N/A"
+                }
               />
               <InfoRow
                 label="Last Updated"
-                value={formatDate(partner.updatedAt)}
+                value={
+                  partner.updatedAt
+                    ? format(partner.updatedAt, "dd/MM/yyyy")
+                    : "N/A"
+                }
               />
               <InfoRow
                 label="Submitted For Approval"
-                value={formatDate(partner.submittedForApprovalAt)}
+                value={
+                  partner.submittedForApprovalAt
+                    ? format(partner.submittedForApprovalAt, "dd/MM/yyyy")
+                    : "N/A"
+                }
               />
             </div>
             <div>
               <InfoRow
                 label="Approved/Rejected/Blocked At"
-                value={formatDate(partner.approvedOrRejectedOrBlockedAt)}
+                value={
+                  partner.approvedOrRejectedOrBlockedAt
+                    ? format(
+                        partner.approvedOrRejectedOrBlockedAt,
+                        "dd/MM/yyyy"
+                      )
+                    : "N/A"
+                }
               />
               {partner.remarks && (
                 <InfoRow label="Remarks" value={partner.remarks} />
               )}
-              <InfoRow
-                label="Two Factor Authentication"
-                value={
-                  <span
-                    className={`px-2 py-0.5 rounded text-xs ${
-                      partner.twoFactorEnabled
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {partner.twoFactorEnabled ? "Enabled" : "Disabled"}
-                  </span>
-                }
-              />
             </div>
           </div>
         </DeliveryPartnerSection>
         <div className="mt-8 flex flex-wrap justify-end gap-3">
-          {partner.status === "PENDING" && (
+          {(partner.status === "PENDING" || partner.status === "REJECTED") && (
             <motion.button
               onClick={() =>
                 router.push(`/agent/delivery-partners/edit/${partner.userId}`)

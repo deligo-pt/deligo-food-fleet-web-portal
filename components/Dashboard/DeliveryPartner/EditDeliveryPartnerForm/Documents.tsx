@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { CardTitle } from "@/components/ui/card";
+import { uploadPartnerDocuments } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
@@ -21,8 +22,9 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 type DocKey =
+  | "idDocumentFront"
+  | "idDocumentBack"
   | "drivingLicense"
-  | "idProof"
   | "vehicleRegistration"
   | "criminalRecordCertificate";
 
@@ -31,7 +33,12 @@ const DOCUMENTS: {
   label: string;
   prefersImagePreview: boolean;
 }[] = [
-  { key: "idProof", label: "ID Proof", prefersImagePreview: true },
+  {
+    key: "idDocumentFront",
+    label: "ID Proof Front",
+    prefersImagePreview: true,
+  },
+  { key: "idDocumentBack", label: "ID Proof Back", prefersImagePreview: true },
   {
     key: "drivingLicense",
     label: "Driving License",
@@ -59,7 +66,8 @@ export default function Documents() {
   const { id } = useParams();
   //   const [haveCriminalCertificate, setHaveCriminalCertificate] = useState(false);
   const [previews, setPreviews] = useState<Record<DocKey, FilePreview | null>>({
-    idProof: null,
+    idDocumentFront: null,
+    idDocumentBack: null,
     drivingLicense: null,
     vehicleRegistration: null,
     criminalRecordCertificate: null,
@@ -72,18 +80,44 @@ export default function Documents() {
     el?.click();
   };
 
-  const handleFileChange = (key: DocKey, f?: File | null) => {
+  const handleFileChange = async (key: DocKey, f?: File | null) => {
     if (!f) return;
     const isImage = f.type.startsWith("image/");
     const url = URL.createObjectURL(f);
 
-    // revoke previous url if present
-    const prev = previews[key];
-    if (prev && prev.url) URL.revokeObjectURL(prev.url);
+    const toastId = toast.loading("Uploading...");
 
-    setPreviews((p) => ({ ...p, [key]: { file: f, url, isImage } }));
-    if (inputsRef.current[key]) {
-      inputsRef.current[key]!.value = "";
+    try {
+      const result = (await uploadPartnerDocuments(
+        id as string,
+        key,
+        f
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      )) as unknown as TResponse<any>;
+
+      if (result.success) {
+        toast.success("File uploaded successfully!", { id: toastId });
+
+        const prev = previews[key];
+        if (prev && prev.url) URL.revokeObjectURL(prev.url);
+
+        setPreviews((p) => ({ ...p, [key]: { file: f, url, isImage } }));
+
+        if (inputsRef.current[key]) {
+          inputsRef.current[key]!.value = "";
+        }
+        return;
+      }
+      toast.error(result.message || "File upload failed", {
+        id: toastId,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "File upload failed", {
+        id: toastId,
+      });
+      return;
     }
   };
 
@@ -107,13 +141,11 @@ export default function Documents() {
       })) as TResponse<TDeliveryPartner>;
 
       if (result?.success) {
-        // setHaveCriminalCertificate(
-        //   result.data?.criminalRecord?.certificate || false
-        // );
         const docs = result?.data?.documents || {};
 
         const newPreviews: Record<DocKey, FilePreview | null> = {
-          idProof: null,
+          idDocumentFront: null,
+          idDocumentBack: null,
           drivingLicense: null,
           vehicleRegistration: null,
           criminalRecordCertificate: null,
@@ -155,24 +187,6 @@ export default function Documents() {
     try {
       const accessToken = getCookie("accessToken");
 
-      const uploadPromises = Object.keys(previews)
-        .filter((key) => previews[key as keyof typeof previews]?.file)
-        .map((key) => {
-          const fileData = previews[key as keyof typeof previews];
-          const formData = new FormData();
-          formData.append("file", fileData?.file as Blob);
-          formData.append("data", JSON.stringify({ docImageTitle: key }));
-
-          return updateData(`/delivery-partners/${id}/docImage`, formData, {
-            headers: {
-              authorization: accessToken,
-              "Content-Type": "multipart/form-data",
-            },
-          });
-        });
-
-      await Promise.all(uploadPromises);
-
       const result = (await updateData(
         `/auth/${id}/submitForApproval`,
         {},
@@ -182,9 +196,10 @@ export default function Documents() {
           },
         }
       )) as unknown as TResponse<null>;
+
       if (result.success) {
         toast.success(
-          result.message || "Registration successful! & Request submitted",
+          result.message || "Registration successful & Request submitted",
           { id: toastId }
         );
         router.push("/agent/delivery-partners");
@@ -213,13 +228,9 @@ export default function Documents() {
     <div>
       <div className="flex items-center gap-4">
         <div>
-          <CardTitle className="text-2xl font-semibold tracking-wide">
+          <CardTitle className="text-2xl font-semibold tracking-wide mb-4">
             Upload Your Documents
           </CardTitle>
-          <p className="mt-2 text-sm text-white/90 max-w-2xl leading-relaxed">
-            Select each required document. Once all 5 are selected, you will see
-            the registration success modal.
-          </p>
         </div>
       </div>
 
@@ -313,7 +324,6 @@ export default function Documents() {
                   <>
                     <button
                       onClick={() =>
-                        // preview in new tab if image or show filename
                         preview.url
                           ? window.open(preview.url, "_blank")
                           : alert(preview.file?.name)

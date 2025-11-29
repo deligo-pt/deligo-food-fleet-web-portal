@@ -34,9 +34,9 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
     }
   };
 
-  const fullName = partner?.personalInfo?.Name
-    ? `${partner?.personalInfo?.Name?.firstName || ""} ${
-        partner?.personalInfo?.Name?.lastName || ""
+  const fullName = partner?.name
+    ? `${partner?.name?.firstName || ""} ${
+        partner?.name?.lastName || ""
       }`.trim()
     : "No Name";
 
@@ -121,12 +121,12 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
               </div>
               <span>{partner?.email}</span>
             </div>
-            {partner?.personalInfo?.contactNumber && (
+            {partner?.contactNumber && (
               <div className="flex items-center text-sm">
                 <div className="w-4 text-[#DC3173] mr-2">
                   <Phone className="w-4 h-4" />
                 </div>
-                <span>{partner?.personalInfo?.contactNumber}</span>
+                <span>{partner?.contactNumber}</span>
               </div>
             )}
             <div className="flex items-center text-sm">
