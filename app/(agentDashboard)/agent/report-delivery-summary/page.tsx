@@ -1,0 +1,104 @@
+"use client";
+
+import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+
+const deliveries = [
+  {
+    id: "#ORD-9921",
+    partner: "Alex Johnson",
+    time: "10:30 AM",
+    distance: "4.2 km",
+    fee: "$8.50",
+    status: "Completed",
+  },
+  {
+    id: "#ORD-9922",
+    partner: "Sam Wilson",
+    time: "10:45 AM",
+    distance: "2.1 km",
+    fee: "$5.20",
+    status: "Completed",
+  },
+  {
+    id: "#ORD-9923",
+    partner: "Maria Garcia",
+    time: "11:15 AM",
+    distance: "6.5 km",
+    fee: "$12.00",
+    status: "In Progress",
+  },
+  {
+    id: "#ORD-9924",
+    partner: "James Bond",
+    time: "11:20 AM",
+    distance: "1.8 km",
+    fee: "$4.50",
+    status: "Completed",
+  },
+];
+
+export default function DeliverySummaryPage() {
+  return (
+    <div className="p-4 md:p-6">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <h1 className="text-2xl font-bold text-[#DC3173]">
+          Delivery Summary Report
+        </h1>
+        <p className="text-gray-500 mt-1">
+          Comprehensive list of all orders and their delivery details
+        </p>
+      </motion.div>
+      <Card className="mt-10">
+        <CardContent className="p-0">
+          <table className="w-full text-sm text-left">
+            <thead className="text-xs text-muted-foreground uppercase bg-secondary/50">
+              <tr>
+                <th className="px-6 py-4 font-medium">Order ID</th>
+                <th className="px-6 py-4 font-medium">Partner</th>
+                <th className="px-6 py-4 font-medium">Time</th>
+                <th className="px-6 py-4 font-medium">Distance</th>
+                <th className="px-6 py-4 font-medium">Fee</th>
+                <th className="px-6 py-4 font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {deliveries.map((d) => (
+                <tr
+                  key={d.id}
+                  className="bg-card hover:bg-accent/50 transition-colors"
+                >
+                  <td className="px-6 py-4 font-mono">{d.id}</td>
+                  <td className="px-6 py-4 font-medium">{d.partner}</td>
+                  <td className="px-6 py-4">{d.time}</td>
+                  <td className="px-6 py-4">{d.distance}</td>
+                  <td className="px-6 py-4">{d.fee}</td>
+                  <td className="px-6 py-4">
+                    <CustomBadge
+                      variant={d.status === "Completed" ? "success" : "warning"}
+                    >
+                      {d.status}
+                    </CustomBadge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

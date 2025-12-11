@@ -26,11 +26,179 @@ import Image from "next/image";
 
 const PRIMARY = "#DC3173";
 
+const MENU = [
+  {
+    id: "home",
+    title: "Home",
+    icon: <Home size={18} />,
+    path: "/",
+  },
+  {
+    id: "dashboard",
+    title: "Dashboard",
+    icon: <LayoutDashboard size={18} />,
+    path: "/agent/dashboard",
+  },
+
+  {
+    id: "delivery-partners",
+    title: "Delivery Partners Management",
+    icon: <Bike size={18} />,
+    items: [
+      { name: "All Delivery Partners", path: "/agent/delivery-partners" },
+      {
+        name: "Add New Delivery Partner",
+        path: "/agent/add-delivery-partner",
+      },
+      { name: "Pending Verification", path: "/agent/pending-verification" },
+      {
+        name: "Active Delivery Partners",
+        path: "/agent/active-delivery-partners",
+      },
+      {
+        name: "Suspended Delivery Partners",
+        path: "/agent/suspended-delivery-partners",
+      },
+      {
+        name: "Delivery Partner Performance",
+        path: "/agent/delivery-partner-performance",
+      },
+      {
+        name: "Delivery Partner Reviews",
+        path: "/agent/delivery-partner-reviews",
+      },
+    ],
+  },
+
+  {
+    id: "orders",
+    title: "Orders & Deliveries",
+    icon: <Package size={18} />,
+    items: [
+      { name: "All Deliveries", path: "/agent/all-deliveries" },
+      { name: "Pending Pickup", path: "/agent/pending-pickup" },
+      { name: "On the Way", path: "/agent/on-the-way" },
+      { name: "Delivered", path: "/agent/delivered" },
+      { name: "Cancelled Deliveries", path: "/agent/cancelled-deliveries" },
+      { name: "Delivery History", path: "/agent/delivery-history" },
+    ],
+  },
+
+  {
+    id: "payments",
+    title: "Payments & Earnings",
+    icon: <BadgeEuro size={18} />,
+    items: [
+      { name: "Fleet Earnings Overview", path: "/agent/earnings-overview" },
+      {
+        name: "Delivery Partner Payouts",
+        path: "/agent/delivery-partner-payouts",
+      },
+      { name: "Payment History", path: "/agent/payment-history" },
+      { name: "Transaction Details", path: "/agent/transaction-details" },
+      { name: "Pending Settlements", path: "/agent/pending-settlements" },
+    ],
+  },
+
+  {
+    id: "zones",
+    title: "Delivery Zones",
+    icon: <Map size={18} />,
+    items: [
+      { name: "Active Zones", path: "/agent/active-zones" },
+      { name: "Add New Zone", path: "/agent/add-zone" },
+      { name: "Zone Performance", path: "/agent/zone-performance" },
+      { name: "Heatmap (Busy Zones)", path: "/agent/zones-heatmap" },
+      { name: "Adjust Zone Radius", path: "/agent/zone-radius" },
+    ],
+  },
+
+  {
+    id: "settings",
+    title: "Fleet Settings",
+    icon: <Settings size={18} />,
+    items: [
+      { name: "Fleet Profile", path: "/agent/fleet-profile" },
+      { name: "Vehicle Types", path: "/agent/vehicle-types" },
+      { name: "Operating Hours", path: "/agent/operating-hours" },
+      { name: "Commission Settings", path: "/agent/commission-settings" },
+      { name: "Payment Preferences", path: "/agent/payment-preferences" },
+      {
+        name: "Notification Preferences",
+        path: "/agent/notification-preferences",
+      },
+    ],
+  },
+
+  {
+    id: "team",
+    title: "Team Management",
+    icon: <UserCog size={18} />,
+    items: [
+      { name: "All Team Members", path: "/agent/team-members" },
+      { name: "Roles & Permissions", path: "/agent/roles-permissions" },
+      { name: "Activity Logs", path: "/agent/activity-logs" },
+    ],
+  },
+
+  {
+    id: "reports",
+    title: "Reports & Analytics",
+    icon: <FileBarChart size={18} />,
+    items: [
+      {
+        name: "Delivery Partner Performance Report",
+        path: "/agent/report-delivery-partner-performance",
+      },
+      { name: "Earnings Report", path: "/agent/report-earnings" },
+      { name: "Delivery Summary", path: "/agent/report-delivery-summary" },
+      { name: "Monthly Report", path: "/agent/report-monthly" },
+      { name: "Custom Report Builder", path: "/agent/report-custom" },
+    ],
+  },
+
+  {
+    id: "support",
+    title: "Support & Communication",
+    icon: <MessageSquare size={18} />,
+    items: [
+      { name: "Support Tickets", path: "/agent/support-tickets" },
+      { name: "Delivery Partner Chat", path: "/agent/delivery-partner-chat" },
+      { name: "Report an Issue", path: "/agent/report-issue" },
+      { name: "Help Center", path: "/agent/help-center" },
+    ],
+  },
+
+  {
+    id: "emergency",
+    title: "Emergency / SOS",
+    icon: <AlertTriangle size={18} />,
+    items: [
+      {
+        name: "Delivery Partner Emergency Alerts",
+        path: "/agent/delivery-partner-emergency-alerts",
+      },
+      { name: "Contact Admin", path: "/agent/contact-admin" },
+      { name: "Report Accident / Incident", path: "/agent/report-incident" },
+      {
+        name: "Live Delivery Partner Tracking",
+        path: "/agent/live-tracking",
+      },
+    ],
+  },
+];
+
 export default function Sidebar() {
+  const pathname = usePathname();
+  const currentMenuId = MENU.find((menu) =>
+    menu.items?.some((item) => pathname.includes(item.path))
+  )?.id;
+
   const [open, setOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const pathname = usePathname();
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({
+    ...(currentMenuId ? { [currentMenuId]: true } : {}),
+  });
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -39,168 +207,6 @@ export default function Sidebar() {
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
   }, [mobileOpen]);
-
-  const MENU = [
-    {
-      id: "home",
-      title: "Home",
-      icon: <Home size={18} />,
-      path: "/",
-    },
-    {
-      id: "dashboard",
-      title: "Dashboard",
-      icon: <LayoutDashboard size={18} />,
-      path: "/agent/dashboard",
-    },
-
-    {
-      id: "delivery-partners",
-      title: "Delivery Partners Management",
-      icon: <Bike size={18} />,
-      items: [
-        { name: "All Delivery Partners", path: "/agent/delivery-partners" },
-        {
-          name: "Add New Delivery Partner",
-          path: "/agent/add-delivery-partner",
-        },
-        { name: "Pending Verification", path: "/agent/pending-verification" },
-        {
-          name: "Active Delivery Partners",
-          path: "/agent/active-delivery-partners",
-        },
-        {
-          name: "Suspended Delivery Partners",
-          path: "/agent/suspended-delivery-partners",
-        },
-        {
-          name: "Delivery Partner Performance",
-          path: "/agent/delivery-partner-performance",
-        },
-        {
-          name: "Delivery Partner Reviews",
-          path: "/agent/delivery-partner-reviews",
-        },
-      ],
-    },
-
-    {
-      id: "orders",
-      title: "Orders & Deliveries",
-      icon: <Package size={18} />,
-      items: [
-        { name: "All Deliveries", path: "/agent/all-deliveries" },
-        { name: "Pending Pickup", path: "/agent/pending-pickup" },
-        { name: "On the Way", path: "/agent/on-the-way" },
-        { name: "Delivered", path: "/agent/delivered" },
-        { name: "Cancelled Deliveries", path: "/agent/cancelled-deliveries" },
-        { name: "Delivery History", path: "/agent/delivery-history" },
-      ],
-    },
-
-    {
-      id: "payments",
-      title: "Payments & Earnings",
-      icon: <BadgeEuro size={18} />,
-      items: [
-        { name: "Fleet Earnings Overview", path: "/agent/earnings-overview" },
-        {
-          name: "Delivery Partner Payouts",
-          path: "/agent/delivery-partner-payouts",
-        },
-        { name: "Payment History", path: "/agent/payment-history" },
-        { name: "Transaction Details", path: "/agent/transaction-details" },
-        { name: "Pending Settlements", path: "/agent/pending-settlements" },
-      ],
-    },
-
-    {
-      id: "zones",
-      title: "Delivery Zones",
-      icon: <Map size={18} />,
-      items: [
-        { name: "Active Zones", path: "/agent/active-zones" },
-        { name: "Add New Zone", path: "/agent/add-zone" },
-        { name: "Zone Performance", path: "/agent/zone-performance" },
-        { name: "Heatmap (Busy Zones)", path: "/agent/zones-heatmap" },
-        { name: "Adjust Zone Radius", path: "/agent/zone-radius" },
-      ],
-    },
-
-    {
-      id: "settings",
-      title: "Fleet Settings",
-      icon: <Settings size={18} />,
-      items: [
-        { name: "Fleet Profile", path: "/agent/fleet-profile" },
-        { name: "Vehicle Types", path: "/agent/vehicle-types" },
-        { name: "Operating Hours", path: "/agent/operating-hours" },
-        { name: "Commission Settings", path: "/agent/commission-settings" },
-        { name: "Payment Preferences", path: "/agent/payment-preferences" },
-        {
-          name: "Notification Preferences",
-          path: "/agent/notification-preferences",
-        },
-      ],
-    },
-
-    {
-      id: "team",
-      title: "Team Management",
-      icon: <UserCog size={18} />,
-      items: [
-        { name: "All Team Members", path: "/agent/team-members" },
-        { name: "Roles & Permissions", path: "/agent/roles-permissions" },
-        { name: "Activity Logs", path: "/agent/activity-logs" },
-      ],
-    },
-
-    {
-      id: "reports",
-      title: "Reports & Analytics",
-      icon: <FileBarChart size={18} />,
-      items: [
-        {
-          name: "Delivery Partner Performance Report",
-          path: "/agent/report-delivery-partner-performance",
-        },
-        { name: "Earnings Report", path: "/agent/report-earnings" },
-        { name: "Delivery Summary", path: "/agent/report-delivery-summary" },
-        { name: "Monthly Report", path: "/agent/report-monthly" },
-        { name: "Custom Report Builder", path: "/agent/report-custom" },
-      ],
-    },
-
-    {
-      id: "support",
-      title: "Support & Communication",
-      icon: <MessageSquare size={18} />,
-      items: [
-        { name: "Support Tickets", path: "/agent/support-tickets" },
-        { name: "Delivery Partner Chat", path: "/agent/delivery-partner-chat" },
-        { name: "Report an Issue", path: "/agent/report-issue" },
-        { name: "Help Center", path: "/agent/help-center" },
-      ],
-    },
-
-    {
-      id: "emergency",
-      title: "Emergency / SOS",
-      icon: <AlertTriangle size={18} />,
-      items: [
-        {
-          name: "Delivery Partner Emergency Alerts",
-          path: "/agent/delivery-partner-emergency-alerts",
-        },
-        { name: "Contact Admin", path: "/agent/contact-admin" },
-        { name: "Report Accident / Incident", path: "/agent/report-incident" },
-        {
-          name: "Live Delivery Partner Tracking",
-          path: "/agent/live-tracking",
-        },
-      ],
-    },
-  ];
 
   return (
     <>
