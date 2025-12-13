@@ -2,9 +2,7 @@ import Sidebar from "@/components/Dashboard/AgentDashboardSidebar/AgentDashboard
 import Topbar from "@/components/Dashboard/AgentTopbar/Topbar";
 import { serverRequest } from "@/lib/serverFetch";
 import { TFleetManager } from "@/types/fleet-manager.type";
-import { jwtDecode } from "jwt-decode";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Fleet Manager Dashboard",
@@ -16,13 +14,10 @@ export default async function AgentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const accessToken = (await cookies()).get("accessToken")?.value || "";
-  const decoded = jwtDecode(accessToken) as { id: string };
-
   let agentData: TFleetManager = {} as TFleetManager;
 
   try {
-    const result = await serverRequest.get(`/fleet-managers/${decoded.id}`);
+    const result = await serverRequest.get("/profile");
 
     if (result?.success) {
       agentData = result?.data;
