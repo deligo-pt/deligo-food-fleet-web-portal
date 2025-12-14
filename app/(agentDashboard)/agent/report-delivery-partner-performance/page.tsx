@@ -98,9 +98,9 @@ export default function PartnerPerformancePage() {
                   </td>
                   <td className="px-6 py-4">{partner.deliveries}</td>
                   <td className="px-6 py-4">
-                    <div className="w-full bg-secondary rounded-full h-1.5 w-24">
+                    <div className="w-full bg-secondary rounded-full h-1.5">
                       <div
-                        className="bg-primary h-1.5 rounded-full"
+                        className="bg-[#DC3173] h-1.5 rounded-full"
                         style={{
                           width: partner.acceptance,
                         }}

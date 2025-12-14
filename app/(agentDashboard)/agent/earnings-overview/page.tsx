@@ -10,7 +10,6 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { useState } from "react";
 import {
   Area,
   AreaChart,
@@ -101,37 +100,31 @@ const stats = [
 ];
 
 export default function FleetEarningsPage() {
-  const [period, setPeriod] = useState<"daily" | "weekly" | "monthly">(
-    "weekly"
-  );
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Fleet Earnings</h1>
-          <p className="text-gray-500 mt-1">
-            Overview of your fleet&lsquo;s financial performance
-          </p>
-        </div>
-        <div className="flex bg-white rounded-lg p-1 shadow-sm border border-gray-200">
-          {(["daily", "weekly", "monthly"] as const).map((p) => (
-            <button
-              key={p}
-              onClick={() => setPeriod(p)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                period === p
-                  ? "bg-[#DC3173] text-white shadow-sm"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {p.charAt(0).toUpperCase() + p.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="p-4 md:p-6">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <h1 className="text-2xl font-bold text-[#DC3173]">
+          Fleet Earnings Overview
+        </h1>
+        <p className="text-gray-500 mt-1">
+          Overview of your fleet&lsquo;s financial performance
+        </p>
+      </motion.div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 mb-6">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.title}
@@ -315,7 +308,7 @@ export default function FleetEarningsPage() {
                     />
                     <Bar
                       dataKey="payouts"
-                      fill="#1f2937"
+                      fill="#DC3173"
                       radius={[4, 4, 0, 0]}
                     />
                   </BarChart>
