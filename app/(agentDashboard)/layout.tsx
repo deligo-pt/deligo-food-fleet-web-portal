@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Sidebar from "@/components/Dashboard/AgentDashboardSidebar/AgentDashboardSidebar";
 import Topbar from "@/components/Dashboard/AgentTopbar/Topbar";
 import { serverRequest } from "@/lib/serverFetch";
