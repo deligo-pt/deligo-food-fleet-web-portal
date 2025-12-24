@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram,  Linkedin , Youtube} from "lucide-react";
+import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 const socialLinks = [
   { name: "Facebook", Icon: Facebook, href: "https://www.facebook.com/deligoeu/" },
-  
+
   { name: "Instagram", Icon: Instagram, href: "https://instagram.com/yourpage" },
   { name: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/deligopt" },
   { name: "YouTube", Icon: Youtube, href: " https://www.youtube.com/@DeliGoPT" },
@@ -30,7 +30,7 @@ export default function FooterUltra() {
           <p className="text-gray-700 text-sm mt-1">
             Phone:{" "}
             <a href="tel:+1234567890" className="text-[#DC3173] hover:underline">
-               +351 920 136 680
+              +351 920 136 680
             </a>
           </p>
         </div>
@@ -39,19 +39,19 @@ export default function FooterUltra() {
         <div>
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h4>
           <div className="flex gap-4 mt-2">
-  {socialLinks.map(({ Icon, href, name }, idx) => (
-    <a
-      key={idx}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={name}
-      className="text-gray-600 hover:text-[#DC3173] transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
-    >
-      <Icon className="w-6 h-6" />
-    </a>
-  ))}
-</div>
+            {socialLinks.map(({ Icon, href, name }, idx) => (
+              <a
+                key={idx}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+                className="text-gray-600 hover:text-[#DC3173] transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
+              >
+                <Icon className="w-6 h-6" />
+              </a>
+            ))}
+          </div>
 
         </div>
 
@@ -104,7 +104,7 @@ export default function FooterUltra() {
         </div>
       </div>
 
-      
+
 
       <style jsx>{`
         @keyframes floatSlow {

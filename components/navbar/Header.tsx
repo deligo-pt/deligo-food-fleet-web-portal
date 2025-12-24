@@ -12,9 +12,9 @@ interface NavbarProps {
   };
 }
 
-const Navbar: React.FC<NavbarProps> = ({ user }) => {
+const Header: React.FC<NavbarProps> = ({ user }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
 
   // Handle scroll effect for sticky navbar shadow
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,37 +24,36 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
+
 
   return (
     <header
-      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${
-        isScrolled ? "shadow-md" : ""
-      } bg-white text-black`}
+      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${isScrolled ? "shadow-md" : ""
+        } bg-white text-black`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo Section */}
-<Link
-  href="/"
-  className="flex items-center gap-2 group transition-transform duration-300"
->
-  {/* Animated Logo Image */}
-  <div className="w-9 h-9 overflow-hidden rounded-full transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-    <Image
-      src="/deligoLogo.png" 
-      alt="DeliGo Logo"
-      width={50}
-      height={50}
-      className="object-cover"
-      unoptimized
-    />
-  </div>
+        <Link
+          href="/"
+          className="flex items-center gap-2 group transition-transform duration-300"
+        >
+          {/* Animated Logo Image */}
+          <div className="w-9 h-9 overflow-hidden rounded-full transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+            <Image
+              src="/deligoLogo.png"
+              alt="DeliGo Logo"
+              width={50}
+              height={50}
+              className="object-cover"
+              unoptimized
+            />
+          </div>
 
-  {/* Brand Text */}
-  <span className="font-bold text-xl text-[#DC3173] group-hover:opacity-90 transition-opacity duration-300">
-    DeliGo
-  </span>
-</Link>
+          {/* Brand Text */}
+          <span className="font-bold text-xl text-[#DC3173] group-hover:opacity-90 transition-opacity duration-300">
+            DeliGo
+          </span>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
@@ -90,7 +89,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
           >
             <Globe className="w-5 h-5 text-black" />
           </button>
-          
+
 
           {/* Auth Button or Avatar */}
           {user ? (
@@ -124,9 +123,8 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <span className="font-bold text-xl text-[#DC3173]">DeliGo</span>
@@ -166,7 +164,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
           >
             <Globe className="w-5 h-5" /> Language
           </button>
-          
+
 
           {!user && (
             <Link
@@ -183,4 +181,4 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
   );
 };
 
-export default Navbar;
+export default Header;
