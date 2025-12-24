@@ -56,7 +56,7 @@ export default function ContactUs() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Email</p>
-                <p className="text-gray-700">support@deligo.pt</p>
+                <p className="text-gray-700">contact@deligo.pt</p>
               </div>
             </div>
 
@@ -66,7 +66,7 @@ export default function ContactUs() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Phone</p>
-                <p className="text-gray-700">+351 912 345 678</p>
+                <p className="text-gray-700">+351 920 136 680</p>
               </div>
             </div>
 

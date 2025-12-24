@@ -20,7 +20,7 @@ export default function CTASectionUnique() {
 
         <div className="mt-10 flex justify-center gap-4 flex-wrap">
           <Link
-            href="/signup"
+            href="/become-agent"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#DC3173] text-white text-lg font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
           >
             Sign Up Now

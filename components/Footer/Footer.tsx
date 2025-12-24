@@ -5,7 +5,7 @@ import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 const socialLinks = [
   { name: "Facebook", Icon: Facebook, href: "https://www.facebook.com/deligoeu/" },
 
-  { name: "Instagram", Icon: Instagram, href: "https://instagram.com/yourpage" },
+  { name: "Instagram", Icon: Instagram, href: "https://www.instagram.com/deligo.pt" },
   { name: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/deligopt" },
   { name: "YouTube", Icon: Youtube, href: " https://www.youtube.com/@DeliGoPT" },
 ];
@@ -23,13 +23,13 @@ export default function FooterUltra() {
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Contact Us</h4>
           <p className="text-gray-700 text-sm">
             Email:{" "}
-            <a href="mailto:support@amer.com" className="text-[#DC3173] hover:underline">
-              support@deligo.pt
+            <a href="mailto:contact@deligo.pt" className="text-[#DC3173] hover:underline">
+              contact@deligo.pt
             </a>
           </p>
           <p className="text-gray-700 text-sm mt-1">
             Phone:{" "}
-            <a href="tel:+1234567890" className="text-[#DC3173] hover:underline">
+            <a href="tel:+351920136680" className="text-[#DC3173] hover:underline">
               +351 920 136 680
             </a>
           </p>
@@ -95,7 +95,7 @@ export default function FooterUltra() {
           {/* Mini CTA */}
           <div className="mt-4">
             <Link
-              href="/signup"
+              href="/become-agent"
               className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#DC3173] text-white text-sm font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
             >
               Become an Agent

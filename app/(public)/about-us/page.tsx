@@ -21,7 +21,7 @@ export default function AboutUs() {
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#DC3173] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition"
-                href="/signup"
+                href="/become-agent"
               >
                 Join Us Now
                 <Rocket className="w-5 h-5" />
@@ -112,7 +112,7 @@ export default function AboutUs() {
         </p>
         <motion.a
           whileHover={{ scale: 1.05 }}
-          href="/signup"
+          href="/become-agent"
           className="mt-6 inline-flex items-center gap-2 px-8 py-4 bg-white text-[#DC3173] font-semibold rounded-full shadow-lg hover:shadow-xl transition"
         >
           Register Now

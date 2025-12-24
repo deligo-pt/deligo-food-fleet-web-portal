@@ -158,7 +158,7 @@ export default function AgentHeroBackground() {
 
                 <div className="mt-6">
                   <Link
-                    href="/signup"
+                    href="/become-agent"
                     className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#DC3173] text-white font-bold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-200"
                   >
                     Register Now

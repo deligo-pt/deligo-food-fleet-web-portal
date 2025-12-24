@@ -6,7 +6,7 @@ import { ShieldCheck, FileText, Download,} from "lucide-react";
 
 // Default company details (you can replace these with real values)
 const COMPANY_NAME = "DeliGo";
-const COMPANY_EMAIL = "privacy@deligo.pt";
+const COMPANY_EMAIL = "contact@deligo.pt";
 const COMPANY_PHONE = "+351 920 136 680";
 const COMPANY_ADDRESS = "Lisbon, Portugal";
 const EFFECTIVE_DATE = "October 25, 2025";
