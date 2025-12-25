@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { TResponse } from "@/types";
 import { setCookie } from "@/utils/cookies";
+import { getAndSaveFcmToken } from "@/utils/fcmToken";
 import { postData } from "@/utils/requests";
 import { motion } from "framer-motion";
 import { Clock, RefreshCcw } from "lucide-react";
@@ -65,6 +66,10 @@ export default function VerifyOtp({ email }: { email: string }) {
           setCookie("accessToken", result.data.accessToken, 7);
           setCookie("refreshToken", result.data.refreshToken, 365);
           toast.success("OTP verified successfully!", { id: toastId });
+
+          // get and save fcm token
+          getAndSaveFcmToken(result.data.accessToken);
+
           router.push("/become-agent/personal-details");
           return;
         }
