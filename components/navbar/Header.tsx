@@ -1,23 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { TFleetManager } from "@/types/fleet-manager.type";
+import { removeCookie } from "@/utils/cookies";
+import { Globe, Menu, X } from "lucide-react";
 import Image from "next/image";
-import { Menu, X, Globe } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface NavbarProps {
-  user?: {
-    name: string;
-    avatar: string;
-  };
+  fleetData: TFleetManager;
 }
 
-const Header: React.FC<NavbarProps> = ({ user }) => {
+const Header: React.FC<NavbarProps> = ({ fleetData }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
 
   // Handle scroll effect for sticky navbar shadow
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const logOut = () => {
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+    router.refresh();
+  };
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -90,39 +99,48 @@ const Header: React.FC<NavbarProps> = ({ user }) => {
             <Globe className="w-5 h-5 text-black" />
           </button>
 
-
           {/* Auth Button or Avatar */}
-          {user ? (
-            <div className="ml-4">
-              <Image
-                src={user.avatar}
-                alt={user.name}
-                width={36}
-                height={36}
-                className="rounded-full border-2 border-[#DC3173]"
-              />
-            </div>
-          ) : (
-            <Link
-              href="/login"
-              className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold"
-            >
-              Login / Sign Up
-            </Link>
-          )}
-        </div>
+          {
+            fleetData?.email ? (
+              <>
+                {/* Dashboard Button */}
+                <Link
+                  href="/agent/dashboard"
+                  className="ml-4 px-5 py-2 bg-[#DC3173] text-white font-semibold rounded-lg hover:bg-[#a72b5c] transition-all"
+                >
+                  Dashboard
+                </Link>
+                {/* Logout Button */}
+                <Button
+                  onClick={logOut}
+                  variant="outline"
+                  className="ml-4 px-5 border-[#DC3173] text-[#DC3173] font-semibold rounded-lg shadow-md hover:bg-[#DC3173] hover:text-white hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold"
+              >
+                Login / Sign Up
+              </Link>
+            )
+          }
+        </div >
 
         {/* Mobile Menu Button */}
-        <button
+        < button
           onClick={() => setIsMobileMenuOpen(true)}
           className="md:hidden p-2 rounded-md hover:bg-white  transition-colors"
         >
           <Menu className="w-6 h-6 text-black " />
-        </button>
-      </nav>
+        </button >
+      </nav >
 
       {/* Mobile Drawer */}
-      <div
+      < div
         className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
@@ -143,6 +161,15 @@ const Header: React.FC<NavbarProps> = ({ user }) => {
           >
             Home
           </Link>
+          {fleetData?.email && (
+            <Link
+              href="/agent/dashboard"
+              className="text-black  hover:text-[#DC3173] transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Dashboard
+            </Link>
+          )}
           <Link
             href="/about"
             className="text-black  hover:text-[#DC3173] transition-colors"
@@ -165,19 +192,20 @@ const Header: React.FC<NavbarProps> = ({ user }) => {
             <Globe className="w-5 h-5" /> Language
           </button>
 
-
-          {!user && (
-            <Link
-              href="/login"
-              className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Login / Sign Up
-            </Link>
-          )}
-        </div>
-      </div>
-    </header>
+          {
+            !fleetData?.email && (
+              <Link
+                href="/login"
+                className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Login / Sign Up
+              </Link>
+            )
+          }
+        </div >
+      </div >
+    </header >
   );
 };
 
