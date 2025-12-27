@@ -39,7 +39,7 @@ export default function TermsOfService() {
               </a>
 
               <Link
-                href="/signup"
+                href="/become-agent"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transition-all"
               >
                 Become an Agent
@@ -59,10 +59,10 @@ export default function TermsOfService() {
                 <p className="text-sm text-gray-700">
                   Need Help? <br />
                   <a
-                    href="mailto:support@deligo.pt"
-                    className="text-[#DC3173] font-medium hover:underline break-words"
+                    href="mailto:contact@deligo.pt"
+                    className="text-[#DC3173] font-medium hover:underline wrap-break-word"
                   >
-                    support@deligo.pt
+                    contact@deligo.pt
                   </a>
                 </p>
               </div>
@@ -158,26 +158,26 @@ export default function TermsOfService() {
               text: `These Terms follow Portuguese law. Disputes will be resolved in Lisbon’s competent courts.`,
             },
           ].map((item, i) => (
-          <div
-  key={i}
-  id={item.id}
-  className="relative group animate-fade-up pl-6 sm:pl-0"
->
-  {/* Icon */}
-  <div className="absolute left-0 sm:-left-6 top-1 text-[#DC3173]/60 group-hover:text-[#DC3173] transition-all">
-    <CheckCircle2 className="w-5 h-5" />
-  </div>
+            <div
+              key={i}
+              id={item.id}
+              className="relative group animate-fade-up pl-6 sm:pl-0"
+            >
+              {/* Icon */}
+              <div className="absolute left-0 sm:-left-6 top-1 text-[#DC3173]/60 group-hover:text-[#DC3173] transition-all">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
 
-  {/* Title */}
-  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-    {item.title}
-  </h2>
+              {/* Title */}
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                {item.title}
+              </h2>
 
-  {/* Paragraph */}
-  <p className="text-gray-700 leading-relaxed text-sm sm:text-base md:text-lg">
-    {item.text}
-  </p>
-</div>
+              {/* Paragraph */}
+              <p className="text-gray-700 leading-relaxed text-sm sm:text-base md:text-lg">
+                {item.text}
+              </p>
+            </div>
           ))}
 
           <div className="pt-10 border-t border-gray-200 text-sm text-gray-600 text-center">

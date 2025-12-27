@@ -71,7 +71,7 @@ export default function UniqueBenefitsSection() {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="/signup"
+            href="/become-agent"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transition-all"
           >
             Join Now

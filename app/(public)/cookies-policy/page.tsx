@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FileText,  CheckCircle } from "lucide-react";
+import { FileText, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CookiesPolicy() {
@@ -26,13 +26,13 @@ export default function CookiesPolicy() {
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link
-                href="/register-agent"
+                href="/become-agent"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#DC3173] text-white font-semibold shadow-lg hover:shadow-xl transition"
               >
                 Become an Agent
               </Link>
               <Link
-                href="/privacy-policy"
+                href="/PrivacyPolicy"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-gray-200 text-gray-900 shadow-sm hover:shadow-md transition"
               >
                 Privacy Policy
@@ -52,7 +52,7 @@ export default function CookiesPolicy() {
               <div className="mt-4 border-t border-gray-100 pt-4">
                 <h4 className="text-sm font-medium text-gray-800">Need Help?</h4>
                 <p className="text-sm text-gray-600 mt-1">
-                  Email: <a href="mailto:support@deligo.pt" className="text-[#DC3173]">support@deligo.pt</a>
+                  Email: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a>
                 </p>
               </div>
             </motion.div>
@@ -110,10 +110,10 @@ export default function CookiesPolicy() {
             <section id="types">
               <h2>3. Types of Cookies We Use</h2>
               <ul className="space-y-2">
-                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2"/> Strictly Necessary: Login, navigation, and security.</li>
-                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2"/> Analytics: Gather platform usage data.</li>
-                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2"/> Preferences: Language, theme, or region settings.</li>
-                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2"/> Marketing: Personalize offers and track campaigns.</li>
+                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2" /> Strictly Necessary: Login, navigation, and security.</li>
+                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2" /> Analytics: Gather platform usage data.</li>
+                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2" /> Preferences: Language, theme, or region settings.</li>
+                <li><CheckCircle className="inline w-5 h-5 text-green-500 mr-2" /> Marketing: Personalize offers and track campaigns.</li>
               </ul>
             </section>
 
@@ -179,8 +179,8 @@ export default function CookiesPolicy() {
               </p>
               <p className="mt-2 text-sm text-gray-700">
                 PIXELMIRACLE LDA/DeliGo — Lisbon, Portugal<br />
-                Email: <a href="mailto:support@deligo.pt" className="text-[#DC3173]">support@deligo.pt</a><br />
-                Phone: <a href="tel:+351 920 136 680" className="text-[#DC3173]">+351 920 136 680</a>
+                Email: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a><br />
+                Phone: <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a>
               </p>
             </section>
 

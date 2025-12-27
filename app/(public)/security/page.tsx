@@ -38,7 +38,7 @@ export default function SecurityPage() {
               <div className="mt-4 border-t border-gray-100 pt-4">
                 <h4 className="text-sm font-medium text-gray-800">Need Support?</h4>
                 <p className="text-sm text-gray-600 mt-1">
-                  Email: <a href="mailto:support@deligo.pt" className="text-[#DC3173]">support@deligo.pt</a>
+                  Email: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a>
                 </p>
               </div>
             </motion.div>
@@ -87,9 +87,9 @@ export default function SecurityPage() {
             <section id="access">
               <h2>3. Access Controls</h2>
               <ul className="space-y-2">
-                <li><Lock className="inline w-5 h-5 text-blue-500 mr-2"/> Role-based access for agents and admins</li>
-                <li><Key className="inline w-5 h-5 text-blue-500 mr-2"/> Regular access audits to ensure compliance</li>
-                <li><ShieldCheck className="inline w-5 h-5 text-blue-500 mr-2"/> Secure session management with automatic timeouts</li>
+                <li><Lock className="inline w-5 h-5 text-blue-500 mr-2" /> Role-based access for agents and admins</li>
+                <li><Key className="inline w-5 h-5 text-blue-500 mr-2" /> Regular access audits to ensure compliance</li>
+                <li><ShieldCheck className="inline w-5 h-5 text-blue-500 mr-2" /> Secure session management with automatic timeouts</li>
               </ul>
             </section>
 
@@ -124,8 +124,8 @@ export default function SecurityPage() {
               </p>
               <p className="mt-2 text-sm text-gray-700">
                 PIXELMIRACLE LDA/DeliGo — Lisbon, Portugal<br />
-                Email: <a href="mailto:support@deligo.pt" className="text-[#DC3173]">support@deligo.pt</a><br />
-                Phone: <a href="tel:+351 920 136 680" className="text-[#DC3173]">+351 920 136 680</a>
+                Email: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a><br />
+                Phone: <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a>
               </p>
             </section>
 

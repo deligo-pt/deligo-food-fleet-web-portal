@@ -59,7 +59,7 @@ export default function HowItWorks() {
 
         <div className="mt-12">
           <Link
-            href="/signup"
+            href="/become-agent"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transition-all"
           >
             Register Now

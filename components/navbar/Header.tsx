@@ -13,9 +13,10 @@ interface NavbarProps {
   fleetData: TFleetManager;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ fleetData }) => {
+const Header: React.FC<NavbarProps> = ({ fleetData }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
+
 
   // Handle scroll effect for sticky navbar shadow
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,11 +33,12 @@ const Navbar: React.FC<NavbarProps> = ({ fleetData }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+
   return (
     <header
-      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${
-        isScrolled ? "shadow-md" : ""
-      } bg-white text-black`}
+      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${isScrolled ? "shadow-md" : ""
+        } bg-white text-black`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo Section */}
@@ -98,48 +100,49 @@ const Navbar: React.FC<NavbarProps> = ({ fleetData }) => {
           </button>
 
           {/* Auth Button or Avatar */}
-          {fleetData?.email ? (
-            <>
-              {/* Dashboard Button */}
+          {
+            fleetData?.email ? (
+              <>
+                {/* Dashboard Button */}
+                <Link
+                  href="/agent/dashboard"
+                  className="ml-4 px-5 py-2 bg-[#DC3173] text-white font-semibold rounded-lg hover:bg-[#a72b5c] transition-all"
+                >
+                  Dashboard
+                </Link>
+                {/* Logout Button */}
+                <Button
+                  onClick={logOut}
+                  variant="outline"
+                  className="ml-4 px-5 border-[#DC3173] text-[#DC3173] font-semibold rounded-lg shadow-md hover:bg-[#DC3173] hover:text-white hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
               <Link
-                href="/agent/dashboard"
-                className="ml-4 px-5 py-2 bg-[#DC3173] text-white font-semibold rounded-lg hover:bg-[#a72b5c] transition-all"
+                href="/login"
+                className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold"
               >
-                Dashboard
+                Login / Sign Up
               </Link>
-              {/* Logout Button */}
-              <Button
-                onClick={logOut}
-                variant="outline"
-                className="ml-4 px-5 border-[#DC3173] text-[#DC3173] font-semibold rounded-lg shadow-md hover:bg-[#DC3173] hover:text-white hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <Link
-              href="/login"
-              className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold"
-            >
-              Login / Sign Up
-            </Link>
-          )}
-        </div>
+            )
+          }
+        </div >
 
         {/* Mobile Menu Button */}
-        <button
+        < button
           onClick={() => setIsMobileMenuOpen(true)}
           className="md:hidden p-2 rounded-md hover:bg-white  transition-colors"
         >
           <Menu className="w-6 h-6 text-black " />
-        </button>
-      </nav>
+        </button >
+      </nav >
 
       {/* Mobile Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+      < div
+        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <span className="font-bold text-xl text-[#DC3173]">DeliGo</span>
@@ -189,19 +192,21 @@ const Navbar: React.FC<NavbarProps> = ({ fleetData }) => {
             <Globe className="w-5 h-5" /> Language
           </button>
 
-          {!fleetData?.email && (
-            <Link
-              href="/login"
-              className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Login / Sign Up
-            </Link>
-          )}
-        </div>
-      </div>
-    </header>
+          {
+            !fleetData?.email && (
+              <Link
+                href="/login"
+                className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Login / Sign Up
+              </Link>
+            )
+          }
+        </div >
+      </div >
+    </header >
   );
 };
 
-export default Navbar;
+export default Header;
