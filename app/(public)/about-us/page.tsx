@@ -2,20 +2,23 @@
 
 import { Users, Globe, Rocket, Award } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function AboutUs() {
+  const { t } = useTranslation();
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FFF0F4] to-[#FFE8F2] overflow-x-hidden">
+    <main className="min-h-screen bg-linear-to-b from-[#FFF0F4] to-[#FFE8F2] overflow-x-hidden">
       {/* Hero Section */}
       <header className="relative py-16 sm:py-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-10 sm:gap-12">
           {/* Left Hero Content */}
           <div className="lg:w-1/2 w-full text-center lg:text-left">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#DC3173] leading-tight">
-              About Us — PIXELMIRACLE LDA / DeliGo
+              {t("about_us_header")}
             </h1>
             <p className="mt-4 sm:mt-6 text-gray-800 text-base sm:text-lg max-w-md sm:max-w-xl mx-auto lg:mx-0">
-              Our mission is to empower Fleet Managers and Agents across Portugal to efficiently manage their operations, monitor delivery drivers, and grow their business while ensuring the highest standards of safety and reliability.
+              {t("about_us_desc")}
             </p>
             <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-3 justify-center lg:justify-start">
               <motion.a
@@ -23,7 +26,7 @@ export default function AboutUs() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#DC3173] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition"
                 href="/become-agent"
               >
-                Join Us Now
+                {t("join_us_now")}
                 <Rocket className="w-5 h-5" />
               </motion.a>
               <motion.a
@@ -31,7 +34,7 @@ export default function AboutUs() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-[#DC3173] font-semibold rounded-full shadow hover:shadow-md transition"
                 href="/contact-us"
               >
-                Contact Us
+                {t("contact_us")}
                 <Users className="w-5 h-5" />
               </motion.a>
             </div>
@@ -63,14 +66,14 @@ export default function AboutUs() {
             transition={{ duration: 1 }}
             className="space-y-6"
           >
-            <h2 className="text-4xl font-extrabold text-[#DC3173]">Our Mission</h2>
+            <h2 className="text-4xl font-extrabold text-[#DC3173]">{t("our_mission")}</h2>
             <p className="text-gray-800 text-lg sm:text-xl">
-              To provide a reliable, innovative, and secure platform that empowers Fleet Managers and Agents to streamline operations, connect with verified delivery professionals, and maximize efficiency in the logistics ecosystem across Portugal.
+              {t("our_mission_desc")}
             </p>
 
-            <h2 className="text-4xl font-extrabold text-[#DC3173] mt-8">Our Vision</h2>
+            <h2 className="text-4xl font-extrabold text-[#DC3173] mt-8">{t("our_vision")}</h2>
             <p className="text-gray-800 text-lg sm:text-xl">
-              We envision a future where every city in Portugal has empowered and successful fleet management teams, seamlessly connected through our platform, driving transparency, safety, and sustainable growth.
+              {t("We envision a future where every city in Portugal has empowered and successful fleet management teams, seamlessly connected through our platform, driving transparency, safety, and sustainable growth.")}
             </p>
           </motion.div>
 
@@ -80,25 +83,25 @@ export default function AboutUs() {
             transition={{ duration: 1 }}
             className="grid grid-cols-1 sm:grid-cols-2 gap-6"
           >
-            <div className="p-6 rounded-2xl bg-gradient-to-tr from-[#FFE0F4] to-[#FFF0F4] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
+            <div className="p-6 rounded-2xl bg-linear-to-tr from-[#FFE0F4] to-[#FFF0F4] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
               <Users className="w-10 h-10 text-[#DC3173] mb-4" />
-              <h3 className="font-semibold text-lg">Empowering People</h3>
-              <p className="text-gray-700 text-sm mt-2">We prioritize support, training, and resources for fleet managers and agents.</p>
+              <h3 className="font-semibold text-lg">{t("empowering_people")}</h3>
+              <p className="text-gray-700 text-sm mt-2">{t("empowering_desc")}</p>
             </div>
-            <div className="p-6 rounded-2xl bg-gradient-to-tr from-[#FFF5E0] to-[#FFE8F2] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
+            <div className="p-6 rounded-2xl bg-linear-to-tr from-[#FFF5E0] to-[#FFE8F2] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
               <Globe className="w-10 h-10 text-[#DC3173] mb-4" />
-              <h3 className="font-semibold text-lg">Nationwide Reach</h3>
-              <p className="text-gray-700 text-sm mt-2">Connecting every city in Portugal to a unified logistics ecosystem.</p>
+              <h3 className="font-semibold text-lg">{t("nationwide_reach")}</h3>
+              <p className="text-gray-700 text-sm mt-2">{t("nationwide_desc")}</p>
             </div>
-            <div className="p-6 rounded-2xl bg-gradient-to-tr from-[#E0F4FF] to-[#F0F8FF] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
+            <div className="p-6 rounded-2xl bg-linear-to-tr from-[#E0F4FF] to-[#F0F8FF] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
               <Rocket className="w-10 h-10 text-[#DC3173] mb-4" />
-              <h3 className="font-semibold text-lg">Innovation & Growth</h3>
-              <p className="text-gray-700 text-sm mt-2">Leveraging modern technology to enhance delivery operations and efficiency.</p>
+              <h3 className="font-semibold text-lg">{t("innovation_growth")}</h3>
+              <p className="text-gray-700 text-sm mt-2">{t("innovation_desc")}</p>
             </div>
-            <div className="p-6 rounded-2xl bg-gradient-to-tr from-[#FFE0F0] to-[#FFF0F4] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
+            <div className="p-6 rounded-2xl bg-linear-to-tr from-[#FFE0F0] to-[#FFF0F4] shadow-lg flex flex-col items-center text-center hover:scale-105 transition">
               <Award className="w-10 h-10 text-[#DC3173] mb-4" />
-              <h3 className="font-semibold text-lg">Trusted & Secure</h3>
-              <p className="text-gray-700 text-sm mt-2">Ensuring data protection, compliance, and reliable service for every agent.</p>
+              <h3 className="font-semibold text-lg">{t("trusted_secure")}</h3>
+              <p className="text-gray-700 text-sm mt-2">{t("trusted_desc")}</p>
             </div>
           </motion.div>
         </div>
@@ -106,16 +109,16 @@ export default function AboutUs() {
 
       {/* Call-to-Action */}
       <section className="bg-[#DC3173] py-20 text-center text-white">
-        <h2 className="text-4xl font-extrabold">Join Our Fleet Community Today</h2>
+        <h2 className="text-4xl font-extrabold">{t("join_our_fleet_community")}</h2>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          Become a verified Fleet Manager / Agent in Portugal and access tools, support, and verified delivery professionals to grow your business.
+          {t("fleet_community_desc")}
         </p>
         <motion.a
           whileHover={{ scale: 1.05 }}
           href="/become-agent"
           className="mt-6 inline-flex items-center gap-2 px-8 py-4 bg-white text-[#DC3173] font-semibold rounded-full shadow-lg hover:shadow-xl transition"
         >
-          Register Now
+          {t("registerNow")}
           <Rocket className="w-5 h-5" />
         </motion.a>
       </section>
