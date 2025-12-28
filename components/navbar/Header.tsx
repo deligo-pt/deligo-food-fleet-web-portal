@@ -8,6 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { useStore } from "@/store/store";
 
 interface NavbarProps {
   fleetData: TFleetManager;
@@ -16,6 +18,7 @@ interface NavbarProps {
 const Header: React.FC<NavbarProps> = ({ fleetData }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
+  const { lang, setLang } = useStore();
 
 
   // Handle scroll effect for sticky navbar shadow
@@ -92,12 +95,20 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
           </Link>
 
           {/* Language & Dark Mode */}
-          <button
-            onClick={() => alert("Language toggle clicked!")}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          <Select
+            value={lang}
+            onValueChange={(value: 'en' | 'pt') => {
+              setLang(value)
+            }}
           >
-            <Globe className="w-5 h-5 text-black" />
-          </button>
+            <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">EN</SelectItem>
+              <SelectItem value="pt">PT</SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* Auth Button or Avatar */}
           {
@@ -185,12 +196,21 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
             How It Works
           </Link>
 
-          <button
-            onClick={() => alert("Language toggle clicked!")}
-            className="flex items-center gap-2 text-black  hover:text-[#DC3173]"
+          {/* Language & Dark Mode */}
+          <Select
+            value={lang}
+            onValueChange={(value: 'en' | 'pt') => {
+              setLang(value)
+            }}
           >
-            <Globe className="w-5 h-5" /> Language
-          </button>
+            <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">EN</SelectItem>
+              <SelectItem value="pt">PT</SelectItem>
+            </SelectContent>
+          </Select>
 
           {
             !fleetData?.email && (
