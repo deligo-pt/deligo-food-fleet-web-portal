@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { getCookie } from "@/utils/cookies";
 import { fetchData, updateData } from "@/utils/requests";
@@ -29,6 +30,7 @@ type BusinessForm = {
 };
 
 export default function BusinessDetailsPage() {
+  const { t } = useTranslation();
   const form = useForm<BusinessForm>({
     resolver: zodResolver(businessDetailsValidation),
     defaultValues: {
@@ -133,15 +135,15 @@ export default function BusinessDetailsPage() {
             variant="link"
             className="inline-flex items-center px-4 text-sm gap-2 text-[#DC3173] p-0 h-4 cursor-pointer"
           >
-            <ArrowLeftCircle /> Go Back
+            <ArrowLeftCircle /> {t("go_back")}
           </Button>
         </div>
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold text-[#DC3173]">
-            Business Details
+            {t("businessDetails")}
           </CardTitle>
           <p className="text-center text-gray-500 mt-1 text-sm">
-            Fill in your business information to complete registration
+            {t("businessDetailsDesc")}
           </p>
         </CardHeader>
 
@@ -151,7 +153,7 @@ export default function BusinessDetailsPage() {
               {/* ========== Section 1: Basic Info ========== */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-3 border-b pb-1">
-                  🏢 Basic Information
+                  {t("basicInformation")}
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -212,7 +214,7 @@ export default function BusinessDetailsPage() {
                   type="submit"
                   className="w-full h-12 bg-[#DC3173] hover:bg-[#b12b61] text-white text-lg font-semibold shadow-md hover:shadow-lg transition-all"
                 >
-                  Save & Continue
+                  {t("saveContinue")}
                 </Button>
               </motion.div>
             </form>

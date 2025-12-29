@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
@@ -29,6 +30,7 @@ type LoginFormInputs = {
 };
 
 export default function LoginForm({ redirect }: { redirect?: string }) {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginValidation),
@@ -99,7 +101,7 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
       {/* Glassmorphic Card */}
       <div className="relative z-10 w-full max-w-md p-10 bg-white/60 backdrop-blur-lg rounded-3xl shadow-2xl">
         <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
-          Welcome Back
+          {t("welcome_back")}
         </h1>
 
         <Form {...form}>
@@ -172,29 +174,29 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
               type="submit"
               className="w-full py-3 flex items-center justify-center gap-2 rounded-full bg-[#DC3173] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
             >
-              Login <Send className="w-4 h-4" />
+              {t("login")} <Send className="w-4 h-4" />
             </button>
           </form>
         </Form>
 
         {/* Forgot Password */}
         <p className="text-gray-400 text-center mt-4">
-          Forgot your password?{" "}
+          {t("forgot_password")}{" "}
           <Link
             href="/forgot-password"
             className="text-pink-400 font-medium hover:underline"
           >
-            Reset here
+            {t("reset_here")}
           </Link>
         </p>
 
         <p className="mt-6 text-center text-gray-700 text-sm">
-          Don&apos;t have an account?{" "}
+          {t("donot_have_an_account")} {" "}
           <Link
             href="/become-agent"
             className="text-[#DC3173] font-medium hover:underline"
           >
-            Register Fleet Manager
+            {t("register_fleet_manager")}
           </Link>
         </p>
       </div>

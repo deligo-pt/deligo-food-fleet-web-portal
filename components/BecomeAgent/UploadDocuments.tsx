@@ -24,21 +24,9 @@ import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/use-translation";
 
 type DocKey = "businessLicense" | "idProof";
-
-const DOCUMENTS: {
-  key: DocKey;
-  label: string;
-  prefersImagePreview: boolean;
-}[] = [
-  {
-    key: "businessLicense",
-    label: "Business License",
-    prefersImagePreview: false,
-  },
-  { key: "idProof", label: "ID Proof", prefersImagePreview: true },
-];
 
 type FilePreview = {
   file: File | null;
@@ -51,9 +39,23 @@ export default function UploadDocuments({
 }: {
   savedPreviews: Record<DocKey, FilePreview | null>;
 }) {
+  const { t } = useTranslation();
   // store one preview per doc key
   const [previews, setPreviews] =
     useState<Record<DocKey, FilePreview | null>>(savedPreviews);
+
+  const DOCUMENTS: {
+    key: DocKey;
+    label: string;
+    prefersImagePreview: boolean;
+  }[] = [
+      {
+        key: "businessLicense",
+        label: t('documentsLabel1'),
+        prefersImagePreview: false,
+      },
+      { key: "idProof", label: t("documentsLabel2"), prefersImagePreview: true },
+    ];
 
   // file input refs to trigger the browser picker
   const inputsRef = useRef<Record<string, HTMLInputElement | null>>({});
@@ -286,7 +288,7 @@ export default function UploadDocuments({
               variant="link"
               className="inline-flex items-center px-4 text-sm gap-2 text-[#DC3173] p-0 h-4 absolute -top-2 z-10 cursor-pointer"
             >
-              <ArrowLeftCircle /> Go Back
+              <ArrowLeftCircle /> {t("go_back")}
             </Button>
           </div>
           <CardHeader className="bg-linear-to-r from-[#DC3173] to-pink-600 p-6 text-white">
@@ -296,11 +298,10 @@ export default function UploadDocuments({
               </div>
               <div>
                 <CardTitle className="text-2xl font-semibold tracking-wide">
-                  Upload Your Documents
+                  {t('uploadDocuments')}
                 </CardTitle>
                 <p className="mt-2 text-sm text-white/90 max-w-2xl leading-relaxed">
-                  Select each required document. Once all 5 are selected, you
-                  will see the registration success modal.
+                  {t('uploadDocDesc')}
                 </p>
               </div>
             </div>
@@ -317,17 +318,15 @@ export default function UploadDocuments({
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.06 }}
-                    className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${
-                      isSelected
-                        ? "border-[#DC3173]/30 bg-[#FFF7FB]"
-                        : "bg-white"
-                    }`}
+                    className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${isSelected
+                      ? "border-[#DC3173]/30 bg-[#FFF7FB]"
+                      : "bg-white"
+                      }`}
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-14 h-14 rounded-lg flex items-center justify-center ${
-                          isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
-                        }`}
+                        className={`w-14 h-14 rounded-lg flex items-center justify-center ${isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
+                          }`}
                       >
                         {d.prefersImagePreview ? (
                           <ImageIcon className="w-6 h-6 text-[#DC3173]" />
@@ -370,7 +369,7 @@ export default function UploadDocuments({
                               </div>
                             )
                           ) : (
-                            <span>No file selected</span>
+                            <span>{t("noFileSelected")}</span>
                           )}
                         </div>
                       </div>
@@ -403,14 +402,14 @@ export default function UploadDocuments({
                             }
                             className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm border border-gray-200 hover:shadow"
                           >
-                            <Eye className="w-4 h-4 text-[#DC3173]" /> View
+                            <Eye className="w-4 h-4 text-[#DC3173]" /> {t("viewCTA")}
                           </button>
 
                           <button
                             onClick={() => removeFile(d.key)}
                             className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm text-gray-600 border border-gray-100 hover:bg-gray-50"
                           >
-                            Remove
+                            {t("remoteCTA")}
                           </button>
                         </>
                       ) : (
@@ -419,7 +418,7 @@ export default function UploadDocuments({
                           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
                         >
                           <UploadCloud className="w-4 h-4" />
-                          Select file
+                          {t("selectFileCTA")}
                         </button>
                       )}
                     </div>
@@ -430,8 +429,7 @@ export default function UploadDocuments({
 
             <div className="pt-6">
               <div className="text-sm text-gray-500">
-                Tip: you can preview images and view filenames for selected
-                PDFs.
+                {t("tipDesc")}
               </div>
             </div>
             <div className="pt-4">
@@ -440,7 +438,7 @@ export default function UploadDocuments({
                 onClick={handleContinue}
                 className="bg-[#DC3173] hover:bg-[#b72a63] text-white px-6 py-3 rounded-xl shadow-lg"
               >
-                Complete Registration
+                {t("completeRegistrationCTA")}
               </Button>
             </div>
           </CardContent>
@@ -483,12 +481,10 @@ export default function UploadDocuments({
                   </div>
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">
-                  🎉 Registration Complete
+                  {t("registrationComplete")}
                 </h2>
                 <p className="mt-3 text-sm text-gray-600">
-                  Your Fleet Manager application has submitted successfully! An
-                  admin will review your application and activate your Fleet
-                  Manager account within 24-48 hours.
+                  {t("registrationCompleteDesc")}
                 </p>
 
                 <div className="mt-6 flex items-center justify-center gap-3">
@@ -498,7 +494,7 @@ export default function UploadDocuments({
                     }
                     className="bg-[#DC3173] hover:bg-[#b72a63] text-white px-6 py-3 rounded-xl shadow-lg"
                   >
-                    See registration status
+                    {t("seeRegistrationStatus")}
                   </Button>
 
                   <button
@@ -509,7 +505,7 @@ export default function UploadDocuments({
                     }}
                     className="px-4 py-3 rounded-xl border border-gray-200 text-sm"
                   >
-                    Go Home
+                    {t("goHome")}
                   </button>
                 </div>
               </div>

@@ -3,62 +3,58 @@
 import { Users, Globe, TrendingUp, Shield, Clock, Activity, Smile } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function LearnMore() {
+  const { t } = useTranslation();
+
   const features = [
     {
-      title: "Why Join as a Fleet Manager?",
-      description:
-        "Operate your delivery fleet with ease, earn reliably, and gain insights that help your business grow across Portugal.",
+      title: t("learn_feature_title1"),
+      description: t("learn_feature_desc1"),
       icon: <Users className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#FF5FA2] to-[#DC3173]",
     },
     {
-      title: "Manage Anywhere",
-      description:
-        "Track drivers, monitor deliveries, and manage operations from Lisbon to Porto or any city in Portugal, all in real-time.",
+      title: t("learn_feature_title2"),
+      description: t("learn_feature_desc2"),
       icon: <Globe className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#3B82F6] to-[#2563EB]",
     },
     {
-      title: "Scale Your Business",
-      description:
-        "Add multiple verified delivery drivers, track performance, and maximize your earnings with transparent payouts.",
+      title: t("learn_feature_title3"),
+      description: t("learn_feature_desc3"),
       icon: <TrendingUp className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#10B981] to-[#047857]",
     },
     {
-      title: "Data Security & GDPR Compliant",
-      description:
-        "Your personal and fleet data are safe. We adhere strictly to GDPR and secure your fleet information.",
+      title: t("learn_feature_title4"),
+      description: t("learn_feature_desc4"),
       icon: <Shield className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#FBBF24] to-[#F59E0B]",
     },
     {
-      title: "Flexible Work Hours",
-      description:
-        "Set your own schedule and manage drivers at your convenience. Full control with minimum hassle.",
+      title: t("learn_feature_title5"),
+      description: t("learn_feature_desc5"),
       icon: <Clock className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#F472B6] to-[#EC4899]",
     },
     {
-      title: "Real-Time Analytics",
-      description:
-        "Get live reports on deliveries, driver performance, and earnings to make informed decisions instantly.",
+      title: t("learn_feature_title6"),
+      description: t("learn_feature_desc6"),
       icon: <Activity className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#3B82F6] to-[#6366F1]",
     },
     {
-      title: "Support & Guidance",
-      description:
-        "Our team in Portugal provides full support and guidance to help you grow your fleet business efficiently.",
+      title: t("learn_feature_title7"),
+      description: t("learn_feature_desc7"),
       icon: <Smile className="w-6 h-6 text-white" />,
       bg: "bg-gradient-to-r from-[#FCD34D] to-[#FBBF24]",
     },
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FFF0F4] to-[#FFF9FB] relative overflow-hidden">
+    <main className="min-h-screen bg-linear-to-b from-[#FFF0F4] to-[#FFF9FB] relative overflow-hidden">
       {/* Hero Section */}
       <header className="text-center py-32 px-6 relative">
         <motion.h1
@@ -67,7 +63,7 @@ export default function LearnMore() {
           transition={{ duration: 1 }}
           className="text-5xl sm:text-6xl font-extrabold text-[#DC3173] leading-tight"
         >
-          Learn More About Fleet/Agent Management in Portugal
+          {t("learn_more_fleet_management")}
         </motion.h1>
         <motion.p
           initial={{ y: 20, opacity: 0 }}
@@ -75,7 +71,7 @@ export default function LearnMore() {
           transition={{ duration: 1, delay: 0.3 }}
           className="mt-6 text-gray-700 text-lg sm:text-xl max-w-3xl mx-auto"
         >
-          Discover how you can efficiently manage delivery fleets, grow your business, and ensure secure operations across every city in Portugal.
+          {t("learn_more_desc")}
         </motion.p>
 
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#FF8FB6]/20 blur-3xl animate-blob opacity-70"></div>
@@ -109,7 +105,7 @@ export default function LearnMore() {
           transition={{ duration: 1 }}
           className="text-4xl sm:text-5xl font-extrabold"
         >
-          Ready to Grow Your Fleet/Agent Business?
+          {t("ready_to_grow")}
         </motion.h2>
         <motion.p
           initial={{ y: 20, opacity: 0 }}
@@ -117,7 +113,7 @@ export default function LearnMore() {
           transition={{ duration: 1, delay: 0.3 }}
           className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto"
         >
-          Join DeliGo and take full control of your fleet/Agent operations anywhere in Portugal.
+          {t("learn_more_cta_desc")}
         </motion.p>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
@@ -129,9 +125,9 @@ export default function LearnMore() {
             href="/signup"
             className="inline-block px-10 py-4 bg-white text-[#DC3173] font-bold rounded-full shadow-lg hover:shadow-xl transition"
           >
-            Sign Up Now
+            {t("sign_up_now")}
           </Link>
-        
+
         </motion.div>
 
         <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-[#FF8FB6]/20 blur-3xl animate-blob opacity-70"></div>
