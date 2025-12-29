@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { getCookie } from "@/utils/cookies";
 import { fetchData, updateData } from "@/utils/requests";
@@ -36,6 +37,7 @@ type PersonalForm = {
 };
 
 export default function PersonalDetailsPage() {
+  const { t } = useTranslation();
   const form = useForm<PersonalForm>({
     resolver: zodResolver(personalDetailsValidation),
     defaultValues: {
@@ -143,7 +145,7 @@ export default function PersonalDetailsPage() {
               variant="link"
               className="inline-flex items-center px-4 text-sm gap-2 text-[#DC3173] p-0 h-4 cursor-pointer"
             >
-              <ArrowLeftCircle /> Go Home
+              <ArrowLeftCircle /> {t("go_home")}
             </Button>
           </div>
           <CardHeader className="text-center space-y-3">
@@ -158,10 +160,10 @@ export default function PersonalDetailsPage() {
               </div>
             </motion.div>
             <CardTitle className="text-2xl font-bold text-[#DC3173] tracking-wide">
-              Personal Details
+              {t("personalDetails")}
             </CardTitle>
             <p className="text-gray-500 text-sm">
-              Let’s start with your basic information
+              {t("personalDetailsDesc")}
             </p>
           </CardHeader>
 
@@ -319,7 +321,7 @@ export default function PersonalDetailsPage() {
                     type="submit"
                     className="w-full font-semibold py-3 rounded-xl bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white shadow-lg shadow-pink-200 hover:brightness-110 transition-all duration-300"
                   >
-                    Save & Continue
+                    {t("saveContinue")}
                   </Button>
                 </motion.div>
               </form>

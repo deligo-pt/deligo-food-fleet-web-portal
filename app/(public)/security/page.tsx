@@ -2,8 +2,11 @@
 
 import { ShieldCheck, Lock, Key, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function SecurityPage() {
+  const { t } = useTranslation();
+
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
@@ -14,14 +17,13 @@ export default function SecurityPage() {
               <div className="w-12 h-12 rounded-xl bg-[#DC3173] flex items-center justify-center text-white shadow-lg">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <span className="text-sm font-semibold uppercase text-[#DC3173] tracking-wider">Security & Safety</span>
+              <span className="text-sm font-semibold uppercase text-[#DC3173] tracking-wider">{t("security_safety")}</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-black leading-tight">
-              Security & Data Protection — Fleet Managers/Agents
+              {t("security_data_protection")}
             </h1>
             <p className="mt-6 text-gray-700 text-lg sm:text-xl max-w-3xl">
-              We prioritize your data and operational security. Learn how <strong>PIXELMIRACLE LDA/DeliGo</strong> safeguards
-              your account, information, and platform integrity.
+              {t("we_prioritize")} <strong>{t("pixelmiracle")}</strong> {t("safeguards_your_account")}
             </p>
           </div>
 
@@ -32,13 +34,13 @@ export default function SecurityPage() {
               transition={{ duration: 1.2 }}
               className="p-8 rounded-3xl bg-white shadow-2xl border border-gray-100"
             >
-              <h3 className="text-lg font-semibold text-gray-900">Effective Date</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t("effective_date")}</h3>
               <p className="mt-2 text-sm text-gray-600">October 25, 2025</p>
 
               <div className="mt-4 border-t border-gray-100 pt-4">
-                <h4 className="text-sm font-medium text-gray-800">Need Support?</h4>
+                <h4 className="text-sm font-medium text-gray-800">{t("need_support")}</h4>
                 <p className="text-sm text-gray-600 mt-1">
-                  Email: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a>
+                  {t("email")}: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a>
                 </p>
               </div>
             </motion.div>
@@ -53,15 +55,15 @@ export default function SecurityPage() {
           {/* Sidebar */}
           <aside className="hidden lg:block">
             <nav className="sticky top-28 space-y-4">
-              <h5 className="text-sm font-semibold text-gray-900 mb-2">On this page</h5>
+              <h5 className="text-sm font-semibold text-gray-900 mb-2">{t("on_this_page")}</h5>
               <ul className="space-y-2 text-sm">
-                <li><a href="#account" className="block text-gray-700 hover:text-[#DC3173]">Account Security</a></li>
-                <li><a href="#data" className="block text-gray-700 hover:text-[#DC3173]">Data Protection</a></li>
-                <li><a href="#access" className="block text-gray-700 hover:text-[#DC3173]">Access Controls</a></li>
-                <li><a href="#encryption" className="block text-gray-700 hover:text-[#DC3173]">Encryption Standards</a></li>
-                <li><a href="#alerts" className="block text-gray-700 hover:text-[#DC3173]">Monitoring & Alerts</a></li>
-                <li><a href="#gdpr" className="block text-gray-700 hover:text-[#DC3173]">GDPR Compliance</a></li>
-                <li><a href="#contact" className="block text-gray-700 hover:text-[#DC3173]">Contact</a></li>
+                <li><a href="#account" className="block text-gray-700 hover:text-[#DC3173]">{t("account_security")}</a></li>
+                <li><a href="#data" className="block text-gray-700 hover:text-[#DC3173]">{t("data_protection")}</a></li>
+                <li><a href="#access" className="block text-gray-700 hover:text-[#DC3173]">{t("access_controls")}</a></li>
+                <li><a href="#encryption" className="block text-gray-700 hover:text-[#DC3173]">{t("encryption_standards")}</a></li>
+                <li><a href="#alerts" className="block text-gray-700 hover:text-[#DC3173]">{t("monitoring_alerts")}</a></li>
+                <li><a href="#gdpr" className="block text-gray-700 hover:text-[#DC3173]">{t("gdpr_compliance")}</a></li>
+                <li><a href="#contact" className="block text-gray-700 hover:text-[#DC3173]">{t("contact")}</a></li>
               </ul>
             </nav>
           </aside>
@@ -69,69 +71,64 @@ export default function SecurityPage() {
           {/* Main Content */}
           <article className="lg:col-span-3 prose prose-neutral max-w-none space-y-10">
             <section id="account">
-              <h2>1. Account Security</h2>
+              <h2>1. {t("account_security")}</h2>
               <p>
-                We ensure your account is secure with multi-layered authentication and strict access policies.
-                Agents must create strong passwords, avoid sharing credentials, and enable two-factor authentication (2FA).
+                {t("we_ensure_your_account")}
               </p>
             </section>
 
             <section id="data">
-              <h2>2. Data Protection</h2>
+              <h2>2. {t("data_protection")}</h2>
               <p>
-                All personal and operational data is stored securely on servers located in EU-compliant data centers.
-                We follow GDPR guidelines and encrypt sensitive information to prevent unauthorized access.
+                {t("all_personal_operational")}
               </p>
             </section>
 
             <section id="access">
-              <h2>3. Access Controls</h2>
+              <h2>3. {t("access_controls")}</h2>
               <ul className="space-y-2">
-                <li><Lock className="inline w-5 h-5 text-blue-500 mr-2" /> Role-based access for agents and admins</li>
-                <li><Key className="inline w-5 h-5 text-blue-500 mr-2" /> Regular access audits to ensure compliance</li>
-                <li><ShieldCheck className="inline w-5 h-5 text-blue-500 mr-2" /> Secure session management with automatic timeouts</li>
+                <li><Lock className="inline w-5 h-5 text-blue-500 mr-2" /> {t("role_based_access")}</li>
+                <li><Key className="inline w-5 h-5 text-blue-500 mr-2" /> {t("regular_access_audits")}</li>
+                <li><ShieldCheck className="inline w-5 h-5 text-blue-500 mr-2" /> {t("secure_session")}</li>
               </ul>
             </section>
 
             <section id="encryption">
-              <h2>4. Encryption Standards</h2>
+              <h2>4. {t('encryption_standards')}</h2>
               <p>
-                We encrypt all sensitive data both at rest and in transit using industry-standard protocols.
-                SSL/TLS encryption ensures data safety during communication, and AES-256 is used for storage.
+                {t("we_encrypt_sensitive")}
               </p>
             </section>
 
             <section id="alerts">
-              <h2>5. Monitoring & Alerts</h2>
+              <h2>5. {t("monitoring_alerts")}</h2>
               <p>
-                Our platform continuously monitors for unusual activity. Agents and admins receive real-time alerts
-                for suspicious login attempts, unauthorized access, or security breaches.
+                {t("our_platform_continuously")}
               </p>
             </section>
 
             <section id="gdpr">
-              <h2>6. GDPR & Regulatory Compliance</h2>
+              <h2>6. {t("gdpr_regulatory_compliance")}</h2>
               <p>
-                All personal data handled by PIXELMIRACLE LDA/DeliGo complies with GDPR. Agents can request access, correction,
-                or deletion of personal information. We maintain transparent logs and secure processing.
+                {t("all_personal_data_handled")}
               </p>
             </section>
 
             <section id="contact">
-              <h2>7. Contact</h2>
+              <h2>7. {t("contact")}</h2>
               <p>
-                For security inquiries or reporting incidents:
+                {t("for_security_inquiries")}:
               </p>
               <p className="mt-2 text-sm text-gray-700">
-                PIXELMIRACLE LDA/DeliGo — Lisbon, Portugal<br />
-                Email: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a><br />
-                Phone: <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a>
+                {t("pixelmiracle")} — Lisbon, Portugal<br />
+                {t('email')}: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a><br />
+                {t("phone")}: <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a>
               </p>
             </section>
 
             <section className="mt-8 text-center">
               <p className="text-sm text-gray-600">
-                © {new Date().getFullYear()} DeliGo. All rights reserved.
+                © {new Date().getFullYear()} {t("deligo_all_rights")}
               </p>
             </section>
           </article>

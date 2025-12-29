@@ -2,16 +2,18 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck, FileText, Download,} from "lucide-react";
+import { ShieldCheck, FileText, Download, } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 // Default company details (you can replace these with real values)
-const COMPANY_NAME = "DeliGo";
+
 const COMPANY_EMAIL = "contact@deligo.pt";
 const COMPANY_PHONE = "+351 920 136 680";
 const COMPANY_ADDRESS = "Lisbon, Portugal";
 const EFFECTIVE_DATE = "October 25, 2025";
 
 export default function PrivacyPolicyPremium() {
+  const { t } = useTranslation();
   const [accepted, setAccepted] = useState(false);
 
   return (
@@ -29,16 +31,15 @@ export default function PrivacyPolicyPremium() {
               <div className="w-12 h-12 rounded-xl bg-[#DC3173] flex items-center justify-center text-white shadow-lg">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <span className="text-sm font-semibold uppercase text-[#DC3173] tracking-wider">Privacy & Data</span>
+              <span className="text-sm font-semibold uppercase text-[#DC3173] tracking-wider">{t("privacy_data")}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
-              {COMPANY_NAME} Privacy Policy — Portugal / EU (GDPR)
+              {t("deligo_privacy_policy")}
             </h1>
 
             <p className="mt-4 text-lg text-gray-700 max-w-3xl">
-              This policy explains how {COMPANY_NAME} collects, uses, stores, and protects personal data when
-              you register as a Fleet Manager / Agent and use our services in Portugal and the EU. Effective date: <strong>{EFFECTIVE_DATE}</strong>.
+              {t("privacy_policy_desc")} <strong>{EFFECTIVE_DATE}</strong>.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
@@ -48,14 +49,14 @@ export default function PrivacyPolicyPremium() {
                 aria-label="Download privacy policy as PDF"
               >
                 <Download className="w-4 h-4 text-[#DC3173]" />
-                Download PDF
+                {t("download_pdf")}
               </button>
 
               <a
                 href={`mailto:${COMPANY_EMAIL}`}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transition"
               >
-                Contact Data Protection
+                {t("contact_data_protection")}
               </a>
             </div>
           </motion.div>
@@ -68,15 +69,15 @@ export default function PrivacyPolicyPremium() {
           >
             <div className="flex items-start gap-3">
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-gray-900">Controller</h3>
-                <p className="text-sm text-gray-600 mt-2">{COMPANY_NAME} — {COMPANY_ADDRESS}</p>
-                <p className="text-sm text-gray-600 mt-1">Email: <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a></p>
-                <p className="text-sm text-gray-600 mt-1">Phone: <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a></p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("controller")}</h3>
+                <p className="text-sm text-gray-600 mt-2">DeliGo — {COMPANY_ADDRESS}</p>
+                <p className="text-sm text-gray-600 mt-1">{t("email")}: <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a></p>
+                <p className="text-sm text-gray-600 mt-1">{t("phone")}: <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a></p>
               </div>
             </div>
 
             <div className="mt-4 border-t border-gray-100 pt-4 text-xs text-gray-500">
-              <strong>Policy version:</strong> {EFFECTIVE_DATE}
+              <strong>{t("policy_version")} :</strong> {EFFECTIVE_DATE}
             </div>
           </motion.div>
         </div>
@@ -91,17 +92,17 @@ export default function PrivacyPolicyPremium() {
           {/* TOC column */}
           <aside className="lg:col-span-3 hidden lg:block sticky top-28">
             <nav className="space-y-4">
-              <h5 className="text-sm font-semibold text-gray-900">On this page</h5>
+              <h5 className="text-sm font-semibold text-gray-900">{t("on_this_page")}</h5>
               <ul className="text-sm text-gray-700 space-y-2">
-                <li><a href="#what-data" className="hover:text-[#DC3173]">What we collect</a></li>
-                <li><a href="#why" className="hover:text-[#DC3173]">Why we process</a></li>
-                <li><a href="#how" className="hover:text-[#DC3173]">How we use</a></li>
-                <li><a href="#sharing" className="hover:text-[#DC3173]">Sharing & processors</a></li>
-                <li><a href="#rights" className="hover:text-[#DC3173]">Your GDPR rights</a></li>
-                <li><a href="#retention" className="hover:text-[#DC3173]">Retention</a></li>
-                <li><a href="#security" className="hover:text-[#DC3173]">Security</a></li>
-                <li><a href="#transfers" className="hover:text-[#DC3173]">International transfers</a></li>
-                <li><a href="#contact" className="hover:text-[#DC3173]">Contact</a></li>
+                <li><a href="#what-data" className="hover:text-[#DC3173]">{t("what_we_collect")}</a></li>
+                <li><a href="#why" className="hover:text-[#DC3173]">{t("why_we_process")}</a></li>
+                <li><a href="#how" className="hover:text-[#DC3173]">{t("how_we_use")}</a></li>
+                <li><a href="#sharing" className="hover:text-[#DC3173]">{t("sharing_processors")}</a></li>
+                <li><a href="#rights" className="hover:text-[#DC3173]">{t("your_gdpr_rights")}</a></li>
+                <li><a href="#retention" className="hover:text-[#DC3173]">{t("retention")}</a></li>
+                <li><a href="#security" className="hover:text-[#DC3173]">{t("security")}</a></li>
+                <li><a href="#transfers" className="hover:text-[#DC3173]">{t("international_transfers")}</a></li>
+                <li><a href="#contact" className="hover:text-[#DC3173]">{t("contact")}</a></li>
               </ul>
             </nav>
           </aside>
@@ -115,16 +116,16 @@ export default function PrivacyPolicyPremium() {
                     <FileText className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">What personal data we collect</h3>
+                    <h3 className="text-lg font-semibold">{t("what_personal_data")}</h3>
                     <p className="mt-2 text-gray-700">
-                      We collect information necessary to verify your identity, manage payouts, and operate the platform safely. Key categories:
+                      {t("we_collect_information")}
                     </p>
                     <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                      <li><strong>Identity & verification:</strong> full name, national ID, passport, NIF (tax number), date of birth.</li>
-                      <li><strong>Contact:</strong> email, phone number, postal address.</li>
-                      <li><strong>Business & payout:</strong> company name, bank details for payouts, fiscal identifiers.</li>
-                      <li><strong>Operational:</strong> driver lists, delivery logs, performance metrics.</li>
-                      <li><strong>Technical:</strong> IP address, device identifiers, browser logs (for security & analytics).</li>
+                      <li><strong>{t("identity_verification")}:</strong> {t("full_name_national_id")}</li>
+                      <li><strong>{t("contact")}:</strong> {t("email_phone_postal")}</li>
+                      <li><strong>{t("business_payout")}:</strong> {t("company_name_bank_details")}</li>
+                      <li><strong>{t("operational")}:</strong> {t("driver_list_delivery_logs")}</li>
+                      <li><strong>{t("technical")}:</strong> {t("ip_address_device_browser")}</li>
                     </ul>
                   </div>
                 </div>
@@ -133,141 +134,141 @@ export default function PrivacyPolicyPremium() {
 
             <section id="why">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.08 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Why we process personal data</h3>
+                <h3 className="text-lg font-semibold">{t("why_we_process_personal")}</h3>
                 <p className="mt-2 text-gray-700">
-                  We process personal data only for lawful purposes, including:
+                  {t("we_process_personal")}:
                 </p>
                 <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                  <li><strong>Contractual necessity:</strong> to provide the services you request as a Fleet Manager/Agent.</li>
-                  <li><strong>Legal compliance:</strong> to meet tax, employment and regulatory obligations in Portugal.</li>
-                  <li><strong>Legitimate interests:</strong> to prevent fraud, secure the platform and improve operations.</li>
-                  <li><strong>Consent:</strong> for optional marketing communications and non-essential cookies.</li>
+                  <li><strong>{t("contractual_necessity")}:</strong> {t("to_provide_the_services")}</li>
+                  <li><strong>{t("legal_compliance")}:</strong> {t("to_meet_tax")}</li>
+                  <li><strong>{t("legitimate_interests")}:</strong> {t("to_prevent_fraud")}</li>
+                  <li><strong>{t("consent")}:</strong> {t("for_optional_marketing")}</li>
                 </ul>
               </motion.div>
             </section>
 
             <section id="how">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.12 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">How we use personal data</h3>
+                <h3 className="text-lg font-semibold">{t("how_we_use_personal_data")}</h3>
                 <ol className="mt-3 list-decimal pl-6 text-gray-700 space-y-2">
-                  <li>Verify your identity and eligibility to operate as an Agent.</li>
-                  <li>Provide and maintain your Agent dashboard (driver management, reporting, payouts).</li>
-                  <li>Process payments and tax-related documentation.</li>
-                  <li>Detect and prevent fraud, and investigate policy violations.</li>
-                  <li>Communicate important updates and regulatory notices.</li>
+                  <li>{t("verify_your_identity")}</li>
+                  <li>{t("provide_maintain")}</li>
+                  <li>{t("process_payments")}</li>
+                  <li>{t("detect_prevent")}</li>
+                  <li>{t("communicate_important")}</li>
                 </ol>
               </motion.div>
             </section>
 
             <section id="sharing">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.16 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Sharing &amp; Processors</h3>
+                <h3 className="text-lg font-semibold">{t("sharing_processors")}</h3>
                 <p className="mt-2 text-gray-700">
-                  We share data only with trusted service providers who help us operate the platform (e.g. payments, identity verification, cloud hosting, analytics). Processors act under contract and are required to protect data in accordance with GDPR.
+                  {t("we_share_data_only_with")}
                 </p>
                 <p className="mt-2 text-gray-700">
-                  We may disclose personal data when required by law, to respond to legal requests, or to protect the rights and safety of our users and the Company.
+                  {t("we_may_disclose_personal")}
                 </p>
               </motion.div>
             </section>
 
             <section id="rights">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Your rights under GDPR</h3>
+                <h3 className="text-lg font-semibold">{t("your_rights_under_gdpr")}</h3>
                 <p className="mt-2 text-gray-700">
-                  You have the following rights in relation to your personal data. To exercise any right, contact <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a>. We may need to verify your identity before responding.
+                  {t("you_have_the_following")} <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a>. {t("we_may_need_to_verify")}
                 </p>
                 <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                  <li><strong>Access</strong> — request a copy of the data we hold about you.</li>
-                  <li><strong>Rectification</strong> — correct inaccurate or incomplete data.</li>
-                  <li><strong>Erasure</strong> — request deletion where lawful (subject to retention requirements).</li>
-                  <li><strong>Restriction</strong> — limit processing in certain situations.</li>
-                  <li><strong>Portability</strong> — receive your data in a structured, machine-readable format.</li>
-                  <li><strong>Object</strong> — object to processing based on legitimate interests.</li>
-                  <li><strong>Lodge a complaint</strong> — with your supervisory authority (in Portugal: CNPD).</li>
+                  <li><strong>{t("access")}</strong> {t("request_a_copy")}</li>
+                  <li><strong>{t("rectification")}</strong> {t("correct_inaccurate_of_incomplete")}</li>
+                  <li><strong>{t("erasure")}</strong> {t("request_deletion")}</li>
+                  <li><strong>{t("restriction")}</strong> {t("limit_processing")}</li>
+                  <li><strong>{t("portability")}</strong> {t("receive_your_data")}</li>
+                  <li><strong>{t("object")}</strong> {t("object_to_processing")}</li>
+                  <li><strong>{t("lodge_complaint")}</strong> {t("with_your_supervisory")}</li>
                 </ul>
               </motion.div>
             </section>
 
             <section id="retention">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.24 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Retention &amp; deletion</h3>
+                <h3 className="text-lg font-semibold">{t("retention_deletion")}</h3>
                 <p className="mt-2 text-gray-700">
-                  We retain personal data no longer than necessary for the purposes outlined. Typical retention periods:
+                  {t("we_retain_personal_data")}:
                 </p>
                 <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                  <li>Account & verification records — account lifetime + 5 years for compliance.</li>
-                  <li>Financial records — retained for at least 7 years to meet tax obligations.</li>
-                  <li>Logs & analytics — retained in anonymized form where possible.</li>
+                  <li>{t("account_verification")}</li>
+                  <li>{t("financial_records")}</li>
+                  <li>{t("logs_analytics")}</li>
                 </ul>
               </motion.div>
             </section>
 
             <section id="security">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.28 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Security measures</h3>
+                <h3 className="text-lg font-semibold">{t("security_measures")}</h3>
                 <p className="mt-2 text-gray-700">
-                  We implement appropriate technical and organizational measures to protect personal data, including encryption in transit (TLS), access controls, monitoring, and regular security assessments. However, no system is entirely risk-free and we encourage strong passwords and safe practices.
+                  {t("we_implement_appropriate")}
                 </p>
               </motion.div>
             </section>
 
             <section id="transfers">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.32 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">International transfers</h3>
+                <h3 className="text-lg font-semibold">{t("international_transfers")}</h3>
                 <p className="mt-2 text-gray-700">
-                  When data is transferred outside the EEA we use appropriate safeguards such as the EU Standard Contractual Clauses (SCCs), transfers to countries with an adequacy decision, or other legal mechanisms to ensure protection consistent with EU standards.
+                  {t("when_data_is_transferred")}
                 </p>
               </motion.div>
             </section>
 
             <section id="cookies">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.36 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Cookies & tracking</h3>
+                <h3 className="text-lg font-semibold">{t("cookies_tracking")}</h3>
                 <p className="mt-2 text-gray-700">
-                  We use essential cookies required for the platform and optional cookies for analytics and marketing. You may manage optional cookies via our consent tool or your browser settings.
+                  {t("we_use_essential")}
                 </p>
               </motion.div>
             </section>
 
             <section id="children">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Children</h3>
-                <p className="mt-2 text-gray-700">Our Service is not directed at children under 16. We do not knowingly collect personal data from children. If you believe we hold such data, contact us and we will take appropriate steps including deletion where required by law.</p>
+                <h3 className="text-lg font-semibold">{t("children")}</h3>
+                <p className="mt-2 text-gray-700">{t("our_service_directed")}</p>
               </motion.div>
             </section>
 
             <section id="changes">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.44 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Changes to this policy</h3>
-                <p className="mt-2 text-gray-700">We may update this Privacy Policy from time to time. When we make material changes we will notify users via email or prominent notice. The revised policy will have an updated effective date.</p>
+                <h3 className="text-lg font-semibold">{t("changes_to_the_policy")}</h3>
+                <p className="mt-2 text-gray-700">{t("we_may_update_this_privacy")}</p>
               </motion.div>
             </section>
 
             <section id="contact">
               <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.48 }} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-semibold">Contact & Data Requests</h3>
-                <p className="mt-2 text-gray-700">To exercise your rights or for privacy questions contact our Data Protection team:</p>
+                <h3 className="text-lg font-semibold">{t("contact_data_requests")}</h3>
+                <p className="mt-2 text-gray-700">{t("to_exercise_your_rights")}:</p>
                 <p className="mt-3 text-sm text-gray-700">
-                  {COMPANY_NAME} — {COMPANY_ADDRESS}<br />
-                  Email: <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a><br />
-                  Phone: <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a>
+                  DeliGo — {COMPANY_ADDRESS}<br />
+                  {t("email")}: <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a><br />
+                  {t("phone")}: <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a>
                 </p>
 
                 <div className="mt-4 flex items-center gap-3">
                   <label className="inline-flex items-center gap-2">
                     <input type="checkbox" checked={accepted} onChange={() => setAccepted(!accepted)} className="h-4 w-4 text-[#DC3173] rounded" />
-                    <span className="text-sm text-gray-700">I have read and understand this Privacy Policy</span>
+                    <span className="text-sm text-gray-700">{t("i_have_read")}</span>
                   </label>
                   <button onClick={() => window.print()} className="ml-auto inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#DC3173] text-white text-sm font-semibold shadow">
                     <Download className="w-4 h-4" />
-                    Save / Print
+                    {t("save_print")}
                   </button>
                 </div>
               </motion.div>
             </section>
 
-            <div className="text-sm text-gray-600">© {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.</div>
+            <div className="text-sm text-gray-600">© {new Date().getFullYear()} {t('deligo_all_rights')}</div>
           </article>
         </div>
       </div>

@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { postData } from "@/utils/requests";
 import { becomeAgentValidation } from "@/validations/become-agent/become-agent.validation";
@@ -32,6 +33,7 @@ type FormValues = {
 };
 
 export default function BecomAgentPage() {
+  const { t } = useTranslation();
   const form = useForm<FormValues>({
     resolver: zodResolver(becomeAgentValidation),
     defaultValues: {
@@ -84,13 +86,16 @@ export default function BecomAgentPage() {
       >
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-[#DC3173]">
-            Agent Registration Steps
+            {t("agent_registration_steps")}
           </h2>
           <p className="text-gray-500 text-sm mt-1">
-            Follow these simple steps to become a verified Agent
+            {t("follow_these_simple_steps")}
           </p>
         </div>
+
+        {/* stepper section */}
         <Stepper />
+
       </motion.div>
 
       {/* 🧾 Form Section */}
@@ -113,10 +118,10 @@ export default function BecomAgentPage() {
               </div>
             </motion.div>
             <CardTitle className="text-3xl font-bold text-[#DC3173] tracking-wide">
-              Become a Agent
+              {t("become_an_agent")}
             </CardTitle>
             <p className="text-gray-600 text-sm font-medium">
-              Join our partner network and grow with us
+              {t("join_our_partner_network")}
             </p>
           </CardHeader>
 
@@ -208,19 +213,19 @@ export default function BecomAgentPage() {
                             htmlFor="terms"
                             className="cursor-pointer leading-tight text-gray-700"
                           >
-                            I accept the{" "}
+                            {t("i_accept_the")}{" "}
                             <Link
                               href="/terms"
                               className="text-[#DC3173] font-semibold hover:underline"
                             >
-                              Terms & Conditions
+                              {t("terms_conditions")}
                             </Link>{" "}
-                            and{" "}
+                            {t("and")}{" "}
                             <Link
                               href="/privacy"
                               className="text-[#DC3173] font-semibold hover:underline"
                             >
-                              Privacy Policy
+                              {t("privacy_policy")}
                             </Link>
                           </label>
                         </div>
@@ -238,24 +243,23 @@ export default function BecomAgentPage() {
                   <Button
                     type="submit"
                     disabled={!isFormFilled}
-                    className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${
-                      isFormFilled
-                        ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    }`}
+                    className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${isFormFilled
+                      ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
                   >
-                    Confirm & Continue
+                    {t("confirm_continue")}
                   </Button>
                 </motion.div>
 
                 {/* Already Agent */}
                 <div className="text-center text-sm text-gray-600">
-                  Already a Agent?{" "}
+                  {t("")}{" "}
                   <Link
                     href="/login"
                     className="text-[#DC3173] font-semibold hover:underline hover:text-[#a72b5c]"
                   >
-                    Login
+                    {t("login")}
                   </Link>
                 </div>
               </form>

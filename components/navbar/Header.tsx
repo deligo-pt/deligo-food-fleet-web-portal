@@ -3,11 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
-import { Globe, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { useStore } from "@/store/store";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface NavbarProps {
   fleetData: TFleetManager;
@@ -16,6 +19,8 @@ interface NavbarProps {
 const Header: React.FC<NavbarProps> = ({ fleetData }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
+  const { lang, setLang } = useStore();
+  const { t } = useTranslation();
 
 
   // Handle scroll effect for sticky navbar shadow
@@ -70,34 +75,42 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
             href="/"
             className="text-black  hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
-            Home
+            {t("home")}
           </Link>
           <Link
             href="/about-us"
             className="text-black  hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
-            About Us
+            {t("aboutUs")}
           </Link>
           <Link
             href="/blog"
             className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
-            Blog
+            {t("blog")}
           </Link>
           <Link
             href="/contact-us"
             className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
-            Contact Us
+            {t("contactUs")}
           </Link>
 
           {/* Language & Dark Mode */}
-          <button
-            onClick={() => alert("Language toggle clicked!")}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          <Select
+            value={lang}
+            onValueChange={(value: 'en' | 'pt') => {
+              setLang(value)
+            }}
           >
-            <Globe className="w-5 h-5 text-black" />
-          </button>
+            <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">EN</SelectItem>
+              <SelectItem value="pt">PT</SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* Auth Button or Avatar */}
           {
@@ -108,7 +121,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
                   href="/agent/dashboard"
                   className="ml-4 px-5 py-2 bg-[#DC3173] text-white font-semibold rounded-lg hover:bg-[#a72b5c] transition-all"
                 >
-                  Dashboard
+                  {t("dashboard")}
                 </Link>
                 {/* Logout Button */}
                 <Button
@@ -116,7 +129,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
                   variant="outline"
                   className="ml-4 px-5 border-[#DC3173] text-[#DC3173] font-semibold rounded-lg shadow-md hover:bg-[#DC3173] hover:text-white hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
                 >
-                  Logout
+                  {t("logout")}
                 </Button>
               </>
             ) : (
@@ -124,7 +137,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
                 href="/login"
                 className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold"
               >
-                Login / Sign Up
+                {t("login")} / {t("signUp")}
               </Link>
             )
           }
@@ -159,7 +172,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
             className="text-black  hover:text-[#DC3173] transition-colors"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Home
+            {t("home")}
           </Link>
           {fleetData?.email && (
             <Link
@@ -167,7 +180,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
               className="text-black  hover:text-[#DC3173] transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Dashboard
+              {t("dashboard")}
             </Link>
           )}
           <Link
@@ -175,22 +188,36 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
             className="text-black  hover:text-[#DC3173] transition-colors"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            About Us
+            {t("aboutUs")}
           </Link>
           <Link
-            href="/how-it-works"
-            className="text-black  hover:text-[#DC3173] transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
+            href="/blog"
+            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
-            How It Works
+            {t("blog")}
+          </Link>
+          <Link
+            href="/contact-us"
+            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
+          >
+            {t("contactUs")}
           </Link>
 
-          <button
-            onClick={() => alert("Language toggle clicked!")}
-            className="flex items-center gap-2 text-black  hover:text-[#DC3173]"
+          {/* Language & Dark Mode */}
+          <Select
+            value={lang}
+            onValueChange={(value: 'en' | 'pt') => {
+              setLang(value)
+            }}
           >
-            <Globe className="w-5 h-5" /> Language
-          </button>
+            <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">EN</SelectItem>
+              <SelectItem value="pt">PT</SelectItem>
+            </SelectContent>
+          </Select>
 
           {
             !fleetData?.email && (
@@ -199,7 +226,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
                 className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Login / Sign Up
+                {t("login")} / {t("signUp")}
               </Link>
             )
           }

@@ -1,10 +1,11 @@
 "use client";
 
-import  { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 // Example blog data
 const blogs = [
@@ -77,6 +78,7 @@ const cardVariants: Variants = {
 };
 
 export default function BlogPage() {
+  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const categories = ["All", "Tips", "Fleet Management", "Success"];
@@ -89,13 +91,13 @@ export default function BlogPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative bg-gradient-to-tr from-[#FFE0F4] to-[#FFF5F8] py-24">
+      <section className="relative bg-linear-to-tr from-[#FFE0F4] to-[#FFF5F8] py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#DC3173]">
-            Fleet Management/Agent Blog
+            {t("blog_header")}
           </h1>
           <p className="mt-4 text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto">
-            Tips, success stories, and strategies to help you become a top delivery agent in Portugal.
+            {t("blog_desc")}
           </p>
         </div>
 
@@ -111,11 +113,10 @@ export default function BlogPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full font-semibold transition-all ${
-                selectedCategory === cat
+              className={`px-4 py-2 rounded-full font-semibold transition-all ${selectedCategory === cat
                   ? "bg-[#DC3173] text-white shadow-lg"
                   : "bg-gray-100 text-gray-700 hover:bg-[#DC3173]/10 hover:text-[#DC3173]"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -141,7 +142,7 @@ export default function BlogPage() {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-80"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-80"></div>
               </div>
               <div className="p-6">
                 <span className="text-xs font-semibold uppercase text-[#DC3173]">{blog.category}</span>
