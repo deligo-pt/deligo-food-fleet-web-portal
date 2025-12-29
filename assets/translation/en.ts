@@ -101,6 +101,61 @@ export const en = {
     fleet_community_desc: "Become a verified Fleet Manager / Agent in Portugal and access tools, support, and verified delivery professionals to grow your business.",
 
 
+    // contact us
+    contact_us_header: "Contact Us",
+    contact_us_desc: "Have questions? Need support? Reach out to us and our team will respond promptly. We are here to help Fleet Managers and Agents across Portugal succeed.",
+    get_in_touch: "Get in Touch",
+    get_in_touch_desc: "Whether you are a new agent, existing fleet manager, or just curious about our platform, you can contact us using the information below or send a message directly.",
+    address: "Address",
+    send_a_message: "Send a Message",
+    send_message: "Send Message",
+
+
+    // terms of services
+    term_legal: "Terms & Legal",
+    term_of_service: "Terms of Service — Fleet Managers / Agents 🇵🇹",
+    term_of_s_desc1: "Please read carefully — by registering as an Agent with",
+    term_of_s_desc_strong: "PIXELMIRACLE LDA / DeliGo",
+    term_of_s_desc2: ", you agree to these terms and platform policies.",
+    jump_to_sections: "Jump to Sections",
+    effective_date: "Effective Date",
+    october25_2025: "25 October 2025",
+    need_help: "Need Help?",
+    on_this_page: "On This Page",
+    deligo_pixelmiracle: "DeliGo — PIXELMIRACLE LDA. All rights reserved.",
+    introduction: "Introduction",
+    eligibility: "Eligibility",
+    registration: "Registration & Verification",
+    responsibilities: "Agent Responsibilities",
+    payments: "Payments & Commissions",
+    terminations: "Termination",
+    data_privacy: "Data & Privacy",
+    liability: "Liability",
+    changes: "Changes",
+    governing_law: "Governing Law",
+    terms_article_title1: "1. Introduction",
+    terms_article_text1: `Welcome to PIXELMIRACLE LDA / DeliGo. These Terms govern your registration and activity as a Fleet Manager/Agent in Portugal. By using our platform, you confirm that you have read and accepted all conditions.`,
+    terms_article_title2: "2. Eligibility",
+    terms_article_text2: `You must be 18 or older and legally authorized to work in Portugal. All information and documents provided must be accurate and up to date.`,
+    terms_article_title3: "3. Registration & Verification",
+    terms_article_text3: `Submit required documents (ID, NIF, proof of address). Verification may take 3–5 business days. You will receive updates via email.`,
+    terms_article_title4: "4. Agent Responsibilities",
+    terms_article_text4: `Agents must manage drivers responsibly, ensure compliance with local transport laws, and maintain professional conduct at all times.`,
+    terms_article_title5: "5. Payments & Commissions",
+    terms_article_text5: `Commissions are credited weekly or monthly based on your plan. You are responsible for declaring income to Portuguese tax authorities.`,
+    terms_article_title6: "6. Termination",
+    terms_article_text6: `We reserve the right to suspend or terminate accounts violating our Terms. You may terminate your account anytime via Support.`,
+    terms_article_title7: "7. Data & Privacy",
+    terms_article_text7: `We comply with GDPR. Personal data is processed for verification and payments. Learn more in our Privacy Policy.`,
+    terms_article_title8: "8. Limitation of Liability",
+    terms_article_text8: `The service is provided “as is.” The company’s liability is limited to commissions earned in the previous month.`,
+    terms_article_title9: "9. Changes to Terms",
+    terms_article_text9: `We may update these Terms occasionally. Continued use after updates implies acceptance.`,
+    terms_article_title10: "10. Governing Law",
+    terms_article_text10: `These Terms follow Portuguese law. Disputes will be resolved in Lisbon’s competent courts.`,
+
+
+
 
     // footer
     contact_us: "Contact Us",

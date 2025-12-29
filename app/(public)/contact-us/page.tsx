@@ -3,6 +3,7 @@
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface ContactFormInputs {
   name: string;
@@ -11,6 +12,8 @@ interface ContactFormInputs {
 }
 
 export default function ContactUs() {
+  const { t } = useTranslation();
+
   const { register, handleSubmit, reset } = useForm<ContactFormInputs>();
 
   const onSubmit = (data: ContactFormInputs) => {
@@ -20,14 +23,14 @@ export default function ContactUs() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FFF0F4] to-[#FFE8F2]">
+    <main className="min-h-screen bg-linear-to-b from-[#FFF0F4] to-[#FFE8F2]">
       {/* Hero Section */}
       <header className="py-24 text-center relative overflow-hidden">
         <h1 className="text-5xl sm:text-6xl font-extrabold text-[#DC3173] leading-tight">
-          Contact Us
+          {t("contact_us_header")}
         </h1>
         <p className="mt-6 text-gray-800 text-lg sm:text-xl max-w-3xl mx-auto">
-          Have questions? Need support? Reach out to us and our team will respond promptly. We are here to help Fleet Managers and Agents across Portugal succeed.
+          {t("contact_us_desc")}
         </p>
 
         {/* Soft animated blobs */}
@@ -44,9 +47,9 @@ export default function ContactUs() {
           transition={{ duration: 1 }}
           className="space-y-8"
         >
-          <h2 className="text-4xl font-extrabold text-[#DC3173]">Get in Touch</h2>
+          <h2 className="text-4xl font-extrabold text-[#DC3173]">{t("get_in_touch")}</h2>
           <p className="text-gray-700 text-lg">
-            Whether you are a new agent, existing fleet manager, or just curious about our platform, you can contact us using the information below or send a message directly.
+            {t("get_in_touch_desc")}
           </p>
 
           <div className="space-y-6">
@@ -55,7 +58,7 @@ export default function ContactUs() {
                 <Mail className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Email</p>
+                <p className="font-semibold text-gray-900">{t("email")}</p>
                 <p className="text-gray-700">contact@deligo.pt</p>
               </div>
             </div>
@@ -65,7 +68,7 @@ export default function ContactUs() {
                 <Phone className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Phone</p>
+                <p className="font-semibold text-gray-900">{t("phone")}</p>
                 <p className="text-gray-700">+351 920 136 680</p>
               </div>
             </div>
@@ -75,7 +78,7 @@ export default function ContactUs() {
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Address</p>
+                <p className="font-semibold text-gray-900">{t("address")}</p>
                 <p className="text-gray-700">Lisbon, Portugal</p>
               </div>
             </div>
@@ -89,7 +92,7 @@ export default function ContactUs() {
           transition={{ duration: 1 }}
           className="bg-white rounded-3xl shadow-2xl p-8"
         >
-          <h2 className="text-3xl font-bold text-[#DC3173] mb-6">Send a Message</h2>
+          <h2 className="text-3xl font-bold text-[#DC3173] mb-6">{t("send_a_message")}</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <input
               {...register("name", { required: true })}
@@ -115,7 +118,7 @@ export default function ContactUs() {
               type="submit"
               className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition"
             >
-              Send Message
+              {t("send_message")}
               <Send className="w-5 h-5" />
             </motion.button>
           </form>
