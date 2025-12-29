@@ -100,6 +100,9 @@ export const en = {
     join_our_fleet_community: "Join Our Fleet Community Today",
     fleet_community_desc: "Become a verified Fleet Manager / Agent in Portugal and access tools, support, and verified delivery professionals to grow your business.",
 
+    // blog
+    blog_header: "Fleet Management/Agent Blog",
+    blog_desc: "Tips, success stories, and strategies to help you become a top delivery agent in Portugal.",
 
     // contact us
     contact_us_header: "Contact Us",
