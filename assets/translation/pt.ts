@@ -530,7 +530,9 @@ export const pt = {
         "Selecione cada documento obrigatório. Assim que os 5 documentos forem selecionados, verá o modal de sucesso do registo.",
     noFileSelected: "Nenhum ficheiro selecionado",
     documentsLabel1: "Licença Comercial",
-    documentsLabel2: "Documento de Identificação",
+    documentsLabel2: "Documento de Identificação (Frente)",
+    documentsLabel3: "Documento de Identificação (Verso)",
+
     viewCTA: "Ver",
     removeCTA: "Remover",
     selectFileCTA: "Selecionar ficheiro",

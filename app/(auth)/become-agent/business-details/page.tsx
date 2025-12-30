@@ -27,6 +27,8 @@ import { toast } from "sonner";
 type BusinessForm = {
   businessName: string;
   businessLicenseNumber: string;
+  NIF: string;
+  totalBranches: number;
 };
 
 export default function BusinessDetailsPage() {
@@ -36,6 +38,8 @@ export default function BusinessDetailsPage() {
     defaultValues: {
       businessName: "",
       businessLicenseNumber: "",
+      NIF: "",
+      totalBranches: 0
     },
   });
 
@@ -51,9 +55,11 @@ export default function BusinessDetailsPage() {
         businessDetails: {
           businessName: data.businessName,
           businessLicenseNumber: data.businessLicenseNumber.toUpperCase(),
+          NIF: data.NIF,
+          totalBranches: Number(data.totalBranches),
         },
       };
-
+      console.log("businessDetails", businessDetails);
       const result = (await updateData(
         "/fleet-managers/" + decoded?.id,
         businessDetails,
@@ -194,6 +200,57 @@ export default function BusinessDetailsPage() {
                                 placeholder="License Number"
                                 className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 uppercase"
                                 {...field}
+                              />
+                            </div>
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-5">
+                  {/* NIF */}
+                  <FormField
+                    control={form.control}
+                    name="NIF"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <FormControl>
+                            <div className="relative">
+                              <Building2 className="absolute left-3 top-3.5 text-[#DC3173]" />
+                              <Input
+                                placeholder="NIF"
+                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Total branches */}
+                  <FormField
+                    control={form.control}
+                    name="totalBranches"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <FormControl>
+                            <div className="relative">
+                              <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
+                              <Input
+                                placeholder="Total Branches"
+                                type="number"
+                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 uppercase"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
                               />
                             </div>
                           </FormControl>
