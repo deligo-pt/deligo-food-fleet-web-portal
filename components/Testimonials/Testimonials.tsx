@@ -86,13 +86,14 @@ export default function FloatingTestimonialCarousel() {
                 onClick={() => setCurrentIndex(idx)}
               >
                 <div className="flex items-center gap-4 mb-4">
-                  <Image
+                  {/* <Image
                     src={t.photo}
                     alt={t.name}
                     className="rounded-full object-cover border-2 border-[#DC3173]"
                     width={60}
                     height={60}
-                  />
+                  /> */}
+                  <p className="w-16 h-16 bg-[#DC3173] text-center text-white rounded-full font-bold italic flex flex-col justify-center">DU</p>
                   <div className="text-left">
                     <h4 className="font-semibold text-black">{t.name}</h4>
                     <p className="text-sm text-gray-500">{t.city}</p>

@@ -25,8 +25,7 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/use-translation";
-
-type DocKey = "businessLicense" | "idProof";
+import { DocKey } from "@/types/documents.type";
 
 type FilePreview = {
   file: File | null;
@@ -54,7 +53,8 @@ export default function UploadDocuments({
         label: t('documentsLabel1'),
         prefersImagePreview: false,
       },
-      { key: "idProof", label: t("documentsLabel2"), prefersImagePreview: true },
+      { key: "idProofFront", label: t("documentsLabel2"), prefersImagePreview: true },
+      { key: "idProofBack", label: t("documentsLabel3"), prefersImagePreview: true },
     ];
 
   // file input refs to trigger the browser picker
@@ -93,6 +93,8 @@ export default function UploadDocuments({
         key,
         f
       )) as unknown as TResponse<any>;
+
+      console.log("from uploading result", result);
 
       if (result.success) {
         toast.success("File uploaded successfully!", { id: toastId });
@@ -382,7 +384,7 @@ export default function UploadDocuments({
                           inputsRef.current[d.key] = el;
                         }}
                         type="file"
-                        accept="image/*,application/pdf"
+                        accept="image/*"
                         className="hidden"
                         onChange={(e) =>
                           handleFileChange(

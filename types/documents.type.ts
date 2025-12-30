@@ -1,4 +1,4 @@
-export type DocKey = "businessLicense" | "idProof";
+export type DocKey = "businessLicense" | "idProofFront" | "idProofBack";
 
 export type FilePreview = {
   file: File | null;
