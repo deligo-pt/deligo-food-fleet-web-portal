@@ -140,18 +140,6 @@ export default function RejectedPartners({
                     />
                 </motion.div>
             )}
-
-            {/* <ApproveOrRejectModal
-        open={statusInfo?.vendorId?.length > 0}
-        onOpenChange={() =>
-          setStatusInfo({ vendorId: "", status: "", vendorName: "" })
-        }
-        status={
-          statusInfo.status as "APPROVED" | "REJECTED" | "BLOCKED" | "UNBLOCKED"
-        }
-        userId={statusInfo.vendorId}
-        userName={statusInfo.vendorName}
-      /> */}
         </>
     );
 }
