@@ -99,7 +99,9 @@ export default function ActiveDeliveryPartners({
                         <DropdownMenuTrigger>
                           <MoreVertical className="h-4 w-4" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent>
+                        <DropdownMenuContent
+                          align="end"
+                          className="min-w-20 w-auto px-2">
                           <DropdownMenuItem
                             className=""
                             onClick={() =>

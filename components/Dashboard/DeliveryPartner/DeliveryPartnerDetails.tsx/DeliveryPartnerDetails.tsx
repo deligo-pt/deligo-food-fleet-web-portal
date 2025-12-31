@@ -383,31 +383,42 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Documents" icon={<FileText />}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
-            {partner.documents?.idDocumentFront && (
+            {partner.documents?.idProofFront && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">ID Proof Front</div>
                 <ImagePreview
-                  url={partner.documents?.idDocumentFront}
+                  url={partner.documents?.idProofFront}
                   alt="ID Prrof"
                 />
               </div>
             )}
-            {partner.documents?.idDocumentBack && (
+            {partner.documents?.idProofBack && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">ID Proof Back</div>
                 <ImagePreview
-                  url={partner.documents?.idDocumentBack}
+                  url={partner.documents?.idProofBack}
                   alt="ID Prrof"
                 />
               </div>
             )}
-            {partner.documents?.drivingLicense && (
+            {partner.documents?.drivingLicenseFront && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
-                  Driving License
+                  Driving License (Front)
                 </div>
                 <ImagePreview
-                  url={partner.documents.drivingLicense}
+                  url={partner.documents.drivingLicenseFront}
+                  alt="Driving License"
+                />
+              </div>
+            )}
+            {partner.documents?.drivingLicenseBack && (
+              <div>
+                <div className="mb-2 text-gray-500 text-sm">
+                  Driving License (Back)
+                </div>
+                <ImagePreview
+                  url={partner.documents.drivingLicenseBack}
                   alt="Driving License"
                 />
               </div>
