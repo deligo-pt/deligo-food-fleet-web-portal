@@ -127,7 +127,6 @@ const MENU = [
     title: "Fleet Settings",
     icon: <Settings size={18} />,
     items: [
-      { name: "Fleet Profile", path: "/agent/fleet-profile" },
       { name: "Vehicle Types", path: "/agent/vehicle-types" },
       { name: "Operating Hours", path: "/agent/operating-hours" },
       { name: "Commission Settings", path: "/agent/commission-settings" },
@@ -187,7 +186,6 @@ const MENU = [
         name: "Delivery Partner Emergency Alerts",
         path: "/agent/delivery-partner-emergency-alerts",
       },
-      { name: "Contact Admin", path: "/agent/contact-admin" },
       { name: "Report Accident / Incident", path: "/agent/report-incident" },
       {
         name: "Live Delivery Partner Tracking",

@@ -456,7 +456,30 @@ export const en = {
     complaints_book: "Complaints Book",
     deligo_all_rights: "DeliGo. All rights reserved.",
     delivering_excellence: "Delivering excellence across Portugal",
-    become_an_agent: "Become an Agent"
+    become_an_agent: "Become an Agent",
+
+
+    // dashboard contents
+    // dashboard
+    total_partners: "Total Partners",
+    across_all_zones: "Across all zones",
+    online_now: "Online Now",
+    of_total_fleet: "of total fleet",
+    deliveries_today: "Deliveries Today",
+    avg: "Avg",
+    per_partner: "per partner",
+    availabiity_rate: "Availability Rate",
+    during_peak_hours: "During peak hours",
+    fleet_composition: "Fleet Composition",
+    partner_status: "Partner Status",
+    on_delivery: "On Delivery",
+    waiting_for_order: "Waiting for Order",
+    offline: "Offline",
+    top_rated_drivers: "Top rated Drivers",
+    deliveries: "deliveries",
+
+
+
 
 
 };

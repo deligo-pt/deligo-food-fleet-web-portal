@@ -1,17 +1,18 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "@/hooks/use-translation";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import { StarIcon } from "lucide-react";
 
 
 const TopDrivers = ({ deliveryPartners }: { deliveryPartners: TDeliveryPartner[] }) => {
-
+  const { t } = useTranslation();
 
   return (
     <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-      <h3 className="text-lg font-semibold mb-4">Top rated Drivers</h3>
+      <h3 className="text-lg font-semibold mb-4">{t("top_rated_drivers")}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {deliveryPartners?.map((partner, index) => (
           <motion.div
@@ -49,7 +50,7 @@ const TopDrivers = ({ deliveryPartners }: { deliveryPartners: TDeliveryPartner[]
                   <span className="text-sm">{partner.operationalData?.rating?.average}</span>
                 </div>
                 <span className="text-sm text-gray-600">
-                  {partner.operationalData?.totalDeliveries} deliveries
+                  {partner.operationalData?.totalDeliveries} {t("deliveries")}
                 </span>
               </div>
 
