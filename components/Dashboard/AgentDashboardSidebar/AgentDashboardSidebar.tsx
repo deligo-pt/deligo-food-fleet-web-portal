@@ -65,6 +65,10 @@ const MENU = [
         path: "/agent/suspended-delivery-partners",
       },
       {
+        name: "Rejected Delivery Partners",
+        path: "/agent/rejected-delivery-partners",
+      },
+      {
         name: "Delivery Partner Performance",
         path: "/agent/delivery-partner-performance",
       },

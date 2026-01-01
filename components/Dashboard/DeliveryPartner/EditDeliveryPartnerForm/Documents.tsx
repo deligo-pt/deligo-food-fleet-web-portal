@@ -22,9 +22,10 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 type DocKey =
-  | "idDocumentFront"
-  | "idDocumentBack"
-  | "drivingLicense"
+  | "idProofFront"
+  | "idProofBack"
+  | "drivingLicenseFront"
+  | "drivingLicenseBack"
   | "vehicleRegistration"
   | "criminalRecordCertificate";
 
@@ -33,28 +34,33 @@ const DOCUMENTS: {
   label: string;
   prefersImagePreview: boolean;
 }[] = [
-  {
-    key: "idDocumentFront",
-    label: "ID Proof Front",
-    prefersImagePreview: true,
-  },
-  { key: "idDocumentBack", label: "ID Proof Back", prefersImagePreview: true },
-  {
-    key: "drivingLicense",
-    label: "Driving License",
-    prefersImagePreview: true,
-  },
-  {
-    key: "vehicleRegistration",
-    label: "Vehicle Registration",
-    prefersImagePreview: true,
-  },
-  {
-    key: "criminalRecordCertificate",
-    label: "Criminal Record Certificate",
-    prefersImagePreview: true,
-  },
-];
+    {
+      key: "idProofFront",
+      label: "ID Proof Front",
+      prefersImagePreview: true,
+    },
+    { key: "idProofBack", label: "ID Proof Back", prefersImagePreview: true },
+    {
+      key: "drivingLicenseFront",
+      label: "Driving License Front",
+      prefersImagePreview: true,
+    },
+    {
+      key: "drivingLicenseBack",
+      label: "Driving License Back",
+      prefersImagePreview: true,
+    },
+    {
+      key: "vehicleRegistration",
+      label: "Vehicle Registration",
+      prefersImagePreview: true,
+    },
+    {
+      key: "criminalRecordCertificate",
+      label: "Criminal Record Certificate",
+      prefersImagePreview: true,
+    },
+  ];
 
 type FilePreview = {
   file: File | null;
@@ -66,9 +72,10 @@ export default function Documents() {
   const { id } = useParams();
   //   const [haveCriminalCertificate, setHaveCriminalCertificate] = useState(false);
   const [previews, setPreviews] = useState<Record<DocKey, FilePreview | null>>({
-    idDocumentFront: null,
-    idDocumentBack: null,
-    drivingLicense: null,
+    idProofFront: null,
+    idProofBack: null,
+    drivingLicenseFront: null,
+    drivingLicenseBack: null,
     vehicleRegistration: null,
     criminalRecordCertificate: null,
   });
@@ -144,15 +151,16 @@ export default function Documents() {
         const docs = result?.data?.documents || {};
 
         const newPreviews: Record<DocKey, FilePreview | null> = {
-          idDocumentFront: null,
-          idDocumentBack: null,
-          drivingLicense: null,
+          idProofFront: null,
+          idProofBack: null,
+          drivingLicenseFront: null,
+          drivingLicenseBack: null,
           vehicleRegistration: null,
           criminalRecordCertificate: null,
         };
 
         (Object.keys(docs) as DocKey[]).forEach((key) => {
-          const url = docs[key] as string;
+          const url = (docs as Record<DocKey, string>)[key] as string;
           if (url) {
             newPreviews[key] = {
               file: null,
@@ -244,15 +252,13 @@ export default function Documents() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06 }}
-              className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${
-                isSelected ? "border-[#DC3173]/30 bg-[#FFF7FB]" : "bg-white"
-              }`}
+              className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${isSelected ? "border-[#DC3173]/30 bg-[#FFF7FB]" : "bg-white"
+                }`}
             >
               <div className="flex items-center gap-4">
                 <div
-                  className={`w-14 h-14 rounded-lg flex items-center justify-center ${
-                    isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
-                  }`}
+                  className={`w-14 h-14 rounded-lg flex items-center justify-center ${isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
+                    }`}
                 >
                   {d.prefersImagePreview ? (
                     <ImageIcon className="w-6 h-6 text-[#DC3173]" />
@@ -268,8 +274,8 @@ export default function Documents() {
                   <div className="text-xs text-gray-500 mt-1">
                     {preview ? (
                       d.prefersImagePreview &&
-                      preview.isImage &&
-                      preview.url ? (
+                        preview.isImage &&
+                        preview.url ? (
                         <div className="flex items-center gap-2">
                           <Image
                             src={preview.url}

@@ -3,4 +3,5 @@ export const USER_STATUS = {
   SUBMITTED: "SUBMITTED",
   APPROVED: "APPROVED",
   REJECTED: "REJECTED",
+  BLOCKED: 'BLOCKED',
 } as const;

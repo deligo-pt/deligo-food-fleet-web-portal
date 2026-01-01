@@ -31,13 +31,14 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
       SUBMITTED: "bg-gray-100 text-gray-700 border-gray-200",
       REJECTED: "bg-red-100 text-red-700 border-red-200",
       PENDING: "bg-yellow-100 text-yellow-700 border-yellow-200",
+      BLOCKED: "bg-red-100 text-red-700 border-red-200",
     };
     return colors[status];
   };
 
   const accountAge = Math.floor(
     (new Date().getTime() - new Date(agent.createdAt).getTime()) /
-      (1000 * 60 * 60 * 24)
+    (1000 * 60 * 60 * 24)
   );
 
   return (
