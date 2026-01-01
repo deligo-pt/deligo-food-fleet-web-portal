@@ -1,5 +1,7 @@
 "use client"
 
+import { Badge } from "@/components/ui/badge";
+import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
@@ -38,14 +40,16 @@ const products = [
     rating: 4.9,
   },
 ];
-const TopProducts = () => {
+const TopDrivers = ({ deliveryPartners }: { deliveryPartners: TDeliveryPartner[] }) => {
+
+
   return (
     <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-      <h3 className="text-lg font-semibold mb-4">Top rated Products</h3>
+      <h3 className="text-lg font-semibold mb-4">Top rated Drivers</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {products.map((product, index) => (
+        {deliveryPartners?.map((partner, index) => (
           <motion.div
-            key={product.id}
+            key={partner?._id}
             className="bg-gray-50 rounded-lg overflow-hidden"
             initial={{
               opacity: 0,
@@ -64,17 +68,11 @@ const TopProducts = () => {
               boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
             }}
           >
-            <div className="h-32 w-full overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-                width={500}
-                height={500}
-              />
-            </div>
-            <div className="p-4">
-              <h4 className="font-medium">{product.name}</h4>
+            <div className="p-2">
+              <div className="flex flex-row justify-between items-center">
+                <h4 className="font-medium">{partner?.name?.firstName}{" "}{partner?.name?.lastName}</h4>
+                <Badge>{partner?.personalInfo?.gender}</Badge>
+              </div>
               <div className="flex justify-between items-center mt-2">
                 <div className="flex items-center">
                   <StarIcon
@@ -82,12 +80,23 @@ const TopProducts = () => {
                     className="text-amber-400 mr-1"
                     fill="currentColor"
                   />
-                  <span className="text-sm">{product.rating}</span>
+                  <span className="text-sm">{partner.operationalData?.rating?.average}</span>
                 </div>
                 <span className="text-sm text-gray-600">
-                  {product.orders} orders
+                  {partner.operationalData?.totalDeliveries} deliveries
                 </span>
               </div>
+
+              <div className="mt-2">
+                <div className="flex items-center">
+                  <p className="text-sm">{partner.personalInfo?.nationality}</p>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <p className="text-sm">{partner?.vehicleInfo?.vehicleType}</p>
+                  <p className="text-sm">{partner?.vehicleInfo?.brand}</p>
+                </div>
+              </div>
+
             </div>
           </motion.div>
         ))}
@@ -95,4 +104,4 @@ const TopProducts = () => {
     </div>
   );
 };
-export default TopProducts;
+export default TopDrivers;

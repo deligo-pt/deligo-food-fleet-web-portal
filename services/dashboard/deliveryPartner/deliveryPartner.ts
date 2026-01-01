@@ -3,6 +3,24 @@
 import { serverRequest } from "@/lib/serverFetch";
 import { TResponse } from "@/types";
 
+export const getDeliveryPartners = async () => {
+  const limit = 4;
+  const sortBy = "-createdAt";
+
+  try {
+    const result = (await serverRequest.get("/delivery-partners", {
+      params: {
+        limit,
+        sortBy
+      },
+    }));
+
+    return result.data;
+  } catch (err) {
+    console.error("Server fetch error:", err);
+  }
+};
+
 export const uploadPartnerDocuments = async (
   id: string,
   key: string,
