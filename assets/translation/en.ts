@@ -460,6 +460,22 @@ export const en = {
 
 
     // dashboard contents
+    // sorting
+    newest_first: "Newest First",
+    oldest_first: "Oldest First",
+    name_a_z: "Name (A-Z)",
+    name_z_a: "Name (Z-A)",
+    // filtering
+    status: "Status",
+    select_status: "Select Status",
+    pending: "Pending",
+    submitted: "Submitted",
+    approved: "Approved",
+    rejected: "Rejected",
+    filters: "Filters",
+    clear_all: "Clear All",
+    cancel: "Cancel",
+    apply_filters: "Apply Filters",
     // dashboard
     total_partners: "Total Partners",
     across_all_zones: "Across all zones",
@@ -477,6 +493,18 @@ export const en = {
     offline: "Offline",
     top_rated_drivers: "Top rated Drivers",
     deliveries: "deliveries",
+    // delivery-parnters -> all delivery partners
+    delivery_partners: "Delivery Partners",
+    manage_your_delivery: "Manage your delivery partner network",
+    add_new_partner: "Add New Partner",
+    showing: "Showing",
+    of: "of",
+    partners: "partners",
+    no_partners_found: "No partners found",
+    no_delivery_partners_match: "No delivery partners match your current filters. Try adjusting your search or filters to find what you’re looking for.",
+    reviews: "reviews",
+    joined: "Joined",
+    view_details: "View Details",
 
 
 

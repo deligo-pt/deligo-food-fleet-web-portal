@@ -3,6 +3,7 @@
 import DeliveryPartnerCard from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerCard";
 import AllFilters from "@/components/Filtering/AllFilters";
 import PaginationComponent from "@/components/Filtering/PaginationComponent";
+import { useTranslation } from "@/hooks/use-translation";
 import { TMeta } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,42 +14,43 @@ interface IProps {
   partnersResult: { data: TDeliveryPartner[]; meta?: TMeta };
 }
 
-const sortOptions = [
-  { label: "Newest First", value: "-createdAt" },
-  { label: "Oldest First", value: "createdAt" },
-  { label: "Name (A-Z)", value: "name.firstName" },
-  { label: "Name (Z-A)", value: "-name.lastName" },
-];
-
-const filterOptions = [
-  {
-    label: "Status",
-    key: "status",
-    placeholder: "Select Status",
-    type: "select",
-    items: [
-      {
-        label: "Pending",
-        value: "PENDING",
-      },
-      {
-        label: "Submitted",
-        value: "SUBMITTED",
-      },
-      {
-        label: "Approved",
-        value: "APPROVED",
-      },
-      {
-        label: "Rejected",
-        value: "REJECTED",
-      },
-    ],
-  },
-];
-
 export default function DeliveryPartners({ partnersResult }: IProps) {
   const router = useRouter();
+  const { t } = useTranslation();
+
+  const sortOptions = [
+    { label: t("newest_first"), value: "-createdAt" },
+    { label: t("oldest_first"), value: "createdAt" },
+    { label: t("name_a_z"), value: "name.firstName" },
+    { label: t("name_z_a"), value: "-name.lastName" },
+  ];
+
+  const filterOptions = [
+    {
+      label: t("status"),
+      key: "status",
+      placeholder: t("select_status"),
+      type: "select",
+      items: [
+        {
+          label: t("pending"),
+          value: "PENDING",
+        },
+        {
+          label: t("submitted"),
+          value: "SUBMITTED",
+        },
+        {
+          label: t("approved"),
+          value: "APPROVED",
+        },
+        {
+          label: t("rejected"),
+          value: "REJECTED",
+        },
+      ],
+    },
+  ];
 
   return (
     <div className="w-full p-8">
@@ -56,10 +58,10 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-white">
-              Delivery Partners
+              {t("delivery_partners")}
             </h1>
             <p className="text-pink-100 mt-1">
-              Manage your delivery partner network
+              {t("manage_your_delivery")}
             </p>
           </div>
           <motion.button
@@ -73,7 +75,7 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
             className="mt-4 md:mt-0 bg-white text-[#DC3173] px-4 py-2 rounded-md font-medium flex items-center shadow-md"
           >
             <PlusCircleIcon className="mr-2 h-5 w-5" />
-            Add New Partner
+            {t("add_new_partner")}
           </motion.button>
         </div>
       </div>
@@ -83,14 +85,14 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
       {partnersResult?.data?.length > 0 && (
         <div className="flex justify-between items-center mb-4">
           <p className="text-sm text-gray-500">
-            Showing{" "}
+            {t("showing")}{" "}
             {((partnersResult.meta?.page || 1) - 1) *
               (partnersResult.meta?.limit || 10) +
               1}
             -
             {(partnersResult.meta?.page || 1) *
               (partnersResult.meta?.limit || 10)}{" "}
-            of {partnersResult.meta?.total || 0} partners
+            {t("of")} {partnersResult.meta?.total || 0} {t("partners")}
           </p>
         </div>
       )}
@@ -119,10 +121,9 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <Search className="h-8 w-8 text-gray-400" />
           </div>
-          <h3 className="text-xl font-medium mb-2">No partners found</h3>
+          <h3 className="text-xl font-medium mb-2">{t("no_partners_found")}</h3>
           <p className="text-gray-500 max-w-md">
-            No delivery partners match your current filters. Try adjusting your
-            search or filters to find what you&lsquo;re looking for.
+            {t("no_delivery_partners_match")}
           </p>
         </motion.div>
       )}
