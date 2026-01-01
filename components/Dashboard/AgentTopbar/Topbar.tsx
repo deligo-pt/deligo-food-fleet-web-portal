@@ -1,5 +1,6 @@
 "use client";
 
+import RemarkModal from "@/components/Modals/RemarkModal";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
 import { AnimatePresence, motion } from "framer-motion";
@@ -27,6 +28,8 @@ type Props = {
 export default function Topbar({ sidebarWidth = 280, agent }: Props) {
   const [langOpen, setLangOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [openSosModal, setOpenSosModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   const logOut = () => {
@@ -84,9 +87,8 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
                 <Globe size={18} className="text-gray-700" />
                 <ChevronDown
                   size={16}
-                  className={`text-gray-700 transition-transform ${
-                    langOpen ? "rotate-180" : ""
-                  }`}
+                  className={`text-gray-700 transition-transform ${langOpen ? "rotate-180" : ""
+                    }`}
                 />
               </motion.button>
 
@@ -121,7 +123,7 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
                 background: "linear-gradient(90deg,#ff3b30,#ff6b6b)",
                 boxShadow: `0 4px 18px ${PRIMARY}33`,
               }}
-              onClick={() => alert("SOS triggered")}
+              onClick={() => setOpenSosModal(true)}
             >
               <motion.span
                 aria-hidden
@@ -181,9 +183,8 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
                 )}
                 <ChevronDown
                   size={16}
-                  className={`text-gray-700 transition-transform ${
-                    profileOpen ? "rotate-180" : ""
-                  }`}
+                  className={`text-gray-700 transition-transform ${profileOpen ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 
@@ -227,6 +228,16 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
 
       {/* Spacer */}
       <div style={{ height: 64 }} />
+
+      <RemarkModal
+        open={openSosModal}
+        onOpenChange={(open) => {
+          if (isSubmitting) return;
+          setOpenSosModal(open);
+        }}
+        userId={agent?.userId || ""}
+        setIsSubmitting={setIsSubmitting}
+      />
     </>
   );
 }
