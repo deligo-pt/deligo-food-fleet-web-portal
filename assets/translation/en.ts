@@ -476,6 +476,10 @@ export const en = {
     clear_all: "Clear All",
     cancel: "Cancel",
     apply_filters: "Apply Filters",
+    // table
+    name: "Name",
+    actions: "Actions",
+    no_partners_found: "No partners found",
     // dashboard
     total_partners: "Total Partners",
     across_all_zones: "Across all zones",
@@ -500,7 +504,6 @@ export const en = {
     showing: "Showing",
     of: "of",
     partners: "partners",
-    no_partners_found: "No partners found",
     no_delivery_partners_match: "No delivery partners match your current filters. Try adjusting your search or filters to find what you’re looking for.",
     reviews: "reviews",
     joined: "Joined",
@@ -613,10 +616,12 @@ export const en = {
     id_proof_front: "ID Proof Front",
     id_proof_back: "ID Proof Back",
     driving_license_front: "Driving License Front",
-    driving_license_back:  "Driving License Back",
+    driving_license_back: "Driving License Back",
     vehicle_registration: "Vehicle Registration",
     criminal_record_certification: "Criminal Record Certificate",
     select_file: "Select file",
     complete_submit: "Complete & Submit",
+
+    
 
 };

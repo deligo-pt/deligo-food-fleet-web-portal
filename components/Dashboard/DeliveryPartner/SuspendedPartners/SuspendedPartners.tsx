@@ -21,23 +21,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 
 interface IProps {
   partnersResult: { data: TDeliveryPartner[]; meta?: TMeta };
 }
 
-const sortOptions = [
-  { label: "Newest First", value: "-createdAt" },
-  { label: "Oldest First", value: "createdAt" },
-  { label: "Name (A-Z)", value: "name.firstName" },
-  { label: "Name (Z-A)", value: "-name.lastName" },
-];
-
 export default function SuspendedPartners({
   partnersResult,
 }: IProps): JSX.Element {
+  const { t } = useTranslation();
   const router = useRouter();
+
+  const sortOptions = [
+    { label: t("newest_first"), value: "-createdAt" },
+    { label: t("oldest_first"), value: "createdAt" },
+    { label: t("name_a_z"), value: "name.firstName" },
+    { label: t("name_z_a"), value: "-name.lastName" },
+  ];
 
   return (
     <>
@@ -53,30 +55,30 @@ export default function SuspendedPartners({
               <TableHead>
                 <div className="text-[#DC3173] flex gap-2 items-center">
                   <IdCard className="w-4" />
-                  Name
+                  {t("name")}
                 </div>
               </TableHead>
               <TableHead>
                 <div className="text-[#DC3173] flex gap-2 items-center">
                   <Mail className="w-4" />
-                  Email
+                  {t("email")}
                 </div>
               </TableHead>
               <TableHead>
                 <div className="text-[#DC3173] flex gap-2 items-center">
                   <Phone className="w-4" />
-                  Phone
+                  {t("phone")}
                 </div>
               </TableHead>
               <TableHead>
                 <div className="text-[#DC3173] flex gap-2 items-center">
                   <CircleCheckBig className="w-4" />
-                  Status
+                  {t("status")}
                 </div>
               </TableHead>
               <TableHead className="text-right text-[#DC3173] flex gap-2 items-center justify-end">
                 <Cog className="w-4" />
-                Actions
+                {t("actions")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -99,7 +101,8 @@ export default function SuspendedPartners({
                         <DropdownMenuTrigger>
                           <MoreVertical className="h-4 w-4" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end"
+                        <DropdownMenuContent
+                          align="end"
                           className="min-w-20 w-auto px-2">
                           <DropdownMenuItem
                             className=""
@@ -107,7 +110,7 @@ export default function SuspendedPartners({
                               router.push("/agent/delivery-partners/" + partner.userId)
                             }
                           >
-                            View
+                            {t("viewCTA")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -121,7 +124,7 @@ export default function SuspendedPartners({
                   className="text-[#DC3173] text-lg text-center"
                   colSpan={5}
                 >
-                  No partners found
+                  {t("no_partners_found")}
                 </TableCell>
               </TableRow>
             )}
