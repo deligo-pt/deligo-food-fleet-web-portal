@@ -622,6 +622,55 @@ export const en = {
     select_file: "Select file",
     complete_submit: "Complete & Submit",
 
-    
+    // delivery partner performance
+    delivery_partner_performance: "Delivery Partner Performance",
+    sortable_filterable_exportable: "Sortable, filterable, exportable overview.",
+    last_7_days: "Last 7 days",
+    last_14_days: "Last 14 days",
+    last_30_days: "Last 30 days",
+    top_deliveries: "Top deliveries",
+    top_rating: "Top rating",
+    top_earnings: "Top earnings",
+    export :"Export",
+    refresh:"Refresh",
+    top_partner_deliveries:"Top partner deliveries",
+    in_the_selected_timeframe:"in the selected timeframe",
+    avg_delivery_time:"Avg delivery time",
+    min:"min",
+    lower_is_better:"lower is better",
+    avg_acceptance_rate:"Avg acceptance rate",
+    higher_is_better:"higher is better",
+    total_earnings:"Total earnings",
+    aggregate:"aggregate",
+    avg_mins:"Avg (mins)",
+    acceptance:"Acceptance",
+    earnings:"Earnings",
+    trend:"Trend",
+    canc:"canc",
+    preview:"Preview",
+    prev:"Prev",
+    next:"Next",
+    rating:"Rating",
+    in_timeframe:"in timeframe",
+    cancellations:"cancellations",
+    deliveries_recent:"Deliveries (recent)",
+    last_seen:"Last seen",
+    go_to_profile:"Go to profile",
+    close:"Close",
+
+    // delivery partner reviews
+    positive:"Positive",
+    neutral:"Neutral",
+    negative:"Negative",
+    delivery_partner_reviews:"Delivery Partner Reviews",
+    analyze_customer_feedback:"Analyze customer feedback & partner performance by sentiment and rating.",
+    order:"Order",
+    customer:"Customer",
+    date:"Date",
+    sentiment:"Sentiment",
+    comment:"Comment",
+
+
+
 
 };

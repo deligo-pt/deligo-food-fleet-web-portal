@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/static-components */
 "use client"
-import  { useState, useMemo } from "react";
-import { Search, Star,  MessageSquare } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, Star, MessageSquare } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 
 const DELIGO = "#DC3173";
@@ -63,6 +64,7 @@ const sampleReviews: Review[] = [
 ];
 
 export default function DeliveryPartnerReviews() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<Review | null>(null);
 
@@ -79,10 +81,10 @@ export default function DeliveryPartnerReviews() {
 
   function SentimentTag({ type }: { type: Review["sentiment"] }) {
     if (type === "positive")
-      return <span className="px-2 py-1 text-xs rounded-md bg-green-50 text-green-700">Positive</span>;
+      return <span className="px-2 py-1 text-xs rounded-md bg-green-50 text-green-700">{t("positive")}</span>;
     if (type === "neutral")
-      return <span className="px-2 py-1 text-xs rounded-md bg-gray-100 text-gray-600">Neutral</span>;
-    return <span className="px-2 py-1 text-xs rounded-md bg-red-50 text-red-600">Negative</span>;
+      return <span className="px-2 py-1 text-xs rounded-md bg-gray-100 text-gray-600">{t("neutral")}</span>;
+    return <span className="px-2 py-1 text-xs rounded-md bg-red-50 text-red-600">{t("negative")}</span>;
   }
 
   return (
@@ -93,9 +95,9 @@ export default function DeliveryPartnerReviews() {
       <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-            <MessageSquare size={20} /> Delivery Partner Reviews
+            <MessageSquare size={20} /> {t("delivery_partner_reviews")}
           </h1>
-          <p className="text-sm text-gray-600">Analyze customer feedback & partner performance by sentiment and rating.</p>
+          <p className="text-sm text-gray-600">{t("analyze_customer_feedback")}</p>
         </div>
 
         <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-80">
@@ -163,27 +165,27 @@ export default function DeliveryPartnerReviews() {
 
             <div className="mt-6 space-y-4">
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Order</div>
+                <div className="text-xs text-gray-500">{t("order")}</div>
                 <div className="text-sm font-medium">{active.orderId}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Customer</div>
+                <div className="text-xs text-gray-500">{t("customer")}</div>
                 <div className="text-sm font-medium">{active.customer}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Date</div>
+                <div className="text-xs text-gray-500">{t("date")}</div>
                 <div className="text-sm font-medium">{active.date}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Sentiment</div>
+                <div className="text-xs text-gray-500">{t("sentiment")}</div>
                 <SentimentTag type={active.sentiment} />
               </div>
 
               <div className="p-3 rounded-lg bg-white border shadow-sm">
-                <div className="text-xs text-gray-500 mb-1">Comment</div>
+                <div className="text-xs text-gray-500 mb-1">{t("comment")}</div>
                 <p className="text-sm text-gray-800 whitespace-pre-line">{active.comment}</p>
               </div>
             </div>
@@ -194,7 +196,7 @@ export default function DeliveryPartnerReviews() {
                 className="px-4 py-2 rounded-md text-white text-sm hover:opacity-90"
                 style={{ backgroundColor: DELIGO }}
               >
-                Close
+                {t("close")}
               </button>
             </div>
           </aside>
