@@ -2,6 +2,7 @@
 
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 
 const deliveries = [
@@ -40,6 +41,8 @@ const deliveries = [
 ];
 
 export default function DeliverySummaryPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -56,10 +59,10 @@ export default function DeliverySummaryPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Delivery Summary Report
+          {t("delivery_summary_report")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Comprehensive list of all orders and their delivery details
+          {t("comprehensive_list")}
         </p>
       </motion.div>
       <Card className="mt-10">
@@ -67,12 +70,12 @@ export default function DeliverySummaryPage() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-muted-foreground uppercase bg-secondary/50">
               <tr>
-                <th className="px-6 py-4 font-medium">Order ID</th>
-                <th className="px-6 py-4 font-medium">Partner</th>
-                <th className="px-6 py-4 font-medium">Time</th>
-                <th className="px-6 py-4 font-medium">Distance</th>
-                <th className="px-6 py-4 font-medium">Fee</th>
-                <th className="px-6 py-4 font-medium">Status</th>
+                <th className="px-6 py-4 font-medium">{t("order_id")}</th>
+                <th className="px-6 py-4 font-medium">{t("partner")}</th>
+                <th className="px-6 py-4 font-medium">{t("time")}</th>
+                <th className="px-6 py-4 font-medium">{t("distance")}</th>
+                <th className="px-6 py-4 font-medium">{t("fee")}</th>
+                <th className="px-6 py-4 font-medium">{t("status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

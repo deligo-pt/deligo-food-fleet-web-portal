@@ -3,6 +3,7 @@
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Check, Shield } from "lucide-react";
 
@@ -40,6 +41,8 @@ const permissions = [
 ];
 
 export default function RolesPermissionsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -56,10 +59,10 @@ export default function RolesPermissionsPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Roles & Permissions
+          {t("roles_permissions")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Define custom roles and assign granular access controls
+          {t("define_custom_roles_assign")}
         </p>
       </motion.div>
 
@@ -69,17 +72,16 @@ export default function RolesPermissionsPage() {
           {roles.map((role, idx) => (
             <Card
               key={idx}
-              className={`cursor-pointer transition-all ${
-                idx === 1
-                  ? "ring-2 ring-[#DC3173]"
-                  : "hover:border-[#DC3173]/50"
-              }`}
+              className={`cursor-pointer transition-all ${idx === 1
+                ? "ring-2 ring-[#DC3173]"
+                : "hover:border-[#DC3173]/50"
+                }`}
             >
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-[#DC3173]">{role.name}</h3>
                   <CustomBadge variant="success">
-                    {role.users} Users
+                    {role.users} {t("users")}
                   </CustomBadge>
                 </div>
                 <p className="text-sm text-muted-foreground">{role.desc}</p>
@@ -93,7 +95,7 @@ export default function RolesPermissionsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-[#DC3173]">
               <Shield className="h-5 w-5" />
-              Permissions: Fleet Manager
+              {t("permissions")}: Fleet Manager
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -105,11 +107,10 @@ export default function RolesPermissionsPage() {
                 >
                   <span className="text-sm font-medium">{perm}</span>
                   <div
-                    className={`h-5 w-5 rounded border flex items-center justify-center ${
-                      idx < 5
-                        ? "bg-[#DC3173] border-[#DC3173] text-white"
-                        : "border-input bg-background"
-                    }`}
+                    className={`h-5 w-5 rounded border flex items-center justify-center ${idx < 5
+                      ? "bg-[#DC3173] border-[#DC3173] text-white"
+                      : "border-input bg-background"
+                      }`}
                   >
                     {idx < 5 && <Check className="h-3 w-3" />}
                   </div>
@@ -118,7 +119,7 @@ export default function RolesPermissionsPage() {
             </div>
             <div className="mt-6 flex justify-end">
               <Button className="bg-[#DC3173] hover:bg-[#DC3173]/90">
-                Save Permissions
+                {t("save_permissions")}
               </Button>
             </div>
           </CardContent>

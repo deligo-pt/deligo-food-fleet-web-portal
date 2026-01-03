@@ -2,6 +2,7 @@
 
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Filter, Search } from "lucide-react";
 
@@ -41,6 +42,8 @@ const activityLogs = [
 ];
 
 export default function ActivityLogsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -56,9 +59,9 @@ export default function ActivityLogsPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Activity Logs</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("activity_logs")}</h1>
         <p className="text-gray-500 mt-1">
-          Audit trail of all administrative actions taken within the system
+          {t("audit_trail_all_administrative")}
         </p>
       </motion.div>
       <div className="flex items-center gap-4 mb-6 mt-10">
@@ -78,11 +81,11 @@ export default function ActivityLogsPage() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-muted-foreground uppercase bg-secondary/50">
               <tr>
-                <th className="px-6 py-4 font-medium">User</th>
-                <th className="px-6 py-4 font-medium">Action</th>
-                <th className="px-6 py-4 font-medium">Target</th>
-                <th className="px-6 py-4 font-medium">Timestamp</th>
-                <th className="px-6 py-4 font-medium">IP Address</th>
+                <th className="px-6 py-4 font-medium">{t("user")}</th>
+                <th className="px-6 py-4 font-medium">{t("actions")}</th>
+                <th className="px-6 py-4 font-medium">{t("target")}</th>
+                <th className="px-6 py-4 font-medium">{t("tiimestamp")}</th>
+                <th className="px-6 py-4 font-medium">{t("ip_address")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

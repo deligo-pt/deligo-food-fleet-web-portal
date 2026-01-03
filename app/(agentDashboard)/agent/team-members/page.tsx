@@ -4,6 +4,7 @@ import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Mail, MoreVertical, Search } from "lucide-react";
 
@@ -43,6 +44,8 @@ export const teamMembers = [
 ];
 
 export default function AllTeamMembersPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -58,9 +61,9 @@ export default function AllTeamMembersPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Team Members</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("team_members")}</h1>
         <p className="text-gray-500 mt-1">
-          Manage administrative staff and their access levels
+          {t("manage_administrative_staff")}
         </p>
       </motion.div>
 
@@ -78,11 +81,11 @@ export default function AllTeamMembersPage() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-muted-foreground uppercase bg-secondary/50">
               <tr>
-                <th className="px-6 py-4 font-medium">Name</th>
-                <th className="px-6 py-4 font-medium">Role</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium">Last Login</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-medium">{t("name")}</th>
+                <th className="px-6 py-4 font-medium">{t("role")}</th>
+                <th className="px-6 py-4 font-medium">{t("status")}</th>
+                <th className="px-6 py-4 font-medium">{t("last_login")}</th>
+                <th className="px-6 py-4 font-medium text-right">{t("actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

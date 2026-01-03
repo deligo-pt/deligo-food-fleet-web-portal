@@ -4,10 +4,13 @@ import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { CustomSelect } from "@/components/CustomInput/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Table } from "lucide-react";
 
 export default function CustomReportBuilder() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -24,39 +27,39 @@ export default function CustomReportBuilder() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Custom Report Builder
+          {t("custom_report_builder")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Generate ad-hoc reports by selecting specific data sources and filters
+          {t("generate_ad_hoc_reports_selecting")}
         </p>
       </motion.div>
       <div className="grid gap-6 lg:grid-cols-3 mt-10">
         <div className="lg:col-span-1 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Report Configuration</CardTitle>
+              <CardTitle>{t("report_configuration")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <CustomSelect
-                label="Data Source"
+                label={t("data_source")}
                 options={[
                   {
                     value: "orders",
-                    label: "Orders",
+                    label: t("orders"),
                   },
                   {
                     value: "partners",
-                    label: "Partners",
+                    label: t("partners"),
                   },
                   {
                     value: "earnings",
-                    label: "Earnings",
+                    label: t("earnings"),
                   },
                 ]}
               />
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Date Range</label>
+                <label className="text-sm font-medium">{t("date_range")}</label>
                 <div className="grid grid-cols-2 gap-2">
                   <CustomInput type="date" />
                   <CustomInput type="date" />
@@ -64,7 +67,7 @@ export default function CustomReportBuilder() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Fields to Include</label>
+                <label className="text-sm font-medium">{t("field_to_include")}</label>
                 <div className="space-y-2 border border-input rounded-md p-3 max-h-40 overflow-y-auto">
                   {[
                     "Order ID",
@@ -92,7 +95,7 @@ export default function CustomReportBuilder() {
 
               <Button className="w-full ">
                 <Table className="mr-2 h-4 w-4" />
-                Generate Report
+                {t("generate_report")}
               </Button>
             </CardContent>
           </Card>
@@ -102,7 +105,7 @@ export default function CustomReportBuilder() {
           <Card className="h-full min-h-[500px] flex items-center justify-center border-dashed">
             <div className="text-center text-muted-foreground">
               <Table className="h-12 w-12 mx-auto mb-4 opacity-20" />
-              <p>Select parameters and click Generate to view report preview</p>
+              <p>{t("select_parameters_click")}</p>
             </div>
           </Card>
         </div>

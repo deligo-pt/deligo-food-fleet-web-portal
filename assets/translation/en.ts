@@ -910,21 +910,85 @@ export const en = {
     alert_when_order: "Alert when order cancellations exceed 5% in an hour",
     system_outage: "System Outage",
     immediate_alert: "Immediate alert for any system downtime",
-    operational_updates:"Operational Updates",
-    new_partner_application:"New Partner Application",
-    notify_when_new_partner:"Notify when a new partner submits documents",
-    zone_surge_activated:"Zone Surge Activated",
-    notify_when_automated:"Notify when automated surge pricing kicks in",
-    negative_feedback:"Negative Feedback",
-    notify_when_partner_receives:"Notify when a partner receives a 1-star rating",
-    system_info:"System Info",
-    daily_smmmary_report:"Daily Summary Report",
-    email_summmary_previous:"Email summary of previous day stats at 8am",
-    weekly_performance:"Weekly Performance",
-    weekly_digest_fleet:"Weekly digest of fleet performance",
+    operational_updates: "Operational Updates",
+    new_partner_application: "New Partner Application",
+    notify_when_new_partner: "Notify when a new partner submits documents",
+    zone_surge_activated: "Zone Surge Activated",
+    notify_when_automated: "Notify when automated surge pricing kicks in",
+    negative_feedback: "Negative Feedback",
+    notify_when_partner_receives: "Notify when a partner receives a 1-star rating",
+    system_info: "System Info",
+    daily_smmmary_report: "Daily Summary Report",
+    email_summmary_previous: "Email summary of previous day stats at 8am",
+    weekly_performance: "Weekly Performance",
+    weekly_digest_fleet: "Weekly digest of fleet performance",
 
 
-    // 
+    // team members
+    team_members: "Team Members",
+    manage_administrative_staff: "Manage administrative staff and their access levels",
+    role: "Role",
+    last_login: "Last Login",
+
+    // roles-permission
+    roles_permissions: "Roles & Permissions",
+    define_custom_roles_assign: "Define custom roles and assign granular access controls",
+    users: "Users",
+    permissions: "Permissions",
+    save_permissions: "Save Permissions",
+
+
+    // activity logs
+    activity_logs: "Activity Logs",
+    audit_trail_all_administrative: "Audit trail of all administrative actions taken within the system",
+    user: "User",
+    target: "Target",
+    tiimestamp: "Timestamp",
+    ip_address: "IP Address",
+
+    // report delivery partner performance
+    partner_performance: "Partner Performance",
+    define_custom_roles: "Define custom roles and assign granular access controls",
+    partner_id: "Partner ID",
+    vehicle: "Vehicle",
+    total_deliveries: "Total Deliveries",
+
+
+    // report earnings
+    earnings_report: "Earnings Report",
+    financial_breakdown_fleet_earnings: "Financial breakdown of fleet earnings, bonuses, and deductions",
+    revenue_breakdown: "Revenue Breakdown",
+    daily_earnings_trend: "Daily Earnings Trend",
+
+
+    // report delivery summary
+    delivery_summary_report: "Delivery Summary Report",
+    comprehensive_list: "Comprehensive list of all orders and their delivery details",
+    order_id: "Order ID",
+    fee: "Fee",
+
+    // report-monthly
+    monthly_report: "Monthly Report",
+    aggregate_kpis_performance_metrics: "Aggregated KPIs and performance metrics for the entire month",
+    total_revenue: "Total Revenue",
+    vs: "vs",
+    last_month: "last month",
+    active_partners: "Active Partners",
+    new_this_month: "New this month",
+
+    // report custom
+    custom_report_builder: "Custom Report Builder",
+    generate_ad_hoc_reports_selecting: "Generate ad-hoc reports by selecting specific data sources and filters",
+    report_configuration: "Report Configuration",
+    data_source: "Data Source",
+    orders: "Orders",
+    field_to_include: "Fields to Include",
+    generate_report: "Generate Report",
+    select_parameters_click: "Select parameters and click Generate to view report preview",
+
+
+
+
 
 
 
