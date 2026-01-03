@@ -1,10 +1,13 @@
 "use client";
 
+import { useTranslation } from "@/hooks/use-translation";
 import Link from "next/link";
 
 export default function CTASectionUnique() {
+  const { t } = useTranslation();
+
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-tr from-[#FFE0F4] via-[#FFF0F8] to-[#FFF5FA] py-28">
+    <section className="relative w-full overflow-hidden bg-linear-to-tr from-[#FFE0F4] via-[#FFF0F8] to-[#FFF5FA] py-28">
       {/* Floating animated shapes */}
       <div className="absolute top-0 left-1/4 w-36 h-36 rounded-full bg-[#DC3173]/20 blur-3xl animate-floatSlow"></div>
       <div className="absolute top-1/2 right-1/4 w-48 h-48 rounded-full bg-[#DC3173]/10 blur-3xl animate-floatSlow delay-1500"></div>
@@ -12,25 +15,25 @@ export default function CTASectionUnique() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-black">
-          Ready to Join the Network?
+          {t("cta_header")}
         </h2>
         <p className="mt-4 text-gray-700 sm:text-lg md:text-xl max-w-2xl mx-auto">
-          Become a verified delivery boy agent and start managing your network with flexible hours, weekly payouts, and full support.
+          {t("cta_desc")}
         </p>
 
         <div className="mt-10 flex justify-center gap-4 flex-wrap">
           <Link
-            href="/signup"
+            href="/become-agent"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#DC3173] text-white text-lg font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
           >
-            Sign Up Now
+            {t("sign_up_now")}
           </Link>
 
           <Link
             href="/learn-more"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[#DC3173] text-[#DC3173] text-lg font-semibold hover:bg-[#DC3173]/10 transition-all duration-300"
           >
-            Learn More
+            {t("learnMore")}
           </Link>
         </div>
       </div>

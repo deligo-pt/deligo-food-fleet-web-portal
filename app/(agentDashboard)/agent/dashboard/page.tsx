@@ -2,12 +2,15 @@ export const dynamic = "force-dynamic";
 
 import Dashboard from "@/components/Dashboard/Dashboard/Dashboard";
 import { serverRequest } from "@/lib/serverFetch";
+import { getDeliveryPartners } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 
 export default async function DashboardPage() {
+  const deliveryPartners = await getDeliveryPartners();
+
   let initialData = "";
 
   try {
@@ -25,5 +28,5 @@ export default async function DashboardPage() {
     console.error("Server fetch error:", err);
   }
 
-  return <Dashboard agentName={initialData} />;
+  return <Dashboard agentName={initialData} deliveryPartners={deliveryPartners} />;
 }

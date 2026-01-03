@@ -1,9 +1,12 @@
 "use client";
 
+import { useTranslation } from "@/hooks/use-translation";
 import { ArrowRight, Info } from "lucide-react";
 import Link from "next/link";
 
 export default function AgentHeroBackground() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative overflow-hidden bg-white">
       {/* Decorative gradient blobs */}
@@ -25,21 +28,18 @@ export default function AgentHeroBackground() {
             <div className="max-w-xl">
               <p className="inline-flex items-center gap-2 text-sm font-medium uppercase text-[#DC3173] tracking-wider mb-4">
                 <span className="rounded-full bg-[#DC3173]/10 px-3 py-1 text-[#DC3173]">
-                  Partner
+                  {t("partner")}
                 </span>
-                <span className="text-gray-500">Trusted</span>
+                <span className="text-gray-500">{t("trusted")}</span>
               </p>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-black">
-                Join Our{" "}
-                <span className="text-[#DC3173]">Delivery Network</span> in
-                Portugal
+                {t("joinOur")}{" "}
+                <span className="text-[#DC3173]">{t("deliveryNetwork")}</span> {t("inPortugal")}
               </h1>
 
               <p className="mt-6 text-lg text-gray-700">
-                Become a verified delivery boy agent and start working today.
-                Access a reliable platform, steady earnings, and tools to manage
-                your deliveries efficiently.
+                {t("heroDesc")}
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3">
@@ -47,7 +47,7 @@ export default function AgentHeroBackground() {
                   href="/become-agent"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-[#DC3173]/30"
                 >
-                  Register Now
+                  {t("registerNow")}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -56,7 +56,7 @@ export default function AgentHeroBackground() {
                   className="inline-flex items-center gap-2 justify-center px-5 py-3 rounded-full border border-gray-300 text-gray-800 bg-white hover:bg-gray-100 transition-colors duration-200"
                 >
                   <Info className="w-4 h-4 text-gray-600" />
-                  Learn More
+                  {t("learnMore")}
                 </Link>
               </div>
 
@@ -67,7 +67,7 @@ export default function AgentHeroBackground() {
                   </div>
                   <div>
                     <div className="font-semibold text-gray-900">4.8/5</div>
-                    <div className="text-md">Agent satisfaction</div>
+                    <div className="text-md">{t("agentSatisfaction")}</div>
                   </div>
                 </div>
 
@@ -77,9 +77,9 @@ export default function AgentHeroBackground() {
                   </div>
                   <div>
                     <div className="font-semibold text-gray-900">
-                      Verified partners
+                      {t("verifiedPartners")}
                     </div>
-                    <div className="text-md">Background checked</div>
+                    <div className="text-md">{t("backgroundChecked")}</div>
                   </div>
                 </div>
               </div>
@@ -150,18 +150,18 @@ export default function AgentHeroBackground() {
               {/* Hero Text & CTA */}
               <div className="mt-6 text-center">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black">
-                  Start Earning Fast
+                  {t("startEarningFast")}
                 </h2>
                 <p className="mt-2 text-gray-700 text-xs sm:text-sm md:text-base">
-                  Flexible hours • weekly payouts • Support in Portugal
+                  {t("heroCTADesc")}
                 </p>
 
                 <div className="mt-6">
                   <Link
-                    href="/signup"
+                    href="/become-agent"
                     className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#DC3173] text-white font-bold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-200"
                   >
-                    Register Now
+                    {t('registerNow')}
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                 </div>

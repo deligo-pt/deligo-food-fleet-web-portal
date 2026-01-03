@@ -3,28 +3,31 @@
 import { UserCheck, ShieldCheck, Truck, BarChart2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function HowItWorks() {
+  const { t } = useTranslation();
+
   const steps = [
     {
-      title: "Sign Up & Submit Documents",
+      title: t("how_iw_step_title1"),
       icon: <UserCheck className="w-8 h-8 text-[#DC3173]" />,
-      description: "Register and submit required documents for verification.",
+      description: t("how_iw_step_desc1"),
     },
     {
-      title: "Verification by Admin",
+      title: t("how_iw_step_title2"),
       icon: <ShieldCheck className="w-8 h-8 text-[#DC3173]" />,
-      description: "Our team reviews and approves your application promptly.",
+      description: t("how_iw_step_desc2"),
     },
     {
-      title: "Start Adding / Monitoring Delivery Boys",
+      title: t("how_iw_step_title3"),
       icon: <Truck className="w-8 h-8 text-[#DC3173]" />,
-      description: "Add and manage delivery boys under your supervision.",
+      description: t("how_iw_step_desc3"),
     },
     {
-      title: "Track Your Performance",
+      title: t("how_iw_step_title4"),
       icon: <BarChart2 className="w-8 h-8 text-[#DC3173]" />,
-      description: "Monitor your earnings, deliveries, and performance metrics.",
+      description: t("how_iw_step_desc4"),
     },
   ];
 
@@ -32,10 +35,10 @@ export default function HowItWorks() {
     <section className="relative py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-black">
-          How It Works
+          {t("how_iw_title")}
         </h2>
         <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-          Follow these simple steps to become a verified agent and start managing deliveries efficiently.
+          {t("how_iw_desc")}
         </p>
 
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -59,10 +62,10 @@ export default function HowItWorks() {
 
         <div className="mt-12">
           <Link
-            href="/signup"
+            href="/become-agent"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transition-all"
           >
-            Register Now
+            {t("registerNow")}
           </Link>
         </div>
       </div>

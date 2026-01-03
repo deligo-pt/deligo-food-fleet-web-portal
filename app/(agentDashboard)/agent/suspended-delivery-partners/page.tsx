@@ -22,7 +22,7 @@ export default async function SuspendedPartnersPage({ searchParams }: IProps) {
     page,
     sortBy,
     ...(searchTerm ? { searchTerm: searchTerm } : {}),
-    status: "REJECTED",
+    status: "BLOCKED",
   };
 
   const initialData: { data: TDeliveryPartner[]; meta?: TMeta } = { data: [] };

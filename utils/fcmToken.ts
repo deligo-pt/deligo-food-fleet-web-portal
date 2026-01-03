@@ -1,4 +1,4 @@
-import { messaging } from "@/config/firebase";
+import { messaging } from "@/config/firebaseMessaging";
 import { postData } from "@/utils/requests";
 import { getToken } from "firebase/messaging";
 

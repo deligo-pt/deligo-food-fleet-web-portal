@@ -44,9 +44,8 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const fullName =
-    `${partner?.name?.firstName || ""} ${
-      partner?.name?.lastName || ""
-    }`.trim() || "No Name Provided";
+    `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""
+      }`.trim() || "No Name Provided";
 
   const getVehicleIcon = () => {
     switch (partner.vehicleInfo?.vehicleType) {
@@ -178,12 +177,13 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               </motion.div>
             )}
           </div>
-          <div>
+          <div className="flex flex-col justify-end items-end gap-1">
             <DeliveryPartnerStatusBadge status={partner.status} />
+            {partner?.remarks && <p className="hidden md:block text-sm">{partner?.remarks}</p>}
           </div>
         </div>
       </motion.div>
-      <div className="bg-gray-50 p-6 rounded-b-lg">
+      <div className="bg-gray-50 my-4 rounded-b-lg">
         <DeliveryPartnerSection
           title="Personal Details"
           icon={<User />}
@@ -219,11 +219,10 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 label="Email Verified"
                 value={
                   <span
-                    className={`px-2 py-0.5 rounded text-xs ${
-                      partner.isEmailVerified
+                    className={`px-2 py-0.5 rounded text-xs ${partner.isEmailVerified
                         ? "bg-green-100 text-green-800"
                         : "bg-red-100 text-red-800"
-                    }`}
+                      }`}
                   >
                     {partner.isEmailVerified ? "Yes" : "No"}
                   </span>
@@ -295,9 +294,9 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 value={
                   partner.vehicleInfo?.drivingLicenseExpiry
                     ? format(
-                        partner.vehicleInfo?.drivingLicenseExpiry,
-                        "dd/MM/yyyy"
-                      )
+                      partner.vehicleInfo?.drivingLicenseExpiry,
+                      "dd/MM/yyyy"
+                    )
                     : "N/A"
                 }
               />
@@ -358,9 +357,9 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 value={
                   partner.legalStatus?.residencePermitExpiry
                     ? format(
-                        partner.legalStatus?.residencePermitExpiry,
-                        "dd/MM/yyyy"
-                      )
+                      partner.legalStatus?.residencePermitExpiry,
+                      "dd/MM/yyyy"
+                    )
                     : "N/A"
                 }
               />
@@ -368,11 +367,10 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 label="Criminal Record Certificate"
                 value={
                   <span
-                    className={`px-2 py-0.5 rounded text-xs ${
-                      partner.criminalRecord?.certificate
+                    className={`px-2 py-0.5 rounded text-xs ${partner.criminalRecord?.certificate
                         ? "bg-green-100 text-green-800"
                         : "bg-gray-100 text-gray-800"
-                    }`}
+                      }`}
                   >
                     {partner.criminalRecord?.certificate
                       ? "Provided"
@@ -385,31 +383,42 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title="Documents" icon={<FileText />}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
-            {partner.documents?.idDocumentFront && (
+            {partner.documents?.idProofFront && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">ID Proof Front</div>
                 <ImagePreview
-                  url={partner.documents?.idDocumentFront}
+                  url={partner.documents?.idProofFront}
                   alt="ID Prrof"
                 />
               </div>
             )}
-            {partner.documents?.idDocumentBack && (
+            {partner.documents?.idProofBack && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">ID Proof Back</div>
                 <ImagePreview
-                  url={partner.documents?.idDocumentBack}
+                  url={partner.documents?.idProofBack}
                   alt="ID Prrof"
                 />
               </div>
             )}
-            {partner.documents?.drivingLicense && (
+            {partner.documents?.drivingLicenseFront && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
-                  Driving License
+                  Driving License (Front)
                 </div>
                 <ImagePreview
-                  url={partner.documents.drivingLicense}
+                  url={partner.documents.drivingLicenseFront}
+                  alt="Driving License"
+                />
+              </div>
+            )}
+            {partner.documents?.drivingLicenseBack && (
+              <div>
+                <div className="mb-2 text-gray-500 text-sm">
+                  Driving License (Back)
+                </div>
+                <ImagePreview
+                  url={partner.documents.drivingLicenseBack}
                   alt="Driving License"
                 />
               </div>
@@ -537,31 +546,28 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <div
-                    className={`w-4 h-4 rounded-full ${
-                      partner.workPreferences?.hasEquipment?.isothermalBag
+                    className={`w-4 h-4 rounded-full ${partner.workPreferences?.hasEquipment?.isothermalBag
                         ? "bg-[#DC3173]"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   <span className="text-sm text-gray-700">Isothermal Bag</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div
-                    className={`w-4 h-4 rounded-full ${
-                      partner.workPreferences?.hasEquipment?.helmet
+                    className={`w-4 h-4 rounded-full ${partner.workPreferences?.hasEquipment?.helmet
                         ? "bg-[#DC3173]"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   <span className="text-sm text-gray-700">Helmet</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div
-                    className={`w-4 h-4 rounded-full ${
-                      partner.workPreferences?.hasEquipment?.powerBank
+                    className={`w-4 h-4 rounded-full ${partner.workPreferences?.hasEquipment?.powerBank
                         ? "bg-[#DC3173]"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   <span className="text-sm text-gray-700">Power Bank</span>
                 </div>
@@ -606,9 +612,9 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 value={
                   partner.approvedOrRejectedOrBlockedAt
                     ? format(
-                        partner.approvedOrRejectedOrBlockedAt,
-                        "dd/MM/yyyy"
-                      )
+                      partner.approvedOrRejectedOrBlockedAt,
+                      "dd/MM/yyyy"
+                    )
                     : "N/A"
                 }
               />

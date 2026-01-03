@@ -5,40 +5,43 @@ import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-
-const testimonials = [
-  {
-    name: "João Silva",
-    city: "Lisbon",
-    photo: "/agents/joao.png",
-    rating: 5,
-    quote: "Joining this delivery network boosted my earnings and gave me flexible working hours. Highly recommended!",
-  },
-  {
-    name: "Maria Fernandes",
-    city: "Porto",
-    photo: "/agents/maria.png",
-    rating: 4.8,
-    quote: "The verification process was smooth and now I manage my delivery boys efficiently. Great support!",
-  },
-  {
-    name: "Rui Gomes",
-    city: "Faro",
-    photo: "/agents/rui.png",
-    rating: 4.9,
-    quote: "I love the real-time updates and flexible schedule. Truly a game-changer in delivery management.",
-  },
-  {
-    name: "Ana Costa",
-    city: "Coimbra",
-    photo: "/agents/ana.png",
-    rating: 5,
-    quote: "Amazing platform with top-notch support. Flexible and highly rewarding!",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function FloatingTestimonialCarousel() {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const testimonials = [
+    {
+      name: t("testimonial_name1"),
+      city: "Lisbon",
+      photo: "/agents/joao.png",
+      rating: 5,
+      quote: t("testimonial_quote1"),
+    },
+    {
+      name: t("testimonial_name2"),
+      city: "Porto",
+      photo: "/agents/maria.png",
+      rating: 4.8,
+      quote: t("testimonial_quote2"),
+    },
+    {
+      name: t("testimonial_name3"),
+      city: "Faro",
+      photo: "/agents/rui.png",
+      rating: 4.9,
+      quote: t("testimonial_quote3"),
+    },
+    {
+      name: t("testimonial_name4"),
+      city: "Coimbra",
+      photo: "/agents/ana.png",
+      rating: 5,
+      quote: t("testimonial_quote4"),
+    },
+  ];
+
   const total = testimonials.length;
 
   // Autoplay
@@ -57,16 +60,16 @@ export default function FloatingTestimonialCarousel() {
   };
 
   return (
-    <section className="relative py-24 bg-gradient-to-tr from-[#FFF0F4] to-[#FFE0F4] overflow-hidden">
+    <section className="relative py-24 bg-linear-to-tr from-[#FFF0F4] to-[#FFE0F4] overflow-hidden">
       {/* Spotlight gradient behind */}
       <div className="absolute inset-0 flex justify-center items-center -z-10">
         <div className="w-96 h-96 bg-[#DC3173]/10 rounded-full blur-3xl animate-pulseSlow"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-        <h2 className="text-4xl font-extrabold text-black">Success Stories</h2>
+        <h2 className="text-4xl font-extrabold text-black">{t("testimonials_header")}</h2>
         <p className="mt-4 text-gray-700 max-w-2xl mx-auto">
-          Hear from agents who joined our network and are seeing amazing results.
+          {t("testimonials_desc")}
         </p>
 
         <div className="mt-16 relative flex justify-center items-center h-80">
@@ -83,13 +86,14 @@ export default function FloatingTestimonialCarousel() {
                 onClick={() => setCurrentIndex(idx)}
               >
                 <div className="flex items-center gap-4 mb-4">
-                  <Image
+                  {/* <Image
                     src={t.photo}
                     alt={t.name}
                     className="rounded-full object-cover border-2 border-[#DC3173]"
                     width={60}
-                      height={60}
-                  />
+                    height={60}
+                  /> */}
+                  <p className="w-16 h-16 bg-[#DC3173] text-center text-white rounded-full font-bold italic flex flex-col justify-center">DU</p>
                   <div className="text-left">
                     <h4 className="font-semibold text-black">{t.name}</h4>
                     <p className="text-sm text-gray-500">{t.city}</p>

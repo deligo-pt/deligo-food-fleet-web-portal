@@ -2,27 +2,30 @@
 
 import { Clock, Eye, Users, Bell } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function UniqueBenefitsSection() {
+  const { t } = useTranslation();
+
   const benefits = [
     {
-      title: "Flexible Working Hours",
-      description: "Manage your schedule and work at your own pace.",
+      title: t("why_ju_benefits_title1"),
+      description: t("why_ju_benefits_desc1"),
       icon: <Clock className="w-8 h-8 text-[#DC3173]" />,
     },
     {
-      title: "Transparent Verification & Monitoring",
-      description: "Track your progress and see all verification statuses clearly.",
+      title: t("why_ju_benefits_title2"),
+      description: t("why_ju_benefits_desc2"),
       icon: <Eye className="w-8 h-8 text-[#DC3173]" />,
     },
     {
-      title: "Access to Verified Delivery Boys",
-      description: "Add and manage delivery boys who are background-checked.",
+      title: t("why_ju_benefits_title3"),
+      description: t("why_ju_benefits_desc3"),
       icon: <Users className="w-8 h-8 text-[#DC3173]" />,
     },
     {
-      title: "Real-time Updates & Notifications",
-      description: "Stay informed with instant alerts about deliveries and performance.",
+      title: t("why_ju_benefits_title4"),
+      description: t("why_ju_benefits_desc4"),
       icon: <Bell className="w-8 h-8 text-[#DC3173]" />,
     },
   ];
@@ -37,10 +40,10 @@ export default function UniqueBenefitsSection() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-black">
-          Why Join Us
+          {t("why_join_us")}
         </h2>
         <p className="mt-4 text-gray-700 max-w-2xl mx-auto">
-          Unlock amazing benefits and tools to grow your delivery network efficiently.
+          {t("why_ju_desc")}
         </p>
 
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -71,10 +74,10 @@ export default function UniqueBenefitsSection() {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="/signup"
+            href="/become-agent"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#DC3173] text-white font-semibold shadow-md hover:shadow-lg transition-all"
           >
-            Join Now
+            {t("joinNow")}
           </motion.a>
         </div>
       </div>

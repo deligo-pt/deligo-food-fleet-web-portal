@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
@@ -14,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function VerifyOtp({ email }: { email: string }) {
+  const { t } = useTranslation();
   const router = useRouter();
   const [timer, setTimer] = useState(300); // 5 minutes = 300 seconds
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -136,10 +138,10 @@ export default function VerifyOtp({ email }: { email: string }) {
         <Card className="p-6 shadow-xl border border-pink-100">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-semibold text-[#DC3173]">
-              Verify OTP
+              {t("verifyOTP")}
             </CardTitle>
             <p className="text-gray-500 text-sm mt-1">
-              Enter the 4-digit code sent to your email
+              {t("otp4DigitCode")}
             </p>
           </CardHeader>
 
@@ -175,9 +177,9 @@ export default function VerifyOtp({ email }: { email: string }) {
                 <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4 text-[#DC3173]" />
                   {canResend ? (
-                    <span className="text-gray-500">Expired</span>
+                    <span className="text-gray-500">{t("expired")}</span>
                   ) : (
-                    <span>{formatTime(timer)} remaining</span>
+                    <span>{formatTime(timer)} {t("remaining")}</span>
                   )}
                 </div>
 
@@ -185,14 +187,13 @@ export default function VerifyOtp({ email }: { email: string }) {
                   type="button"
                   onClick={resendOtp}
                   disabled={!canResend}
-                  className={`flex items-center gap-1 font-medium ${
-                    canResend
-                      ? "text-[#DC3173] hover:text-[#a72b5c]"
-                      : "text-gray-400 cursor-not-allowed"
-                  } transition-colors`}
+                  className={`flex items-center gap-1 font-medium ${canResend
+                    ? "text-[#DC3173] hover:text-[#a72b5c]"
+                    : "text-gray-400 cursor-not-allowed"
+                    } transition-colors`}
                 >
                   <RefreshCcw className="w-4 h-4" />
-                  Resend OTP
+                  {t("resendOTP")}
                 </button>
               </div>
 
@@ -201,7 +202,7 @@ export default function VerifyOtp({ email }: { email: string }) {
                 type="submit"
                 className="w-full bg-[#DC3173] hover:bg-[#a72b5c] transition-all duration-300 text-white text-lg font-medium py-2 rounded-lg shadow-md hover:shadow-lg"
               >
-                Verify
+                {t("verify")}
               </Button>
             </form>
           </CardContent>
