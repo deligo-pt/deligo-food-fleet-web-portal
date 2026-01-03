@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
@@ -49,6 +50,7 @@ interface IProps {
 }
 
 export function PersonalInfoForm({ onNext }: IProps) {
+  const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(personalInfoValidation),
@@ -116,7 +118,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+        "Failed to update Delivery Partner details",
         {
           id: toastId,
         }
@@ -199,11 +201,10 @@ export function PersonalInfoForm({ onNext }: IProps) {
         className="mb-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">
-          Personal Information
+          {t("personal_information")}
         </h2>
         <p className="text-gray-600">
-          Please provide partner&lsquo;s personal details for identity
-          verification
+          {t("please_provide_partner_details")}
         </p>
       </motion.div>
       <Form {...form}>
@@ -217,7 +218,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">First Name</span>
+                      <span className="ml-2">{t("first_name")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -240,7 +241,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Last Name</span>
+                      <span className="ml-2">{t("last_name")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -258,7 +259,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
             <div className="relative">
               <div className="flex items-center text-sm font-medium text-gray-700 mb-3">
                 <PhoneIcon className="w-5 h-5 text-[#DC3173]" />
-                <span className="ml-2">Phone Number</span>
+                <span className="ml-2">{t("phone_number")}</span>
               </div>
               <FormField
                 control={form.control}
@@ -331,7 +332,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Date of Birth</span>
+                      <span className="ml-2">{t("date_of_birth")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -355,7 +356,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Gender</span>
+                      <span className="ml-2">{t("gender")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -371,9 +372,9 @@ export function PersonalInfoForm({ onNext }: IProps) {
                         <SelectValue placeholder="Select Gender" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="MALE">Male</SelectItem>
-                        <SelectItem value="FEMALE">Female</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="MALE">{t("male")}</SelectItem>
+                        <SelectItem value="FEMALE">{t("female")}</SelectItem>
+                        <SelectItem value="other">{t("other")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -390,7 +391,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <FlagIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Nationality</span>
+                      <span className="ml-2">{t("nationality")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -416,7 +417,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">ID Expiry Date</span>
+                      <span className="ml-2">{t("id_expiry_date")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -440,7 +441,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">NIF Number</span>
+                      <span className="ml-2">{t("nif_number")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -462,7 +463,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Citizen Card Number</span>
+                      <span className="ml-2">{t("citizen_card")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -484,7 +485,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Passport Number</span>
+                      <span className="ml-2">{t("passport_number")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -507,7 +508,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Street</span>
+                      <span className="ml-2">{t("street")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -530,7 +531,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">City</span>
+                      <span className="ml-2">{t("city")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -553,7 +554,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Postal Code</span>
+                      <span className="ml-2">{t("postal_code")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -576,7 +577,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">State</span>
+                      <span className="ml-2">{t("state")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -599,7 +600,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <FlagIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Country</span>
+                      <span className="ml-2">{t("country")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -689,7 +690,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
             type="submit"
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
-            Continue to Legal Status
+            {t("continue_to_legal_status")}
             <ArrowRightIcon className="w-5 h-5 ml-1" />
           </motion.button>
         </form>

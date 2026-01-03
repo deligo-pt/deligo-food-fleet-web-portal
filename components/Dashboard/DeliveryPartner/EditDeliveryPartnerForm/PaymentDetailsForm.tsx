@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
@@ -33,6 +34,7 @@ interface IProps {
 type FormData = z.infer<typeof paymentDetailsValidation>;
 
 export function PaymentDetailsForm({ onNext }: IProps) {
+  const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(paymentDetailsValidation),
@@ -71,7 +73,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+        "Failed to update Delivery Partner details",
         {
           id: toastId,
         }
@@ -123,10 +125,10 @@ export function PaymentDetailsForm({ onNext }: IProps) {
         className="mb-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">
-          Payment & Banking Details
+          {t("payment_banking_details")}
         </h2>
         <p className="text-gray-600">
-          Please provide partner&lsquo;s banking information for payments
+          {t("please_provide_partner_banking")}
         </p>
       </motion.div>
       <Form {...form}>
@@ -140,7 +142,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <BuildingIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Bank Name</span>
+                      <span className="ml-2">{t("bankName")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -162,7 +164,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Account Holder</span>
+                      <span className="ml-2">{t("accountHolder")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -184,7 +186,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <CreditCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">IBAN</span>
+                      <span className="ml-2">{t("iban")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -206,7 +208,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <BuildingIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">SWIFT </span>
+                      <span className="ml-2">{t("swift")} </span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -235,9 +237,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                This payment information is secure and will only be used for
-                processing their earnings. The account holder name must match
-                delivery partner&lsquo;s ID for verification purposes.
+                {t("this_payment_information_is_secure")}
               </p>
             </div>
           </div>
@@ -251,7 +251,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
             type="submit"
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
-            Continue to Vehicle Information
+            {t("continue_to_vehicle_information")}
             <ArrowRightIcon className="w-5 h-5 ml-1" />
           </motion.button>
         </form>

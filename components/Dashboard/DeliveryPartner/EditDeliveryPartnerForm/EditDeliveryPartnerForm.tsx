@@ -7,6 +7,7 @@ import { LegalStatusForm } from "@/components/Dashboard/DeliveryPartner/EditDeli
 import { PaymentDetailsForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/PaymentDetailsForm";
 import { PersonalInfoForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/PersonalInfoForm";
 import { VehicleInfoForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/VehicleInfoForm";
+import { useTranslation } from "@/hooks/use-translation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BuildingIcon,
@@ -21,46 +22,48 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-const formSteps = [
-  {
-    id: "personal",
-    title: "Personal Information",
-    icon: <UserIcon className="w-5 h-5" />,
-  },
-  {
-    id: "legal",
-    title: "Legal Status",
-    icon: <BuildingIcon className="w-5 h-5" />,
-  },
-  {
-    id: "payment",
-    title: "Payment Details",
-    icon: <CreditCardIcon className="w-5 h-5" />,
-  },
-  {
-    id: "vehicle",
-    title: "Vehicle Information",
-    icon: <CarIcon className="w-5 h-5" />,
-  },
-  {
-    id: "background",
-    title: "Background Check",
-    icon: <ShieldCheckIcon className="w-5 h-5" />,
-  },
-  {
-    id: "equipment",
-    title: "Equipment & Availability",
-    icon: <CalendarIcon className="w-5 h-5" />,
-  },
-  {
-    id: "documents",
-    title: "Documents",
-    icon: <FileText className="w-5 h-5" />,
-  },
-];
 
 export function EditDeliveryPartnerForm() {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
+
+  const formSteps = [
+    {
+      id: "personal",
+      title: t("personal_information"),
+      icon: <UserIcon className="w-5 h-5" />,
+    },
+    {
+      id: "legal",
+      title: t("legal_status"),
+      icon: <BuildingIcon className="w-5 h-5" />,
+    },
+    {
+      id: "payment",
+      title: t("payment_details"),
+      icon: <CreditCardIcon className="w-5 h-5" />,
+    },
+    {
+      id: "vehicle",
+      title: t("vehicle_information"),
+      icon: <CarIcon className="w-5 h-5" />,
+    },
+    {
+      id: "background",
+      title: t("background_check"),
+      icon: <ShieldCheckIcon className="w-5 h-5" />,
+    },
+    {
+      id: "equipment",
+      title: t("equipment_availability"),
+      icon: <CalendarIcon className="w-5 h-5" />,
+    },
+    {
+      id: "documents",
+      title: t("documents"),
+      icon: <FileText className="w-5 h-5" />,
+    },
+  ];
 
   const handleNext = () => {
     if (currentStep < formSteps.length - 1) {
@@ -112,12 +115,11 @@ export function EditDeliveryPartnerForm() {
           className="text-center mb-12"
         >
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-            Update <span className="text-[#DC3173]">Delivery Partner</span>{" "}
-            Details
+            {t("update")} <span className="text-[#DC3173]">{t("delivery_partner")}</span>{" "}
+            {t("details")}
           </h1>
           <p className="text-gray-600 text-lg">
-            Complete the form below to make them delivering with
-            Portugal&lsquo;s favorite food delivery service
+            {t("complete_the_form_below")}
           </p>
         </motion.div>
 
@@ -128,11 +130,10 @@ export function EditDeliveryPartnerForm() {
               {formSteps.map((step, index) => (
                 <div key={step.id} className="flex flex-col items-center">
                   <div
-                    className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                      index <= currentStep
-                        ? "bg-[#DC3173] text-white"
-                        : "bg-gray-200 text-gray-500"
-                    } transition-all duration-300`}
+                    className={`flex items-center justify-center w-10 h-10 rounded-full ${index <= currentStep
+                      ? "bg-[#DC3173] text-white"
+                      : "bg-gray-200 text-gray-500"
+                      } transition-all duration-300`}
                   >
                     {index < currentStep ? (
                       <CheckCircleIcon className="w-6 h-6" />
@@ -141,11 +142,10 @@ export function EditDeliveryPartnerForm() {
                     )}
                   </div>
                   <span
-                    className={`text-sm mt-2 ${
-                      index <= currentStep
-                        ? "text-[#DC3173] font-medium"
-                        : "text-gray-500"
-                    }`}
+                    className={`text-sm mt-2 ${index <= currentStep
+                      ? "text-[#DC3173] font-medium"
+                      : "text-gray-500"
+                      }`}
                   >
                     {step.title}
                   </span>
@@ -164,7 +164,7 @@ export function EditDeliveryPartnerForm() {
             </div>
             <div className="flex items-center xl:hidden">
               <span className="text-[#DC3173] font-medium">
-                Step {currentStep + 1} of {formSteps.length}:
+                {t("step")} {currentStep + 1} {t("of")} {formSteps.length}:
               </span>
               <span className="ml-2 font-medium">
                 {formSteps[currentStep].title}
@@ -215,14 +215,13 @@ export function EditDeliveryPartnerForm() {
                 type="button"
                 onClick={handlePrevious}
                 disabled={currentStep === 0}
-                className={`flex items-center px-4 py-2 rounded-lg ${
-                  currentStep === 0
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                } transition-colors duration-200`}
+                className={`flex items-center px-4 py-2 rounded-lg ${currentStep === 0
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  } transition-colors duration-200`}
               >
                 <ChevronLeftIcon className="w-5 h-5 mr-1" />
-                Previous
+                {t("previous")}
               </button>
               <div className="flex-1" />
             </div>

@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { postData } from "@/utils/requests";
 import { motion } from "framer-motion";
@@ -19,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
+  const { t } = useTranslation();
   const router = useRouter();
   const [timer, setTimer] = useState(300);
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -153,10 +155,10 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
             </motion.div>
           </div>
           <CardTitle className="text-center text-[#DC3173]">
-            Verify Delivery Partner email
+            {t("verify_delivery_partner_email")}
           </CardTitle>
           <CardDescription className="text-center">
-            Enter the 4-digit code sent to your email
+            {t("otp4DigitCode")}
           </CardDescription>
         </CardHeader>
 
@@ -192,9 +194,9 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4 text-[#DC3173]" />
                 {canResend ? (
-                  <span className="text-gray-500">Expired</span>
+                  <span className="text-gray-500">{t("expired")}</span>
                 ) : (
-                  <span>{formatTime(timer)} remaining</span>
+                  <span>{formatTime(timer)} {t("remaining")}</span>
                 )}
               </div>
 
@@ -202,14 +204,13 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
                 type="button"
                 onClick={resendOtp}
                 disabled={!canResend}
-                className={`flex items-center gap-1 font-medium ${
-                  canResend
-                    ? "text-[#DC3173] hover:text-[#a72b5c]"
-                    : "text-gray-400 cursor-not-allowed"
-                } transition-colors`}
+                className={`flex items-center gap-1 font-medium ${canResend
+                  ? "text-[#DC3173] hover:text-[#a72b5c]"
+                  : "text-gray-400 cursor-not-allowed"
+                  } transition-colors`}
               >
                 <RefreshCcw className="w-4 h-4" />
-                Resend OTP
+                {t("resendOTP")}
               </button>
             </div>
 
@@ -218,7 +219,7 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
               type="submit"
               className="w-full bg-[#DC3173] hover:bg-[#a72b5c] transition-all duration-300 text-white text-lg font-medium py-2 rounded-lg shadow-md hover:shadow-lg"
             >
-              Verify
+              {t("verify")}
             </Button>
           </form>
         </CardContent>
