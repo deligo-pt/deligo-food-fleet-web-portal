@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Clock, ShoppingBag, ThumbsUp, Timer } from "lucide-react";
 import {
@@ -26,6 +27,8 @@ export const performanceData = [
 ];
 
 export default function ZonePerformance() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -41,9 +44,9 @@ export default function ZonePerformance() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Zone Performance</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("zone_performance")}</h1>
         <p className="text-gray-500 mt-1">
-          Detailed analytics and metrics for each operational zone
+          {t("detailed_analytics_matrics")}
         </p>
       </motion.div>
       {/* KPI Cards */}
@@ -51,51 +54,51 @@ export default function ZonePerformance() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Orders
+              {t("total_orders")}
             </CardTitle>
             <ShoppingBag className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1,248</div>
-            <p className="text-xs text-muted-foreground">+12% from last week</p>
+            <p className="text-xs text-muted-foreground">+12% {t("from_last_week")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg Delivery Time
+              {t("avg_delivery_time")}
             </CardTitle>
             <Clock className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">24m</div>
-            <p className="text-xs text-muted-foreground">-2m from last week</p>
+            <p className="text-xs text-muted-foreground">-2m {t("from_last_week")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Acceptance Rate
+              {t("acceptance_rate")}
             </CardTitle>
             <ThumbsUp className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">94.2%</div>
             <p className="text-xs text-muted-foreground">
-              +1.5% from last week
+              +1.5% {t("from_last_week")}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg Wait Time
+              {t("avg_wait_time")}
             </CardTitle>
             <Timer className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">4.5m</div>
-            <p className="text-xs text-muted-foreground">Steady</p>
+            <p className="text-xs text-muted-foreground">{t("steady")}</p>
           </CardContent>
         </Card>
       </div>
@@ -104,7 +107,7 @@ export default function ZonePerformance() {
       <div className="grid gap-4 md:grid-cols-2 mt-4">
         <Card className="col-span-1">
           <CardHeader>
-            <CardTitle>Weekly Order Volume</CardTitle>
+            <CardTitle>{t("weekly_order_volume")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -129,7 +132,7 @@ export default function ZonePerformance() {
 
         <Card className="col-span-1">
           <CardHeader>
-            <CardTitle>Revenue Trend</CardTitle>
+            <CardTitle>{t("revenue_trend")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">

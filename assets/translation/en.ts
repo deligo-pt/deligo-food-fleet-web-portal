@@ -727,6 +727,116 @@ export const en = {
     cancellation_failure_reason: "Cancellation / Failure Reason",
 
 
+    // earnings overview
+    fleet_earnings_overview: "Fleet Earnings Overview",
+    overview_fleet_financial: "Overview of your fleet’s financial performance",
+    revenue_trend: "Revenue Trend",
+    payout_distribution: "Payout Distribution",
+
+
+
+    // delivery partners payouts
+    partner_payouts: "Partner Payouts",
+    manage_process_delivery: "Manage and process delivery partner payments",
+    weekly_cycle: "Weekly Cycle",
+    bi_weekly_cycle: "Bi-Weekly Cycle",
+    monthly_cycle: "Monthly Cycle",
+    total_due: "Total Due",
+    trips: "Trips",
+    earnings_due: "Earnings Due",
+    last_payout: "Last Payout",
+    pay_now: "Pay Now",
+
+
+    // payment history
+    payment_history: "Payment History",
+    log_past_payouts: "Log of all past payouts to delivery partners",
+    date_range: "Date Range",
+    transaction_id: "Transaction ID",
+    period: "Period",
+    amount: "Amount",
+    to: "to",
+    results: "results",
+
+
+    // transaction details
+    transaction_lookup: "Transaction Lookup",
+    find_detailed_financial_breakdown: "Find detailed financial breakdown for any delivery order",
+    search: "Search",
+    financial_breakdown: "Financial Breakdown",
+    service_fee: "Service Fee",
+    surge_bonus: "Surge Bonus",
+    tip: "Tip",
+    gross_total: "Gross Total",
+    platform_fee: "Platform Fee",
+    partner_net: "Partner Net",
+    payout_rate: "payout rate",
+
+
+    // pending settlements
+    pending_settlements: "Pending Settlements",
+    track_earnings_accumulated: "Track earnings accumulated but not yet paid out",
+    trips_small: "trips",
+    days_pending: "days pending",
+    settlement_rules: "Settlement Rules",
+    earnings_are_held: "Earnings are held for 24 hours for fraud checks.",
+    payouts_under_accure: "Payouts under $20 accrue until threshold is met.",
+    disputes_freeze_settlement: "Disputes freeze settlement for specific orders only.",
+    next_payout_cycle: "Next Payout Cycle",
+    automatic_disbursement: "Automatic disbursement",
+    configure_schedule: "Configure Schedule",
+
+
+    // active zones
+    active_zones: "Active Zones",
+    manage_your_operational_zones: "Manage your operational zones and monitor their status",
+    load: "Load",
+    surge: "Surge",
+    zone_status: "Zone Status",
+
+    // add-zone
+    add_new_zone: "Add New Zone",
+    define_operational_area: "Define a new operational area by drawing boundaries on the map",
+    click_map_to_place_boundary: "Click on the map to place boundary points. Connect the last point to the first to close the polygon.",
+    zone_details: "Zone Details",
+    high_priority: "High Priority",
+    medium_priority: "Medium Priority",
+    low_priority: "Low Priority",
+    surge_multiplier: "Surge Multiplier",
+    save_zone: "Save Zone",
+
+
+    // zone performance
+    zone_performance: "Zone Performance",
+    detailed_analytics_matrics: "Detailed analytics and metrics for each operational zone",
+    total_orders: "Total Orders",
+    from_last_week: "from last week",
+    acceptance_rate: "Acceptance Rate",
+    avg_wait_time: "Avg Wait Time",
+    steady: "Steady",
+    weekly_order_volume: "Weekly Order Volume",
+
+
+    // zones-heatmap
+    zone_heatmaps: "Zone Heatmaps",
+    real_time_visualization: "Real-time visualization of order density and fleet coverage.",
+    density_legend: "Density Legend",
+    low_demand: "Low Demand",
+    high_demand: "High Demand",
+    active_orders: "Active Orders",
+
+
+    // zones-radius
+    adjust_zone_radius: "Adjust Zone Radius",
+    modify_geographical_boundaries: "Modify geographical boundaries for existing operational zones",
+    select_zone: "Select Zone",
+    downtown: "Downtown",
+    north_suburbs: "North Suburbs",
+    west_end: "West End",
+    drag_white_markers_on_the_map: "Drag the white markers on the map to adjust the zone boundaries. Changes will affect new orders immediately after saving.",
+    save_changes: "Save Changes",
+    reset_original: "Reset to Original",
+
 
 
 

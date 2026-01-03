@@ -3,6 +3,7 @@
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Switch } from "@/components/Switch/Switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { MapPin, TrendingUp, Users } from "lucide-react";
 
@@ -50,6 +51,8 @@ export const zones = [
 ];
 
 export default function ActiveZonesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -65,9 +68,9 @@ export default function ActiveZonesPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Active Zones</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("active_zones")}</h1>
         <p className="text-gray-500 mt-1">
-          Manage your operational zones and monitor their status
+          {t("manage_your_operational_zones")}
         </p>
       </motion.div>
 
@@ -87,22 +90,22 @@ export default function ActiveZonesPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Users className="mr-2 h-4 w-4" />
-                    Partners
+                    {t("partners")}
                   </div>
                   <span className="font-bold">{zone.partners}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <TrendingUp className="mr-2 h-4 w-4" />
-                    Load
+                    {t("load")}
                   </div>
                   <CustomBadge
                     variant={
                       zone.load === "Very High"
                         ? "destructive"
                         : zone.load === "High"
-                        ? "warning"
-                        : "secondary"
+                          ? "warning"
+                          : "secondary"
                     }
                   >
                     {zone.load}
@@ -111,16 +114,16 @@ export default function ActiveZonesPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <MapPin className="mr-2 h-4 w-4" />
-                    Surge
+                    {t("surge")}
                   </div>
                   <span className="font-bold text-primary">{zone.surge}x</span>
                 </div>
               </div>
               <div className="flex items-center justify-between border-t pt-4 mt-2">
-                <span className="text-sm font-medium">Zone Status</span>
+                <span className="text-sm font-medium">{t("zone_status")}</span>
                 <Switch
                   checked={zone.status === "Active"}
-                  onCheckedChange={() => {}}
+                  onCheckedChange={() => { }}
                 />
               </div>
             </CardContent>
