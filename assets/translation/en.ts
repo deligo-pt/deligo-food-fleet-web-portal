@@ -988,8 +988,58 @@ export const en = {
 
 
 
+    // support tickets
+    chat_support: "Chat Support",
+    get_help_from_support: "Get help from our support team in real‑time.",
+    deligo_support: "Deligo Support",
+    active_now: "Active now",
+    send: "Send",
 
 
+    // report-issue
+    report_an_issue: "Report an Issue",
+    found_a_problem: "Found a problem? Submit a report directly to the Deligo admin team.",
+    issue_has_been_submitted: "Your issue has been submitted successfully. Our support team will contact you soon.",
+    issue_type: "Issue Type",
+    order_issue: "Order Issue",
+    payout_earnings_issue: "Payout / Earnings Issue",
+    menu_items_issue: "Menu / Items Issue",
+    ui_dashboard_bug: "UI / Dashboard Bug",
+    delivery_partner_problem: "Delivery Partner Problem",
+    your_email: "Your Email",
+    describe_the_issue: "Describe the Issue",
+    attach_screenshot: "Attach Screenshot (optional)",
+    no_file_chosen: "No file chosen",
+    upload: "Upload",
+    submit_report: "Submit Report",
+    need_immediate_support: "Need Immediate Support?",
+    contact_support_team: "Contact our support team via live chat or email for faster assistance.",
+    open_live_chat: "Open Live Chat",
+
+
+    // help-center
+    help_center: "Help Center",
+    find_answers_guides_support: "Find answers, guides and support for your Deligo vendor account.",
+    vendor_guidebook: "Vendor Guidebook",
+    learn_how_to_use_deligo: "Learn how to use Deligo like a pro.",
+    policies_safety: "Policies & Safety",
+    rules_safe_platform: "Rules for safe platform usage.",
+    email_support: "Email Support",
+    live_chat: "Live Chat",
+    chat_with_support_team: "Chat with our support team.",
+    frequently_asked_questions: "Frequently Asked Questions",
+    faq_q_1: "How do I manage my orders?",
+    faq_a_1: "Go to Orders → Manage Orders to accept, prepare and complete orders.",
+    faq_q_2: "How can I update my business information?",
+    faq_a_2: "Navigate to Settings → Business Info to update store details.",
+    faq_q_3: "How are payouts processed?",
+    faq_a_3: "Payouts are automatically processed every Monday via SEPA.",
+    faq_q_4: "How do I change my theme settings?",
+    faq_a_4: "Go to Theme Settings to customize brand colors, dark mode and more.",
+    no_results_found: "No results found.",
+    need_more_help: "Need more help?",
+    support_team_available: "Our support team is available 7 days a week to assist you with your vendor account.",
+    contact_support: "Contact Support",
 
 
 
