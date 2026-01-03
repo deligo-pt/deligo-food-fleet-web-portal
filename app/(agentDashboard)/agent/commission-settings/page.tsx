@@ -4,10 +4,13 @@ import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Switch } from "@/components/Switch/Switch";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Euro, Save } from "lucide-react";
 
 export default function CommissionSettingsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -24,32 +27,32 @@ export default function CommissionSettingsPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Commission Settings
+          {t("commission_settings")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Configure partner payouts, delivery fees, and surge multipliers
+          {t("configure_partner_payouts")}
         </p>
       </motion.div>
       <div className="grid gap-6 md:grid-cols-2 mt-10">
         <Card>
           <CardHeader>
-            <CardTitle>Base Rates</CardTitle>
+            <CardTitle>{t("base_rates")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <CustomInput
-              label="Base Per-Delivery Rate (€)"
+              label={t("base_per_delivery_rate")}
               type="number"
               placeholder="4.50"
               icon={<Euro className="h-4 w-4" />}
             />
             <CustomInput
-              label="Distance Rate (€ per km)"
+              label={t("distance_rate")}
               type="number"
               placeholder="0.85"
               icon={<Euro className="h-4 w-4" />}
             />
             <CustomInput
-              label="Minimum Guarantee (€)"
+              label={t("minimum_guarantee")}
               type="number"
               placeholder="8.00"
               icon={<Euro className="h-4 w-4" />}
@@ -59,16 +62,16 @@ export default function CommissionSettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Multipliers & Tips</CardTitle>
+            <CardTitle>{t("multipliers_tips")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <CustomInput
-              label="Peak Hour Multiplier (x)"
+              label={t("peak_hour_multiplier")}
               type="number"
               placeholder="1.5"
             />
             <CustomInput
-              label="Rain/Bad Weather Multiplier (x)"
+              label={t("rain_bad_weather_multiplier")}
               type="number"
               placeholder="1.2"
             />
@@ -77,25 +80,25 @@ export default function CommissionSettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <label className="text-sm font-medium">
-                    Enable Customer Tips
+                    {t("enable_customer_tips")}
                   </label>
                   <p className="text-xs text-muted-foreground">
-                    Allow customers to tip partners in-app
+                    {t("allow_customers_tip_partners")}
                   </p>
                 </div>
-                <Switch checked={true} onCheckedChange={() => {}} />
+                <Switch checked={true} onCheckedChange={() => { }} />
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <label className="text-sm font-medium">
-                    100% Tips to Partner
+                    100% {t("tips_to_partner")}
                   </label>
                   <p className="text-xs text-muted-foreground">
-                    Platform takes no commission on tips
+                    {t("platform_takes_commission")}
                   </p>
                 </div>
-                <Switch checked={true} onCheckedChange={() => {}} />
+                <Switch checked={true} onCheckedChange={() => { }} />
               </div>
             </div>
           </CardContent>
@@ -105,7 +108,7 @@ export default function CommissionSettingsPage() {
       <div className="flex justify-end mt-6">
         <Button className="bg-[#DC3173] hover:bg-[#DC3173]/90" size="lg">
           <Save className="mr-2 h-4 w-4" />
-          Save Changes
+          {t("save_changes")}
         </Button>
       </div>
     </div>

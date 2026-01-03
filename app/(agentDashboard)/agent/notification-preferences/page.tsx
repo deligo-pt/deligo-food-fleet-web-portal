@@ -2,63 +2,66 @@
 
 import { Switch } from "@/components/Switch/Switch";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { AlertTriangle, Bell, Info } from "lucide-react";
 
-const notifications = [
-  {
-    category: "Critical Alerts",
-    icon: AlertTriangle,
-    items: [
-      {
-        label: "Low Partner Coverage",
-        desc: "Alert when active partners drop below threshold in a zone",
-      },
-      {
-        label: "High Cancellation Rate",
-        desc: "Alert when order cancellations exceed 5% in an hour",
-      },
-      {
-        label: "System Outage",
-        desc: "Immediate alert for any system downtime",
-      },
-    ],
-  },
-  {
-    category: "Operational Updates",
-    icon: Bell,
-    items: [
-      {
-        label: "New Partner Application",
-        desc: "Notify when a new partner submits documents",
-      },
-      {
-        label: "Zone Surge Activated",
-        desc: "Notify when automated surge pricing kicks in",
-      },
-      {
-        label: "Negative Feedback",
-        desc: "Notify when a partner receives a 1-star rating",
-      },
-    ],
-  },
-  {
-    category: "System Info",
-    icon: Info,
-    items: [
-      {
-        label: "Daily Summary Report",
-        desc: "Email summary of previous day stats at 8am",
-      },
-      {
-        label: "Weekly Performance",
-        desc: "Weekly digest of fleet performance",
-      },
-    ],
-  },
-];
-
 export default function NotificationPreferencesPage() {
+  const { t } = useTranslation();
+
+  const notifications = [
+    {
+      category: t("critical_alerts"),
+      icon: AlertTriangle,
+      items: [
+        {
+          label: t("low_partner_coverage"),
+          desc: t("alert_when_active"),
+        },
+        {
+          label: t("high_cancellation_rate"),
+          desc: t("alert_when_order"),
+        },
+        {
+          label: t("system_outage"),
+          desc: t("immediate_alert"),
+        },
+      ],
+    },
+    {
+      category: t("operational_updates"),
+      icon: Bell,
+      items: [
+        {
+          label: t("new_partner_application"),
+          desc: t("notify_when_new_partner"),
+        },
+        {
+          label: t("zone_surge_activated"),
+          desc: t("notify_when_automated"),
+        },
+        {
+          label: t("negative_feedback"),
+          desc: t("notify_when_partner_receives"),
+        },
+      ],
+    },
+    {
+      category: t("system_info"),
+      icon: Info,
+      items: [
+        {
+          label: t("daily_smmmary_report"),
+          desc: t("email_summmary_previous"),
+        },
+        {
+          label: t("weekly_performance"),
+          desc: t("weekly_digest_fleet"),
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -75,10 +78,10 @@ export default function NotificationPreferencesPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Notification Preferences
+          {t("notification_preferences")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Configure which alerts and updates you want to receive
+          {t("configure_which_alerts_updates")}
         </p>
       </motion.div>
 
@@ -96,7 +99,7 @@ export default function NotificationPreferencesPage() {
                     <label className="text-sm font-medium">{item.label}</label>
                     <p className="text-xs text-muted-foreground">{item.desc}</p>
                   </div>
-                  <Switch checked={true} onCheckedChange={() => {}} />
+                  <Switch checked={true} onCheckedChange={() => { }} />
                 </div>
               ))}
             </CardContent>

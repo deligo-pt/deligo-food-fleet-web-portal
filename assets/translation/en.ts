@@ -837,7 +837,94 @@ export const en = {
     save_changes: "Save Changes",
     reset_original: "Reset to Original",
 
+    // vehicle types
+    vehicle_types: "Vehicle Types",
+    configure_available_vehicle: "Configure available vehicle types and their specific settings",
+    vehicle_name: "Vehicle Name",
+    capacity_size: "Capacity Size",
+    base_rate_multiplier: "Base Rate Multiplier",
+    van: "Van",
 
+
+    // days
+    monday: "Monday",
+    tuesday: "Tuesday",
+    wednesday: "Wednesday",
+    thursday: "Thursday",
+    friday: "Friday",
+    saturday: "Saturday",
+    sunday: "Sunday",
+    // operating hours
+    operating_hours: "Operating Hours",
+    configure_your_fleet_active: "Configure when your fleet is active and accepting orders",
+    click_time_slot_toggle: "Click on time slots to toggle availability. Gray slots are inactive.",
+    day: "Day",
+
+
+
+    // commission-settings
+    commission_settings: "Commission Settings",
+    configure_partner_payouts: "Configure partner payouts, delivery fees, and surge multipliers",
+    base_rates: "Base Rates",
+    base_per_delivery_rate: "Base Per-Delivery Rate (€)",
+    distance_rate: "Distance Rate (€ per km)",
+    minimum_guarantee: "Minimum Guarantee (€)",
+    multipliers_tips: "Multipliers & Tips",
+    peak_hour_multiplier: "Peak Hour Multiplier (x)",
+    rain_bad_weather_multiplier: "Rain/Bad Weather Multiplier (x)",
+    enable_customer_tips: "Enable Customer Tips",
+    allow_customers_tip_partners: "Allow customers to tip partners in-app",
+    tips_to_partner: "Tips to Partner",
+    platform_takes_commission: "Platform takes no commission on tips",
+
+
+    // payment-preference
+    payment_preference: "Payment Preferences",
+    manage_payout_gateways: "Manage payout gateways and tax documentation settings",
+    payout_configuration: "Payout Configuration",
+    payment_gateway: "Payment Gateway",
+    stripe_connect: "Stripe Connect",
+    paypal_payouts: "PayPal Payouts",
+    direct_bank_transfer: "Direct Bank Transfer",
+    payout_frequency: "Payout Frequency",
+    daily_automatic: "Daily (Automatic)",
+    weekly_every_monday: "Weekly (Every Monday)",
+    monthly_1st_month: "Monthly (1st of month)",
+    manual_request_only: "Manual Request Only",
+    tax_compliance: "Tax & Compliance",
+    tax_form_generation: "Tax Form Generation",
+    automated_1099_nec: "Automated (1099-NEC)",
+    manual_upload: "Manual Upload",
+    connected_account: "Connected Account",
+    stripe_connect_id: "Stripe Connect ID",
+    save_preferences: "Save Preferences",
+
+
+    // notification preferences
+    notification_preferences: "Notification Preferences",
+    configure_which_alerts_updates: "Configure which alerts and updates you want to receive",
+    critical_alerts: "Critical Alerts",
+    low_partner_coverage: "Low Partner Coverage",
+    alert_when_active: "Alert when active partners drop below threshold in a zone",
+    high_cancellation_rate: "High Cancellation Rate",
+    alert_when_order: "Alert when order cancellations exceed 5% in an hour",
+    system_outage: "System Outage",
+    immediate_alert: "Immediate alert for any system downtime",
+    operational_updates:"Operational Updates",
+    new_partner_application:"New Partner Application",
+    notify_when_new_partner:"Notify when a new partner submits documents",
+    zone_surge_activated:"Zone Surge Activated",
+    notify_when_automated:"Notify when automated surge pricing kicks in",
+    negative_feedback:"Negative Feedback",
+    notify_when_partner_receives:"Notify when a partner receives a 1-star rating",
+    system_info:"System Info",
+    daily_smmmary_report:"Daily Summary Report",
+    email_summmary_previous:"Email summary of previous day stats at 8am",
+    weekly_performance:"Weekly Performance",
+    weekly_digest_fleet:"Weekly digest of fleet performance",
+
+
+    // 
 
 
 

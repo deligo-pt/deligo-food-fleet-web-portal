@@ -3,10 +3,13 @@
 import { CustomSelect } from "@/components/CustomInput/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { CreditCard, Save } from "lucide-react";
 
 export default function PaymentPreferencesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -23,54 +26,54 @@ export default function PaymentPreferencesPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Payment Preferences
+          {t("payment_preference")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Manage payout gateways and tax documentation settings
+          {t("manage_payout_gateways")}
         </p>
       </motion.div>
       <div className="grid lg:grid-cols-2 gap-6 mt-10">
         <Card>
           <CardHeader>
-            <CardTitle>Payout Configuration</CardTitle>
+            <CardTitle>{t("payout_configuration")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <CustomSelect
-              label="Payment Gateway"
+              label={t("payment_gateway")}
               options={[
                 {
                   value: "stripe",
-                  label: "Stripe Connect",
+                  label: t("stripe_connect"),
                 },
                 {
                   value: "paypal",
-                  label: "PayPal Payouts",
+                  label: t("paypal_payouts"),
                 },
                 {
                   value: "bank",
-                  label: "Direct Bank Transfer",
+                  label: t("direct_bank_transfer"),
                 },
               ]}
             />
 
             <CustomSelect
-              label="Payout Frequency"
+              label={t("payout_frequency")}
               options={[
                 {
                   value: "daily",
-                  label: "Daily (Automatic)",
+                  label: t("daily_automatic"),
                 },
                 {
                   value: "weekly",
-                  label: "Weekly (Every Monday)",
+                  label: t("weekly_every_monday"),
                 },
                 {
                   value: "monthly",
-                  label: "Monthly (1st of month)",
+                  label: t("monthly_1st_month"),
                 },
                 {
                   value: "manual",
-                  label: "Manual Request Only",
+                  label: t("manual_request_only"),
                 },
               ]}
             />
@@ -79,19 +82,19 @@ export default function PaymentPreferencesPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Tax & Compliance</CardTitle>
+            <CardTitle>{t("tax_compliance")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <CustomSelect
-              label="Tax Form Generation"
+              label={t("tax_form_generation")}
               options={[
                 {
                   value: "auto",
-                  label: "Automated (1099-NEC)",
+                  label: t("automated_1099_nec"),
                 },
                 {
                   value: "manual",
-                  label: "Manual Upload",
+                  label: t("manual_upload"),
                 },
               ]}
             />
@@ -99,12 +102,12 @@ export default function PaymentPreferencesPage() {
             <div className="p-4 bg-secondary/50 rounded-lg flex items-start gap-3">
               <CreditCard className="h-5 w-5 text-primary mt-0.5" />
               <div className="text-sm">
-                <p className="font-medium">Connected Account</p>
+                <p className="font-medium">{t("connected_account")}</p>
                 <p className="text-muted-foreground">
-                  Stripe Connect ID: acct_123456789
+                  {t("stripe_connect_id")}: acct_123456789
                 </p>
                 <p className="text-green-600 font-medium mt-1">
-                  Status: Verified
+                  {t("status")}: Verified
                 </p>
               </div>
             </div>
@@ -114,7 +117,7 @@ export default function PaymentPreferencesPage() {
         <div className="flex justify-end">
           <Button className="bg-[#DC3173] hover:bg-[#DC3173]/90" size="lg">
             <Save className="mr-2 h-4 w-4" />
-            Save Preferences
+            {t("save_preferences")}
           </Button>
         </div>
       </div>
