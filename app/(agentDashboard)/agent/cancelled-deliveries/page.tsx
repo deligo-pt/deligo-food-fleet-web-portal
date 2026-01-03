@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useMemo, JSX } from "react";
-import { Search, XCircle, MapPin, Bike, Clock, AlertTriangle, Eye } from "lucide-react";
+import { Search, XCircle, MapPin, Bike, AlertTriangle, Eye } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 
 
@@ -59,6 +60,7 @@ const sample: Cancelled[] = [
 ];
 
 export default function CancelledDeliveriesPage(): JSX.Element {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<Cancelled | null>(null);
 
@@ -84,9 +86,9 @@ export default function CancelledDeliveriesPage(): JSX.Element {
       <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-            <XCircle size={22} color={DELIGO} /> Cancelled Deliveries
+            <XCircle size={22} color={DELIGO} /> {t("cancelled_deliveries")}
           </h1>
-          <p className="text-sm text-gray-600">View failed or cancelled orders with reasons & refunds.</p>
+          <p className="text-sm text-gray-600">{t("view_failed_cancelled")}</p>
         </div>
 
         <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-80">
@@ -140,7 +142,7 @@ export default function CancelledDeliveriesPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-green-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Pickup</div>
+                  <div className="text-xs text-gray-500">{t("pickup")}</div>
                   <div className="text-sm font-medium text-gray-800 truncate">{d.pickup}</div>
                 </div>
               </div>
@@ -148,7 +150,7 @@ export default function CancelledDeliveriesPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-red-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Drop-off</div>
+                  <div className="text-xs text-gray-500">{t("drop_off")}</div>
                   <div className="text-sm font-medium text-gray-800 truncate">{d.drop}</div>
                 </div>
               </div>
@@ -158,7 +160,7 @@ export default function CancelledDeliveriesPage(): JSX.Element {
               <div className="flex items-center gap-2">
                 <Bike size={16} color={DELIGO} /> <span>{d.time}</span>
               </div>
-              <div className="text-sm font-semibold text-red-500">Refund €{d.refund.toFixed(2)}</div>
+              <div className="text-sm font-semibold text-red-500">{t("refund")} €{d.refund.toFixed(2)}</div>
             </div>
           </article>
         ))}
@@ -171,7 +173,7 @@ export default function CancelledDeliveriesPage(): JSX.Element {
 
           <aside className="ml-auto w-full sm:w-[460px] bg-white shadow-2xl rounded-l-2xl p-6 overflow-y-auto animate-slide-in">
             <h3 className="text-lg font-semibold flex items-center gap-2">
-              <XCircle size={20} color={DELIGO} /> Cancelled #{active.id}
+              <XCircle size={20} color={DELIGO} /> {t("cancelled")} #{active.id}
             </h3>
             <p className="text-xs text-gray-500 mb-4">{active.date}</p>
 
@@ -190,29 +192,29 @@ export default function CancelledDeliveriesPage(): JSX.Element {
 
               <div>
                 <div className="text-sm font-medium">{active.partnerName}</div>
-                <div className="text-xs text-gray-500">Customer: {active.customer}</div>
+                <div className="text-xs text-gray-500">{t("customer")}: {active.customer}</div>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Pickup</div>
+                <div className="text-xs text-gray-500 mb-1">{t("pickup")}</div>
                 <div className="text-sm font-medium">{active.pickup}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Drop-off</div>
+                <div className="text-xs text-gray-500 mb-1">{t("drop_off")}</div>
                 <div className="text-sm font-medium">{active.drop}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Time before cancel</div>
+                  <div className="text-xs text-gray-500">{t("time_before_cancel")}</div>
                   <div className="text-sm font-semibold">{active.time}</div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Refund</div>
+                  <div className="text-xs text-gray-500">{t("refund")}</div>
                   <div className="text-sm font-semibold text-red-600">€{active.refund.toFixed(2)}</div>
                 </div>
               </div>
@@ -220,10 +222,10 @@ export default function CancelledDeliveriesPage(): JSX.Element {
 
             <div className="mt-6 flex items-center justify-end gap-3">
               <button onClick={() => setActive(null)} className="px-4 py-2 rounded-md text-white" style={{ backgroundColor: DELIGO }}>
-                Close
+                {t("close")}
               </button>
               <button className="px-4 py-2 rounded-md border bg-white flex items-center gap-2">
-                <Eye size={14} color={DELIGO} /> View Partner
+                <Eye size={14} color={DELIGO} /> {t("view_partner")}
               </button>
             </div>
           </aside>
