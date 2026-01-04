@@ -170,7 +170,8 @@ const MENU = [
     title: "Support & Communication",
     icon: <MessageSquare size={18} />,
     items: [
-      { name: "Support Tickets", path: "/agent/support-tickets" },
+      { name: "Chat with Support", path: "/agent/chat-support" },
+      // { name: "Support Tickets", path: "/agent/support-tickets" },
       { name: "Delivery Partner Chat", path: "/agent/delivery-partner-chat" },
       { name: "Report an Issue", path: "/agent/report-issue" },
       { name: "Help Center", path: "/agent/help-center" },
