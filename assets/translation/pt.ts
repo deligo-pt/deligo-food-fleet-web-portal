@@ -634,6 +634,76 @@ export const pt = {
 
 
     // dashboard contents
+    // sidebar
+    delivery_partners_management: "Gestão de Parceiros de Entrega",
+    all_delivery_partners: "Todos os Parceiros de Entrega",
+    add_new_delivery_partner: "Adicionar Novo Parceiro de Entrega",
+    pending_verification: "Verificação Pendente",
+    active_delivery_partners: "Parceiros de Entrega Ativos",
+    suspended_delivery_partners: "Parceiros de Entrega Suspensos",
+    rejected_delivery_partners: "Parceiros de Entrega Rejeitados",
+    delivery_partner_performance: "Desempenho do Parceiro de Entrega",
+    delivery_partner_reviews: "Avaliações dos Parceiros de Entrega",
+    orders_nd_deliveries: "Pedidos e Entregas",
+    all_deliveries: "Todas as Entregas",
+    pending_pickup: "Recolha Pendente",
+    on_the_way: "Em Entrega",
+    delivered: "Entregue",
+    cancelled_deliveries: "Entregas Canceladas",
+    delivery_history: "Histórico de Entregas",
+
+    // ->
+    payments_nd_earnings: "Pagamentos e Ganhos",
+    fleet_earnings_overview: "Visão Geral dos Ganhos da Frota",
+    delivery_partner_payouts: "Pagamentos aos Parceiros de Entrega",
+    payment_history: "Histórico de Pagamentos",
+    transaction_details: "Detalhes da Transação",
+    pending_settlements: "Liquidações Pendentes",
+
+    // ->
+    delivery_zones: "Zonas de Entrega",
+    active_zones: "Zonas Ativas",
+    add_new_zone: "Adicionar Nova Zona",
+    zone_performance: "Desempenho da Zona",
+    heatmap_busy_zones: "Mapa de Calor (Zonas Movimentadas)",
+    adjust_zone_radius: "Ajustar Raio da Zona",
+
+    // ->
+    fleet_settings: "Definições da Frota",
+    vehicle_types: "Tipos de Veículos",
+    operating_hours: "Horário de Funcionamento",
+    commission_settings: "Definições de Comissão",
+    payment_preferences: "Preferências de Pagamento",
+    notification_preferences: "Preferências de Notificação",
+
+    // ->
+    team_management: "Gestão de Equipa",
+    all_team_members: "Todos os Membros da Equipa",
+    roles_nd_permissions: "Funções e Permissões",
+    activity_logs: "Registos de Atividade",
+
+    // ->
+    reports_nd_analytics: "Relatórios e Análises",
+    delivery_partner_performance_report: "Relatório de Desempenho dos Parceiros de Entrega",
+    earnings_report: "Relatório de Ganhos",
+    delivery_summary: "Resumo de Entregas",
+    monthly_report: "Relatório Mensal",
+    custom_report_builder: "Construtor de Relatórios Personalizados",
+
+    // ->
+    support_nd_communication: "Suporte e Comunicação",
+    chat_with_support: "Chat com o Suporte",
+    delivery_partner_chat: "Chat com Parceiros de Entrega",
+    report_an_issue: "Reportar um Problema",
+    help_center: "Centro de Ajuda",
+
+    // ->
+    emergency_sos: "Emergência / SOS",
+    delivery_partner_emergency_alerts: "Alertas de Emergência dos Parceiros de Entrega",
+    report_accident_incident: "Reportar Acidente / Incidente",
+    live_delivery_partner_tracking: "Monitorização em Tempo Real dos Parceiros de Entrega",
+
+
     // sorting
     newest_first: "Mais recentes primeiro",
     oldest_first: "Mais antigos primeiro",
@@ -805,7 +875,6 @@ export const pt = {
 
 
     // delivery partner performance
-    delivery_partner_performance: "Desempenho do parceiro de entrega",
     sortable_filterable_exportable: "Visão geral ordenável, filtrável e exportável.",
     last_7_days: "Últimos 7 dias",
     last_14_days: "Últimos 14 dias",
@@ -844,7 +913,6 @@ export const pt = {
     positive: "Positivo",
     neutral: "Neutro",
     negative: "Negativo",
-    delivery_partner_reviews: "Avaliações do parceiro de entrega",
     analyze_customer_feedback: "Analisar feedback dos clientes e desempenho do parceiro por sentimento e avaliação.",
     order: "Pedido",
     customer: "Cliente",
@@ -856,7 +924,6 @@ export const pt = {
     completed: "Concluídas",
     cancelled: "Canceladas",
     ongoing: "Em curso",
-    all_deliveries: "Todas as entregas",
     track_every_delivery: "Acompanhe todas as entregas em Portugal — estado em tempo real e histórico.",
     pickup: "Recolha",
     drop_off: "Entrega",
@@ -881,7 +948,6 @@ export const pt = {
     live: "Ao vivo",
     time_elapsed: "Tempo decorrido",
     speed: "Velocidade",
-    on_the_way: "A caminho",
     distance_left: "Distância restante",
 
     // delivered page
@@ -891,13 +957,11 @@ export const pt = {
     earning: "Ganho",
 
     // cancelled deliveries
-    cancelled_deliveries: "Entregas canceladas",
     view_failed_cancelled: "Ver pedidos falhados ou cancelados com motivos e reembolsos.",
     refund: "Reembolso",
     time_before_cancel: "Tempo antes do cancelamento",
 
     // delivery history
-    delivery_history: "Histórico de entregas",
     complete_timeline: "Linha temporal completa de todas as entregas — concluídas, canceladas e falhadas.",
     all: "Todas",
     failed: "Falhadas",
@@ -905,7 +969,6 @@ export const pt = {
     cancellation_failure_reason: "Motivo de cancelamento / falha",
 
     // earnings overview
-    fleet_earnings_overview: "Visão geral dos ganhos da frota",
     overview_fleet_financial: "Visão geral do desempenho financeiro da sua frota",
     revenue_trend: "Tendência de receitas",
     payout_distribution: "Distribuição de pagamentos",
@@ -923,7 +986,6 @@ export const pt = {
     pay_now: "Pagar agora",
 
     // payment history
-    payment_history: "Histórico de pagamentos",
     log_past_payouts: "Registo de todos os pagamentos anteriores aos parceiros de entrega",
     date_range: "Intervalo de datas",
     transaction_id: "ID da transação",
@@ -949,7 +1011,6 @@ export const pt = {
 
 
     // pending settlements
-    pending_settlements: "Liquidações pendentes",
     track_earnings_accumulated: "Acompanhe os ganhos acumulados que ainda não foram pagos",
     trips_small: "viagens",
     days_pending: "dias pendentes",
@@ -963,7 +1024,6 @@ export const pt = {
 
 
     // active zones
-    active_zones: "Zonas ativas",
     manage_your_operational_zones: "Gerir as suas zonas operacionais e monitorizar o seu estado",
     load: "Carga",
     surge: "Pico",
@@ -971,7 +1031,6 @@ export const pt = {
 
 
     // add-zone
-    add_new_zone: "Adicionar nova zona",
     define_operational_area: "Defina uma nova área operacional desenhando limites no mapa",
     click_map_to_place_boundary: "Clique no mapa para marcar os pontos de limite. Ligue o último ponto ao primeiro para fechar o polígono.",
     zone_details: "Detalhes da zona",
@@ -983,7 +1042,6 @@ export const pt = {
 
 
     // zone performance
-    zone_performance: "Desempenho da zona",
     detailed_analytics_matrics: "Análises e métricas detalhadas para cada zona operacional",
     total_orders: "Total de pedidos",
     from_last_week: "desde a semana passada",
@@ -1003,7 +1061,6 @@ export const pt = {
 
 
     // zones-radius
-    adjust_zone_radius: "Ajustar raio da zona",
     modify_geographical_boundaries: "Modificar os limites geográficos das zonas operacionais existentes",
     select_zone: "Selecionar zona",
     downtown: "Centro",
@@ -1015,7 +1072,6 @@ export const pt = {
 
 
     // vehicle types
-    vehicle_types: "Tipos de veículos",
     configure_available_vehicle: "Configurar os tipos de veículos disponíveis e as suas definições específicas",
     vehicle_name: "Nome do veículo",
     capacity_size: "Capacidade",
@@ -1033,14 +1089,12 @@ export const pt = {
     sunday: "Domingo",
 
     // operating hours
-    operating_hours: "Horário de funcionamento",
     configure_your_fleet_active: "Configure quando a sua frota está ativa e a aceitar pedidos",
     click_time_slot_toggle: "Clique nos intervalos de tempo para alternar a disponibilidade. Os intervalos a cinzento estão inativos.",
     day: "Dia",
 
 
     // commission-settings
-    commission_settings: "Definições de comissão",
     configure_partner_payouts: "Configurar pagamentos aos parceiros, taxas de entrega e multiplicadores de pico",
     base_rates: "Tarifas base",
     base_per_delivery_rate: "Tarifa base por entrega (€)",
@@ -1079,7 +1133,6 @@ export const pt = {
 
 
     // notification preferences
-    notification_preferences: "Preferências de notificações",
     configure_which_alerts_updates: "Configure quais alertas e atualizações deseja receber",
     critical_alerts: "Alertas críticos",
     low_partner_coverage: "Baixa cobertura de parceiros",
@@ -1118,7 +1171,6 @@ export const pt = {
 
 
     // activity logs
-    activity_logs: "Registos de atividade",
     audit_trail_all_administrative: "Trilho de auditoria de todas as ações administrativas realizadas no sistema",
     user: "Utilizador",
     target: "Alvo",
@@ -1135,7 +1187,6 @@ export const pt = {
 
 
     // report earnings
-    earnings_report: "Relatório de ganhos",
     financial_breakdown_fleet_earnings: "Detalhamento financeiro dos ganhos, bónus e deduções da frota",
     revenue_breakdown: "Detalhamento da receita",
     daily_earnings_trend: "Tendência diária de ganhos",
@@ -1149,7 +1200,6 @@ export const pt = {
 
 
     // report-monthly
-    monthly_report: "Relatório mensal",
     aggregate_kpis_performance_metrics: "KPIs agregados e métricas de desempenho para todo o mês",
     total_revenue: "Receita total",
     vs: "vs",
@@ -1159,7 +1209,6 @@ export const pt = {
 
 
     // report custom
-    custom_report_builder: "Construtor de relatórios personalizados",
     generate_ad_hoc_reports_selecting: "Gerar relatórios ad-hoc selecionando fontes de dados e filtros específicos",
     report_configuration: "Configuração do relatório",
     data_source: "Fonte de dados",
@@ -1178,7 +1227,6 @@ export const pt = {
 
 
     // report-issue
-    report_an_issue: "Reportar um problema",
     found_a_problem: "Encontrou um problema? Submeta um relatório diretamente à equipa administrativa da Deligo.",
     issue_has_been_submitted: "O seu problema foi submetido com sucesso. A nossa equipa de suporte entrará em contacto em breve.",
     issue_type: "Tipo de problema",
@@ -1199,7 +1247,6 @@ export const pt = {
 
 
     // help-center
-    help_center: "Centro de ajuda",
     find_answers_guides_support: "Encontre respostas, guias e apoio para a sua conta de vendedor Deligo.",
     vendor_guidebook: "Guia do vendedor",
     learn_how_to_use_deligo: "Aprenda a utilizar a Deligo como um profissional.",

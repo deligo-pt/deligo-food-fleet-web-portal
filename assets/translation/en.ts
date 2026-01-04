@@ -460,6 +460,69 @@ export const en = {
 
 
     // dashboard contents
+    // sidebar
+    delivery_partners_management: "Delivery Partners Management",
+    all_delivery_partners: "All Delivery Partners",
+    add_new_delivery_partner: "Add New Delivery Partner",
+    pending_verification: "Pending Verification",
+    active_delivery_partners: "Active Delivery Partners",
+    suspended_delivery_partners: "Suspended Delivery Partners",
+    rejected_delivery_partners: "Rejected Delivery Partners",
+    delivery_partner_performance: "Delivery Partner Performance",
+    delivery_partner_reviews: "Delivery Partner Reviews",
+    orders_nd_deliveries: "Orders & Deliveries",
+    all_deliveries: "All Deliveries",
+    pending_pickup: "Pending Pickup",
+    on_the_way: "On the Way",
+    delivered: "Delivered",
+    cancelled_deliveries: "Cancelled Deliveries",
+    delivery_history: "Delivery History",
+    // ->
+    payments_nd_earnings: "Payments & Earnings",
+    fleet_earnings_overview: "Fleet Earnings Overview",
+    delivery_partner_payouts: "Delivery Partner Payouts",
+    payment_history: "Payment History",
+    transaction_details: "Transaction Details",
+    pending_settlements: "Pending Settlements",
+    // ->
+    delivery_zones: "Delivery Zones",
+    active_zones: "Active Zones",
+    add_new_zone: "Add New Zone",
+    zone_performance: "Zone Performance",
+    heatmap_busy_zones: "Heatmap (Busy Zones)",
+    adjust_zone_radius: "Adjust Zone Radius",
+    // ->
+    fleet_settings: "Fleet Settings",
+    vehicle_types: "Vehicle Types",
+    operating_hours: "Operating Hours",
+    commission_settings: "Commission Settings",
+    payment_preferences: "Payment Preferences",
+    notification_preferences: "Notification Preferences",
+    // -> 
+    team_management: "Team Management",
+    all_team_members: "All Team Members",
+    roles_nd_permissions: "Roles & Permissions",
+    activity_logs: "Activity Logs",
+    // -> 
+    reports_nd_analytics: "Reports & Analytics",
+    delivery_partner_performance_report: "Delivery Partner Performance Report",
+    earnings_report: "Earnings Report",
+    delivery_summary: "Delivery Summary",
+    monthly_report: "Monthly Report",
+    custom_report_builder: "Custom Report Builder",
+    // -> 
+    support_nd_communication: "Support & Communication",
+    chat_with_support: "Chat with Support",
+    delivery_partner_chat: "Delivery Partner Chat",
+    report_an_issue: "Report an Issue",
+    help_center: "Help Center",
+    // ->
+    emergency_sos: "Emergency / SOS",
+    delivery_partner_emergency_alerts: "Delivery Partner Emergency Alerts",
+    report_accident_incident: "Report Accident / Incident",
+    live_delivery_partner_tracking: "Live Delivery Partner Tracking",
+
+
     // sorting
     newest_first: "Newest First",
     oldest_first: "Oldest First",
@@ -623,7 +686,6 @@ export const en = {
     complete_submit: "Complete & Submit",
 
     // delivery partner performance
-    delivery_partner_performance: "Delivery Partner Performance",
     sortable_filterable_exportable: "Sortable, filterable, exportable overview.",
     last_7_days: "Last 7 days",
     last_14_days: "Last 14 days",
@@ -662,7 +724,6 @@ export const en = {
     positive: "Positive",
     neutral: "Neutral",
     negative: "Negative",
-    delivery_partner_reviews: "Delivery Partner Reviews",
     analyze_customer_feedback: "Analyze customer feedback & partner performance by sentiment and rating.",
     order: "Order",
     customer: "Customer",
@@ -674,7 +735,6 @@ export const en = {
     completed: "Completed",
     cancelled: "Cancelled",
     ongoing: "Ongoing",
-    all_deliveries: "All Deliveries",
     track_every_delivery: "Track every delivery across Portugal — real-time status & history.",
     pickup: "Pickup",
     drop_off: "Drop-off",
@@ -702,7 +762,6 @@ export const en = {
     live: "Live",
     time_elapsed: "Time elapsed",
     speed: "Speed",
-    on_the_way: "On-The-Way",
     distance_left: "Distance left",
 
 
@@ -714,12 +773,10 @@ export const en = {
 
 
     // cancelled deliveries
-    cancelled_deliveries: "Cancelled Deliveries",
     view_failed_cancelled: "View failed or cancelled orders with reasons & refunds.",
     refund: "Refund",
     time_before_cancel: "Time before cancel",
     // delivery history
-    delivery_history: "Delivery History",
     complete_timeline: "Complete timeline of all past deliveries — completed, cancelled & failed.",
     all: "All",
     failed: "Failed",
@@ -728,7 +785,6 @@ export const en = {
 
 
     // earnings overview
-    fleet_earnings_overview: "Fleet Earnings Overview",
     overview_fleet_financial: "Overview of your fleet’s financial performance",
     revenue_trend: "Revenue Trend",
     payout_distribution: "Payout Distribution",
@@ -749,7 +805,6 @@ export const en = {
 
 
     // payment history
-    payment_history: "Payment History",
     log_past_payouts: "Log of all past payouts to delivery partners",
     date_range: "Date Range",
     transaction_id: "Transaction ID",
@@ -774,7 +829,6 @@ export const en = {
 
 
     // pending settlements
-    pending_settlements: "Pending Settlements",
     track_earnings_accumulated: "Track earnings accumulated but not yet paid out",
     trips_small: "trips",
     days_pending: "days pending",
@@ -788,14 +842,12 @@ export const en = {
 
 
     // active zones
-    active_zones: "Active Zones",
     manage_your_operational_zones: "Manage your operational zones and monitor their status",
     load: "Load",
     surge: "Surge",
     zone_status: "Zone Status",
 
     // add-zone
-    add_new_zone: "Add New Zone",
     define_operational_area: "Define a new operational area by drawing boundaries on the map",
     click_map_to_place_boundary: "Click on the map to place boundary points. Connect the last point to the first to close the polygon.",
     zone_details: "Zone Details",
@@ -807,7 +859,6 @@ export const en = {
 
 
     // zone performance
-    zone_performance: "Zone Performance",
     detailed_analytics_matrics: "Detailed analytics and metrics for each operational zone",
     total_orders: "Total Orders",
     from_last_week: "from last week",
@@ -827,7 +878,6 @@ export const en = {
 
 
     // zones-radius
-    adjust_zone_radius: "Adjust Zone Radius",
     modify_geographical_boundaries: "Modify geographical boundaries for existing operational zones",
     select_zone: "Select Zone",
     downtown: "Downtown",
@@ -838,7 +888,6 @@ export const en = {
     reset_original: "Reset to Original",
 
     // vehicle types
-    vehicle_types: "Vehicle Types",
     configure_available_vehicle: "Configure available vehicle types and their specific settings",
     vehicle_name: "Vehicle Name",
     capacity_size: "Capacity Size",
@@ -855,7 +904,6 @@ export const en = {
     saturday: "Saturday",
     sunday: "Sunday",
     // operating hours
-    operating_hours: "Operating Hours",
     configure_your_fleet_active: "Configure when your fleet is active and accepting orders",
     click_time_slot_toggle: "Click on time slots to toggle availability. Gray slots are inactive.",
     day: "Day",
@@ -863,7 +911,6 @@ export const en = {
 
 
     // commission-settings
-    commission_settings: "Commission Settings",
     configure_partner_payouts: "Configure partner payouts, delivery fees, and surge multipliers",
     base_rates: "Base Rates",
     base_per_delivery_rate: "Base Per-Delivery Rate (€)",
@@ -901,7 +948,6 @@ export const en = {
 
 
     // notification preferences
-    notification_preferences: "Notification Preferences",
     configure_which_alerts_updates: "Configure which alerts and updates you want to receive",
     critical_alerts: "Critical Alerts",
     low_partner_coverage: "Low Partner Coverage",
@@ -939,7 +985,6 @@ export const en = {
 
 
     // activity logs
-    activity_logs: "Activity Logs",
     audit_trail_all_administrative: "Audit trail of all administrative actions taken within the system",
     user: "User",
     target: "Target",
@@ -955,7 +1000,6 @@ export const en = {
 
 
     // report earnings
-    earnings_report: "Earnings Report",
     financial_breakdown_fleet_earnings: "Financial breakdown of fleet earnings, bonuses, and deductions",
     revenue_breakdown: "Revenue Breakdown",
     daily_earnings_trend: "Daily Earnings Trend",
@@ -968,7 +1012,6 @@ export const en = {
     fee: "Fee",
 
     // report-monthly
-    monthly_report: "Monthly Report",
     aggregate_kpis_performance_metrics: "Aggregated KPIs and performance metrics for the entire month",
     total_revenue: "Total Revenue",
     vs: "vs",
@@ -977,7 +1020,6 @@ export const en = {
     new_this_month: "New this month",
 
     // report custom
-    custom_report_builder: "Custom Report Builder",
     generate_ad_hoc_reports_selecting: "Generate ad-hoc reports by selecting specific data sources and filters",
     report_configuration: "Report Configuration",
     data_source: "Data Source",
@@ -997,7 +1039,6 @@ export const en = {
 
 
     // report-issue
-    report_an_issue: "Report an Issue",
     found_a_problem: "Found a problem? Submit a report directly to the Deligo admin team.",
     issue_has_been_submitted: "Your issue has been submitted successfully. Our support team will contact you soon.",
     issue_type: "Issue Type",
@@ -1018,7 +1059,6 @@ export const en = {
 
 
     // help-center
-    help_center: "Help Center",
     find_answers_guides_support: "Find answers, guides and support for your Deligo vendor account.",
     vendor_guidebook: "Vendor Guidebook",
     learn_how_to_use_deligo: "Learn how to use Deligo like a pro.",
