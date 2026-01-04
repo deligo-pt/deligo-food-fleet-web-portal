@@ -7,6 +7,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { USER_STATUS } from "@/consts/user.const";
+import { useTranslation } from "@/hooks/use-translation";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import { Calendar, Mail, Phone, Star } from "lucide-react";
@@ -19,6 +20,7 @@ interface IProps {
 
 export default function DeliveryPartnerCard({ partner }: IProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const getStatusVariant = (status: keyof typeof USER_STATUS) => {
     switch (status) {
       case "PENDING":
@@ -35,8 +37,7 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
   };
 
   const fullName = partner?.name
-    ? `${partner?.name?.firstName || ""} ${
-        partner?.name?.lastName || ""
+    ? `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""
       }`.trim()
     : "No Name";
 
@@ -104,7 +105,7 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
                       {partner?.operationalData.rating.average.toFixed(1)}
                     </span>
                     <span className="text-gray-500 ml-1">
-                      ({partner?.operationalData.rating.totalReviews} reviews)
+                      ({partner?.operationalData.rating.totalReviews} {t("reviews")})
                     </span>
                   </div>
                 )}
@@ -133,7 +134,7 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
               <div className="w-4 text-[#DC3173] mr-2">
                 <Calendar className="w-4 h-4" />
               </div>
-              <span>Joined: {formattedDate}</span>
+              <span>{t("joined")}: {formattedDate}</span>
             </div>
           </div>
         </CardContent>
@@ -146,7 +147,7 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
             }
             className=" w-full py-3 text-white"
           >
-            View Details
+            {t("view_details")}
           </Button>
         </CardFooter>
       </Card>

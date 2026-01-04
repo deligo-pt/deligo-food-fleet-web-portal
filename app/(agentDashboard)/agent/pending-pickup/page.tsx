@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useMemo, JSX } from "react";
 import { Search, Clock, MapPin, Bike, Eye, Package as PackageIcon, User } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 
 
@@ -63,6 +64,7 @@ const sample: PendingPickup[] = [
 ];
 
 export default function PendingPickupPage(): JSX.Element {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<PendingPickup | null>(null);
 
@@ -88,10 +90,10 @@ export default function PendingPickupPage(): JSX.Element {
       <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-            <PackageIcon size={20} /> Pending Pickup Orders
+            <PackageIcon size={20} /> {t("pending_pickup_orders")}
           </h1>
           <p className="text-sm text-gray-600">
-            Orders accepted by delivery partners but waiting for pickup.
+            {t("orders_accepted_by_delivery")}
           </p>
         </div>
 
@@ -142,7 +144,7 @@ export default function PendingPickupPage(): JSX.Element {
               </div>
 
               <span className="px-2 py-1 rounded-md bg-yellow-50 text-yellow-700 text-xs flex items-center gap-1">
-                <Clock size={12} /> ETA {d.eta}
+                <Clock size={12} /> {t("eta")} {d.eta}
               </span>
             </div>
 
@@ -151,7 +153,7 @@ export default function PendingPickupPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <User size={16} className="text-blue-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Customer</div>
+                  <div className="text-xs text-gray-500">{t("customer")}</div>
                   <div className="text-sm font-medium text-gray-800 truncate">{d.customer}</div>
                 </div>
               </div>
@@ -159,7 +161,7 @@ export default function PendingPickupPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-green-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Pickup Address</div>
+                  <div className="text-xs text-gray-500">{t("pickup_address")}</div>
                   <div className="text-sm font-medium text-gray-800 truncate">{d.pickup}</div>
                 </div>
               </div>
@@ -167,7 +169,7 @@ export default function PendingPickupPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-red-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Drop-off Address</div>
+                  <div className="text-xs text-gray-500">{t("drop_off_address")}</div>
                   <div className="text-sm font-medium text-gray-800 truncate">{d.drop}</div>
                 </div>
               </div>
@@ -177,7 +179,7 @@ export default function PendingPickupPage(): JSX.Element {
               <div className="flex items-center gap-2">
                 <Bike size={16} /> <span>{d.distance}</span>
               </div>
-              <div className="text-xs text-gray-500">Items: {d.items}</div>
+              <div className="text-xs text-gray-500">{t("items")}: {d.items}</div>
             </div>
           </article>
         ))}
@@ -200,7 +202,7 @@ export default function PendingPickupPage(): JSX.Element {
                 <p className="text-xs text-gray-500">{active.id} • {active.date}</p>
               </div>
 
-              <div className="text-xs text-gray-400">Preview only</div>
+              <div className="text-xs text-gray-400">{t("preview_only")}</div>
             </div>
 
             <div className="mt-6 space-y-4">
@@ -215,34 +217,34 @@ export default function PendingPickupPage(): JSX.Element {
 
                 <div>
                   <div className="text-sm font-medium">{active.partnerName}</div>
-                  <div className="text-xs text-gray-500">ETA: {active.eta}</div>
+                  <div className="text-xs text-gray-500">{t("eta")}: {active.eta}</div>
                   <div className="text-xs text-gray-500 mt-1">{active.merchant}</div>
                 </div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Customer</div>
+                <div className="text-xs text-gray-500 mb-1">{t("customer")}</div>
                 <div className="text-sm font-medium">{active.customer}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Pickup Address</div>
+                <div className="text-xs text-gray-500 mb-1">{t("pickup_address")}</div>
                 <div className="text-sm font-medium">{active.pickup}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Drop-off Address</div>
+                <div className="text-xs text-gray-500 mb-1">{t("drop_off_address")}</div>
                 <div className="text-sm font-medium">{active.drop}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Distance</div>
+                  <div className="text-xs text-gray-500">{t("distance")}</div>
                   <div className="text-sm font-semibold">{active.distance}</div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Items</div>
+                  <div className="text-xs text-gray-500">{t("items")}</div>
                   <div className="text-sm font-semibold">{active.items}</div>
                 </div>
               </div>
@@ -254,7 +256,7 @@ export default function PendingPickupPage(): JSX.Element {
                 className="px-4 py-2 rounded-md text-white"
                 style={{ backgroundColor: DELIGO }}
               >
-                Close
+                {t("close")}
               </button>
               <button
                 onClick={() => {
@@ -263,7 +265,7 @@ export default function PendingPickupPage(): JSX.Element {
                 }}
                 className="px-4 py-2 rounded-md border bg-white flex items-center gap-2"
               >
-                <Eye size={14} /> View partner
+                <Eye size={14} /> {t("view_partner")}
               </button>
             </div>
           </aside>

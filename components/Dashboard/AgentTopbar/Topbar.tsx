@@ -1,6 +1,8 @@
 "use client";
 
 import RemarkModal from "@/components/Modals/RemarkModal";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useStore } from "@/store/store";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,7 +10,6 @@ import {
   AlertTriangle,
   Bell,
   ChevronDown,
-  Globe,
   LogOut,
   MessageSquare,
   User,
@@ -16,7 +17,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const PRIMARY = "#DC3173";
 
@@ -26,7 +27,7 @@ type Props = {
 };
 
 export default function Topbar({ sidebarWidth = 280, agent }: Props) {
-  const [langOpen, setLangOpen] = useState(false);
+  const { lang, setLang } = useStore();
   const [profileOpen, setProfileOpen] = useState(false);
   const [openSosModal, setOpenSosModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,22 +39,6 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
     router.push("/login");
   };
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setLangOpen(false);
-        setProfileOpen(false);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  const LANGS = [
-    { code: "en", label: "English" },
-    { code: "pt", label: "Português" },
-    { code: "es", label: "Español" },
-  ];
 
   return (
     <>
@@ -76,43 +61,20 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0 relative z-1001">
             {/* Language */}
             <div className="relative hidden sm:block z-1002">
-              <motion.button
-                onClick={() => {
-                  setLangOpen((s) => !s);
-                  setProfileOpen(false);
+              <Select
+                value={lang}
+                onValueChange={(value: 'en' | 'pt') => {
+                  setLang(value)
                 }}
-                whileHover={{ scale: 1.03 }}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-pink-50 transition"
               >
-                <Globe size={18} className="text-gray-700" />
-                <ChevronDown
-                  size={16}
-                  className={`text-gray-700 transition-transform ${langOpen ? "rotate-180" : ""
-                    }`}
-                />
-              </motion.button>
-
-              <AnimatePresence>
-                {langOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 w-40 bg-white border border-pink-100 rounded-xl shadow-lg overflow-hidden z-2000"
-                  >
-                    {LANGS.map((l) => (
-                      <button
-                        key={l.code}
-                        onClick={() => setLangOpen(false)}
-                        className="w-full text-left px-4 py-2 hover:bg-pink-50 text-gray-700"
-                      >
-                        {l.label}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">EN</SelectItem>
+                  <SelectItem value="pt">PT</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* SOS */}
@@ -164,7 +126,6 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
               <button
                 onClick={() => {
                   setProfileOpen((s) => !s);
-                  setLangOpen(false);
                 }}
                 className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-pink-50 transition"
               >

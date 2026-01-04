@@ -4,6 +4,7 @@ import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -65,6 +66,8 @@ const historyData = [
 ];
 
 export default function PaymentHistoryPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -80,9 +83,9 @@ export default function PaymentHistoryPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Payment History</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("payment_history")}</h1>
         <p className="text-gray-500 mt-1">
-          Log of all past payouts to delivery partners
+          {t("log_past_payouts")}
         </p>
       </motion.div>
       <Card className="mt-10">
@@ -96,11 +99,11 @@ export default function PaymentHistoryPage() {
               />
               <Button variant="secondary" className="shrink-0">
                 <Calendar className="w-4 h-4 mr-2" />
-                Date Range
+                {t("date_range")}
               </Button>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline">Export</Button>
+              <Button variant="outline">{t("export")}</Button>
             </div>
           </div>
         </CardHeader>
@@ -110,25 +113,25 @@ export default function PaymentHistoryPage() {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Transaction ID
+                    {t("transaction_id")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Date
+                    {t("date")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Partner
+                    {t("partner")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Period
+                    {t("period")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Amount
+                    {t("amount")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Status
+                    {t("status")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Details
+                    {t("details")}
                   </th>
                 </tr>
               </thead>
@@ -164,8 +167,8 @@ export default function PaymentHistoryPage() {
                           item.status === "completed"
                             ? "success"
                             : item.status === "processing"
-                            ? "warning"
-                            : "destructive"
+                              ? "warning"
+                              : "destructive"
                         }
                       >
                         {item.status}
@@ -184,9 +187,9 @@ export default function PaymentHistoryPage() {
 
           <div className="flex items-center justify-between mt-4 px-2">
             <div className="text-sm text-gray-500">
-              Showing <span className="font-medium">1</span> to{" "}
+              {t("showing")} <span className="font-medium">1</span> {t("to")}{" "}
               <span className="font-medium">6</span> of{" "}
-              <span className="font-medium">128</span> results
+              <span className="font-medium">128</span> {t("results")}
             </div>
             <div className="flex gap-2">
               <Button variant="secondary" size="sm" disabled>

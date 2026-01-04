@@ -1,7 +1,8 @@
 "use client"
 
-import  { useState, useMemo } from "react";
-import { Search, CheckCircle, MapPin, Bike,  Clock, Eye } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, CheckCircle, MapPin, Bike, Clock, Eye } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 const DELIGO = "#DC3173";
 
@@ -58,6 +59,7 @@ const sample: Delivered[] = [
 ];
 
 export default function DeliveredPage() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<Delivered | null>(null);
 
@@ -81,9 +83,9 @@ export default function DeliveredPage() {
       <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-            <CheckCircle size={22} color={DELIGO} /> Delivered Orders
+            <CheckCircle size={22} color={DELIGO} /> {t("delivered_orders")}
           </h1>
-          <p className="text-sm text-gray-600">Completed delivery history with earnings & route summary.</p>
+          <p className="text-sm text-gray-600">{t("completed_delivery_history")}</p>
         </div>
 
         <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-80">
@@ -122,11 +124,11 @@ export default function DeliveredPage() {
             </div>
 
             {/* TIMELINE */}
-            <div className="mt-4 ml-1 border-l-2 border-[var(--deligo)]/30 pl-4 space-y-3">
+            <div className="mt-4 ml-1 border-l-2 border-(--deligo)/30 pl-4 space-y-3">
               <div className="flex items-start gap-3">
                 <MapPin size={16} color={DELIGO} className="mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Pickup</div>
+                  <div className="text-xs text-gray-500">{t("pickup")}</div>
                   <div className="text-sm font-medium text-gray-800">{d.pickup}</div>
                 </div>
               </div>
@@ -134,18 +136,18 @@ export default function DeliveredPage() {
               <div className="flex items-start gap-3">
                 <MapPin size={16} color={DELIGO} className="mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Drop-off</div>
+                  <div className="text-xs text-gray-500">{t("drop_off")}</div>
                   <div className="text-sm font-medium text-gray-800">{d.drop}</div>
                 </div>
               </div>
             </div>
 
             <div className="mt-4 flex items-center justify-between text-sm text-gray-700">
-              <div className="flex items-center gap-2"><Bike size={16} color={DELIGO}/> {d.distance}</div>
-              <div className="flex items-center gap-2"><Clock size={16} color={DELIGO}/> {d.duration}</div>
+              <div className="flex items-center gap-2"><Bike size={16} color={DELIGO} /> {d.distance}</div>
+              <div className="flex items-center gap-2"><Clock size={16} color={DELIGO} /> {d.duration}</div>
             </div>
 
-            <div className="mt-2 text-sm font-semibold text-[var(--deligo)]">€{d.earning.toFixed(2)}</div>
+            <div className="mt-2 text-sm font-semibold text-(--deligo)">€{d.earning.toFixed(2)}</div>
           </div>
         ))}
       </div>
@@ -160,7 +162,7 @@ export default function DeliveredPage() {
 
           <aside className="ml-auto w-full sm:w-[460px] bg-white shadow-2xl rounded-l-2xl p-6 overflow-y-auto animate-slide-in">
             <h3 className="text-lg font-semibold flex items-center gap-2">
-              <CheckCircle size={20} color={DELIGO} /> Delivery #{active.id}
+              <CheckCircle size={20} color={DELIGO} /> {t("delivery")} #{active.id}
             </h3>
             <p className="text-xs text-gray-500 mb-4">{active.date}</p>
 
@@ -171,36 +173,36 @@ export default function DeliveredPage() {
 
               <div>
                 <div className="text-sm font-medium">{active.partnerName}</div>
-                <div className="text-xs text-gray-500">Customer: {active.customer}</div>
+                <div className="text-xs text-gray-500">{t("customer")}: {active.customer}</div>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Pickup</div>
+                <div className="text-xs text-gray-500 mb-1">{t("pickup")}</div>
                 <div className="text-sm font-medium">{active.pickup}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Drop-off</div>
+                <div className="text-xs text-gray-500 mb-1">{t("drop_off")}</div>
                 <div className="text-sm font-medium">{active.drop}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Distance</div>
+                  <div className="text-xs text-gray-500">{t("distance")}</div>
                   <div className="text-sm font-semibold">{active.distance}</div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Duration</div>
+                  <div className="text-xs text-gray-500">{t("duration")}</div>
                   <div className="text-sm font-semibold">{active.duration}</div>
                 </div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Earning</div>
-                <div className="text-lg font-semibold text-[var(--deligo)]">€{active.earning.toFixed(2)}</div>
+                <div className="text-xs text-gray-500">{t("earning")}</div>
+                <div className="text-lg font-semibold text-(--deligo)">€{active.earning.toFixed(2)}</div>
               </div>
             </div>
 
@@ -209,9 +211,9 @@ export default function DeliveredPage() {
                 onClick={() => setActive(null)}
                 className="px-4 py-2 rounded-md text-white"
                 style={{ backgroundColor: DELIGO }}
-              >Close</button>
+              >{t("close")}</button>
               <button className="px-4 py-2 rounded-md border bg-white flex items-center gap-2">
-                <Eye size={14} color={DELIGO} /> View Partner
+                <Eye size={14} color={DELIGO} /> {t("view_partner")}
               </button>
             </div>
           </aside>

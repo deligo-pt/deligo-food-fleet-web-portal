@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
@@ -40,21 +41,6 @@ import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-const equipment = [
-  {
-    id: "isothermalBag",
-    label: "Isothermal Bag",
-  },
-  {
-    id: "helmet",
-    label: "Helmet",
-  },
-  {
-    id: "powerBank",
-    label: "Power Bank",
-  },
-];
-
 type FormData = z.infer<typeof equipmentValidation>;
 
 interface IProps {
@@ -62,6 +48,7 @@ interface IProps {
 }
 
 export function EquipmentForm({ onNext }: IProps) {
+  const { t } = useTranslation();
   const id = useParams()?.id;
   const [zone, setZone] = useState("");
   const form = useForm<FormData>({
@@ -76,6 +63,20 @@ export function EquipmentForm({ onNext }: IProps) {
       otherPlatformName: "",
     },
   });
+  const equipment = [
+    {
+      id: "isothermalBag",
+      label: t("isothermal_bag"),
+    },
+    {
+      id: "helmet",
+      label: t("helmet"),
+    },
+    {
+      id: "powerBank",
+      label: t("power_bank"),
+    },
+  ];
 
   const [watchZones, watchWorkedWithOtherPlatform] = useWatch({
     control: form.control,
@@ -130,7 +131,7 @@ export function EquipmentForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+        "Failed to update Delivery Partner details",
         {
           id: toastId,
         }
@@ -203,10 +204,10 @@ export function EquipmentForm({ onNext }: IProps) {
         className="mb-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">
-          Equipment & Availability
+          {t("equipment_availability")}
         </h2>
         <p className="text-gray-600">
-          Please tell us about your equipment and availability
+          {t("tell_us_about_equipment")}
         </p>
       </motion.div>
       <Form {...form}>
@@ -215,7 +216,7 @@ export function EquipmentForm({ onNext }: IProps) {
             <div className="space-y-2">
               <Label className="flex items-center text-sm font-medium text-gray-700 mb-1">
                 <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                Preferred Working Zones
+                {t("preferred_working_zones")}
               </Label>
               {watchZones?.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-1">
@@ -285,7 +286,7 @@ export function EquipmentForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <ClockIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Preferred Working Hours</span>
+                      <span className="ml-2">{t("preferred_working_hours")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -305,17 +306,17 @@ export function EquipmentForm({ onNext }: IProps) {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="morning">
-                          Morning (8AM-12PM)
+                          {t("morning_8_12")}
                         </SelectItem>
                         <SelectItem value="afternoon">
-                          Afternoon (12PM-6PM)
+                          {t("afternoon_12_6")}
                         </SelectItem>
                         <SelectItem value="evening">
-                          Evening (6PM-10PM)
+                          {t("evening_6_10")}
                         </SelectItem>
-                        <SelectItem value="night">Night (10PM-12AM)</SelectItem>
-                        <SelectItem value="fullday">Full Day</SelectItem>
-                        <SelectItem value="flexible">Flexible</SelectItem>
+                        <SelectItem value="night">{t("night_10_12")}</SelectItem>
+                        <SelectItem value="fullday">{t("full_day")}</SelectItem>
+                        <SelectItem value="flexible">{t("flexible")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -328,7 +329,7 @@ export function EquipmentForm({ onNext }: IProps) {
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 <div className="flex items-center">
                   <BackpackIcon className="w-5 h-5 text-[#DC3173]" />
-                  <span className="ml-2">Delivery equipment?</span>
+                  <span className="ml-2">{t("delivery_equipment")}</span>
                 </div>
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -371,7 +372,7 @@ export function EquipmentForm({ onNext }: IProps) {
                     <div className="flex items-center">
                       <BriefcaseBusiness className="w-5 h-5 text-[#DC3173]" />
                       <span className="ml-2">
-                        Worked with other delivery platforms?
+                        {t("worked_with_other_delivery_platform")}
                       </span>
                     </div>
                   </FormLabel>
@@ -383,7 +384,7 @@ export function EquipmentForm({ onNext }: IProps) {
                         onCheckedChange={(checked) => field.onChange(checked)}
                         className="h-4 w-4 text-[#DC3173] focus:ring-[#DC3173] border-gray-300 rounded data-[state=checked]:bg-[#DC3173] data-[state=checked]:border-[#DC3173]"
                       />
-                      Yes
+                      {t("")}
                     </FormLabel>
                   </FormControl>
                   <FormMessage />
@@ -399,7 +400,7 @@ export function EquipmentForm({ onNext }: IProps) {
                     <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                       <div className="flex items-center">
                         <TruckIcon className="w-5 h-5 text-[#DC3173]" />
-                        <span className="ml-2">Other platform name</span>
+                        <span className="ml-2">{t("other_platform_name")}</span>
                       </div>
                     </FormLabel>
                     <FormControl>
@@ -425,7 +426,7 @@ export function EquipmentForm({ onNext }: IProps) {
             type="submit"
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
-            Continue to Documents
+            {t("continue_to_documents")}
             <ArrowRightIcon className="w-5 h-5 ml-1" />
           </motion.button>
         </form>

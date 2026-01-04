@@ -456,7 +456,645 @@ export const en = {
     complaints_book: "Complaints Book",
     deligo_all_rights: "DeliGo. All rights reserved.",
     delivering_excellence: "Delivering excellence across Portugal",
-    become_an_agent: "Become an Agent"
+    become_an_agent: "Become an Agent",
+
+
+    // dashboard contents
+    // sidebar
+    delivery_partners_management: "Delivery Partners Management",
+    all_delivery_partners: "All Delivery Partners",
+    add_new_delivery_partner: "Add New Delivery Partner",
+    pending_verification: "Pending Verification",
+    active_delivery_partners: "Active Delivery Partners",
+    suspended_delivery_partners: "Suspended Delivery Partners",
+    rejected_delivery_partners: "Rejected Delivery Partners",
+    delivery_partner_performance: "Delivery Partner Performance",
+    delivery_partner_reviews: "Delivery Partner Reviews",
+    orders_nd_deliveries: "Orders & Deliveries",
+    all_deliveries: "All Deliveries",
+    pending_pickup: "Pending Pickup",
+    on_the_way: "On the Way",
+    delivered: "Delivered",
+    cancelled_deliveries: "Cancelled Deliveries",
+    delivery_history: "Delivery History",
+    // ->
+    payments_nd_earnings: "Payments & Earnings",
+    fleet_earnings_overview: "Fleet Earnings Overview",
+    delivery_partner_payouts: "Delivery Partner Payouts",
+    payment_history: "Payment History",
+    transaction_details: "Transaction Details",
+    pending_settlements: "Pending Settlements",
+    // ->
+    delivery_zones: "Delivery Zones",
+    active_zones: "Active Zones",
+    add_new_zone: "Add New Zone",
+    zone_performance: "Zone Performance",
+    heatmap_busy_zones: "Heatmap (Busy Zones)",
+    adjust_zone_radius: "Adjust Zone Radius",
+    // ->
+    fleet_settings: "Fleet Settings",
+    vehicle_types: "Vehicle Types",
+    operating_hours: "Operating Hours",
+    commission_settings: "Commission Settings",
+    payment_preferences: "Payment Preferences",
+    notification_preferences: "Notification Preferences",
+    // -> 
+    team_management: "Team Management",
+    all_team_members: "All Team Members",
+    roles_nd_permissions: "Roles & Permissions",
+    activity_logs: "Activity Logs",
+    // -> 
+    reports_nd_analytics: "Reports & Analytics",
+    delivery_partner_performance_report: "Delivery Partner Performance Report",
+    earnings_report: "Earnings Report",
+    delivery_summary: "Delivery Summary",
+    monthly_report: "Monthly Report",
+    custom_report_builder: "Custom Report Builder",
+    // -> 
+    support_nd_communication: "Support & Communication",
+    chat_with_support: "Chat with Support",
+    delivery_partner_chat: "Delivery Partner Chat",
+    report_an_issue: "Report an Issue",
+    help_center: "Help Center",
+    // ->
+    emergency_sos: "Emergency / SOS",
+    delivery_partner_emergency_alerts: "Delivery Partner Emergency Alerts",
+    report_accident_incident: "Report Accident / Incident",
+    live_delivery_partner_tracking: "Live Delivery Partner Tracking",
+
+
+    // sorting
+    newest_first: "Newest First",
+    oldest_first: "Oldest First",
+    name_a_z: "Name (A-Z)",
+    name_z_a: "Name (Z-A)",
+    // filtering
+    status: "Status",
+    select_status: "Select Status",
+    pending: "Pending",
+    submitted: "Submitted",
+    approved: "Approved",
+    rejected: "Rejected",
+    filters: "Filters",
+    clear_all: "Clear All",
+    cancel: "Cancel",
+    apply_filters: "Apply Filters",
+    // table
+    name: "Name",
+    actions: "Actions",
+    no_partners_found: "No partners found",
+    // dashboard
+    total_partners: "Total Partners",
+    across_all_zones: "Across all zones",
+    online_now: "Online Now",
+    of_total_fleet: "of total fleet",
+    deliveries_today: "Deliveries Today",
+    avg: "Avg",
+    per_partner: "per partner",
+    availabiity_rate: "Availability Rate",
+    during_peak_hours: "During peak hours",
+    fleet_composition: "Fleet Composition",
+    partner_status: "Partner Status",
+    on_delivery: "On Delivery",
+    waiting_for_order: "Waiting for Order",
+    offline: "Offline",
+    top_rated_drivers: "Top rated Drivers",
+    deliveries: "deliveries",
+    // delivery-parnters -> all delivery partners
+    delivery_partners: "Delivery Partners",
+    manage_your_delivery: "Manage your delivery partner network",
+    add_new_partner: "Add New Partner",
+    showing: "Showing",
+    of: "of",
+    partners: "partners",
+    no_delivery_partners_match: "No delivery partners match your current filters. Try adjusting your search or filters to find what you’re looking for.",
+    reviews: "reviews",
+    joined: "Joined",
+    view_details: "View Details",
+    // add delivery partner -> delivery partner form
+    delivery_partner_registration: "Delivery Partner Registration",
+    join_our_delivery_network: "Join our delivery network today",
+    password: "Password",
+    register_partner: "Register Partner",
+    //  -> delivery otp form
+    verify_delivery_partner_email: "Verify Delivery Partner email",
+    update: "Update",
+    delivery_partner: "Delivery Partner",
+    details: "Details",
+    complete_the_form_below: "Complete the form below to make them delivering with Portugal’s favorite food delivery service",
+    step: "Step",
+    previous: "Previous",
+    personal_information: "Personal Information",
+    legal_status: "Legal Status",
+    payment_details: "Payment Details",
+    vehicle_information: "Vehicle Information",
+    background_check: "Background Check",
+    equipment_availability: "Equipment & Availability",
+    please_provide_partner_details: "Please provide partner’s personal details for identity verification",
+    first_name: "First Name",
+    last_name: "Last Name",
+    phone_number: "Phone Number",
+    date_of_birth: "Date of Birth",
+    gender: "Gender",
+    male: "Male",
+    female: "Female",
+    other: "Other",
+    nationality: "Nationality",
+    id_expiry_date: "ID Expiry Date",
+    nif_number: "NIF Number",
+    citizen_card: "Citizen Card Number",
+    passport_number: "Passport Number",
+    street: "Street",
+    postal_code: "Postal Code",
+    state: "State",
+    continue_to_legal_status: "Continue to Legal Status",
+    // -> legal status form
+    right_to_work: "Right to Work",
+    please_provide_details_partner: "Please provide details about partner’s legal status",
+    residence_permit_type: "Residence Permit Type",
+    arc_number: "ARC / título de residência Number",
+    expiration_date: "Expiration Date",
+    continue_to_payment_details: "Continue to Payment Details",
+
+    // -> payment details
+    payment_banking_details: "Payment & Banking Details",
+    please_provide_partner_banking: "Please provide partner’s banking information for payments",
+    swift: "SWIFT",
+    this_payment_information_is_secure: "This payment information is secure and will only be used for processing their earnings. The account holder name must match delivery partner’s ID for verification purposes.",
+    continue_to_vehicle_information: "Continue to Vehicle Information",
+
+    // -> vehicle information
+    please_provide_details_about: "Please provide details about the vehicle they will use for deliveries",
+    vehicle_type: "Vehicle Type",
+    bicycle: "Bicycle",
+    e_bike: "E-Bike",
+    scooter: "Scooter",
+    motorbike: "Motorbike",
+    car: "Car",
+    brand: "Brand",
+    model: "Model",
+    license_plate: "License Plate",
+    driving_license_number: "Driving License Number",
+    driving_license_expiry: "Driving License Expiry",
+    insurance_policy_number: "Insurance Policy Number",
+    insurance_expiry: "Insurance Expiry",
+    continue_to_background_check: "Continue to Background Check",
+
+    // -> background_check
+    criminal_background_check: "Criminal Background Check",
+    provide_delivery_partner_criminal: "Please provide delivery partner’s Criminal Record Certificate (Certificado de Registo Criminal)",
+    background_check_requirement: "Background Check Requirement",
+    portugal_food_delivery: "In Portugal, food delivery platforms require a Criminal Record Certificate (Certificado de Registo Criminal) that is less than 3 months old. You can obtain this document from:",
+    online_at: "Online at",
+    justica_gov: "justica.gov.pt",
+    civil_registry: "Civil Registry Offices (Conservatórias)",
+    citizen_shops: "Citizen Shops (Lojas de Cidadão)",
+    have_criminal_record_certificate: "Have Criminal Record Certificate",
+    criminal_record_certificate: "Criminal Record Certificate (Certificado de Registo Criminal)",
+    certificate_issue_date: "Certificate Issue Date",
+    continue_to_equipment: "Continue to Equipment & Availability",
+
+
+    // -> equipment & availability
+    tell_us_about_equipment: "Please tell us about your equipment and availability",
+    preferred_working_zones: "Preferred Working Zones",
+    preferred_working_hours: "Preferred Working Hours",
+    morning_8_12: "Morning (8AM-12PM)",
+    afternoon_12_6: "Afternoon (12PM-6PM)",
+    evening_6_10: "Evening (6PM-10PM)",
+    night_10_12: "Night (10PM-12AM)",
+    full_day: "Full Day",
+    flexible: "Flexible",
+    delivery_equipment: "Delivery equipment?",
+    isothermal_bag: "Isothermal Bag",
+    helmet: "Helmet",
+    power_bank: "Power Bank",
+    worked_with_other_delivery_platform: "Worked with other delivery platforms?",
+    yes: "Yes",
+    other_platform_name: "Other platform name",
+    continue_to_documents: "Continue to Documents",
+
+    // -> upload documents
+    upload_your_documents: "Upload Your Documents",
+    id_proof_front: "ID Proof Front",
+    id_proof_back: "ID Proof Back",
+    driving_license_front: "Driving License Front",
+    driving_license_back: "Driving License Back",
+    vehicle_registration: "Vehicle Registration",
+    criminal_record_certification: "Criminal Record Certificate",
+    select_file: "Select file",
+    complete_submit: "Complete & Submit",
+
+    // delivery partner performance
+    sortable_filterable_exportable: "Sortable, filterable, exportable overview.",
+    last_7_days: "Last 7 days",
+    last_14_days: "Last 14 days",
+    last_30_days: "Last 30 days",
+    top_deliveries: "Top deliveries",
+    top_rating: "Top rating",
+    top_earnings: "Top earnings",
+    export: "Export",
+    refresh: "Refresh",
+    top_partner_deliveries: "Top partner deliveries",
+    in_the_selected_timeframe: "in the selected timeframe",
+    avg_delivery_time: "Avg delivery time",
+    min: "min",
+    lower_is_better: "lower is better",
+    avg_acceptance_rate: "Avg acceptance rate",
+    higher_is_better: "higher is better",
+    total_earnings: "Total earnings",
+    aggregate: "aggregate",
+    avg_mins: "Avg (mins)",
+    acceptance: "Acceptance",
+    earnings: "Earnings",
+    trend: "Trend",
+    canc: "canc",
+    preview: "Preview",
+    prev: "Prev",
+    next: "Next",
+    rating: "Rating",
+    in_timeframe: "in timeframe",
+    cancellations: "cancellations",
+    deliveries_recent: "Deliveries (recent)",
+    last_seen: "Last seen",
+    go_to_profile: "Go to profile",
+    close: "Close",
+
+    // delivery partner reviews
+    positive: "Positive",
+    neutral: "Neutral",
+    negative: "Negative",
+    analyze_customer_feedback: "Analyze customer feedback & partner performance by sentiment and rating.",
+    order: "Order",
+    customer: "Customer",
+    date: "Date",
+    sentiment: "Sentiment",
+    comment: "Comment",
+
+    // all deliveries
+    completed: "Completed",
+    cancelled: "Cancelled",
+    ongoing: "Ongoing",
+    track_every_delivery: "Track every delivery across Portugal — real-time status & history.",
+    pickup: "Pickup",
+    drop_off: "Drop-off",
+    delivery: "Delivery",
+    distance: "Distance",
+    time: "Time",
+    delivery_fee: "Delivery Fee",
+
+
+    // pending pickup
+    pending_pickup_orders: "Pending Pickup Orders",
+    orders_accepted_by_delivery: "Orders accepted by delivery partners but waiting for pickup.",
+    eta: "ETA",
+    pickup_address: "Pickup Address",
+    drop_off_address: "Drop-off Address",
+    items: "Items",
+    preview_only: "Preview only",
+    view_partner: "View partner",
+
+
+
+    // on the way page
+    on_the_way_deliveries: "On-The-Way Deliveries",
+    live_tracking: "Live tracking for active delivery orders across Portugal.",
+    live: "Live",
+    time_elapsed: "Time elapsed",
+    speed: "Speed",
+    distance_left: "Distance left",
+
+
+    // delivered page
+    delivered_orders: "Delivered Orders",
+    completed_delivery_history: "Completed delivery history with earnings & route summary.",
+    duration: "Duration",
+    earning: "Earning",
+
+
+    // cancelled deliveries
+    view_failed_cancelled: "View failed or cancelled orders with reasons & refunds.",
+    refund: "Refund",
+    time_before_cancel: "Time before cancel",
+    // delivery history
+    complete_timeline: "Complete timeline of all past deliveries — completed, cancelled & failed.",
+    all: "All",
+    failed: "Failed",
+    reason: "Reason",
+    cancellation_failure_reason: "Cancellation / Failure Reason",
+
+
+    // earnings overview
+    overview_fleet_financial: "Overview of your fleet’s financial performance",
+    revenue_trend: "Revenue Trend",
+    payout_distribution: "Payout Distribution",
+
+
+
+    // delivery partners payouts
+    partner_payouts: "Partner Payouts",
+    manage_process_delivery: "Manage and process delivery partner payments",
+    weekly_cycle: "Weekly Cycle",
+    bi_weekly_cycle: "Bi-Weekly Cycle",
+    monthly_cycle: "Monthly Cycle",
+    total_due: "Total Due",
+    trips: "Trips",
+    earnings_due: "Earnings Due",
+    last_payout: "Last Payout",
+    pay_now: "Pay Now",
+
+
+    // payment history
+    log_past_payouts: "Log of all past payouts to delivery partners",
+    date_range: "Date Range",
+    transaction_id: "Transaction ID",
+    period: "Period",
+    amount: "Amount",
+    to: "to",
+    results: "results",
+
+
+    // transaction details
+    transaction_lookup: "Transaction Lookup",
+    find_detailed_financial_breakdown: "Find detailed financial breakdown for any delivery order",
+    search: "Search",
+    financial_breakdown: "Financial Breakdown",
+    service_fee: "Service Fee",
+    surge_bonus: "Surge Bonus",
+    tip: "Tip",
+    gross_total: "Gross Total",
+    platform_fee: "Platform Fee",
+    partner_net: "Partner Net",
+    payout_rate: "payout rate",
+
+
+    // pending settlements
+    track_earnings_accumulated: "Track earnings accumulated but not yet paid out",
+    trips_small: "trips",
+    days_pending: "days pending",
+    settlement_rules: "Settlement Rules",
+    earnings_are_held: "Earnings are held for 24 hours for fraud checks.",
+    payouts_under_accure: "Payouts under $20 accrue until threshold is met.",
+    disputes_freeze_settlement: "Disputes freeze settlement for specific orders only.",
+    next_payout_cycle: "Next Payout Cycle",
+    automatic_disbursement: "Automatic disbursement",
+    configure_schedule: "Configure Schedule",
+
+
+    // active zones
+    manage_your_operational_zones: "Manage your operational zones and monitor their status",
+    load: "Load",
+    surge: "Surge",
+    zone_status: "Zone Status",
+
+    // add-zone
+    define_operational_area: "Define a new operational area by drawing boundaries on the map",
+    click_map_to_place_boundary: "Click on the map to place boundary points. Connect the last point to the first to close the polygon.",
+    zone_details: "Zone Details",
+    high_priority: "High Priority",
+    medium_priority: "Medium Priority",
+    low_priority: "Low Priority",
+    surge_multiplier: "Surge Multiplier",
+    save_zone: "Save Zone",
+
+
+    // zone performance
+    detailed_analytics_matrics: "Detailed analytics and metrics for each operational zone",
+    total_orders: "Total Orders",
+    from_last_week: "from last week",
+    acceptance_rate: "Acceptance Rate",
+    avg_wait_time: "Avg Wait Time",
+    steady: "Steady",
+    weekly_order_volume: "Weekly Order Volume",
+
+
+    // zones-heatmap
+    zone_heatmaps: "Zone Heatmaps",
+    real_time_visualization: "Real-time visualization of order density and fleet coverage.",
+    density_legend: "Density Legend",
+    low_demand: "Low Demand",
+    high_demand: "High Demand",
+    active_orders: "Active Orders",
+
+
+    // zones-radius
+    modify_geographical_boundaries: "Modify geographical boundaries for existing operational zones",
+    select_zone: "Select Zone",
+    downtown: "Downtown",
+    north_suburbs: "North Suburbs",
+    west_end: "West End",
+    drag_white_markers_on_the_map: "Drag the white markers on the map to adjust the zone boundaries. Changes will affect new orders immediately after saving.",
+    save_changes: "Save Changes",
+    reset_original: "Reset to Original",
+
+    // vehicle types
+    configure_available_vehicle: "Configure available vehicle types and their specific settings",
+    vehicle_name: "Vehicle Name",
+    capacity_size: "Capacity Size",
+    base_rate_multiplier: "Base Rate Multiplier",
+    van: "Van",
+
+
+    // days
+    monday: "Monday",
+    tuesday: "Tuesday",
+    wednesday: "Wednesday",
+    thursday: "Thursday",
+    friday: "Friday",
+    saturday: "Saturday",
+    sunday: "Sunday",
+    // operating hours
+    configure_your_fleet_active: "Configure when your fleet is active and accepting orders",
+    click_time_slot_toggle: "Click on time slots to toggle availability. Gray slots are inactive.",
+    day: "Day",
+
+
+
+    // commission-settings
+    configure_partner_payouts: "Configure partner payouts, delivery fees, and surge multipliers",
+    base_rates: "Base Rates",
+    base_per_delivery_rate: "Base Per-Delivery Rate (€)",
+    distance_rate: "Distance Rate (€ per km)",
+    minimum_guarantee: "Minimum Guarantee (€)",
+    multipliers_tips: "Multipliers & Tips",
+    peak_hour_multiplier: "Peak Hour Multiplier (x)",
+    rain_bad_weather_multiplier: "Rain/Bad Weather Multiplier (x)",
+    enable_customer_tips: "Enable Customer Tips",
+    allow_customers_tip_partners: "Allow customers to tip partners in-app",
+    tips_to_partner: "Tips to Partner",
+    platform_takes_commission: "Platform takes no commission on tips",
+
+
+    // payment-preference
+    payment_preference: "Payment Preferences",
+    manage_payout_gateways: "Manage payout gateways and tax documentation settings",
+    payout_configuration: "Payout Configuration",
+    payment_gateway: "Payment Gateway",
+    stripe_connect: "Stripe Connect",
+    paypal_payouts: "PayPal Payouts",
+    direct_bank_transfer: "Direct Bank Transfer",
+    payout_frequency: "Payout Frequency",
+    daily_automatic: "Daily (Automatic)",
+    weekly_every_monday: "Weekly (Every Monday)",
+    monthly_1st_month: "Monthly (1st of month)",
+    manual_request_only: "Manual Request Only",
+    tax_compliance: "Tax & Compliance",
+    tax_form_generation: "Tax Form Generation",
+    automated_1099_nec: "Automated (1099-NEC)",
+    manual_upload: "Manual Upload",
+    connected_account: "Connected Account",
+    stripe_connect_id: "Stripe Connect ID",
+    save_preferences: "Save Preferences",
+
+
+    // notification preferences
+    configure_which_alerts_updates: "Configure which alerts and updates you want to receive",
+    critical_alerts: "Critical Alerts",
+    low_partner_coverage: "Low Partner Coverage",
+    alert_when_active: "Alert when active partners drop below threshold in a zone",
+    high_cancellation_rate: "High Cancellation Rate",
+    alert_when_order: "Alert when order cancellations exceed 5% in an hour",
+    system_outage: "System Outage",
+    immediate_alert: "Immediate alert for any system downtime",
+    operational_updates: "Operational Updates",
+    new_partner_application: "New Partner Application",
+    notify_when_new_partner: "Notify when a new partner submits documents",
+    zone_surge_activated: "Zone Surge Activated",
+    notify_when_automated: "Notify when automated surge pricing kicks in",
+    negative_feedback: "Negative Feedback",
+    notify_when_partner_receives: "Notify when a partner receives a 1-star rating",
+    system_info: "System Info",
+    daily_smmmary_report: "Daily Summary Report",
+    email_summmary_previous: "Email summary of previous day stats at 8am",
+    weekly_performance: "Weekly Performance",
+    weekly_digest_fleet: "Weekly digest of fleet performance",
+
+
+    // team members
+    team_members: "Team Members",
+    manage_administrative_staff: "Manage administrative staff and their access levels",
+    role: "Role",
+    last_login: "Last Login",
+
+    // roles-permission
+    roles_permissions: "Roles & Permissions",
+    define_custom_roles_assign: "Define custom roles and assign granular access controls",
+    users: "Users",
+    permissions: "Permissions",
+    save_permissions: "Save Permissions",
+
+
+    // activity logs
+    audit_trail_all_administrative: "Audit trail of all administrative actions taken within the system",
+    user: "User",
+    target: "Target",
+    tiimestamp: "Timestamp",
+    ip_address: "IP Address",
+
+    // report delivery partner performance
+    partner_performance: "Partner Performance",
+    define_custom_roles: "Define custom roles and assign granular access controls",
+    partner_id: "Partner ID",
+    vehicle: "Vehicle",
+    total_deliveries: "Total Deliveries",
+
+
+    // report earnings
+    financial_breakdown_fleet_earnings: "Financial breakdown of fleet earnings, bonuses, and deductions",
+    revenue_breakdown: "Revenue Breakdown",
+    daily_earnings_trend: "Daily Earnings Trend",
+
+
+    // report delivery summary
+    delivery_summary_report: "Delivery Summary Report",
+    comprehensive_list: "Comprehensive list of all orders and their delivery details",
+    order_id: "Order ID",
+    fee: "Fee",
+
+    // report-monthly
+    aggregate_kpis_performance_metrics: "Aggregated KPIs and performance metrics for the entire month",
+    total_revenue: "Total Revenue",
+    vs: "vs",
+    last_month: "last month",
+    active_partners: "Active Partners",
+    new_this_month: "New this month",
+
+    // report custom
+    generate_ad_hoc_reports_selecting: "Generate ad-hoc reports by selecting specific data sources and filters",
+    report_configuration: "Report Configuration",
+    data_source: "Data Source",
+    orders: "Orders",
+    field_to_include: "Fields to Include",
+    generate_report: "Generate Report",
+    select_parameters_click: "Select parameters and click Generate to view report preview",
+
+
+
+    // support tickets
+    chat_support: "Chat Support",
+    get_help_from_support: "Get help from our support team in real‑time.",
+    deligo_support: "Deligo Support",
+    active_now: "Active now",
+    send: "Send",
+
+
+    // report-issue
+    found_a_problem: "Found a problem? Submit a report directly to the Deligo admin team.",
+    issue_has_been_submitted: "Your issue has been submitted successfully. Our support team will contact you soon.",
+    issue_type: "Issue Type",
+    order_issue: "Order Issue",
+    payout_earnings_issue: "Payout / Earnings Issue",
+    menu_items_issue: "Menu / Items Issue",
+    ui_dashboard_bug: "UI / Dashboard Bug",
+    delivery_partner_problem: "Delivery Partner Problem",
+    your_email: "Your Email",
+    describe_the_issue: "Describe the Issue",
+    attach_screenshot: "Attach Screenshot (optional)",
+    no_file_chosen: "No file chosen",
+    upload: "Upload",
+    submit_report: "Submit Report",
+    need_immediate_support: "Need Immediate Support?",
+    contact_support_team: "Contact our support team via live chat or email for faster assistance.",
+    open_live_chat: "Open Live Chat",
+
+
+    // help-center
+    find_answers_guides_support: "Find answers, guides and support for your Deligo vendor account.",
+    vendor_guidebook: "Vendor Guidebook",
+    learn_how_to_use_deligo: "Learn how to use Deligo like a pro.",
+    policies_safety: "Policies & Safety",
+    rules_safe_platform: "Rules for safe platform usage.",
+    email_support: "Email Support",
+    live_chat: "Live Chat",
+    chat_with_support_team: "Chat with our support team.",
+    frequently_asked_questions: "Frequently Asked Questions",
+    faq_q_1: "How do I manage my orders?",
+    faq_a_1: "Go to Orders → Manage Orders to accept, prepare and complete orders.",
+    faq_q_2: "How can I update my business information?",
+    faq_a_2: "Navigate to Settings → Business Info to update store details.",
+    faq_q_3: "How are payouts processed?",
+    faq_a_3: "Payouts are automatically processed every Monday via SEPA.",
+    faq_q_4: "How do I change my theme settings?",
+    faq_a_4: "Go to Theme Settings to customize brand colors, dark mode and more.",
+    no_results_found: "No results found.",
+    need_more_help: "Need more help?",
+    support_team_available: "Our support team is available 7 days a week to assist you with your vendor account.",
+    contact_support: "Contact Support",
+
+
+
+    // profile
+    verified: "Verified",
+    days_active: "days active",
+    business_name: "Business Name",
+    license_number: "License Number",
+    business_location: "Business Location",
+    street_address: "Street Address",
+    swift_code: "SWIFT Code",
+    account_activity: "Account Activity",
+    account_created: "Account Created",
+    two_factor_auth: "Two-Factor Auth",
+
 
 
 };

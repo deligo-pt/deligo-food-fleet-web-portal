@@ -2,20 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Clock, Info, Save } from "lucide-react";
 import { useState } from "react";
-
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
 
 const timeSlots = [
   "00:00 - 04:00",
@@ -27,6 +18,19 @@ const timeSlots = [
 ];
 
 export default function OperatingHoursPage() {
+  const { t } = useTranslation();
+
+  const days = [
+    t("monday"),
+    t("tuesday"),
+    t("wednesday"),
+    t("thursday"),
+    t("friday"),
+    t("saturday"),
+    t("sunday"),
+  ];
+
+
   const [schedule, setSchedule] = useState<Record<string, string[]>>(() => {
     const initial: Record<string, string[]> = {};
     days.forEach((day) => {
@@ -68,9 +72,9 @@ export default function OperatingHoursPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Operating Hours</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("operating_hours")}</h1>
         <p className="text-gray-500 mt-1">
-          Configure when your fleet is active and accepting orders
+          {t("configure_your_fleet_active")}
         </p>
       </motion.div>
 
@@ -78,7 +82,7 @@ export default function OperatingHoursPage() {
         <CardHeader className="border-b border-gray-100">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Info className="w-4 h-4" />
-            Click on time slots to toggle availability. Gray slots are inactive.
+            {t("click_time_slot_toggle")}
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -87,7 +91,7 @@ export default function OperatingHoursPage() {
               {/* Header Row */}
               <div className="grid grid-cols-7 border-b border-gray-200 bg-gray-50">
                 <div className="p-4 font-medium text-gray-500 w-32 shrink-0">
-                  Day
+                  {t("day")}
                 </div>
                 {timeSlots.map((slot) => (
                   <div
@@ -157,7 +161,7 @@ export default function OperatingHoursPage() {
       <div className="mt-6 text-right">
         <Button size="lg" className="bg-[#DC3173] hover:bg-[#DC3173]/90">
           <Save className="w-4 h-4 mr-2" />
-          Save Changes
+          {t("save_changes")}
         </Button>
       </div>
     </div>

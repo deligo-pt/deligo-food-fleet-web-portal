@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
@@ -51,6 +52,7 @@ const permitTypes = [
 ];
 
 export function LegalStatusForm({ onNext }: IProps) {
+  const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(legalStatusValidation),
@@ -89,7 +91,7 @@ export function LegalStatusForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+        "Failed to update Delivery Partner details",
         {
           id: toastId,
         }
@@ -147,10 +149,10 @@ export function LegalStatusForm({ onNext }: IProps) {
         className="mb-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">
-          Right to Work / Legal Status
+          {t("right_to_work")} / {t("legal_status")}
         </h2>
         <p className="text-gray-600">
-          Please provide details about partner&lsquo;s legal status
+          {t("please_provide_details_partner")}
         </p>
       </motion.div>
       <Form {...form}>
@@ -164,7 +166,7 @@ export function LegalStatusForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <BuildingIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Residence Permit Type</span>
+                      <span className="ml-2">{t("residence_permit_type")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -202,7 +204,7 @@ export function LegalStatusForm({ onNext }: IProps) {
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
                       <span className="ml-2">
-                        ARC / título de residência Number
+                        {t("arc_number")}
                       </span>
                     </div>
                   </FormLabel>
@@ -229,7 +231,7 @@ export function LegalStatusForm({ onNext }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Expiration Date</span>
+                      <span className="ml-2">{t("expiration_date")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -255,7 +257,7 @@ export function LegalStatusForm({ onNext }: IProps) {
             type="submit"
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
-            Continue to Payment Details
+            {t("continue_to_payment_details")}
             <ArrowRightIcon className="w-5 h-5 ml-1" />
           </motion.button>
         </form>

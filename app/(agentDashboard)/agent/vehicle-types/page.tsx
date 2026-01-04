@@ -3,17 +3,21 @@
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Bike, Car, Edit2, Trash2, Truck } from "lucide-react";
 
-export const vehicles = [
-  { id: 1, type: "Bicycle", capacity: "Small", multiplier: 1.0, icon: Bike },
-  { id: 2, type: "Scooter", capacity: "Small", multiplier: 1.1, icon: Bike },
-  { id: 3, type: "Car", capacity: "Medium", multiplier: 1.5, icon: Car },
-  { id: 4, type: "Van", capacity: "Large", multiplier: 2.0, icon: Truck },
-];
-
 export default function VehicleTypesPage() {
+  const { t } = useTranslation();
+
+  const vehicles = [
+    { id: 1, type: t("bicycle"), capacity: "Small", multiplier: 1.0, icon: Bike },
+    { id: 2, type: t("scooter"), capacity: "Small", multiplier: 1.1, icon: Bike },
+    { id: 3, type: t("car"), capacity: "Medium", multiplier: 1.5, icon: Car },
+    { id: 4, type: t("van"), capacity: "Large", multiplier: 2.0, icon: Truck },
+  ];
+
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -29,9 +33,9 @@ export default function VehicleTypesPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Vehicle Types</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("vehicle_types")}</h1>
         <p className="text-gray-500 mt-1">
-          Configure available vehicle types and their specific settings
+          {t("configure_available_vehicle")}
         </p>
       </motion.div>
       <Card className="mt-10">
@@ -39,10 +43,10 @@ export default function VehicleTypesPage() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-muted-foreground uppercase bg-secondary/50">
               <tr>
-                <th className="px-6 py-4 font-medium">Vehicle Name</th>
-                <th className="px-6 py-4 font-medium">Capacity Size</th>
-                <th className="px-6 py-4 font-medium">Base Rate Multiplier</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-medium">{t("vehicle_name")}</th>
+                <th className="px-6 py-4 font-medium">{t("capacity_size")}</th>
+                <th className="px-6 py-4 font-medium">{t("base_rate_multiplier")}</th>
+                <th className="px-6 py-4 font-medium text-right">{t("actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

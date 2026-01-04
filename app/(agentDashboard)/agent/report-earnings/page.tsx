@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import {
   Bar,
@@ -34,6 +35,8 @@ export const earningsData = [
 ];
 
 export default function EarningsReportPage() {
+  const {t} = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -49,15 +52,15 @@ export default function EarningsReportPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Earnings Report</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("earnings_report")}</h1>
         <p className="text-gray-500 mt-1">
-          Financial breakdown of fleet earnings, bonuses, and deductions
+          {t("financial_breakdown_fleet_earnings")}
         </p>
       </motion.div>
       <div className="grid gap-6 md:grid-cols-2 mt-10">
         <Card>
           <CardHeader>
-            <CardTitle>Revenue Breakdown</CardTitle>
+            <CardTitle>{t("revenue_breakdown")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] flex items-center justify-center">
@@ -86,7 +89,7 @@ export default function EarningsReportPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Daily Earnings Trend</CardTitle>
+            <CardTitle>{t("daily_earnings_trend")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">

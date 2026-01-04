@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import {
   ArrowDownRight,
@@ -100,6 +101,8 @@ const stats = [
 ];
 
 export default function FleetEarningsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -116,10 +119,10 @@ export default function FleetEarningsPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Fleet Earnings Overview
+          {t("fleet_earnings_overview")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Overview of your fleet&lsquo;s financial performance
+          {t("overview_fleet_financial")}
         </p>
       </motion.div>
 
@@ -147,9 +150,8 @@ export default function FleetEarningsPage() {
                     <stat.icon className={`w-6 h-6 ${stat.color}`} />
                   </div>
                   <div
-                    className={`flex items-center text-sm font-medium ${
-                      stat.trend === "up" ? "text-green-600" : "text-red-600"
-                    }`}
+                    className={`flex items-center text-sm font-medium ${stat.trend === "up" ? "text-green-600" : "text-red-600"
+                      }`}
                   >
                     {stat.change}
                     {stat.trend === "up" ? (
@@ -189,7 +191,7 @@ export default function FleetEarningsPage() {
         >
           <Card className="h-full">
             <CardHeader>
-              <CardTitle>Revenue Trend</CardTitle>
+              <CardTitle>{t("revenue_trend")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
@@ -276,7 +278,7 @@ export default function FleetEarningsPage() {
         >
           <Card className="h-full">
             <CardHeader>
-              <CardTitle>Payout Distribution</CardTitle>
+              <CardTitle>{t("payout_distribution")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">

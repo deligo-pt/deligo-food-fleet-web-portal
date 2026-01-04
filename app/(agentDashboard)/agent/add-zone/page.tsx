@@ -5,10 +5,13 @@ import { CustomSelect } from "@/components/CustomInput/CustomSelect";
 import { Map } from "@/components/Map/Map";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Save, X } from "lucide-react";
 
 export default function AddNewZonePage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -24,9 +27,9 @@ export default function AddNewZonePage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Add New Zone</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("add_new_zone")}</h1>
         <p className="text-gray-500 mt-1">
-          Define a new operational area by drawing boundaries on the map
+          {t("define_operational_area")}
         </p>
       </motion.div>
 
@@ -36,15 +39,14 @@ export default function AddNewZonePage() {
             <Map className="h-full w-full rounded-none border-0" />
           </Card>
           <p className="text-sm text-muted-foreground">
-            Click on the map to place boundary points. Connect the last point to
-            the first to close the polygon.
+            {t("click_map_to_place_boundary")}
           </p>
         </div>
 
         <div className="space-y-6">
           <Card>
             <CardContent className="space-y-4">
-              <h3 className="font-semibold text-lg">Zone Details</h3>
+              <h3 className="font-semibold text-lg">{t("zone_details")}</h3>
 
               <CustomInput label="Zone Name" placeholder="e.g. Downtown Core" />
 
@@ -53,15 +55,15 @@ export default function AddNewZonePage() {
                 options={[
                   {
                     value: "high",
-                    label: "High Priority",
+                    label: t("high_priority"),
                   },
                   {
                     value: "medium",
-                    label: "Medium Priority",
+                    label: t("medium_priority"),
                   },
                   {
                     value: "low",
-                    label: "Low Priority",
+                    label: t("low_priority"),
                   },
                 ]}
               />
@@ -80,7 +82,7 @@ export default function AddNewZonePage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Surge Multiplier</label>
+                <label className="text-sm font-medium">{t("surge_multiplier")}</label>
                 <div className="flex items-center gap-4">
                   <input
                     type="range"
@@ -96,11 +98,11 @@ export default function AddNewZonePage() {
               <div className="pt-4 flex gap-3">
                 <Button className="w-full">
                   <Save className="mr-2 h-4 w-4" />
-                  Save Zone
+                  {t("save_zone")}
                 </Button>
                 <Button variant="outline" className="w-full">
                   <X className="mr-2 h-4 w-4" />
-                  Cancel
+                  {t("cancel")}
                 </Button>
               </div>
             </CardContent>

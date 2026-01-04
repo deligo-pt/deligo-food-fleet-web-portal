@@ -3,6 +3,7 @@
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { AlertTriangle, ArrowRight, CheckCircle2 } from "lucide-react";
 
@@ -50,6 +51,8 @@ const pendingData = [
 ];
 
 export default function PendingSettlementsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 md:p-6">
       <motion.div
@@ -66,10 +69,10 @@ export default function PendingSettlementsPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Pending Settlements
+          {t("pending_settlements")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Track earnings accumulated but not yet paid out
+          {t("track_earnings_accumulated")}
         </p>
       </motion.div>
 
@@ -94,20 +97,19 @@ export default function PendingSettlementsPage() {
                 <CardContent className="p-5 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div
-                      className={`w-2 h-12 rounded-full ${
-                        item.daysPending > 7
-                          ? "bg-red-500"
-                          : item.daysPending > 3
+                      className={`w-2 h-12 rounded-full ${item.daysPending > 7
+                        ? "bg-red-500"
+                        : item.daysPending > 3
                           ? "bg-yellow-500"
                           : "bg-green-500"
-                      }`}
+                        }`}
                     />
                     <div>
                       <h3 className="font-bold text-gray-900">
                         {item.partner}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <span>{item.trips} trips</span>
+                        <span>{item.trips} {t("trips_small")}</span>
                         <span>•</span>
                         <span
                           className={
@@ -116,7 +118,7 @@ export default function PendingSettlementsPage() {
                               : ""
                           }
                         >
-                          {item.daysPending} days pending
+                          {item.daysPending} {t("days_pending")}
                         </span>
                       </div>
                     </div>
@@ -132,8 +134,8 @@ export default function PendingSettlementsPage() {
                           item.status === "Overdue"
                             ? "destructive"
                             : item.status === "Review Needed"
-                            ? "warning"
-                            : "secondary"
+                              ? "warning"
+                              : "secondary"
                         }
                       >
                         {item.status}
@@ -158,22 +160,22 @@ export default function PendingSettlementsPage() {
             <CardHeader>
               <CardTitle className="text-blue-900 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5" />
-                Settlement Rules
+                {t("settlement_rules")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3 text-sm text-blue-800">
                 <li className="flex items-start gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5" />
-                  Earnings are held for 24 hours for fraud checks.
+                  {t("earnings_are_held")}
                 </li>
                 <li className="flex items-start gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5" />
-                  Payouts under $20 accrue until threshold is met.
+                  {t("payouts_under_accure")}
                 </li>
                 <li className="flex items-start gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5" />
-                  Disputes freeze settlement for specific orders only.
+                  {t("disputes_freeze_settlement")}
                 </li>
               </ul>
             </CardContent>
@@ -181,7 +183,7 @@ export default function PendingSettlementsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Next Payout Cycle</CardTitle>
+              <CardTitle>{t("next_payout_cycle")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center py-4">
@@ -190,9 +192,9 @@ export default function PendingSettlementsPage() {
                 </div>
                 <h3 className="font-bold text-gray-900">Monday, Oct 30</h3>
                 <p className="text-sm text-gray-500 mb-4">
-                  Automatic disbursement at 9:00 AM
+                  {t("automatic_disbursement")} at 9:00 AM
                 </p>
-                <Button className="w-full">Configure Schedule</Button>
+                <Button className="w-full">{t("configure_schedule")}</Button>
               </div>
             </CardContent>
           </Card>

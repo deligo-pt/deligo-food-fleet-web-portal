@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
@@ -29,6 +30,7 @@ interface IProps {
 }
 
 export function BackgroundCheckForm({ onNext }: IProps) {
+  const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm({
     resolver: zodResolver(backgroundCheckValidation),
@@ -71,7 +73,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+        "Failed to update Delivery Partner details",
         {
           id: toastId,
         }
@@ -124,11 +126,10 @@ export function BackgroundCheckForm({ onNext }: IProps) {
         className="mb-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">
-          Criminal Background Check
+          {t("criminal_background_check")}
         </h2>
         <p className="text-gray-600">
-          Please provide delivery partner&lsquo;s Criminal Record Certificate
-          (Certificado de Registo Criminal)
+          {t("provide_delivery_partner_criminal")}
         </p>
       </motion.div>
       <Form {...form}>
@@ -139,20 +140,18 @@ export function BackgroundCheckForm({ onNext }: IProps) {
                 <ShieldCheckIcon className="w-5 h-5 text-[#DC3173] mt-1 mr-3 shrink-0" />
                 <div>
                   <h3 className="font-medium text-gray-800">
-                    Background Check Requirement
+                    {t("background_check_requirement")}
                   </h3>
                   <p className="text-sm text-gray-600 mt-1">
-                    In Portugal, food delivery platforms require a Criminal
-                    Record Certificate (Certificado de Registo Criminal) that is
-                    less than 3 months old. You can obtain this document from:
+                    {t("portugal_food_delivery")}
                   </p>
                   <ul className="text-sm text-gray-600 mt-2 list-disc list-inside space-y-1">
                     <li>
-                      Online at{" "}
-                      <span className="font-medium">justica.gov.pt</span>
+                      {t("online_at")}{" "}
+                      <span className="font-medium">{t("justica_gov")}</span>
                     </li>
-                    <li>Civil Registry Offices (Conservatórias)</li>
-                    <li>Citizen Shops (Lojas de Cidadão)</li>
+                    <li>{t("civil_registry")}</li>
+                    <li>{t("citizen_shops")}</li>
                   </ul>
                 </div>
               </div>
@@ -169,7 +168,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
                     <div className="flex items-center">
                       <ShieldCheckIcon className="w-5 h-5 text-[#DC3173]" />
                       <span className="ml-2">
-                        Have Criminal Record Certificate
+                        {t("have_criminal_record_certificate")}
                       </span>
                     </div>
                   </FormLabel>
@@ -184,8 +183,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
                         onCheckedChange={(checked) => field.onChange(checked)}
                         className="h-4 w-4 text-[#DC3173] focus:ring-[#DC3173] border-gray-300 rounded data-[state=checked]:bg-[#DC3173] data-[state=checked]:border-[#DC3173]"
                       />
-                      Criminal Record Certificate (Certificado de Registo
-                      Criminal)
+                      {t("criminal_record_certificate")}
                     </FormLabel>
                   </FormControl>
                   <FormMessage />
@@ -204,7 +202,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">Certificate Issue Date</span>
+                      <span className="ml-2">{t("certificate_issue_date")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -230,7 +228,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
             type="submit"
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
-            Continue to Equipment & Availability
+            {t("continue_to_equipment")}
             <ArrowRightIcon className="w-5 h-5 ml-1" />
           </motion.button>
         </form>

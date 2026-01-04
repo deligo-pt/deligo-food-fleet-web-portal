@@ -4,11 +4,13 @@ import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
 import { Bike, Receipt, Search, User } from "lucide-react";
 import { useState } from "react";
 
 export default function TransactionDetailsPage() {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
@@ -34,10 +36,10 @@ export default function TransactionDetailsPage() {
         }}
       >
         <h1 className="text-2xl font-bold text-[#DC3173]">
-          Transaction Lookup
+          {t("transaction_lookup")}
         </h1>
         <p className="text-gray-500 mt-1">
-          Find detailed financial breakdown for any delivery order
+          {t("find_detailed_financial_breakdown")}
         </p>
       </motion.div>
 
@@ -52,7 +54,7 @@ export default function TransactionDetailsPage() {
               icon={<Search className="w-5 h-5" />}
             />
             <Button size="lg" disabled={isSearching} className="min-w-[120px]">
-              Search
+              {t("search")}
             </Button>
           </form>
         </CardContent>
@@ -78,7 +80,7 @@ export default function TransactionDetailsPage() {
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">
-                    Order #ORD-2023-8892
+                    {t("order")} #ORD-2023-8892
                   </h2>
                   <p className="text-sm text-gray-500">
                     Oct 24, 2023 • 2:30 PM
@@ -99,7 +101,7 @@ export default function TransactionDetailsPage() {
                 <div className="flex-1 space-y-4">
                   <div>
                     <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">
-                      Pickup
+                      {t("pickup")}
                     </p>
                     <p className="font-medium">Burger King - Downtown</p>
                     <p className="text-sm text-gray-500">
@@ -108,7 +110,7 @@ export default function TransactionDetailsPage() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">
-                      Dropoff
+                      {t("drop_off")}
                     </p>
                     <p className="font-medium">Residential Apartment</p>
                     <p className="text-sm text-gray-500">
@@ -124,7 +126,7 @@ export default function TransactionDetailsPage() {
                     <User className="w-5 h-5 text-gray-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Customer</p>
+                    <p className="text-xs text-gray-500">{t("customer")}</p>
                     <p className="font-medium">Alice Freeman</p>
                   </div>
                 </div>
@@ -133,7 +135,7 @@ export default function TransactionDetailsPage() {
                     <Bike className="w-5 h-5 text-gray-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Partner</p>
+                    <p className="text-xs text-gray-500">{t("partner")}</p>
                     <p className="font-medium">Michael Brown</p>
                   </div>
                 </div>
@@ -146,22 +148,22 @@ export default function TransactionDetailsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Receipt className="w-5 h-5 text-[#DC3173]" />
-                Financial Breakdown
+                {t("financial_breakdown")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Delivery Fee</span>
+                  <span className="text-gray-600">{t("delivery_fee")}</span>
                   <span className="font-medium">$5.99</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Service Fee</span>
+                  <span className="text-gray-600">{t("service_fee")}</span>
                   <span className="font-medium">$2.50</span>
                 </div>
                 <div className="flex justify-between text-sm text-[#DC3173]">
                   <span className="flex items-center gap-1">
-                    Surge Bonus
+                    {t("surge_bonus")}
                     <CustomBadge
                       variant="secondary"
                       className="text-[10px] h-4 px-1"
@@ -172,25 +174,25 @@ export default function TransactionDetailsPage() {
                   <span className="font-medium">+$4.00</span>
                 </div>
                 <div className="flex justify-between text-sm text-gray-600">
-                  <span>Tip</span>
+                  <span>{t("tip")}</span>
                   <span className="font-medium">$3.50</span>
                 </div>
               </div>
 
               <div className="border-t border-gray-200 pt-4 space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Gross Total</span>
+                  <span className="text-gray-600">{t("gross_total")}</span>
                   <span className="font-bold">$15.99</span>
                 </div>
                 <div className="flex justify-between text-sm text-red-500">
-                  <span>Platform Fee (20%)</span>
+                  <span>{t("platform_fee")} (20%)</span>
                   <span>-$3.20</span>
                 </div>
               </div>
 
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
-                  <span className="font-bold text-gray-900">Partner Net</span>
+                  <span className="font-bold text-gray-900">{t("partner_net")}</span>
                   <span className="font-bold text-xl text-[#DC3173]">
                     $12.79
                   </span>
@@ -214,7 +216,7 @@ export default function TransactionDetailsPage() {
                   />
                 </div>
                 <p className="text-xs text-center text-gray-500 mt-1">
-                  80% payout rate
+                  80% {t("payout_rate")}
                 </p>
               </div>
             </CardContent>

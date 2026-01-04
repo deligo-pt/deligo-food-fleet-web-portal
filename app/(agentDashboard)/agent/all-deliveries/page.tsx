@@ -1,7 +1,8 @@
 "use client"
 
-import  { useState, useMemo } from "react";
-import { Search, Bike, MapPin, Clock,  Package, CheckCircle, XCircle } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, Bike, MapPin, Clock, Package, CheckCircle, XCircle } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 const DELIGO = "#DC3173";
 
@@ -62,6 +63,7 @@ const sample: Delivery[] = [
 ];
 
 export default function AllDeliveriesPage() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<Delivery | null>(null);
 
@@ -78,9 +80,9 @@ export default function AllDeliveriesPage() {
   }, [query]);
 
   function StatusPill({ s }: { s: Delivery["status"] }) {
-    if (s === "completed") return <span className="px-2 py-1 text-xs rounded-md bg-green-50 text-green-700 flex items-center gap-1"><CheckCircle size={12}/> Completed</span>;
-    if (s === "cancelled") return <span className="px-2 py-1 text-xs rounded-md bg-red-50 text-red-600 flex items-center gap-1"><XCircle size={12}/> Cancelled</span>;
-    return <span className="px-2 py-1 text-xs rounded-md bg-blue-50 text-blue-700 flex items-center gap-1"><Clock size={12}/> Ongoing</span>;
+    if (s === "completed") return <span className="px-2 py-1 text-xs rounded-md bg-green-50 text-green-700 flex items-center gap-1"><CheckCircle size={12} /> {t("completed")}</span>;
+    if (s === "cancelled") return <span className="px-2 py-1 text-xs rounded-md bg-red-50 text-red-600 flex items-center gap-1"><XCircle size={12} /> {t("cancelled")}</span>;
+    return <span className="px-2 py-1 text-xs rounded-md bg-blue-50 text-blue-700 flex items-center gap-1"><Clock size={12} /> {t("ongoing")}</span>;
   }
 
   return (
@@ -90,13 +92,13 @@ export default function AllDeliveriesPage() {
       {/* Header */}
       <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3"><Package size={20}/> All Deliveries</h1>
-          <p className="text-sm text-gray-600">Track every delivery across Portugal — real-time status & history.</p>
+          <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3"><Package size={20} /> {t("all_deliveries")}</h1>
+          <p className="text-sm text-gray-600">{t("track_every_delivery")}</p>
         </div>
 
         {/* Search */}
         <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-80">
-          <span className="p-2 text-gray-500"><Search size={16}/></span>
+          <span className="p-2 text-gray-500"><Search size={16} /></span>
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -122,7 +124,7 @@ export default function AllDeliveriesPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <div className="text-sm font-semibold text-gray-900 truncate">{d.partnerName}</div>
-                  <StatusPill s={d.status}/>
+                  <StatusPill s={d.status} />
                 </div>
                 <div className="text-xs text-gray-500">#{d.id} • {d.date}</div>
               </div>
@@ -131,25 +133,25 @@ export default function AllDeliveriesPage() {
             {/* Timeline route */}
             <div className="mt-4 ml-1 border-l-2 border-gray-200 pl-4 space-y-3">
               <div className="flex items-start gap-3">
-                <MapPin size={16} className="text-green-600 mt-1"/>
+                <MapPin size={16} className="text-green-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Pickup</div>
+                  <div className="text-xs text-gray-500">{t("pickup")}</div>
                   <div className="text-sm font-medium text-gray-800">{d.pickup}</div>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <MapPin size={16} className="text-red-600 mt-1"/>
+                <MapPin size={16} className="text-red-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Drop-off</div>
+                  <div className="text-xs text-gray-500">{t("drop_off")}</div>
                   <div className="text-sm font-medium text-gray-800">{d.drop}</div>
                 </div>
               </div>
             </div>
 
             <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-              <div className="flex items-center gap-2"><Bike size={16}/> {d.distance}</div>
-              <div className="flex items-center gap-2"><Clock size={16}/> {d.time}</div>
+              <div className="flex items-center gap-2"><Bike size={16} /> {d.distance}</div>
+              <div className="flex items-center gap-2"><Clock size={16} /> {d.time}</div>
               <div className="text-sm font-semibold text-gray-900">€{d.fee.toFixed(2)}</div>
             </div>
           </div>
@@ -162,7 +164,7 @@ export default function AllDeliveriesPage() {
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setActive(null)} />
 
           <aside className="ml-auto w-full sm:w-[420px] bg-white shadow-2xl rounded-l-2xl p-6 overflow-y-auto animate-slide-in">
-            <h3 className="text-lg font-semibold">Delivery #{active.id}</h3>
+            <h3 className="text-lg font-semibold">{t("delivery")} #{active.id}</h3>
             <p className="text-xs text-gray-500 mb-4">{active.date}</p>
 
             <div className="flex items-center gap-3 mb-6">
@@ -172,35 +174,35 @@ export default function AllDeliveriesPage() {
 
               <div>
                 <div className="text-sm font-medium">{active.partnerName}</div>
-                <div className="text-xs text-gray-500">Customer: {active.customer}</div>
+                <div className="text-xs text-gray-500">{t("customer")}: {active.customer}</div>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Pickup</div>
+                <div className="text-xs text-gray-500 mb-1">{t("pickup")}</div>
                 <div className="text-sm font-medium">{active.pickup}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Drop-off</div>
+                <div className="text-xs text-gray-500 mb-1">{t("drop_off")}</div>
                 <div className="text-sm font-medium">{active.drop}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Distance</div>
+                  <div className="text-xs text-gray-500">{t("distance")}</div>
                   <div className="text-sm font-semibold">{active.distance}</div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Time</div>
+                  <div className="text-xs text-gray-500">{t("time")}</div>
                   <div className="text-sm font-semibold">{active.time}</div>
                 </div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Delivery Fee</div>
+                <div className="text-xs text-gray-500">{t("delivery_fee")}</div>
                 <div className="text-lg font-semibold">€{active.fee.toFixed(2)}</div>
               </div>
             </div>
@@ -210,7 +212,7 @@ export default function AllDeliveriesPage() {
                 onClick={() => setActive(null)}
                 className="px-4 py-2 rounded-md text-white text-sm hover:opacity-90"
                 style={{ backgroundColor: DELIGO }}
-              >Close</button>
+              >{t("close")}</button>
             </div>
           </aside>
         </div>

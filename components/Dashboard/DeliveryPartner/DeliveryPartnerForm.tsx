@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
@@ -36,6 +37,7 @@ export function DeliveryPartnerForm({
 }: {
   onSuccess: (emailArg: string) => void;
 }) {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<FormData>({
     resolver: zodResolver(deliveryPartnerValidation),
@@ -111,10 +113,10 @@ export function DeliveryPartnerForm({
                 </motion.div>
               </div>
               <CardTitle className="text-center text-[#DC3173]">
-                Delivery Partner Registration
+                {t("delivery_partner_registration")}
               </CardTitle>
               <CardDescription className="text-center">
-                Join our delivery network today
+                {t("join_our_delivery_network")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -129,7 +131,7 @@ export function DeliveryPartnerForm({
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormLabel htmlFor="email">{t("email")}</FormLabel>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                           <Mail className="absolute top-1/2 left-1 transform -translate-y-1/2  w-5 h-5 text-[#DC3173]" />
@@ -152,7 +154,7 @@ export function DeliveryPartnerForm({
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormLabel htmlFor="password">{t("password")}</FormLabel>
                       <div className="relative">
                         <FormLabel className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                           <Lock className="absolute top-1/2 left-1 transform -translate-y-1/2 w-5 h-5 text-[#DC3173]" />
@@ -196,7 +198,7 @@ export function DeliveryPartnerForm({
                   type="submit"
                   className="bg-[#DC3173] hover:bg-[#DC3173]/90"
                 >
-                  Register Partner
+                  {t("register_partner")}
                 </Button>
               </motion.div>
             </CardFooter>

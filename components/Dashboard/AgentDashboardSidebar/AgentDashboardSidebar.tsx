@@ -23,6 +23,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface IProps {
   open?: boolean;
@@ -31,175 +32,175 @@ interface IProps {
 
 const PRIMARY = "#DC3173";
 
-const MENU = [
-  {
-    id: "home",
-    title: "Home",
-    icon: <Home size={18} />,
-    path: "/",
-  },
-  {
-    id: "dashboard",
-    title: "Dashboard",
-    icon: <LayoutDashboard size={18} />,
-    path: "/agent/dashboard",
-  },
-
-  {
-    id: "delivery-partners",
-    title: "Delivery Partners Management",
-    icon: <Bike size={18} />,
-    items: [
-      { name: "All Delivery Partners", path: "/agent/delivery-partners" },
-      {
-        name: "Add New Delivery Partner",
-        path: "/agent/add-delivery-partner",
-      },
-      { name: "Pending Verification", path: "/agent/pending-verification" },
-      {
-        name: "Active Delivery Partners",
-        path: "/agent/active-delivery-partners",
-      },
-      {
-        name: "Suspended Delivery Partners",
-        path: "/agent/suspended-delivery-partners",
-      },
-      {
-        name: "Rejected Delivery Partners",
-        path: "/agent/rejected-delivery-partners",
-      },
-      {
-        name: "Delivery Partner Performance",
-        path: "/agent/delivery-partner-performance",
-      },
-      {
-        name: "Delivery Partner Reviews",
-        path: "/agent/delivery-partner-reviews",
-      },
-    ],
-  },
-
-  {
-    id: "orders",
-    title: "Orders & Deliveries",
-    icon: <Package size={18} />,
-    items: [
-      { name: "All Deliveries", path: "/agent/all-deliveries" },
-      { name: "Pending Pickup", path: "/agent/pending-pickup" },
-      { name: "On the Way", path: "/agent/on-the-way" },
-      { name: "Delivered", path: "/agent/delivered" },
-      { name: "Cancelled Deliveries", path: "/agent/cancelled-deliveries" },
-      { name: "Delivery History", path: "/agent/delivery-history" },
-    ],
-  },
-
-  {
-    id: "payments",
-    title: "Payments & Earnings",
-    icon: <BadgeEuro size={18} />,
-    items: [
-      { name: "Fleet Earnings Overview", path: "/agent/earnings-overview" },
-      {
-        name: "Delivery Partner Payouts",
-        path: "/agent/delivery-partner-payouts",
-      },
-      { name: "Payment History", path: "/agent/payment-history" },
-      { name: "Transaction Details", path: "/agent/transaction-details" },
-      { name: "Pending Settlements", path: "/agent/pending-settlements" },
-    ],
-  },
-
-  {
-    id: "zones",
-    title: "Delivery Zones",
-    icon: <Map size={18} />,
-    items: [
-      { name: "Active Zones", path: "/agent/active-zones" },
-      { name: "Add New Zone", path: "/agent/add-zone" },
-      { name: "Zone Performance", path: "/agent/zone-performance" },
-      { name: "Heatmap (Busy Zones)", path: "/agent/zones-heatmap" },
-      { name: "Adjust Zone Radius", path: "/agent/zone-radius" },
-    ],
-  },
-
-  {
-    id: "settings",
-    title: "Fleet Settings",
-    icon: <Settings size={18} />,
-    items: [
-      { name: "Fleet Profile", path: "/agent/fleet-profile" },
-      { name: "Vehicle Types", path: "/agent/vehicle-types" },
-      { name: "Operating Hours", path: "/agent/operating-hours" },
-      { name: "Commission Settings", path: "/agent/commission-settings" },
-      { name: "Payment Preferences", path: "/agent/payment-preferences" },
-      {
-        name: "Notification Preferences",
-        path: "/agent/notification-preferences",
-      },
-    ],
-  },
-
-  {
-    id: "team",
-    title: "Team Management",
-    icon: <UserCog size={18} />,
-    items: [
-      { name: "All Team Members", path: "/agent/team-members" },
-      { name: "Roles & Permissions", path: "/agent/roles-permissions" },
-      { name: "Activity Logs", path: "/agent/activity-logs" },
-    ],
-  },
-
-  {
-    id: "reports",
-    title: "Reports & Analytics",
-    icon: <FileBarChart size={18} />,
-    items: [
-      {
-        name: "Delivery Partner Performance Report",
-        path: "/agent/report-delivery-partner-performance",
-      },
-      { name: "Earnings Report", path: "/agent/report-earnings" },
-      { name: "Delivery Summary", path: "/agent/report-delivery-summary" },
-      { name: "Monthly Report", path: "/agent/report-monthly" },
-      { name: "Custom Report Builder", path: "/agent/report-custom" },
-    ],
-  },
-
-  {
-    id: "support",
-    title: "Support & Communication",
-    icon: <MessageSquare size={18} />,
-    items: [
-      { name: "Chat with Support", path: "/agent/chat-support" },
-      // { name: "Support Tickets", path: "/agent/support-tickets" },
-      { name: "Delivery Partner Chat", path: "/agent/delivery-partner-chat" },
-      { name: "Report an Issue", path: "/agent/report-issue" },
-      { name: "Help Center", path: "/agent/help-center" },
-    ],
-  },
-
-  {
-    id: "emergency",
-    title: "Emergency / SOS",
-    icon: <AlertTriangle size={18} />,
-    items: [
-      {
-        name: "Delivery Partner Emergency Alerts",
-        path: "/agent/delivery-partner-emergency-alerts",
-      },
-      { name: "Contact Admin", path: "/agent/contact-admin" },
-      { name: "Report Accident / Incident", path: "/agent/report-incident" },
-      {
-        name: "Live Delivery Partner Tracking",
-        path: "/agent/live-tracking",
-      },
-    ],
-  },
-];
-
 export default function Sidebar({ open, setOpen }: IProps) {
+  const { t } = useTranslation();
   const pathname = usePathname();
+
+  const MENU = [
+    {
+      id: "home",
+      title: t("home"),
+      icon: <Home size={18} />,
+      path: "/",
+    },
+    {
+      id: "dashboard",
+      title: t("dashboard"),
+      icon: <LayoutDashboard size={18} />,
+      path: "/agent/dashboard",
+    },
+
+    {
+      id: "delivery-partners",
+      title: t("delivery_partners_management"),
+      icon: <Bike size={18} />,
+      items: [
+        { name: t("all_delivery_partners"), path: "/agent/delivery-partners" },
+        {
+          name: t("add_new_delivery_partner"),
+          path: "/agent/add-delivery-partner",
+        },
+        { name: t("pending_verification"), path: "/agent/pending-verification" },
+        {
+          name: t("active_delivery_partners"),
+          path: "/agent/active-delivery-partners",
+        },
+        {
+          name: t("suspended_delivery_partners"),
+          path: "/agent/suspended-delivery-partners",
+        },
+        {
+          name: t("rejected_delivery_partners"),
+          path: "/agent/rejected-delivery-partners",
+        },
+        {
+          name: t("delivery_partner_performance"),
+          path: "/agent/delivery-partner-performance",
+        },
+        {
+          name: t("delivery_partner_reviews"),
+          path: "/agent/delivery-partner-reviews",
+        },
+      ],
+    },
+
+    {
+      id: "orders",
+      title: t("orders_nd_deliveries"),
+      icon: <Package size={18} />,
+      items: [
+        { name: t("all_deliveries"), path: "/agent/all-deliveries" },
+        { name: t("pending_pickup"), path: "/agent/pending-pickup" },
+        { name: t("on_the_way"), path: "/agent/on-the-way" },
+        { name: t("delivered"), path: "/agent/delivered" },
+        { name: t("cancelled_deliveries"), path: "/agent/cancelled-deliveries" },
+        { name: t("delivery_history"), path: "/agent/delivery-history" },
+      ],
+    },
+
+    {
+      id: "payments",
+      title: t("payments_nd_earnings"),
+      icon: <BadgeEuro size={18} />,
+      items: [
+        { name: t("fleet_earnings_overview"), path: "/agent/earnings-overview" },
+        {
+          name: t("delivery_partner_payouts"),
+          path: "/agent/delivery-partner-payouts",
+        },
+        { name: t("payment_history"), path: "/agent/payment-history" },
+        { name: t("transaction_details"), path: "/agent/transaction-details" },
+        { name: t("pending_settlements"), path: "/agent/pending-settlements" },
+      ],
+    },
+
+    {
+      id: "zones",
+      title: t("delivery_zones"),
+      icon: <Map size={18} />,
+      items: [
+        { name: t("active_zones"), path: "/agent/active-zones" },
+        { name: t("add_new_zone"), path: "/agent/add-zone" },
+        { name: t("zone_performance"), path: "/agent/zone-performance" },
+        { name: t("heatmap_busy_zones"), path: "/agent/zones-heatmap" },
+        { name: t("adjust_zone_radius"), path: "/agent/zone-radius" },
+      ],
+    },
+
+    {
+      id: "settings",
+      title: t("fleet_settings"),
+      icon: <Settings size={18} />,
+      items: [
+        { name: t("vehicle_types"), path: "/agent/vehicle-types" },
+        { name: t("operating_hours"), path: "/agent/operating-hours" },
+        { name: t("commission_settings"), path: "/agent/commission-settings" },
+        { name: t("payment_preferences"), path: "/agent/payment-preferences" },
+        {
+          name: t("notification_preferences"),
+          path: "/agent/notification-preferences",
+        },
+      ],
+    },
+
+    {
+      id: "team",
+      title: t("team_management"),
+      icon: <UserCog size={18} />,
+      items: [
+        { name: t("all_team_members"), path: "/agent/team-members" },
+        { name: t("roles_nd_permissions"), path: "/agent/roles-permissions" },
+        { name: t("activity_logs"), path: "/agent/activity-logs" },
+      ],
+    },
+
+    {
+      id: "reports",
+      title: t("reports_nd_analytics"),
+      icon: <FileBarChart size={18} />,
+      items: [
+        {
+          name: t("delivery_partner_performance_report"),
+          path: "/agent/report-delivery-partner-performance",
+        },
+        { name: t("earnings_report"), path: "/agent/report-earnings" },
+        { name: t("delivery_summary"), path: "/agent/report-delivery-summary" },
+        { name: t("monthly_report"), path: "/agent/report-monthly" },
+        { name: t("custom_report_builder"), path: "/agent/report-custom" },
+      ],
+    },
+
+    {
+      id: "support",
+      title: t("support_nd_communication"),
+      icon: <MessageSquare size={18} />,
+      items: [
+        { name: t("chat_with_support"), path: "/agent/chat-support" },
+        // { name: "Support Tickets", path: "/agent/support-tickets" },
+        { name: t("delivery_partner_chat"), path: "/agent/delivery-partner-chat" },
+        { name: t("report_an_issue"), path: "/agent/report-issue" },
+        { name: t("help_center"), path: "/agent/help-center" },
+      ],
+    },
+
+    {
+      id: "emergency",
+      title: t("emergency_sos"),
+      icon: <AlertTriangle size={18} />,
+      items: [
+        {
+          name: t("delivery_partner_emergency_alerts"),
+          path: "/agent/delivery-partner-emergency-alerts",
+        },
+        { name: t("report_accident_incident"), path: "/agent/report-incident" },
+        {
+          name: t("live_delivery_partner_tracking"),
+          path: "/agent/live-tracking",
+        },
+      ],
+    },
+  ];
+
   const currentMenuId = MENU.find((menu) =>
     menu.items?.some((item) => pathname.includes(item.path))
   )?.id;
@@ -288,11 +289,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
               {menu.path ? (
                 <Link
                   href={menu.path}
-                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${
-                    pathname === menu.path
-                      ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
-                      : "hover:bg-pink-100"
-                  }`}
+                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${pathname === menu.path
+                    ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
+                    : "hover:bg-pink-100"
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="text-pink-600">{menu.icon}</div>
@@ -338,11 +338,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
                           <Link
                             key={sub.name}
                             href={sub.path}
-                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${
-                              pathname === sub.path
-                                ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
-                                : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
-                            }`}
+                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${pathname === sub.path
+                              ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
+                              : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
+                              }`}
                           >
                             {sub.name}
                           </Link>
@@ -398,11 +397,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
                     <Link
                       href={menu.path}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-2 py-2 ${
-                        pathname === menu.path
-                          ? "text-pink-700 font-semibold"
-                          : "text-gray-800 hover:text-pink-600"
-                      }`}
+                      className={`flex items-center gap-2 py-2 ${pathname === menu.path
+                        ? "text-pink-700 font-semibold"
+                        : "text-gray-800 hover:text-pink-600"
+                        }`}
                     >
                       <div className="text-pink-600">{menu.icon}</div>
                       <span className="text-left">{menu.title}</span>
@@ -419,9 +417,8 @@ export default function Sidebar({ open, setOpen }: IProps) {
                         </div>
                         <ChevronDown
                           size={16}
-                          className={`transition-transform ${
-                            expanded[menu.id] ? "rotate-180" : ""
-                          }`}
+                          className={`transition-transform ${expanded[menu.id] ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
 
@@ -438,11 +435,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
                                 key={sub.name}
                                 href={sub.path}
                                 onClick={() => setMobileOpen(false)}
-                                className={`text-sm py-1 transition-all ${
-                                  pathname === sub.path
-                                    ? "text-pink-700 font-semibold"
-                                    : "text-gray-600 hover:text-pink-600"
-                                }`}
+                                className={`text-sm py-1 transition-all ${pathname === sub.path
+                                  ? "text-pink-700 font-semibold"
+                                  : "text-gray-600 hover:text-pink-600"
+                                  }`}
                               >
                                 {sub.name}
                               </Link>

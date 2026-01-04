@@ -20,6 +20,7 @@ import { getCookie } from "@/utils/cookies";
 import { fetchData, updateData } from "@/utils/requests";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/use-translation";
 
 type DocKey =
   | "idProofFront"
@@ -29,39 +30,6 @@ type DocKey =
   | "vehicleRegistration"
   | "criminalRecordCertificate";
 
-const DOCUMENTS: {
-  key: DocKey;
-  label: string;
-  prefersImagePreview: boolean;
-}[] = [
-    {
-      key: "idProofFront",
-      label: "ID Proof Front",
-      prefersImagePreview: true,
-    },
-    { key: "idProofBack", label: "ID Proof Back", prefersImagePreview: true },
-    {
-      key: "drivingLicenseFront",
-      label: "Driving License Front",
-      prefersImagePreview: true,
-    },
-    {
-      key: "drivingLicenseBack",
-      label: "Driving License Back",
-      prefersImagePreview: true,
-    },
-    {
-      key: "vehicleRegistration",
-      label: "Vehicle Registration",
-      prefersImagePreview: true,
-    },
-    {
-      key: "criminalRecordCertificate",
-      label: "Criminal Record Certificate",
-      prefersImagePreview: true,
-    },
-  ];
-
 type FilePreview = {
   file: File | null;
   url: string | null;
@@ -69,6 +37,7 @@ type FilePreview = {
 };
 
 export default function Documents() {
+  const { t } = useTranslation();
   const { id } = useParams();
   //   const [haveCriminalCertificate, setHaveCriminalCertificate] = useState(false);
   const [previews, setPreviews] = useState<Record<DocKey, FilePreview | null>>({
@@ -81,6 +50,44 @@ export default function Documents() {
   });
   const router = useRouter();
   const inputsRef = useRef<Record<string, HTMLInputElement | null>>({});
+
+
+  const DOCUMENTS: {
+    key: DocKey;
+    label: string;
+    prefersImagePreview: boolean;
+  }[] = [
+      {
+        key: "idProofFront",
+        label: t("id_proof_front"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "idProofBack",
+        label: t("id_proof_back"),
+        prefersImagePreview: true
+      },
+      {
+        key: "drivingLicenseFront",
+        label: t("driving_license_front"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "drivingLicenseBack",
+        label: t("driving_license_back"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "vehicleRegistration",
+        label: t("vehicle_registration"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "criminalRecordCertificate",
+        label: t("criminal_record_certification"),
+        prefersImagePreview: true,
+      },
+    ];
 
   const openPicker = (key: DocKey) => {
     const el = inputsRef.current[key];
@@ -237,7 +244,7 @@ export default function Documents() {
       <div className="flex items-center gap-4">
         <div>
           <CardTitle className="text-2xl font-semibold tracking-wide mb-4">
-            Upload Your Documents
+            {t("upload_your_documents")}
           </CardTitle>
         </div>
       </div>
@@ -303,7 +310,7 @@ export default function Documents() {
                         </div>
                       )
                     ) : (
-                      <span>No file selected</span>
+                      <span>{t("noFileSelected")}</span>
                     )}
                   </div>
                 </div>
@@ -336,14 +343,14 @@ export default function Documents() {
                       }
                       className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm border border-gray-200 hover:shadow"
                     >
-                      <Eye className="w-4 h-4 text-[#DC3173]" /> View
+                      <Eye className="w-4 h-4 text-[#DC3173]" /> {t("viewCTA")}
                     </button>
 
                     <button
                       onClick={() => removeFile(d.key)}
                       className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm text-gray-600 border border-gray-100 hover:bg-gray-50"
                     >
-                      Remove
+                      {t("removeCTA")}
                     </button>
                   </>
                 ) : (
@@ -352,7 +359,7 @@ export default function Documents() {
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
                   >
                     <UploadCloud className="w-4 h-4" />
-                    Select file
+                    {t("select_file")}
                   </button>
                 )}
               </div>
@@ -374,7 +381,7 @@ export default function Documents() {
           //   disabled={!DOCUMENTS.every((d) => !!previews[d.key])}
           onClick={completeReg}
         >
-          Complete & Submit
+          {t("complete_submit")}
           <CheckIcon className="w-5 h-5 ml-1" />
         </motion.button>
       </div>

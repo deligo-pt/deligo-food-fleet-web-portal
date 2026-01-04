@@ -4,6 +4,7 @@ import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Filter, Search } from "lucide-react";
 import { useState } from "react";
@@ -61,6 +62,7 @@ const mockPartners: IPartner[] = [
 ];
 
 export default function PartnerPayoutsPage() {
+  const { t } = useTranslation();
   const [cycle, setCycle] = useState("Weekly");
 
   return (
@@ -78,9 +80,9 @@ export default function PartnerPayoutsPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">Partner Payouts</h1>
+        <h1 className="text-2xl font-bold text-[#DC3173]">{t("partner_payouts")}</h1>
         <p className="text-gray-500 mt-1">
-          Manage and process delivery partner payments
+          {t("manage_process_delivery")}
         </p>
       </motion.div>
 
@@ -93,15 +95,15 @@ export default function PartnerPayoutsPage() {
                 onChange={(e) => setCycle(e.target.value)}
                 className="appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-[#DC3173] focus:border-[#DC3173] block w-full p-2.5 pr-8"
               >
-                <option>Weekly Cycle</option>
-                <option>Bi-Weekly Cycle</option>
-                <option>Monthly Cycle</option>
+                <option>{t("weekly_cycle")}</option>
+                <option>{t("bi_weekly_cycle")}</option>
+                <option>{t("monthly_cycle")}</option>
               </select>
               <ChevronDown className="absolute right-2 top-3 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
             <div className="h-6 w-px bg-gray-200" />
             <div className="text-sm text-gray-500">
-              Total Due:{" "}
+              {t("total_due")}:{" "}
               <span className="font-bold text-gray-900">{6456.5}</span>
             </div>
           </div>
@@ -122,22 +124,22 @@ export default function PartnerPayoutsPage() {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Partner
+                    {t("partner")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Trips
+                    {t("trips")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Earnings Due
+                    {t("earnings_due")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Status
+                    {t("status")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Last Payout
+                    {t("last_payout")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Action
+                    {t("actions")}
                   </th>
                 </tr>
               </thead>
@@ -189,8 +191,8 @@ export default function PartnerPayoutsPage() {
                             partner.status === "ready"
                               ? "success"
                               : partner.status === "processing"
-                              ? "warning"
-                              : "destructive"
+                                ? "warning"
+                                : "destructive"
                           }
                         >
                           {partner.status}
@@ -203,7 +205,7 @@ export default function PartnerPayoutsPage() {
                           size="sm"
                           className="text-[#DC3173] hover:text-[#DC3173] hover:bg-[#DC3173]/10"
                         >
-                          Pay Now
+                          {t("pay_now")}
                         </Button>
                       </td>
                     </motion.tr>

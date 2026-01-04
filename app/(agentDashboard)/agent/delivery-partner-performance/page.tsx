@@ -2,6 +2,7 @@
 "use client"
 import React, { useMemo, useState } from "react";
 import { Search, BarChart2, Download, Eye, ArrowUpRight, RefreshCcw } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 
 
@@ -147,6 +148,7 @@ function Sparkline({ data, color = DELIGO }: { data: DailyPoint[]; color?: strin
 }
 
 export default function DeliveryPartnerPerformance() {
+  const { t } = useTranslation();
   const [data, setData] = useState<PartnerPerf[]>(sample);
   const [query, setQuery] = useState("");
   const [timeframe, setTimeframe] = useState<"7d" | "14d" | "30d">("14d");
@@ -186,16 +188,16 @@ export default function DeliveryPartnerPerformance() {
   }
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen p-6 bg-linear-to-b from-gray-50 to-gray-100">
       <style>{`:root{--deligo:${DELIGO}}`}</style>
 
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-            <BarChart2 size={20} /> Delivery Partner Performance
+            <BarChart2 size={20} /> {t("delivery_partner_performance")}
           </h1>
-          <p className="text-sm text-gray-600">Sortable, filterable, exportable overview.</p>
+          <p className="text-sm text-gray-600">{t("sortable_filterable_exportable")}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -216,9 +218,9 @@ export default function DeliveryPartnerPerformance() {
             onChange={(e) => setTimeframe(e.target.value as any)}
             className="text-sm rounded-md border px-3 py-2 bg-white"
           >
-            <option value="7d">Last 7 days</option>
-            <option value="14d">Last 14 days</option>
-            <option value="30d">Last 30 days</option>
+            <option value="7d">{t("last_7_days")}</option>
+            <option value="14d">{t("last_14_days")}</option>
+            <option value="30d">{t("last_30_days")}</option>
           </select>
 
           <select
@@ -226,17 +228,17 @@ export default function DeliveryPartnerPerformance() {
             onChange={(e) => setSortBy(e.target.value as any)}
             className="text-sm rounded-md border px-3 py-2 bg-white"
           >
-            <option value="deliveries">Top deliveries</option>
-            <option value="rating">Top rating</option>
-            <option value="earnings">Top earnings</option>
+            <option value="deliveries">{t("top_deliveries")}</option>
+            <option value="rating">{t("top_rating")}</option>
+            <option value="earnings">{t("top_earnings")}</option>
           </select>
 
           <button onClick={exportCSV} className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border shadow-sm text-sm hover:scale-105 transition">
-            <Download size={14} /> Export
+            <Download size={14} /> {t("export")}
           </button>
 
           <button onClick={refresh} className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-white" style={{ backgroundColor: DELIGO }}>
-            <RefreshCcw size={14} /> Refresh
+            <RefreshCcw size={14} /> {t("refresh")}
           </button>
         </div>
       </div>
@@ -244,27 +246,27 @@ export default function DeliveryPartnerPerformance() {
       {/* KPI Cards — unique glassy style */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-white/60 backdrop-blur rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-          <div className="text-xs text-gray-500">Top partner deliveries</div>
+          <div className="text-xs text-gray-500">{t("top_partner_deliveries")}</div>
           <div className="mt-2 text-xl font-semibold">{Math.max(...data.map((d) => d.deliveries))}</div>
-          <div className="text-xs text-gray-400 mt-1">in the selected timeframe</div>
+          <div className="text-xs text-gray-400 mt-1">{t("in_the_selected_timeframe")}</div>
         </div>
 
-        <div className="bg-gradient-to-r from-white to-white/60 rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-          <div className="text-xs text-gray-500">Avg delivery time</div>
-          <div className="mt-2 text-xl font-semibold">{(data.reduce((s, d) => s + d.avgDeliveryMins, 0) / data.length).toFixed(0)} min</div>
-          <div className="text-xs text-gray-400 mt-1">lower is better</div>
+        <div className="bg-linear-to-r from-white to-white/60 rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
+          <div className="text-xs text-gray-500">{t("avg_delivery_time")}</div>
+          <div className="mt-2 text-xl font-semibold">{(data.reduce((s, d) => s + d.avgDeliveryMins, 0) / data.length).toFixed(0)} {t("min")}</div>
+          <div className="text-xs text-gray-400 mt-1">{t("lower_is_better")}</div>
         </div>
 
         <div className="bg-white/60 backdrop-blur rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-          <div className="text-xs text-gray-500">Avg acceptance rate</div>
+          <div className="text-xs text-gray-500">{t("avg_acceptance_rate")}</div>
           <div className="mt-2 text-xl font-semibold">{(data.reduce((s, d) => s + d.acceptanceRate, 0) / data.length).toFixed(0)}%</div>
-          <div className="text-xs text-gray-400 mt-1">higher is better</div>
+          <div className="text-xs text-gray-400 mt-1">{t("higher_is_better")}</div>
         </div>
 
         <div className="bg-white/60 backdrop-blur rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-          <div className="text-xs text-gray-500">Total earnings</div>
+          <div className="text-xs text-gray-500">{t("total_earnings")}</div>
           <div className="mt-2 text-xl font-semibold">€{data.reduce((s, d) => s + d.earnings, 0).toFixed(2)}</div>
-          <div className="text-xs text-gray-400 mt-1">aggregate</div>
+          <div className="text-xs text-gray-400 mt-1">{t("aggregate")}</div>
         </div>
       </div>
 
@@ -284,13 +286,13 @@ export default function DeliveryPartnerPerformance() {
 
             <thead className="bg-white">
               <tr>
-                <th className="px-4 py-3 text-left text-sm text-gray-500">Partner</th>
-                <th className="px-4 py-3 text-left text-sm text-gray-500 hidden md:table-cell">City</th>
-                <th className="px-4 py-3 text-left text-sm text-gray-500">Deliveries</th>
-                <th className="px-4 py-3 text-left text-sm text-gray-500 hidden lg:table-cell">Avg (mins)</th>
-                <th className="px-4 py-3 text-left text-sm text-gray-500">Acceptance</th>
-                <th className="px-4 py-3 text-left text-sm text-gray-500">Earnings</th>
-                <th className="px-4 py-3 text-right text-sm text-gray-500">Trend</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("partner")}</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-500 hidden md:table-cell">{t("city")}</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("deliveries")}</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-500 hidden lg:table-cell">{t("avg_mins")}</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("acceptance")}</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("earnings")}</th>
+                <th className="px-4 py-3 text-right text-sm text-gray-500">{t("trend")}</th>
               </tr>
             </thead>
 
@@ -318,12 +320,12 @@ export default function DeliveryPartnerPerformance() {
 
                   <td className="px-4 py-4 text-sm font-medium">{p.deliveries}</td>
 
-                  <td className="px-4 py-4 hidden lg:table-cell text-sm">{p.avgDeliveryMins} min</td>
+                  <td className="px-4 py-4 hidden lg:table-cell text-sm">{p.avgDeliveryMins} {t("min")}</td>
 
                   <td className="px-4 py-4 text-sm">
                     <div className="inline-flex items-center gap-2">
                       <div className="text-sm font-medium">{p.acceptanceRate}%</div>
-                      <div className="text-xs text-gray-400">({p.cancellations} canc.)</div>
+                      <div className="text-xs text-gray-400">({p.cancellations} {t("canc")}.)</div>
                     </div>
                   </td>
 
@@ -338,7 +340,7 @@ export default function DeliveryPartnerPerformance() {
                         onClick={() => setActive(p)}
                         className="px-2 py-1 rounded-md bg-white border shadow-sm text-sm flex items-center gap-2 hover:scale-105 transition"
                       >
-                        <Eye size={14} /> Preview
+                        <Eye size={14} /> {t("preview")}
                       </button>
                     </div>
                   </td>
@@ -350,10 +352,10 @@ export default function DeliveryPartnerPerformance() {
 
         {/* Footer */}
         <div className="px-4 py-3 flex items-center justify-between text-sm text-gray-600">
-          <div>Showing <strong>{filtered.length}</strong> partners</div>
+          <div>{t("showing")} <strong>{filtered.length}</strong> {t("partners")}</div>
           <div className="flex gap-2">
-            <button className="px-3 py-1 rounded-md border text-xs">Prev</button>
-            <button className="px-3 py-1 rounded-md border text-xs">Next</button>
+            <button className="px-3 py-1 rounded-md border text-xs">{t("prev")}</button>
+            <button className="px-3 py-1 rounded-md border text-xs">{t("next")}</button>
           </div>
         </div>
       </div>
@@ -371,33 +373,33 @@ export default function DeliveryPartnerPerformance() {
               </div>
 
               <div className="flex flex-col items-end gap-2">
-                <div className="text-sm text-gray-500">Rating</div>
+                <div className="text-sm text-gray-500">{t("rating")}</div>
                 <div className="text-lg font-medium">{active.rating.toFixed(1)}</div>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-3 rounded-lg bg-gradient-to-br from-white to-gray-50 border">
-                <div className="text-xs text-gray-500">Deliveries</div>
+              <div className="p-3 rounded-lg bg-linear-to-br from-white to-gray-50 border">
+                <div className="text-xs text-gray-500">{t("deliveries")}</div>
                 <div className="text-xl font-semibold">{active.deliveries}</div>
-                <div className="text-xs text-gray-400">in timeframe</div>
+                <div className="text-xs text-gray-400">{t("in_timeframe")}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Avg delivery time</div>
-                <div className="text-xl font-semibold">{active.avgDeliveryMins} min</div>
-                <div className="text-xs text-gray-400">lower is better</div>
+                <div className="text-xs text-gray-500">{t("avg_delivery_time")}</div>
+                <div className="text-xl font-semibold">{active.avgDeliveryMins} {t("min")}</div>
+                <div className="text-xs text-gray-400">{t("lower_is_better")}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Acceptance</div>
+                <div className="text-xs text-gray-500">{t('acceptance')}</div>
                 <div className="text-xl font-semibold">{active.acceptanceRate}%</div>
-                <div className="text-xs text-gray-400">{active.cancellations} cancellations</div>
+                <div className="text-xs text-gray-400">{active.cancellations} {t("cancellations")}</div>
               </div>
             </div>
 
             <div className="mt-6">
-              <h4 className="font-medium mb-2">Deliveries (recent)</h4>
+              <h4 className="font-medium mb-2">{t("deliveries_recent")}</h4>
               <div className="w-full overflow-hidden rounded-lg border p-3 bg-white">
                 <Sparkline data={active.spark} color={DELIGO} />
               </div>
@@ -405,22 +407,22 @@ export default function DeliveryPartnerPerformance() {
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Earnings</div>
+                <div className="text-xs text-gray-500">{t("earnings")}</div>
                 <div className="text-lg font-semibold">€{active.earnings.toFixed(2)}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Last seen</div>
+                <div className="text-xs text-gray-500">{t("last_seen")}</div>
                 <div className="text-lg font-semibold">{active.lastActive}</div>
               </div>
             </div>
 
             <div className="mt-6 flex items-center gap-3">
               <button className="px-4 py-2 rounded-md border bg-white flex items-center gap-2 hover:scale-105 transition">
-                <ArrowUpRight size={14} /> Go to profile
+                <ArrowUpRight size={14} /> {t("go_to_profile")}
               </button>
               <button onClick={() => setActive(null)} className="px-4 py-2 rounded-md text-white" style={{ backgroundColor: DELIGO }}>
-                Close
+                {t("close")}
               </button>
             </div>
           </aside>

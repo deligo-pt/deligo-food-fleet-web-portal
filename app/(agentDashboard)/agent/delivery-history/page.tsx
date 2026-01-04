@@ -8,11 +8,11 @@ import {
   XCircle,
   MapPin,
   Bike,
-  CalendarDays,
   Eye,
   Package,
   AlertTriangle,
 } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 
 
@@ -79,6 +79,7 @@ const sample: History[] = [
 ];
 
 export default function DeliveryHistoryPage(): JSX.Element {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<History | null>(null);
   const [filter, setFilter] = useState<"all" | "completed" | "cancelled" | "failed">("all");
@@ -107,10 +108,10 @@ export default function DeliveryHistoryPage(): JSX.Element {
       <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
-            <Package size={22} color={DELIGO} /> Delivery History
+            <Package size={22} color={DELIGO} /> {t("delivery_history")}
           </h1>
           <p className="text-sm text-gray-600">
-            Complete timeline of all past deliveries — completed, cancelled & failed.
+            {t("complete_timeline")}
           </p>
         </div>
 
@@ -134,10 +135,10 @@ export default function DeliveryHistoryPage(): JSX.Element {
               onChange={(e) => setFilter(e.target.value as any)}
               className="text-sm rounded-md border px-3 py-2 bg-white"
             >
-              <option value="all">All</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-              <option value="failed">Failed</option>
+              <option value="all">{t("all")}</option>
+              <option value="completed">{t("completed")}</option>
+              <option value="cancelled">{t("cancelled")}</option>
+              <option value="failed">{t("failed")}</option>
             </select>
           </div>
         </div>
@@ -182,13 +183,12 @@ export default function DeliveryHistoryPage(): JSX.Element {
 
             {/* Status text */}
             <p
-              className={`mt-2 text-sm ${
-                d.status === "completed"
-                  ? "text-green-600"
-                  : d.status === "cancelled"
+              className={`mt-2 text-sm ${d.status === "completed"
+                ? "text-green-600"
+                : d.status === "cancelled"
                   ? "text-red-600"
                   : "text-orange-600"
-              }`}
+                }`}
             >
               {d.status.toUpperCase()}
             </p>
@@ -198,7 +198,7 @@ export default function DeliveryHistoryPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-green-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Pickup</div>
+                  <div className="text-xs text-gray-500">{t("pickup")}</div>
                   <div className="text-sm font-medium text-gray-800">{d.pickup}</div>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function DeliveryHistoryPage(): JSX.Element {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-red-600 mt-1" />
                 <div>
-                  <div className="text-xs text-gray-500">Drop-off</div>
+                  <div className="text-xs text-gray-500">{t("drop_off")}</div>
                   <div className="text-sm font-medium text-gray-800">{d.drop}</div>
                 </div>
               </div>
@@ -221,7 +221,7 @@ export default function DeliveryHistoryPage(): JSX.Element {
               </div>
             </div>
 
-            <div className="mt-2 text-sm font-semibold text-[var(--deligo)]">€{d.earning.toFixed(2)}</div>
+            <div className="mt-2 text-sm font-semibold text-(--deligo)">€{d.earning.toFixed(2)}</div>
           </article>
         ))}
       </div>
@@ -239,7 +239,7 @@ export default function DeliveryHistoryPage(): JSX.Element {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Package size={20} color={DELIGO} /> Delivery #{active.id}
+                  <Package size={20} color={DELIGO} /> {t("delivery")} #{active.id}
                 </h3>
                 <p className="text-xs text-gray-500">{active.date}</p>
               </div>
@@ -257,42 +257,42 @@ export default function DeliveryHistoryPage(): JSX.Element {
               </div>
               <div>
                 <div className="text-sm font-medium">{active.partnerName}</div>
-                <div className="text-xs text-gray-500">Customer: {active.customer}</div>
-                {active.reason && <div className="text-xs text-red-600 mt-1">Reason: {active.reason}</div>}
+                <div className="text-xs text-gray-500">{t("customer")}: {active.customer}</div>
+                {active.reason && <div className="text-xs text-red-600 mt-1">{t("reason")}: {active.reason}</div>}
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Pickup</div>
+                <div className="text-xs text-gray-500 mb-1">{t("pickup")}</div>
                 <div className="text-sm font-medium">{active.pickup}</div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500 mb-1">Drop-off</div>
+                <div className="text-xs text-gray-500 mb-1">{t("drop_off")}</div>
                 <div className="text-sm font-medium">{active.drop}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Distance</div>
+                  <div className="text-xs text-gray-500">{t("distance")}</div>
                   <div className="text-sm font-semibold">{active.distance}</div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-gray-50 border">
-                  <div className="text-xs text-gray-500">Duration</div>
+                  <div className="text-xs text-gray-500">{t("duration")}</div>
                   <div className="text-sm font-semibold">{active.duration}</div>
                 </div>
               </div>
 
               <div className="p-3 rounded-lg bg-gray-50 border">
-                <div className="text-xs text-gray-500">Earning</div>
-                <div className="text-lg font-semibold text-[var(--deligo)]">€{active.earning.toFixed(2)}</div>
+                <div className="text-xs text-gray-500">{t("earning")}</div>
+                <div className="text-lg font-semibold text-(--deligo)">€{active.earning.toFixed(2)}</div>
               </div>
 
               {active.reason && (
                 <div className="p-3 rounded-lg bg-red-50 border border-red-100">
-                  <div className="text-xs text-red-600">Cancellation / Failure Reason</div>
+                  <div className="text-xs text-red-600">{t("cancellation_failure_reason")}</div>
                   <div className="text-sm text-red-700 font-medium mt-1">{active.reason}</div>
                 </div>
               )}
@@ -304,10 +304,10 @@ export default function DeliveryHistoryPage(): JSX.Element {
                 className="px-4 py-2 rounded-md text-white"
                 style={{ backgroundColor: DELIGO }}
               >
-                Close
+                {t("close")}
               </button>
               <button className="px-4 py-2 rounded-md border bg-white flex items-center gap-2">
-                <Eye size={14} color={DELIGO} /> View Partner
+                <Eye size={14} color={DELIGO} /> {t("view_partner")}
               </button>
             </div>
           </aside>
