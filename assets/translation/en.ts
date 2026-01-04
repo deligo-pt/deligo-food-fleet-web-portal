@@ -1043,5 +1043,18 @@ export const en = {
 
 
 
+    // profile
+    verified: "Verified",
+    days_active: "days active",
+    business_name: "Business Name",
+    license_number: "License Number",
+    business_location: "Business Location",
+    street_address: "Street Address",
+    swift_code: "SWIFT Code",
+    account_activity: "Account Activity",
+    account_created: "Account Created",
+    two_factor_auth: "Two-Factor Auth",
+
+
 
 };
