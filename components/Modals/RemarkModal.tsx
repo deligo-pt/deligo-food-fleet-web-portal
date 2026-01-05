@@ -44,12 +44,11 @@ const RemarkModal = ({ open, onOpenChange, userId, setIsSubmitting }: IProps) =>
         <Dialog open={open} onOpenChange={onOpenChange}>
             <form>
                 <DialogContent className="sm:max-w-[425px]">
-                    <DialogTitle>
-                        Report Us
-                    </DialogTitle>
+                    <DialogTitle>Report an Issue</DialogTitle>
                     <DialogHeader>
                         <DialogDescription>
-                            Let us know what we can improve
+                            Facing any problems while using the platform?
+                            Please describe the issue below and our support team will assist you.
                         </DialogDescription>
                     </DialogHeader>
                     <form
@@ -58,7 +57,8 @@ const RemarkModal = ({ open, onOpenChange, userId, setIsSubmitting }: IProps) =>
                         className="grid gap-4"
                     >
                         <div className="grid gap-3">
-                            <Label htmlFor="remarks">Your thoughts</Label>
+                            <Label htmlFor="remarks">What’s going wrong?</Label>
+
                             <Input
                                 id="remarks"
                                 name="remarks"
