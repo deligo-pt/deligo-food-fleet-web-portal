@@ -15,8 +15,8 @@ export default async function DashboardPage() {
 
   try {
     const accessToken = (await cookies()).get("accessToken")?.value || "";
-    const decoded = jwtDecode(accessToken) as { id: string };
-    const id = decoded.id;
+    const decoded = jwtDecode(accessToken) as { userId: string };
+    const id = decoded.userId;
     const result = (await serverRequest.get(
       `/fleet-managers/${id}`
     )) as unknown as TResponse<TFleetManager>;
