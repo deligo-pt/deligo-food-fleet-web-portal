@@ -1,23 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { serverRequest } from "@/lib/serverFetch";
-import { TResponse } from "@/types";
+import { serverFetch } from "@/lib/serverFetch";
 
-export const getDeliveryPartners = async () => {
-  const limit = 4;
-  const sortBy = "-createdAt";
 
+export const getDeliveryPartners = async (queryString?: string) => {
   try {
-    const result = (await serverRequest.get("/delivery-partners", {
-      params: {
-        limit,
-        sortBy
-      },
-    }));
+    const res = await serverFetch.get(`/delivery-partners${queryString ? `?${queryString}` : ""}`);
 
-    return result.data;
-  } catch (err) {
-    console.error("Server fetch error:", err);
+    const result = await res.json();
+
+    return result;
+
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+    };
+  }
+};
+
+export const getDeliveryPartnerDetails = async (id?: string) => {
+  try {
+    const res = await serverFetch.get(`/delivery-partners/${id}`);
+
+    const result = await res.json();
+
+    return result?.data;
+
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+    };
   }
 };
 
@@ -31,25 +48,18 @@ export const uploadPartnerDocuments = async (
     formData.append("file", file);
     formData.append("data", JSON.stringify({ docImageTitle: key }));
 
-    const result = await serverRequest.patch(
+    const res = await serverFetch.patch(
       `/delivery-partners/${id}/docImage`,
       {
-        data: formData,
+        body: formData,
       }
     );
 
+    const result = await res.json();
+
     return result;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Server fetch error:", error);
     return { success: false, message: error?.response?.data?.message };
   }
-};
-
-export const deleteDeliveryPartner = async (id: string) => {
-  const result = (await serverRequest.delete(
-    `/auth/soft-delete/${id}`
-  )) as TResponse<null>;
-
-  return result;
 };

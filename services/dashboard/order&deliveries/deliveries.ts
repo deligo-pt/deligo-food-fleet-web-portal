@@ -1,18 +1,17 @@
 'use server'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { serverRequest } from "@/lib/serverFetch";
+import { serverFetch } from "@/lib/serverFetch";
 
 
 
-export const getAllDeliveries = async (queryString: string) => {
+export const getAllDeliveries = async (queryString?: string) => {
     try {
-        const res = await serverRequest.get(`/orders${queryString ? `?${queryString}` : ""}`);
+        const res = await serverFetch.get(`/orders${queryString ? `?${queryString}` : ""}`);
 
-        // const result = await res.json();
-        // const deliveries = result;
+        const result = await res.json();
 
-        return res;
+        return result;
 
     } catch (error: any) {
         console.log(error);

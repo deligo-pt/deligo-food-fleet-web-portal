@@ -685,6 +685,20 @@ export const en = {
     select_file: "Select file",
     complete_submit: "Complete & Submit",
 
+    // pending verfication
+    pending_delivery_partners: "Pending Delivery Partners",
+    wait_for_admin_to_approve: "Wait for admin to approve these requests",
+
+    // active partners
+    live_availability_online_status: "Live availability · online status · active orders",
+
+    // suspended partners
+    fleet_manager_can_preview: "Fleet Manager can preview & reinstate suspended couriers.",
+
+    // rejected partners 
+    admin_has_rejected_these_partners: "Admin has rejected these partners with reason",
+
+
     // delivery partner performance
     sortable_filterable_exportable: "Sortable, filterable, exportable overview.",
     last_7_days: "Last 7 days",

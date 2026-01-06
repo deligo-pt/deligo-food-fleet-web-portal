@@ -1,44 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import SuspendedPartners from "@/components/Dashboard/DeliveryPartner/SuspendedPartners/SuspendedPartners";
-import { serverRequest } from "@/lib/serverFetch";
-import { TMeta, TResponse } from "@/types";
-import {
-  TDeliveryPartner,
-  TDeliveryPartnersQueryParams,
-} from "@/types/delivery-partner.type";
+import { getDeliveryPartners } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { queryStringFormatter } from "@/utils/formatter";
 
 type IProps = {
-  searchParams?: Promise<Record<string, string | undefined>>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 };
 
-export default async function SuspendedPartnersPage({ searchParams }: IProps) {
-  const queries = (await searchParams) || {};
-  const limit = Number(queries?.limit || 10);
-  const page = Number(queries.page || 1);
-  const searchTerm = queries.searchTerm || "";
-  const sortBy = queries.sortBy || "-createdAt";
-
-  const query: Partial<TDeliveryPartnersQueryParams> = {
-    limit,
-    page,
-    sortBy,
-    ...(searchTerm ? { searchTerm: searchTerm } : {}),
+const SuspendedPartnersPage = async ({ searchParams }: IProps) => {
+  const params = await searchParams;
+  const { status, ...restParams } = params;
+  const queryString = queryStringFormatter({
+    ...restParams,
     status: "BLOCKED",
-  };
+  });
+  const deliveryPartners = await getDeliveryPartners(queryString);
 
-  const initialData: { data: TDeliveryPartner[]; meta?: TMeta } = { data: [] };
 
-  try {
-    const result = (await serverRequest.get("/delivery-partners", {
-      params: query,
-    })) as unknown as TResponse<TDeliveryPartner[]>;
+  return <SuspendedPartners partnersResult={deliveryPartners || []} />;
+};
 
-    if (result?.success) {
-      initialData.data = result.data;
-      initialData.meta = result.meta as TMeta;
-    }
-  } catch (err) {
-    console.error("Server fetch error:", err);
-  }
 
-  return <SuspendedPartners partnersResult={initialData} />;
-}
+export default SuspendedPartnersPage;

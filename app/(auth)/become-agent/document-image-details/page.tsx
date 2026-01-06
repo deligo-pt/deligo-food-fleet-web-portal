@@ -1,12 +1,9 @@
 import UploadDocuments from "@/components/BecomeAgent/UploadDocuments";
-import { serverRequest } from "@/lib/serverFetch";
+import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
 import { DocKey, FilePreview } from "@/types/documents.type";
-import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
 
 export default async function UploadDocumentPage() {
-  const accessToken = (await cookies()).get("accessToken")?.value || "";
-  const decoded = jwtDecode(accessToken) as { id: string };
+
 
   const savedPreviews: Record<DocKey, FilePreview | null> = {} as Record<
     DocKey,
@@ -14,7 +11,7 @@ export default async function UploadDocumentPage() {
   >;
 
   try {
-    const result = await serverRequest.get(`/fleet-managers/${decoded.id}`);
+    const result = await getFleetManagerInfo();
 
     if (result?.success) {
       if (result?.success) {

@@ -33,7 +33,7 @@ const vehicleData = [
   },
 ];
 
-const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliveryPartners: TDeliveryPartner[] }) => {
+const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliveryPartners: { data: TDeliveryPartner[] } }) => {
   const { t } = useTranslation();
 
   return (
@@ -180,7 +180,7 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
           delay: 0.8,
         }}
       >
-        <TopDrivers deliveryPartners={deliveryPartners} />
+        <TopDrivers deliveryPartners={deliveryPartners?.data as TDeliveryPartner[] || []} />
       </motion.div>
     </div>
   );

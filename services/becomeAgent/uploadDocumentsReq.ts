@@ -1,6 +1,6 @@
 "use server";
 
-import { serverRequest } from "@/lib/serverFetch";
+import { serverFetch } from "@/lib/serverFetch";
 
 export const uploadDocumentsReq = async (
   id: string,
@@ -12,9 +12,11 @@ export const uploadDocumentsReq = async (
     formData.append("file", file);
     formData.append("data", JSON.stringify({ docImageTitle: key }));
 
-    const result = await serverRequest.patch(`/fleet-managers/${id}/docImage`, {
-      data: formData,
+    const res = await serverFetch.patch(`/fleet-managers/${id}/docImage`, {
+      body: formData,
     });
+
+    const result = await res.json();
 
     return result;
   } catch (err) {

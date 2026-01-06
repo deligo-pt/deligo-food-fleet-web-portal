@@ -1,8 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { uploadProfilePhoto } from "@/services/dashboard/profile/uploadProfilePhoto";
-import { TResponse } from "@/types";
-import { TFleetManager } from "@/types/fleet-manager.type";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   CameraIcon,
@@ -56,22 +55,22 @@ export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
     const toastId = toast.loading("Uploading file...");
 
     try {
-      const result = (await uploadProfilePhoto(
-        imageFile as File
-      )) as TResponse<TFleetManager>;
+      const result = await uploadProfilePhoto(imageFile as File);
 
       if (result.success) {
         toast.success("File uploaded successfully", { id: toastId });
         router.refresh();
+      } else {
+        toast.error(result?.message || "Upload failed", { id: toastId });
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "File upload failed", {
-        id: toastId,
-      });
-      console.log(error);
+      toast.error(
+        error?.response?.data?.message || "File upload failed",
+        { id: toastId }
+      );
     }
   };
+
 
   return (
     <div className="relative z-999">
@@ -181,7 +180,7 @@ export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
           whileTap={{
             scale: 0.95,
           }}
-          // disabled={isUploading}
+        // disabled={isUploading}
         >
           <span>Upload</span>
           <UploadIcon className="w-4 h-4" />

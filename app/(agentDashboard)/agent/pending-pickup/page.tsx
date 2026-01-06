@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import PendingPickup from "@/components/Dashboard/Order&Deliveries/PendingPickup";
 import { getAllDeliveries } from "@/services/dashboard/order&deliveries/deliveries";
 import { queryStringFormatter } from "@/utils/formatter";

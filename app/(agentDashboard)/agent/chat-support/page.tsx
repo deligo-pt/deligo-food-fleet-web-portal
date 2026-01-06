@@ -1,30 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ChatSupport from "@/components/ChatSupport/ChatSupport";
-import { serverRequest } from "@/lib/serverFetch";
-import { TMeta, TResponse } from "@/types";
+import { serverFetch } from "@/lib/serverFetch";
+import { TMeta } from "@/types";
 import { TConversation, TMessage } from "@/types/chat.type";
+import { queryStringFormatter } from "@/utils/formatter";
 
 export default async function ChatSupportPage() {
   let conversationData = {} as TConversation;
   let messagesData = {} as { data: TMessage[]; meta?: TMeta };
 
   try {
-    const conversationResult = (await serverRequest.post(
-      "/support/conversation"
-    )) as TResponse<TConversation>;
+    const conversationRes = await serverFetch.post("/support/conversation");
+    const conversationResult = await conversationRes.json();
 
     conversationData = conversationResult.data;
 
-    const messagesResult = (await serverRequest.get(
-      `/support/conversations/${conversationResult?.data?.room}/messages`,
-      { params: { page: 1, limit: 50, sortBy: "createdAt" } }
-    )) as TResponse<TMessage[]>;
+    const queryString = queryStringFormatter({
+      page: "1",
+      limit: "50",
+      sortBy: "createdAt",
+    });
 
-    messagesData = messagesResult;
+    const messagesRes = await serverFetch.get(
+      `/support/conversations/${conversationResult.data.room}/messages?${queryString}`
+    );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    messagesData = await messagesRes.json();
   } catch (error: any) {
     console.log(error?.response?.data, error.message);
   }
+
 
   return (
     <ChatSupport

@@ -873,6 +873,19 @@ export const pt = {
     complete_submit: "Concluir e submeter",
 
 
+    // pending verification
+    pending_delivery_partners: "Parceiros de Entrega Pendentes",
+    wait_for_admin_to_approve: "Aguarde que o administrador aprove estes pedidos",
+
+    // active partners
+    live_availability_online_status: "Disponibilidade em tempo real · estado online · pedidos ativos",
+
+    // suspended partners
+    fleet_manager_can_preview: "O gestor de frota pode visualizar e reativar estafetas suspensos.",
+
+    // rejected partners 
+    admin_has_rejected_these_partners: "O administrador rejeitou estes parceiros com o respetivo motivo",
+
 
     // delivery partner performance
     sortable_filterable_exportable: "Visão geral ordenável, filtrável e exportável.",

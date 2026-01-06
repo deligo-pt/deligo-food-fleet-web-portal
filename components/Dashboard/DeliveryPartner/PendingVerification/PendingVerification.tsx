@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 
 
 interface IProps {
@@ -43,7 +44,14 @@ export default function PendingVerification({
 
   return (
     <>
+
+      <DashboardPageHeader
+        title={t("pending_delivery_partners")}
+        desc={t("wait_for_admin_to_approve")}
+      />
+
       <AllFilters sortOptions={sortOptions} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

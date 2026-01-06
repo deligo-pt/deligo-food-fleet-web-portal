@@ -1,39 +1,35 @@
-import axios, { AxiosRequestConfig } from "axios";
+
 import { cookies } from "next/headers";
 
 const backendUrl =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
 
-const axiosInstance = axios.create({
-  baseURL: backendUrl,
-});
 
-const serverRequestHelper = async (
-  url: string,
-  options?: AxiosRequestConfig
-) => {
+const serverFetchHelper = async (endPoint: string, options: RequestInit): Promise<Response> => {
+  const { headers, ...restOptions } = options;
+
   const accessToken = (await cookies()).get("accessToken")?.value || "";
 
-  return axiosInstance({
-    url,
-    ...options,
+  const response = await fetch(`${backendUrl}${endPoint}`, {
+    credentials: 'include',
     headers: {
-      ...(options?.headers || {}),
-      authorization: accessToken,
+      ...headers,
+      authorization: accessToken ? accessToken : "",
     },
-  }).then((res) => res.data);
+    ...restOptions
+  });
+
+  return response;
 };
 
-export const serverRequest = {
-  get: (url: string, options: AxiosRequestConfig = {}) =>
-    serverRequestHelper(url, { ...options, method: "GET" }),
+export const serverFetch = {
+  get: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'GET', ...options }),
 
-  post: (url: string, options: AxiosRequestConfig = {}) =>
-    serverRequestHelper(url, { ...options, method: "POST" }),
+  post: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'POST', ...options }),
 
-  patch: (url: string, options: AxiosRequestConfig = {}) =>
-    serverRequestHelper(url, { ...options, method: "PATCH" }),
+  put: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'PUT', ...options }),
 
-  delete: (url: string, options: AxiosRequestConfig = {}) =>
-    serverRequestHelper(url, { ...options, method: "DELETE" }),
+  patch: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'PATCH', ...options }),
+
+  delete: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'DELETE', ...options }),
 };

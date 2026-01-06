@@ -4,10 +4,7 @@ import ImagePreview from "@/components/Dashboard/DeliveryPartner/DeliveryPartner
 import InfoRow from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerInfoRow";
 import DeliveryPartnerSection from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerSection";
 import DeliveryPartnerStatusBadge from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerStatusBadge";
-import DeleteModal from "@/components/Modals/DeleteModal";
 import { Button } from "@/components/ui/button";
-import { deleteDeliveryPartner } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
@@ -18,7 +15,6 @@ import {
   CalendarClock,
   Car,
   CreditCard,
-  Edit,
   FileText,
   Gavel,
   Mail,
@@ -27,13 +23,10 @@ import {
   Package,
   Phone,
   Star,
-  Trash2,
   User,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 
 interface IProps {
   partner: TDeliveryPartner;
@@ -41,7 +34,6 @@ interface IProps {
 
 export const DeliveryPartnerDetails = ({ partner }: IProps) => {
   const router = useRouter();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const fullName =
     `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""
@@ -57,28 +49,6 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
         return <Motorbike className="w-5 h-5" />;
       default:
         return <Car className="w-5 h-5" />;
-    }
-  };
-
-  const handleDeletePartner = async () => {
-    const toastId = toast.loading("Deleting Delivery Partner...");
-
-    try {
-      const result = (await deleteDeliveryPartner(
-        partner.userId
-      )) as TResponse<null>;
-
-      if (result.success) {
-        toast.success("Delivery Partner deleted successfully", { id: toastId });
-        router.push("/agent/delivery-partners");
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error(
-        error?.response?.data?.message || "Delivery Partner deletion failed",
-        { id: toastId }
-      );
     }
   };
 
@@ -624,44 +594,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
           </div>
         </DeliveryPartnerSection>
-        <div className="mt-8 flex flex-wrap justify-end gap-3">
-          {(partner.status === "PENDING" || partner.status === "REJECTED") && (
-            <motion.button
-              onClick={() =>
-                router.push(`/agent/delivery-partners/edit/${partner.userId}`)
-              }
-              whileHover={{
-                scale: 1.05,
-              }}
-              whileTap={{
-                scale: 0.95,
-              }}
-              className="flex items-center space-x-1 px-4 py-2 bg-[#DC3173] bg-opacity-10 text-white rounded-lg transition-all hover:bg-opacity-20"
-            >
-              <Edit className="w-4 h-4" />
-              <span>Edit</span>
-            </motion.button>
-          )}
-          <motion.button
-            onClick={() => setShowDeleteModal(true)}
-            whileHover={{
-              scale: 1.05,
-            }}
-            whileTap={{
-              scale: 0.95,
-            }}
-            className="flex items-center space-x-1 px-4 py-2 bg-red-500 bg-opacity-10 text-white rounded-lg transition-all hover:bg-opacity-20"
-          >
-            <Trash2 className="w-4 h-4" />
-            <span>Delete</span>
-          </motion.button>
-        </div>
       </div>
-      <DeleteModal
-        open={showDeleteModal}
-        onOpenChange={setShowDeleteModal}
-        onConfirm={handleDeletePartner}
-      />
     </div>
   );
 };
