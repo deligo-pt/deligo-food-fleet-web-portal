@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 
 
-export const getFleetManagerProfile = async () => {
+export const getFleetManagerInfo = async () => {
     const accessToken = (await cookies()).get("accessToken")?.value || "";
     const decoded = jwtDecode(accessToken) as { userId: string };
     const id = decoded.userId;

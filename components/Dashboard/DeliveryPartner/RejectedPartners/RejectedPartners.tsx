@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 
 
 interface IProps {
@@ -43,7 +44,14 @@ export default function RejectedPartners({
 
     return (
         <>
+
+            <DashboardPageHeader
+                title={t("rejected_delivery_partners")}
+                desc={t("admin_has_rejected_these_partners")}
+            />
+
             <AllFilters sortOptions={sortOptions} />
+
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 
 
 interface IProps {
@@ -43,7 +44,14 @@ export default function SuspendedPartners({
 
   return (
     <>
+
+      <DashboardPageHeader
+        title={t("suspended_delivery_partners")}
+        desc={t("fleet_manager_can_preview")}
+      />
+
       <AllFilters sortOptions={sortOptions} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

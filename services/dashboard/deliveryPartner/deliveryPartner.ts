@@ -17,7 +17,7 @@ export const getDeliveryPartners = async (queryString?: string) => {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong in delivery partner fetching.'}`
+      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
     };
   }
 };
@@ -40,7 +40,6 @@ export const uploadPartnerDocuments = async (
     );
 
     return result;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Server fetch error:", error);
     return { success: false, message: error?.response?.data?.message };
