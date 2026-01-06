@@ -1,23 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { serverRequest } from "@/lib/serverFetch";
+import { serverFetch, serverRequest } from "@/lib/serverFetch";
 import { TResponse } from "@/types";
 
-export const getDeliveryPartners = async () => {
-  const limit = 4;
-  const sortBy = "-createdAt";
 
+export const getDeliveryPartners = async (queryString?: string) => {
   try {
-    const result = (await serverRequest.get("/delivery-partners", {
-      params: {
-        limit,
-        sortBy
-      },
-    }));
+    const res = await serverFetch.get(`/delivery-partners${queryString ? `?${queryString}` : ""}`);
 
-    return result.data;
-  } catch (err) {
-    console.error("Server fetch error:", err);
+    const result = await res.json();
+
+    return result;
+
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong in delivery partner fetching.'}`
+    };
   }
 };
 
