@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { serverFetch, serverRequest } from "@/lib/serverFetch";
-import { TResponse } from "@/types";
+import { serverFetch } from "@/lib/serverFetch";
 
 
 export const getDeliveryPartners = async (queryString?: string) => {
@@ -49,24 +48,18 @@ export const uploadPartnerDocuments = async (
     formData.append("file", file);
     formData.append("data", JSON.stringify({ docImageTitle: key }));
 
-    const result = await serverRequest.patch(
+    const res = await serverFetch.patch(
       `/delivery-partners/${id}/docImage`,
       {
-        data: formData,
+        body: formData,
       }
     );
+
+    const result = await res.json();
 
     return result;
   } catch (error: any) {
     console.error("Server fetch error:", error);
     return { success: false, message: error?.response?.data?.message };
   }
-};
-
-export const deleteDeliveryPartner = async (id: string) => {
-  const result = (await serverRequest.delete(
-    `/auth/soft-delete/${id}`
-  )) as TResponse<null>;
-
-  return result;
 };

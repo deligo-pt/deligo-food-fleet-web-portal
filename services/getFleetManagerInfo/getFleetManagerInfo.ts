@@ -15,7 +15,7 @@ export const getFleetManagerInfo = async () => {
 
         const result = await res.json();
 
-        return result?.data;
+        return result;
 
     } catch (error: any) {
         console.log(error);

@@ -7,7 +7,7 @@ import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetMana
 const DashboardPage = async () => {
   const deliveryPartners = await getDeliveryPartners();
   const fleetProfile = await getFleetManagerInfo();
-  const agentName = `${fleetProfile?.name?.firstName} ${fleetProfile?.name?.lastName}`
+  const agentName = `${fleetProfile?.data?.name?.firstName} ${fleetProfile?.data?.name?.lastName}`
 
 
   return <Dashboard agentName={agentName} deliveryPartners={deliveryPartners} />;

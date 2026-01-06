@@ -86,15 +86,13 @@ export default function UploadDocuments({
     const toastId = toast.loading("Uploading...");
     try {
       const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { id: string };
+      const decoded = jwtDecode(accessToken || "") as { userId: string };
 
       const result = (await uploadDocumentsReq(
-        decoded.id,
+        decoded.userId,
         key,
         f
       )) as unknown as TResponse<any>;
-
-      console.log("from uploading result", result);
 
       if (result.success) {
         toast.success("File uploaded successfully!", { id: toastId });
@@ -109,6 +107,8 @@ export default function UploadDocuments({
           inputsRef.current[key]!.value = "";
         }
         return;
+      } else {
+        toast.error(result?.message, { id: toastId });
       }
     } catch (error: any) {
       console.log(error);
