@@ -22,6 +22,23 @@ export const getDeliveryPartners = async (queryString?: string) => {
   }
 };
 
+export const getDeliveryPartnerDetails = async (id?: string) => {
+  try {
+    const res = await serverFetch.get(`/delivery-partners/${id}`);
+
+    const result = await res.json();
+
+    return result?.data;
+
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+    };
+  }
+};
+
 export const uploadPartnerDocuments = async (
   id: string,
   key: string,

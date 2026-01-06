@@ -3,8 +3,7 @@ export const dynamic = "force-dynamic";
 import Sidebar from "@/components/Dashboard/AgentDashboardSidebar/AgentDashboardSidebar";
 import DesktopSidebar from "@/components/Dashboard/AgentDashboardSidebar/DesktopSidebar";
 import Topbar from "@/components/Dashboard/AgentTopbar/Topbar";
-import { serverRequest } from "@/lib/serverFetch";
-import { TFleetManager } from "@/types/fleet-manager.type";
+import { getFleetManagerProfile } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,17 +16,7 @@ export default async function AgentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let agentData: TFleetManager = {} as TFleetManager;
-
-  try {
-    const result = await serverRequest.get("/profile");
-
-    if (result?.success) {
-      agentData = result?.data;
-    }
-  } catch (err) {
-    console.error("Server fetch error:", err);
-  }
+  const agentData = await getFleetManagerProfile();
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
