@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import FooterUltra from "@/components/Footer/Footer";
 import Header from "@/components/navbar/Header";
 import { getFleetManagerProfile } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
