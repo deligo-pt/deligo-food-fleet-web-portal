@@ -39,7 +39,7 @@ export default function RegistrationStatusPage() {
     if (accessToken) {
       const decoded = jwtDecode(accessToken || "") as {
         email: string;
-        id: string;
+        userId: string;
       };
       if (decoded?.email) {
         const fetchUserData = async (id: string, token: string) => {
@@ -61,7 +61,7 @@ export default function RegistrationStatusPage() {
             console.log(error);
           }
         };
-        fetchUserData(decoded.id, accessToken);
+        fetchUserData(decoded.userId, accessToken);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

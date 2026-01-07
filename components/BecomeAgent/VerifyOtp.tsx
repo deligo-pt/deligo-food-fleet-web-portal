@@ -51,45 +51,43 @@ export default function VerifyOtp({ email }: { email: string }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const toastId = toast.loading("Verifying OTP...");
+
     const finalOtp = otp.join("");
-    if (finalOtp.length === 4) {
-      try {
-        const result = (await postData(
-          "/auth/verify-otp",
-          {
-            email,
-            otp: finalOtp,
-          }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        )) as unknown as TResponse<any>;
+    if (finalOtp.length !== 4) {
+      toast.error("Please enter a valid 4-digit OTP");
+      return;
+    }
 
-        if (result.success) {
-          setCookie("accessToken", result.data.accessToken, 7);
-          setCookie("refreshToken", result.data.refreshToken, 365);
-          toast.success("OTP verified successfully!", { id: toastId });
+    const toastId = toast.loading("Verifying OTP...");
 
-          // get and save fcm token
-          getAndSaveFcmToken(result.data.accessToken);
+    try {
+      const result = await postData<
+        TResponse<{ accessToken: string; refreshToken: string }>
+      >("/auth/verify-otp", {
+        email,
+        otp: finalOtp,
+      });
 
-          router.push("/become-agent/personal-details");
-          return;
-        }
+      if (!result.success) {
         toast.error(result.message, { id: toastId });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(
-          error?.response?.data?.message || "OTP verification failed",
-          {
-            id: toastId,
-          }
-        );
-        console.log(error);
+        return;
       }
-    } else {
-      toast.error("Please enter a valid 4-digit OTP", { id: toastId });
+
+      setCookie("accessToken", result.data.accessToken, 7);
+      setCookie("refreshToken", result.data.refreshToken, 365);
+
+      toast.success("OTP verified successfully!", { id: toastId });
+
+      getAndSaveFcmToken(result.data.accessToken);
+      router.push("/become-agent/personal-details");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "OTP verification failed",
+        { id: toastId }
+      );
     }
   };
+
 
   const resendOtp = async () => {
     const toastId = toast.loading("Resending OTP...");

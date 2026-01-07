@@ -54,7 +54,11 @@ export default function PersonalDetailsPage() {
     const toastId = toast.loading("Updating...");
     try {
       const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { id: string };
+      if (!accessToken) {
+        toast.error("Access token not found", { id: toastId });
+        return;
+      }
+      const decoded = jwtDecode(accessToken) as { userId: string };
 
       const personalDetails = {
         name: { firstName: data.firstName, lastName: data.lastName },
@@ -62,7 +66,7 @@ export default function PersonalDetailsPage() {
       };
 
       const result = (await updateData(
-        "/fleet-managers/" + decoded?.id,
+        "/fleet-managers/" + decoded?.userId,
         personalDetails,
         {
           headers: {
@@ -94,7 +98,7 @@ export default function PersonalDetailsPage() {
     if (accessToken) {
       const decoded = jwtDecode(accessToken || "") as {
         email: string;
-        id: string;
+        userId: string;
       };
       if (decoded?.email) {
         const fetchUserData = async (id: string, token: string) => {
@@ -124,7 +128,7 @@ export default function PersonalDetailsPage() {
             console.log(error);
           }
         };
-        fetchUserData(decoded.id, accessToken);
+        fetchUserData(decoded.userId, accessToken);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

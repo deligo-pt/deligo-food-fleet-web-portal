@@ -164,8 +164,8 @@ const AddYourBusinessLocation = () => {
     const token = getCookie("accessToken");
     if (!token) return;
 
-    const decoded = jwtDecode(token) as { id: string };
-    const result = (await fetchData(`/fleet-managers/${decoded.id}`, {
+    const decoded = jwtDecode(token) as { userId: string };
+    const result = (await fetchData(`/fleet-managers/${decoded.userId}`, {
       headers: { authorization: token },
     })) as TResponse<any>;
 
@@ -212,7 +212,7 @@ const AddYourBusinessLocation = () => {
 
     try {
       const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { id: string };
+      const decoded = jwtDecode(accessToken || "") as { userId: string };
 
       const payload = {
         businessLocation: {
@@ -226,10 +226,10 @@ const AddYourBusinessLocation = () => {
       };
 
       const result = (await updateData(
-        "/fleet-managers/" + decoded?.id,
+        "/fleet-managers/" + decoded?.userId,
         payload,
         {
-          headers: { authorization: accessToken },
+          headers: { authorization: accessToken || "" },
         }
       )) as unknown as TResponse<any>;
 

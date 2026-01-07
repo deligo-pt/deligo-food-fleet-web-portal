@@ -181,3 +181,36 @@ export type TDeliveryPartnersQueryParams = {
   sortBy?: string;
   status?: string;
 };
+
+
+
+export interface IPartnersAnalyticsResponse {
+  cards: {
+    avgAcceptanceRate: string
+    avgDeliveryTime: string
+    topPartnerDeliveries: number
+    totalEarnings: string
+  }
+
+  table: {
+    data: PartnerRow[]
+    meta: {
+      page: number
+      limit: number
+      total: number
+      totalPage: number
+    }
+  }
+}
+
+export interface PartnerRow {
+  id: string
+  displayId: string
+  name: string
+  vehicle: string
+  city: string
+  deliveries: number
+  acceptance: string
+  avgMins: string
+  earnings: string
+}
