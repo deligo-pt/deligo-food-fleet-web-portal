@@ -155,7 +155,7 @@ const DeliveryPartnerPerformance = ({ partnerPerformance }: { partnerPerformance
     const [timeframe, setTimeframe] = useState<"7d" | "14d" | "30d">("14d");
     const [sortBy, setSortBy] = useState<"deliveries" | "rating" | "earnings">("deliveries");
     const [active, setActive] = useState<PartnerPerf | null>(null);
-
+    console.log(partnerPerformance);
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase();
         let arr = data.filter(

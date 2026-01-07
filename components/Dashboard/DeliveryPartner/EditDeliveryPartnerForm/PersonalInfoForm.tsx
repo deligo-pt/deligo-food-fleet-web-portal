@@ -76,6 +76,8 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
+    const accessToken = getCookie("accessToken");
+
     try {
       const payload = {
         name: {
@@ -101,11 +103,11 @@ export function PersonalInfoForm({ onNext }: IProps) {
         },
       };
 
-      const result = (await updateData(`/delivery-partners/${id}`, payload, {
-        headers: {
-          authorization: getCookie("accessToken"),
-        },
-      })) as unknown as TResponse<TDeliveryPartner[]>;
+      const result = (await updateData(`/delivery-partners/${id}`, payload,
+        {
+          headers: { authorization: accessToken || "" },
+        }
+      )) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -127,12 +129,14 @@ export function PersonalInfoForm({ onNext }: IProps) {
   };
 
   const getPartnerData = async () => {
+    const accessToken = getCookie("accessToken");
+
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: {
-          authorization: getCookie("accessToken"),
-        },
-      })) as unknown as TResponse<TDeliveryPartner>;
+      const result = (await fetchData(`/delivery-partners/${id}`,
+        {
+          headers: { authorization: accessToken || "" },
+        }
+      )) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         const phone = parsePhoneNumberFromString(
