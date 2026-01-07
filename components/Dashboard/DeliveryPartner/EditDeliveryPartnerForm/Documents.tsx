@@ -151,7 +151,7 @@ export default function Documents() {
       const accessToken = getCookie("accessToken");
 
       const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken },
+        headers: { authorization: accessToken || "" },
       })) as TResponse<TDeliveryPartner>;
 
       if (result?.success) {
@@ -207,7 +207,7 @@ export default function Documents() {
         {},
         {
           headers: {
-            authorization: accessToken,
+            authorization: accessToken || "",
           },
         }
       )) as unknown as TResponse<null>;

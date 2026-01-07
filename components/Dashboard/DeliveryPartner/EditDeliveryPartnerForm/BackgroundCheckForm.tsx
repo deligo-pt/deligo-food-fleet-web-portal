@@ -42,6 +42,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
+    const accessToken = getCookie("accessToken");
     try {
       const payload = {
         criminalRecord: {
@@ -58,9 +59,11 @@ export function BackgroundCheckForm({ onNext }: IProps) {
         delete payload?.criminalRecord?.issueDate;
       }
 
-      const result = (await updateData(`/delivery-partners/${id}`, payload, {
-        headers: { authorization: getCookie("accessToken") },
-      })) as unknown as TResponse<TDeliveryPartner[]>;
+      const result = (await updateData(`/delivery-partners/${id}`, payload,
+        {
+          headers: { authorization: accessToken || "" },
+        }
+      )) as unknown as TResponse<TDeliveryPartner[]>;
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -82,12 +85,14 @@ export function BackgroundCheckForm({ onNext }: IProps) {
   };
 
   const getPartnerData = async () => {
+    const accessToken = getCookie("accessToken");
+
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: {
-          authorization: getCookie("accessToken"),
-        },
-      })) as unknown as TResponse<TDeliveryPartner>;
+      const result = (await fetchData(`/delivery-partners/${id}`,
+        {
+          headers: { authorization: accessToken || "" },
+        }
+      )) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         form.setValue(
