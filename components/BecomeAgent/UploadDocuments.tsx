@@ -243,14 +243,12 @@ export default function UploadDocuments({
     const toastId = toast.loading("Submitting...");
     try {
       const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { id: string };
+      const decoded = jwtDecode(accessToken || "") as { userId: string };
       const result = (await updateData(
-        `/auth/${decoded.id}/submitForApproval`,
+        `/auth/${decoded.userId}/submitForApproval`,
         {},
         {
-          headers: {
-            authorization: accessToken,
-          },
+          headers: { authorization: accessToken || "" },
         }
       )) as unknown as TResponse<any>;
       if (result.success) {
@@ -411,7 +409,7 @@ export default function UploadDocuments({
                             onClick={() => removeFile(d.key)}
                             className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm text-gray-600 border border-gray-100 hover:bg-gray-50"
                           >
-                            {t("remoteCTA")}
+                            {t("removeCTA")}
                           </button>
                         </>
                       ) : (

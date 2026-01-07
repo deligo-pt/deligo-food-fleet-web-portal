@@ -49,7 +49,7 @@ export default function BusinessDetailsPage() {
     const toastId = toast.loading("Updating...");
     try {
       const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { id: string };
+      const decoded = jwtDecode(accessToken || "") as { userId: string };
 
       const businessDetails = {
         businessDetails: {
@@ -59,12 +59,12 @@ export default function BusinessDetailsPage() {
           totalBranches: Number(data.totalBranches),
         },
       };
-      console.log("businessDetails", businessDetails);
+
       const result = (await updateData(
-        "/fleet-managers/" + decoded?.id,
+        "/fleet-managers/" + decoded?.userId,
         businessDetails,
         {
-          headers: { authorization: accessToken },
+          headers: { authorization: accessToken || "" },
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       )) as unknown as TResponse<any>;
@@ -93,7 +93,7 @@ export default function BusinessDetailsPage() {
     if (accessToken) {
       const decoded = jwtDecode(accessToken || "") as {
         email: string;
-        id: string;
+        userId: string;
       };
       if (decoded?.email) {
         const fetchUserData = async (id: string, token: string) => {
@@ -121,7 +121,7 @@ export default function BusinessDetailsPage() {
             console.log(error);
           }
         };
-        fetchUserData(decoded.id, accessToken);
+        fetchUserData(decoded.userId, accessToken);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

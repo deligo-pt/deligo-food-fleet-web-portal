@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import UploadDocuments from "@/components/BecomeAgent/UploadDocuments";
 import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
 import { DocKey, FilePreview } from "@/types/documents.type";
