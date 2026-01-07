@@ -21,6 +21,23 @@ export const getDeliveryPartners = async (queryString?: string) => {
   }
 };
 
+export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
+  try {
+    const res = await serverFetch.get(`/analytics/partner-performance-analytics${queryString ? `?${queryString}` : ""}`);
+
+    const result = await res.json();
+
+    return result?.data;
+
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in partner performance fetching.'}`
+    };
+  }
+};
+
 export const getDeliveryPartnerDetails = async (id?: string) => {
   try {
     const res = await serverFetch.get(`/delivery-partners/${id}`);
