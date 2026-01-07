@@ -6,35 +6,54 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Bike, CheckCircle, Clock, Users } from "lucide-react";
 import TopDrivers from "./TopDrivers";
-import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { useTranslation } from "@/hooks/use-translation";
+import { IDashboardAnalytics } from "@/types/dashboard.type";
+
+const VEHICLE_NAME_MAP: Record<string, string> = {
+  MOTORBIKE: "Motorbike",
+  BICYCLE: "Bicycle",
+  CAR: "Car",
+  VAN: "Van",
+};
 
 
 const vehicleData = [
   {
     name: "Bicycle",
-    value: 45,
+    // value: 45,
     color: "#DC3173",
   },
   {
-    name: "Scooter",
-    value: 30,
+    name: "Motorbike",
+    // value: 30,
     color: "#E87A9F",
   },
   {
     name: "Car",
-    value: 15,
+    // value: 15,
     color: "#F2ABC6",
   },
   {
     name: "Van",
-    value: 10,
+    // value: 10,
     color: "#FCE7EF",
   },
 ];
 
-const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliveryPartners: { data: TDeliveryPartner[] } }) => {
+const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDashboardAnalytics }) => {
   const { t } = useTranslation();
+  const fleetChartData = vehicleData.map((item) => {
+    const apiVehicle = analytics?.fleetComposition.find(
+      (v) => VEHICLE_NAME_MAP[v.vehicle] === item.name
+    )
+
+    return {
+      name: item.name,
+      value: apiVehicle?.count ?? 0,
+      color: item.color,
+    }
+  });
+
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -50,7 +69,7 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
             <Users className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,240</div>
+            <div className="text-2xl font-bold">{analytics?.cards?.totalPartners || 0}</div>
             <p className="text-xs text-muted-foreground">{t("across_all_zones")}</p>
           </CardContent>
         </Card>
@@ -62,8 +81,8 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
             <CheckCircle className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">342</div>
-            <p className="text-xs text-muted-foreground">28% {t("of_total_fleet")}</p>
+            <div className="text-2xl font-bold">{analytics?.cards?.onlineNow?.count || 0}</div>
+            <p className="text-xs text-muted-foreground">{analytics?.cards?.onlineNow?.percentage || "0%"} {t("of_total_fleet")}</p>
           </CardContent>
         </Card>
         <Card>
@@ -74,8 +93,8 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
             <Bike className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2,845</div>
-            <p className="text-xs text-muted-foreground">{t("avg")} 8.3 {t("per_partner")}</p>
+            <div className="text-2xl font-bold">{analytics?.cards?.deliveriesToday?.total || 0}</div>
+            <p className="text-xs text-muted-foreground">{t("avg")} {analytics?.cards?.deliveriesToday?.avgPerPartner || "0"} {t("per_partner")}</p>
           </CardContent>
         </Card>
         <Card>
@@ -86,7 +105,7 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
             <Clock className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">92%</div>
+            <div className="text-2xl font-bold">{analytics?.cards?.availabilityRate || "0"}</div>
             <p className="text-xs text-muted-foreground">{t("during_peak_hours")}</p>
           </CardContent>
         </Card>
@@ -102,15 +121,16 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={vehicleData}
+                    data={fleetChartData}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
                     outerRadius={80}
                     paddingAngle={5}
                     dataKey="value"
+                    nameKey="name"
                   >
-                    {vehicleData.map((entry, index) => (
+                    {fleetChartData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -131,17 +151,17 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
               {[
                 {
                   label: t("on_delivery"),
-                  value: 45,
+                  value: analytics?.partnerStatus?.onDelivery || 0,
                   color: "bg-primary",
                 },
                 {
                   label: t("waiting_for_order"),
-                  value: 30,
+                  value: analytics?.partnerStatus?.waiting || 0,
                   color: "bg-yellow-400",
                 },
                 {
                   label: t("offline"),
-                  value: 25,
+                  value: analytics?.partnerStatus?.offline || 0,
                   color: "bg-gray-200",
                 },
               ].map((item) => (
@@ -180,7 +200,7 @@ const Dashboard = ({ agentName, deliveryPartners }: { agentName: string, deliver
           delay: 0.8,
         }}
       >
-        <TopDrivers deliveryPartners={deliveryPartners?.data as TDeliveryPartner[] || []} />
+        <TopDrivers deliveryPartners={analytics?.topRatedDrivers || []} />
       </motion.div>
     </div>
   );

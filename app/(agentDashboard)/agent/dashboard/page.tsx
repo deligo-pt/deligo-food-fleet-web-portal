@@ -1,16 +1,16 @@
 
 
 import Dashboard from "@/components/Dashboard/Dashboard/Dashboard";
-import { getDeliveryPartners } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { getDashboardAnalytics } from "@/services/dashboard/dashboard/dashboard";
 import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
 
 const DashboardPage = async () => {
-  const deliveryPartners = await getDeliveryPartners();
   const fleetProfile = await getFleetManagerInfo();
-  const agentName = `${fleetProfile?.data?.name?.firstName} ${fleetProfile?.data?.name?.lastName}`
+  const agentName = `${fleetProfile?.data?.name?.firstName} ${fleetProfile?.data?.name?.lastName}`;
+  const dashboardAnalytics = await getDashboardAnalytics();
 
 
-  return <Dashboard agentName={agentName} deliveryPartners={deliveryPartners} />;
+  return <Dashboard agentName={agentName} analytics={dashboardAnalytics?.data || []} />;
 };
 
 

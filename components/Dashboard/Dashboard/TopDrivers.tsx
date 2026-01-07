@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { StarIcon } from "lucide-react";
 
 
-const TopDrivers = ({ deliveryPartners }: { deliveryPartners: TDeliveryPartner[] }) => {
+const TopDrivers = ({ deliveryPartners }: { deliveryPartners: Partial<TDeliveryPartner>[] }) => {
   const { t } = useTranslation();
 
   return (
