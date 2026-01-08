@@ -183,6 +183,41 @@ export type TDeliveryPartnersQueryParams = {
 };
 
 
+export interface IDeliveryPartnerCard {
+  _id: string;
+
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+
+  personalInfo: {
+    gender: "MALE" | "FEMALE" | "OTHER";
+    nationality: string;
+  };
+
+  operationalData: {
+    completedDeliveries: number;
+  };
+
+  rating: {
+    average: number;
+    totalReviews: number;
+  };
+
+  vehicleInfo: {
+    vehicleType: string;
+    brand: string;
+    model: string;
+    licensePlate: string;
+    drivingLicenseNumber: string;
+    drivingLicenseExpiry: string;
+    insurancePolicyNumber: string;
+    insuranceExpiry: string;
+  };
+}
+
+
 
 export interface IPartnersAnalyticsResponse {
   cards: {

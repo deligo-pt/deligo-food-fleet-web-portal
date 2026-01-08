@@ -8,6 +8,7 @@ import { Bike, CheckCircle, Clock, Users } from "lucide-react";
 import TopDrivers from "./TopDrivers";
 import { useTranslation } from "@/hooks/use-translation";
 import { IDashboardAnalytics } from "@/types/dashboard.type";
+import { IDeliveryPartnerCard } from "@/types/delivery-partner.type";
 
 const VEHICLE_NAME_MAP: Record<string, string> = {
   MOTORBIKE: "Motorbike",
@@ -56,7 +57,7 @@ const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDa
 
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="p-6 bg-gray-50 min-h-screen">
       <DashboardHeader agentName={agentName} />
 
       {/* Stats Grid */}
@@ -200,7 +201,7 @@ const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDa
           delay: 0.8,
         }}
       >
-        <TopDrivers deliveryPartners={analytics?.topRatedDrivers || []} />
+        <TopDrivers deliveryPartners={analytics?.topRatedDrivers as IDeliveryPartnerCard[]} />
       </motion.div>
     </div>
   );
