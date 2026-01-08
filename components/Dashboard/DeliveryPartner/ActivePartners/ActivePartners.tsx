@@ -23,6 +23,7 @@ import {
 import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import { getSortOptions } from "@/utils/sortOptions";
 
 
 interface IProps {
@@ -34,13 +35,7 @@ export default function ActiveDeliveryPartners({
 }: IProps): JSX.Element {
   const { t } = useTranslation();
   const router = useRouter();
-
-  const sortOptions = [
-    { label: t("newest_first"), value: "-createdAt" },
-    { label: t("oldest_first"), value: "createdAt" },
-    { label: t("name_a_z"), value: "name.firstName" },
-    { label: t("name_z_a"), value: "-name.lastName" },
-  ];
+  const sortOptions = getSortOptions(t);
 
   return (
     <>
