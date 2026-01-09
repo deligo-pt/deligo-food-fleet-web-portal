@@ -32,12 +32,17 @@ export default function FooterUltra() {
               contact@deligo.pt
             </a>
           </p>
-          <p className="text-gray-700 text-sm mt-1">
+          <div className="text-gray-700 text-sm mt-1">
             {t("phone")}:{" "}
-            <a href="tel:+351920136680" className="text-[#DC3173] hover:underline">
-              +351 920 136 680
-            </a>
-          </p>
+            <div className="flex gap-1 items-center">
+              <a href="tel:+351920136680" className="text-[#DC3173] hover:underline">
+                +351 920 136 680 <span className="text-black"> , </span>
+              </a>
+              <a href="tel:+351217570184" className="text-[#DC3173] hover:underline">
+                +351 217 570 184
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Social Media */}

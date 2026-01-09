@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, Lock, Key, AlertCircle } from "lucide-react";
+import { ShieldCheck, Lock, Key } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -10,7 +10,7 @@ export default function SecurityPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <header className="relative overflow-hidden bg-gradient-to-tr from-[#FFF0F4] to-[#FFE8F2] py-24">
+      <header className="relative overflow-hidden bg-linear-to-tr from-[#FFF0F4] to-[#FFE8F2] py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2">
             <div className="flex items-center gap-3 mb-4">
@@ -122,7 +122,10 @@ export default function SecurityPage() {
               <p className="mt-2 text-sm text-gray-700">
                 {t("pixelmiracle")} — Lisbon, Portugal<br />
                 {t('email')}: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a><br />
-                {t("phone")}: <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a>
+                {t("phone")}: <span>
+                  <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a> <span className="text-black"> , </span>
+                  <a href="tel:+351217570184" className="text-[#DC3173]">+351 217 570 184</a>
+                </span>
               </p>
             </section>
 

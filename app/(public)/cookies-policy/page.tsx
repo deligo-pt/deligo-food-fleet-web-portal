@@ -174,11 +174,14 @@ export default function CookiesPolicy() {
               <p>
                 {t("for_questions")}:
               </p>
-              <p className="mt-2 text-sm text-gray-700">
+              <div className="mt-2 text-sm text-gray-700">
                 {t("pixelmiracle")} — Lisbon, Portugal<br />
                 {t("email")}: <a href="mailto:contact@deligo.pt" className="text-[#DC3173]">contact@deligo.pt</a><br />
-                {t("phone")}: <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a>
-              </p>
+                {t("phone")}: <span>
+                  <a href="tel:+351920136680" className="text-[#DC3173]">+351 920 136 680</a> <span className="text-black"> , </span>
+                  <a href="tel:+351217570184" className="text-[#DC3173]">+351 217 570 184</a>
+                </span>
+              </div>
             </section>
 
             <section className="mt-8 text-center">

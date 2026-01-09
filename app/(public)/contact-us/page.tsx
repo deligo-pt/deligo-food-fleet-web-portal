@@ -69,7 +69,7 @@ export default function ContactUs() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">{t("phone")}</p>
-                <p className="text-gray-700">+351 920 136 680</p>
+                <p className="text-gray-700">+351 920 136 680 , +351 217 570 184</p>
               </div>
             </div>
 
