@@ -50,21 +50,25 @@ export function DeliveryPartnerForm({
   const onSubmit = async (data: FormData) => {
     const toastId = toast.loading("Creating Delivery Partner...");
     const accessToken = getCookie("accessToken");
+
     try {
       const result = (await postData(
         "/auth/register/create-delivery-partner",
         data,
         {
-          headers: { authorization: accessToken || "" },
+          headers: {
+            "content-type": "application/json",
+            authorization: accessToken || "",
+          },
+          credentials: "include",
         }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      )) as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         toast.success("Delivery Partner created successfully!", {
           id: toastId,
         });
         form.reset();
-        console.log(result.data);
 
         onSuccess(result?.data?.email || "");
       }
