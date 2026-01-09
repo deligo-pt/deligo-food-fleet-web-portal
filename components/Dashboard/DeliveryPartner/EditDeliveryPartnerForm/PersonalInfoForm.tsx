@@ -105,7 +105,11 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
       const result = (await updateData(`/delivery-partners/${id}`, payload,
         {
-          headers: { authorization: accessToken || "" },
+          headers: {
+            "content-type": "application/json",
+            authorization: accessToken || "",
+          },
+          credentials: "include",
         }
       )) as unknown as TResponse<TDeliveryPartner[]>;
 
