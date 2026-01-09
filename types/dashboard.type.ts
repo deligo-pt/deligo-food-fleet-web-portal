@@ -1,4 +1,4 @@
-import { TDeliveryPartner } from "./delivery-partner.type"
+import { IDeliveryPartnerCard } from "./delivery-partner.type"
 
 export interface IDashboardAnalytics {
     cards: {
@@ -25,5 +25,5 @@ export interface IDashboardAnalytics {
         waiting: number
     }
 
-    topRatedDrivers: TDeliveryPartner[]
+    topRatedDrivers: IDeliveryPartnerCard[]
 }

@@ -71,8 +71,8 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
 
         if (result.success) {
           toast.success("OTP verified successfully!", { id: toastId });
-          const decoded = jwtDecode(result.data.accessToken) as { id: string };
-          router.push(`/agent/delivery-partners/edit/${decoded?.id}`);
+          const decoded = jwtDecode(result.data.accessToken) as { userId: string };
+          router.push(`/agent/delivery-partners/edit/${decoded?.userId}`);
           return;
         }
         toast.error(result.message, { id: toastId });

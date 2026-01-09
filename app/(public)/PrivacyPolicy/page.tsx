@@ -9,6 +9,7 @@ import { useTranslation } from "@/hooks/use-translation";
 
 const COMPANY_EMAIL = "contact@deligo.pt";
 const COMPANY_PHONE = "+351 920 136 680";
+const COMPANY_PHONE2 = "+351 217 570 184";
 const COMPANY_ADDRESS = "Lisbon, Portugal";
 const EFFECTIVE_DATE = "October 25, 2025";
 
@@ -17,7 +18,7 @@ export default function PrivacyPolicyPremium() {
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#FFF6FA] via-[#FFF0F4] to-[#FFF6F9] text-gray-800">
+    <main className="min-h-screen bg-linear-to-br from-[#FFF6FA] via-[#FFF0F4] to-[#FFF6F9] text-gray-800">
       {/* Top hero */}
       <header className="relative py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8">
@@ -72,7 +73,10 @@ export default function PrivacyPolicyPremium() {
                 <h3 className="text-sm font-semibold text-gray-900">{t("controller")}</h3>
                 <p className="text-sm text-gray-600 mt-2">DeliGo — {COMPANY_ADDRESS}</p>
                 <p className="text-sm text-gray-600 mt-1">{t("email")}: <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a></p>
-                <p className="text-sm text-gray-600 mt-1">{t("phone")}: <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a></p>
+                <p className="text-sm text-gray-600 mt-1">{t("phone")}:
+                  <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a> ,
+                  <a href={`tel:${COMPANY_PHONE2}`} className="text-[#DC3173]">{COMPANY_PHONE2}</a>
+                </p>
               </div>
             </div>
 
@@ -252,7 +256,10 @@ export default function PrivacyPolicyPremium() {
                 <p className="mt-3 text-sm text-gray-700">
                   DeliGo — {COMPANY_ADDRESS}<br />
                   {t("email")}: <a href={`mailto:${COMPANY_EMAIL}`} className="text-[#DC3173]">{COMPANY_EMAIL}</a><br />
-                  {t("phone")}: <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a>
+                  {t("phone")}: <span>
+                    <a href={`tel:${COMPANY_PHONE}`} className="text-[#DC3173]">{COMPANY_PHONE}</a> ,
+                    <a href={`tel:${COMPANY_PHONE2}`} className="text-[#DC3173]">{COMPANY_PHONE2}</a>
+                  </span>
                 </p>
 
                 <div className="mt-4 flex items-center gap-3">

@@ -2,12 +2,12 @@
 
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/hooks/use-translation";
-import { TDeliveryPartner } from "@/types/delivery-partner.type";
+import { IDeliveryPartnerCard} from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import { StarIcon } from "lucide-react";
 
 
-const TopDrivers = ({ deliveryPartners }: { deliveryPartners: Partial<TDeliveryPartner>[] }) => {
+const TopDrivers = ({ deliveryPartners }: { deliveryPartners: IDeliveryPartnerCard[] }) => {
   const { t } = useTranslation();
 
   return (
@@ -47,10 +47,10 @@ const TopDrivers = ({ deliveryPartners }: { deliveryPartners: Partial<TDeliveryP
                     className="text-amber-400 mr-1"
                     fill="currentColor"
                   />
-                  <span className="text-sm">{partner.operationalData?.rating?.average}</span>
+                  <span className="text-sm">{partner?.rating?.average}</span>
                 </div>
                 <span className="text-sm text-gray-600">
-                  {partner.operationalData?.totalDeliveries} {t("deliveries")}
+                  {partner.operationalData?.completedDeliveries || 0} {t("deliveries")}
                 </span>
               </div>
 

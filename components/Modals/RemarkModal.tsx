@@ -44,11 +44,10 @@ const RemarkModal = ({ open, onOpenChange, userId, setIsSubmitting }: IProps) =>
         <Dialog open={open} onOpenChange={onOpenChange}>
             <form>
                 <DialogContent className="sm:max-w-[425px]">
-                    <DialogTitle>Report an Issue</DialogTitle>
+                    <DialogTitle>SOS Emergency Alert</DialogTitle>
                     <DialogHeader>
                         <DialogDescription>
-                            Facing any problems while using the platform?
-                            Please describe the issue below and our support team will assist you.
+                            Instantly send an emergency alert with your live location to admins and emergency contacts for immediate assistance.
                         </DialogDescription>
                     </DialogHeader>
                     <form

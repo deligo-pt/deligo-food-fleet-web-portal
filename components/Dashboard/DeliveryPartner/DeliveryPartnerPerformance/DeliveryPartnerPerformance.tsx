@@ -1,433 +1,254 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import React, { useMemo, useState } from "react";
-import { Search, BarChart2, Download, Eye, ArrowUpRight, RefreshCcw } from "lucide-react";
+import { Download, RefreshCcw } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
-import { IPartnersAnalyticsResponse } from "@/types/delivery-partner.type";
-
-
+import { IPartnersAnalyticsResponse, PartnerRow } from "@/types/delivery-partner.type";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import SearchFilter from "@/components/Filtering/SearchFilter";
+import SelectFilter from "@/components/Filtering/SelectFilter";
+import { getDaysOptions } from "@/utils/daysOption";
+import PartnerPerformanceCard from "./PartnerPerformanceCard";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { motion } from "framer-motion";
+import PaginationComponent from "@/components/Filtering/PaginationComponent";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 const DELIGO = "#DC3173";
 
-type DailyPoint = { date: string; value: number };
-
-type PartnerPerf = {
-    id: string;
-    name: string;
-    city: string;
-    vehicle: string;
-    rating: number;
-    deliveries: number;
-    avgDeliveryMins: number;
-    acceptanceRate: number;
-    cancellations: number;
-    earnings: number;
-    lastActive: string;
-    spark: DailyPoint[];
-    avatarColor?: string;
-};
-
-const sample: PartnerPerf[] = [
-    {
-        id: "DP-1001",
-        name: "João Silva",
-        city: "Lisbon",
-        vehicle: "Bicycle",
-        rating: 4.6,
-        deliveries: 78,
-        avgDeliveryMins: 22,
-        acceptanceRate: 92,
-        cancellations: 2,
-        earnings: 1425.5,
-        lastActive: "Online",
-        spark: [
-            { date: "2025-11-10", value: 5 },
-            { date: "2025-11-11", value: 4 },
-            { date: "2025-11-12", value: 6 },
-            { date: "2025-11-13", value: 3 },
-            { date: "2025-11-14", value: 7 },
-            { date: "2025-11-15", value: 8 },
-            { date: "2025-11-16", value: 10 },
-            { date: "2025-11-17", value: 9 },
-            { date: "2025-11-18", value: 6 },
-            { date: "2025-11-19", value: 5 },
-            { date: "2025-11-20", value: 6 },
-            { date: "2025-11-21", value: 7 },
-            { date: "2025-11-22", value: 8 },
-            { date: "2025-11-23", value: 9 },
-        ],
-        avatarColor: "bg-pink-400",
-    },
-    {
-        id: "DP-1002",
-        name: "Maria Fernandes",
-        city: "Porto",
-        vehicle: "Motorbike",
-        rating: 4.8,
-        deliveries: 102,
-        avgDeliveryMins: 18,
-        acceptanceRate: 96,
-        cancellations: 1,
-        earnings: 1920.0,
-        lastActive: "10 min ago",
-        spark: [
-            { date: "2025-11-10", value: 6 },
-            { date: "2025-11-11", value: 5 },
-            { date: "2025-11-12", value: 7 },
-            { date: "2025-11-13", value: 10 },
-            { date: "2025-11-14", value: 8 },
-            { date: "2025-11-15", value: 9 },
-            { date: "2025-11-16", value: 11 },
-            { date: "2025-11-17", value: 12 },
-            { date: "2025-11-18", value: 9 },
-            { date: "2025-11-19", value: 8 },
-            { date: "2025-11-20", value: 10 },
-            { date: "2025-11-21", value: 11 },
-            { date: "2025-11-22", value: 12 },
-            { date: "2025-11-23", value: 13 },
-        ],
-        avatarColor: "bg-rose-300",
-    },
-    {
-        id: "DP-1003",
-        name: "Rui Costa",
-        city: "Coimbra",
-        vehicle: "Scooter",
-        rating: 4.1,
-        deliveries: 48,
-        avgDeliveryMins: 27,
-        acceptanceRate: 85,
-        cancellations: 5,
-        earnings: 800.25,
-        lastActive: "Offline",
-        spark: [
-            { date: "2025-11-10", value: 3 },
-            { date: "2025-11-11", value: 4 },
-            { date: "2025-11-12", value: 2 },
-            { date: "2025-11-13", value: 4 },
-            { date: "2025-11-14", value: 3 },
-            { date: "2025-11-15", value: 5 },
-            { date: "2025-11-16", value: 6 },
-            { date: "2025-11-17", value: 4 },
-            { date: "2025-11-18", value: 3 },
-            { date: "2025-11-19", value: 2 },
-            { date: "2025-11-20", value: 3 },
-            { date: "2025-11-21", value: 5 },
-            { date: "2025-11-22", value: 4 },
-            { date: "2025-11-23", value: 4 },
-        ],
-        avatarColor: "bg-amber-300",
-    },
-];
-
-function Sparkline({ data, color = DELIGO }: { data: DailyPoint[]; color?: string }) {
-    // responsive-ish sparkline SVG; width controlled by parent
-    const vals = data.map((d) => d.value);
-    const max = Math.max(...vals, 1);
-    const min = Math.min(...vals, 0);
-    const w = 120;
-    const h = 36;
-    const points = data
-        .map((d, i) => {
-            const x = (i / (data.length - 1)) * w;
-            const y = h - ((d.value - min) / (max - min || 1)) * h;
-            return `${x},${y}`;
-        })
-        .join(" ");
-    const last = data[data.length - 1]?.value ?? 0;
-    return (
-        <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="inline-block align-middle">
-            <polyline fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" points={points} />
-            <circle
-                cx={(data.length - 1) / (data.length - 1) * w}
-                cy={h - ((last - min) / (max - min || 1)) * h}
-                r={2.5}
-                fill={color}
-            />
-        </svg>
-    );
-}
-
 const DeliveryPartnerPerformance = ({ partnerPerformance }: { partnerPerformance: IPartnersAnalyticsResponse }) => {
     const { t } = useTranslation();
-    const [data, setData] = useState<PartnerPerf[]>(sample);
-    const [query, setQuery] = useState("");
-    const [timeframe, setTimeframe] = useState<"7d" | "14d" | "30d">("14d");
-    const [sortBy, setSortBy] = useState<"deliveries" | "rating" | "earnings">("deliveries");
-    const [active, setActive] = useState<PartnerPerf | null>(null);
-    console.log(partnerPerformance);
-    const filtered = useMemo(() => {
-        const q = query.trim().toLowerCase();
-        let arr = data.filter(
-            (p) =>
-                p.name.toLowerCase().includes(q) || p.city.toLowerCase().includes(q) || p.vehicle.toLowerCase().includes(q)
-        );
-        arr = arr.slice().sort((a, b) => {
-            if (sortBy === "deliveries") return b.deliveries - a.deliveries;
-            if (sortBy === "rating") return b.rating - a.rating;
-            return b.earnings - a.earnings;
-        });
-        return arr;
-    }, [data, query, sortBy]);
+    const daysOption = getDaysOptions(t);
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
 
-    function exportCSV() {
-        const headers = ["id", "name", "city", "vehicle", "deliveries", "avgDeliveryMins", "acceptanceRate", "cancellations", "earnings"];
-        const rows = data.map((d) => [d.id, d.name, d.city, d.vehicle, d.deliveries, d.avgDeliveryMins, d.acceptanceRate, d.cancellations, d.earnings]);
-        const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
-        const blob = new Blob([csv], { type: "text/csv" });
+    const sortOptions = [
+        { label: t("newest_first"), value: "-createdAt" },
+        { label: t("oldest_first"), value: "createdAt" },
+        { label: t("top_deliveries"), value: "top-deliveries" },
+        { label: t("top_rating"), value: "top-rating" },
+        { label: t("top_earnings"), value: "top-earnings" }
+    ];
+
+
+    function exportCSV(data: PartnerRow[]) {
+        const headers = [
+            "ID",
+            "Display ID",
+            "Name",
+            "City",
+            "Vehicle",
+            "Deliveries",
+            "Avg Delivery Time",
+            "Acceptance Rate",
+            "Earnings",
+        ];
+
+        const rows = data.map((d) => [
+            d.id,
+            d.displayId,
+            d.name,
+            d.city,
+            d.vehicle,
+            d.deliveries,
+            d.avgMins,
+            d.acceptance,
+            d.earnings,
+        ]);
+
+        // Escape commas & quotes properly
+        const escape = (value: unknown) =>
+            `"${String(value).replace(/"/g, '""')}"`;
+
+        const csvContent = [
+            headers.map(escape).join(","),
+            ...rows.map((row) => row.map(escape).join(",")),
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
+
         const a = document.createElement("a");
         a.href = url;
-        a.download = `partner-performance-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.download = `partner-performance-${new Date()
+            .toISOString()
+            .slice(0, 10)}.csv`;
         a.click();
+
         URL.revokeObjectURL(url);
     }
 
+
     function refresh() {
-        // simulate refresh: small random change (visual)
-        setData((d) => d.map((p) => ({ ...p, deliveries: Math.max(0, p.deliveries + (Math.round(Math.random() * 5) - 2)) })));
-    }
+        startTransition(() => {
+            router.refresh();
+        });
+    };
 
     return (
         <div className="min-h-screen p-6 bg-linear-to-b from-gray-50 to-gray-100">
-            <style>{`:root{--deligo:${DELIGO}}`}</style>
 
-            {/* Header */}
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-                <div>
-                    <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-                        <BarChart2 size={20} /> {t("delivery_partner_performance")}
-                    </h1>
-                    <p className="text-sm text-gray-600">{t("sortable_filterable_exportable")}</p>
-                </div>
+            <DashboardPageHeader
+                title={t("delivery_partner_performance")}
+                desc={t("sortable_filterable_exportable")}
+            />
 
-                <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden">
-                        <span className="p-2 text-gray-500">
-                            <Search size={16} />
-                        </span>
-                        <input
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search name, city or vehicle"
-                            className="px-3 py-2 outline-none text-sm w-56"
-                        />
-                    </div>
+            <div className="flex flex-row justify-between items-center my-5">
+                <SearchFilter paramName="searchTerm" placeholder="Search name, city or vehicle" />
+                <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                    <SelectFilter
+                        paramName="sortBy"
+                        options={sortOptions}
+                        placeholder="Sort By"
+                    />
+                    <SelectFilter
+                        paramName="timeframe"
+                        options={daysOption}
+                        placeholder="Timeframe"
+                    />
 
-                    <select
-                        value={timeframe}
-                        onChange={(e) => setTimeframe(e.target.value as any)}
-                        className="text-sm rounded-md border px-3 py-2 bg-white"
-                    >
-                        <option value="7d">{t("last_7_days")}</option>
-                        <option value="14d">{t("last_14_days")}</option>
-                        <option value="30d">{t("last_30_days")}</option>
-                    </select>
-
-                    <select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value as any)}
-                        className="text-sm rounded-md border px-3 py-2 bg-white"
-                    >
-                        <option value="deliveries">{t("top_deliveries")}</option>
-                        <option value="rating">{t("top_rating")}</option>
-                        <option value="earnings">{t("top_earnings")}</option>
-                    </select>
-
-                    <button onClick={exportCSV} className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border shadow-sm text-sm hover:scale-105 transition">
+                    <button onClick={() => exportCSV(partnerPerformance.table.data)} className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border shadow-sm text-sm hover:scale-105 transition">
                         <Download size={14} /> {t("export")}
                     </button>
 
-                    <button onClick={refresh} className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-white" style={{ backgroundColor: DELIGO }}>
-                        <RefreshCcw size={14} /> {t("refresh")}
+                    <button
+                        onClick={refresh}
+                        disabled={isPending}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-white disabled:opacity-60"
+                        style={{ backgroundColor: DELIGO }}
+                    >
+                        <RefreshCcw
+                            size={14}
+                            className={isPending ? "animate-spin" : ""}
+                        />
+                        {isPending ? t("refreshing") : t("refresh")}
                     </button>
+
                 </div>
             </div>
 
             {/* KPI Cards — unique glassy style */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div className="bg-white/60 backdrop-blur rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-                    <div className="text-xs text-gray-500">{t("top_partner_deliveries")}</div>
-                    <div className="mt-2 text-xl font-semibold">{Math.max(...data.map((d) => d.deliveries))}</div>
-                    <div className="text-xs text-gray-400 mt-1">{t("in_the_selected_timeframe")}</div>
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <PartnerPerformanceCard
+                    title={t("top_partner_deliveries")}
+                    value={partnerPerformance?.cards?.topPartnerDeliveries?.toString() || "0"}
+                    bottomText={t("in_the_selected_timeframe")}
+                />
+                <PartnerPerformanceCard
+                    title={t("avg_delivery_time")}
+                    value={partnerPerformance?.cards?.avgDeliveryTime || "0 min"}
+                    bottomText={t("lower_is_better")}
+                />
+                <PartnerPerformanceCard
+                    title={t("avg_acceptance_rate")}
+                    value={partnerPerformance?.cards?.avgAcceptanceRate || "0%"}
+                    bottomText={t("higher_is_better")}
+                />
 
-                <div className="bg-linear-to-r from-white to-white/60 rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-                    <div className="text-xs text-gray-500">{t("avg_delivery_time")}</div>
-                    <div className="mt-2 text-xl font-semibold">{(data.reduce((s, d) => s + d.avgDeliveryMins, 0) / data.length).toFixed(0)} {t("min")}</div>
-                    <div className="text-xs text-gray-400 mt-1">{t("lower_is_better")}</div>
-                </div>
-
-                <div className="bg-white/60 backdrop-blur rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-                    <div className="text-xs text-gray-500">{t("avg_acceptance_rate")}</div>
-                    <div className="mt-2 text-xl font-semibold">{(data.reduce((s, d) => s + d.acceptanceRate, 0) / data.length).toFixed(0)}%</div>
-                    <div className="text-xs text-gray-400 mt-1">{t("higher_is_better")}</div>
-                </div>
-
-                <div className="bg-white/60 backdrop-blur rounded-2xl p-4 shadow-md border border-white/20 hover:shadow-xl transition">
-                    <div className="text-xs text-gray-500">{t("total_earnings")}</div>
-                    <div className="mt-2 text-xl font-semibold">€{data.reduce((s, d) => s + d.earnings, 0).toFixed(2)}</div>
-                    <div className="text-xs text-gray-400 mt-1">{t("aggregate")}</div>
-                </div>
+                <PartnerPerformanceCard
+                    title={t("total_earnings")}
+                    value={partnerPerformance?.cards?.totalEarnings || "€0.00"}
+                    bottomText={t("aggregate")}
+                />
             </div>
 
             {/* Table — responsive columns to avoid horizontal scroll */}
-            <div className="bg-white rounded-2xl shadow ring-1 ring-gray-100 overflow-hidden">
-                <div className="w-full overflow-x-auto">
-                    {/* We use table-fixed and column width hints to avoid unexpected expansion */}
-                    <table className="min-w-full table-fixed divide-y divide-gray-200">
-                        <colgroup>
-                            <col style={{ width: "36%" }} />
-                            <col style={{ width: "16%" }} />
-                            <col style={{ width: "12%" }} />
-                            <col style={{ width: "12%" }} />
-                            <col style={{ width: "12%" }} />
-                            <col style={{ width: "12%" }} />
-                        </colgroup>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white shadow-md rounded-2xl p-4 md:p-6 overflow-x-auto"
+            >
+                <Table className="w-full">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>{t("partner")}</TableHead>
+                            <TableHead className="hidden md:table-cell">{t("city")}</TableHead>
+                            <TableHead>{t("deliveries")}</TableHead>
+                            <TableHead className="hidden lg:table-cell">{t("avg_mins")}</TableHead>
+                            <TableHead>{t("acceptance")}</TableHead>
+                            <TableHead>{t("earnings")}</TableHead>
+                        </TableRow>
+                    </TableHeader>
 
-                        <thead className="bg-white">
-                            <tr>
-                                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("partner")}</th>
-                                <th className="px-4 py-3 text-left text-sm text-gray-500 hidden md:table-cell">{t("city")}</th>
-                                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("deliveries")}</th>
-                                <th className="px-4 py-3 text-left text-sm text-gray-500 hidden lg:table-cell">{t("avg_mins")}</th>
-                                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("acceptance")}</th>
-                                <th className="px-4 py-3 text-left text-sm text-gray-500">{t("earnings")}</th>
-                                <th className="px-4 py-3 text-right text-sm text-gray-500">{t("trend")}</th>
-                            </tr>
-                        </thead>
+                    <TableBody>
+                        {partnerPerformance?.table?.data?.length === 0 && (
+                            <TableRow>
+                                <TableCell colSpan={6} className="text-center text-gray-500 py-6">
+                                    {t("no_partners_found")}
+                                </TableCell>
+                            </TableRow>
+                        )}
 
-                        <tbody className="divide-y divide-gray-100">
-                            {filtered.map((p) => (
-                                <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-4 py-4">
-                                        <div className="flex items-center gap-3 min-w-0">
-                                            <div className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-semibold text-white ${p.avatarColor}`} aria-hidden>
-                                                {p.name
-                                                    .split(" ")
-                                                    .map((n) => n[0])
-                                                    .slice(0, 2)
-                                                    .join("")}
+                        {(partnerPerformance?.table?.data || []).map((p) => (
+                            <TableRow key={p.id} className="hover:bg-gray-50">
+                                {/* Partner */}
+                                <TableCell>
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <div className="h-10 w-10 rounded-full flex items-center justify-center text-sm font-semibold text-white bg-[#DC3173]">
+                                            {p.name
+                                                .split(" ")
+                                                .map((n) => n[0])
+                                                .slice(0, 2)
+                                                .join("")}
+                                        </div>
+
+                                        <div className="truncate">
+                                            <div className="text-sm font-medium text-gray-900 truncate">
+                                                {p.name}
                                             </div>
-
-                                            <div className="truncate">
-                                                <div className="text-sm font-medium text-gray-900 truncate">{p.name}</div>
-                                                <div className="text-xs text-gray-500 truncate">{p.id} • {p.vehicle}</div>
+                                            <div className="text-xs text-gray-500 truncate">
+                                                {p.displayId} • {p.vehicle}
                                             </div>
                                         </div>
-                                    </td>
+                                    </div>
+                                </TableCell>
 
-                                    <td className="px-4 py-4 hidden md:table-cell text-sm">{p.city}</td>
+                                {/* City */}
+                                <TableCell className="hidden md:table-cell">
+                                    {p.city}
+                                </TableCell>
 
-                                    <td className="px-4 py-4 text-sm font-medium">{p.deliveries}</td>
+                                {/* Deliveries */}
+                                <TableCell className="font-medium">
+                                    {p.deliveries}
+                                </TableCell>
 
-                                    <td className="px-4 py-4 hidden lg:table-cell text-sm">{p.avgDeliveryMins} {t("min")}</td>
+                                {/* Avg Minutes */}
+                                <TableCell className="hidden lg:table-cell">
+                                    {p.avgMins}
+                                </TableCell>
 
-                                    <td className="px-4 py-4 text-sm">
-                                        <div className="inline-flex items-center gap-2">
-                                            <div className="text-sm font-medium">{p.acceptanceRate}%</div>
-                                            <div className="text-xs text-gray-400">({p.cancellations} {t("canc")}.)</div>
-                                        </div>
-                                    </td>
+                                {/* Acceptance */}
+                                <TableCell>
+                                    <span className="font-medium">{p.acceptance}</span>
+                                </TableCell>
 
-                                    <td className="px-4 py-4 text-sm">€{p.earnings.toFixed(2)}</td>
-
-                                    <td className="px-4 py-4 text-right">
-                                        <div className="flex items-center justify-end gap-3">
-                                            <div className="hidden sm:block">
-                                                <Sparkline data={p.spark} color={DELIGO} />
-                                            </div>
-                                            <button
-                                                onClick={() => setActive(p)}
-                                                className="px-2 py-1 rounded-md bg-white border shadow-sm text-sm flex items-center gap-2 hover:scale-105 transition"
-                                            >
-                                                <Eye size={14} /> {t("preview")}
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Footer */}
-                <div className="px-4 py-3 flex items-center justify-between text-sm text-gray-600">
-                    <div>{t("showing")} <strong>{filtered.length}</strong> {t("partners")}</div>
-                    <div className="flex gap-2">
-                        <button className="px-3 py-1 rounded-md border text-xs">{t("prev")}</button>
-                        <button className="px-3 py-1 rounded-md border text-xs">{t("next")}</button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Drawer detail (wider but responsive) */}
-            {active && (
-                <div className="fixed inset-0 z-50 flex">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setActive(null)} />
-
-                    <aside className="ml-auto w-full sm:w-[560px] bg-white shadow-2xl rounded-l-2xl p-6 overflow-y-auto animate-slide-in">
-                        <div className="flex items-start justify-between gap-4">
-                            <div>
-                                <h3 className="text-xl font-semibold">{active.name}</h3>
-                                <p className="text-xs text-gray-500">{active.id} • {active.city} • {active.vehicle}</p>
-                            </div>
-
-                            <div className="flex flex-col items-end gap-2">
-                                <div className="text-sm text-gray-500">{t("rating")}</div>
-                                <div className="text-lg font-medium">{active.rating.toFixed(1)}</div>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="p-3 rounded-lg bg-linear-to-br from-white to-gray-50 border">
-                                <div className="text-xs text-gray-500">{t("deliveries")}</div>
-                                <div className="text-xl font-semibold">{active.deliveries}</div>
-                                <div className="text-xs text-gray-400">{t("in_timeframe")}</div>
-                            </div>
-
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500">{t("avg_delivery_time")}</div>
-                                <div className="text-xl font-semibold">{active.avgDeliveryMins} {t("min")}</div>
-                                <div className="text-xs text-gray-400">{t("lower_is_better")}</div>
-                            </div>
-
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500">{t('acceptance')}</div>
-                                <div className="text-xl font-semibold">{active.acceptanceRate}%</div>
-                                <div className="text-xs text-gray-400">{active.cancellations} {t("cancellations")}</div>
-                            </div>
-                        </div>
-
-                        <div className="mt-6">
-                            <h4 className="font-medium mb-2">{t("deliveries_recent")}</h4>
-                            <div className="w-full overflow-hidden rounded-lg border p-3 bg-white">
-                                <Sparkline data={active.spark} color={DELIGO} />
-                            </div>
-                        </div>
-
-                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500">{t("earnings")}</div>
-                                <div className="text-lg font-semibold">€{active.earnings.toFixed(2)}</div>
-                            </div>
-
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500">{t("last_seen")}</div>
-                                <div className="text-lg font-semibold">{active.lastActive}</div>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 flex items-center gap-3">
-                            <button className="px-4 py-2 rounded-md border bg-white flex items-center gap-2 hover:scale-105 transition">
-                                <ArrowUpRight size={14} /> {t("go_to_profile")}
-                            </button>
-                            <button onClick={() => setActive(null)} className="px-4 py-2 rounded-md text-white" style={{ backgroundColor: DELIGO }}>
-                                {t("close")}
-                            </button>
-                        </div>
-                    </aside>
-                </div>
+                                {/* Earnings */}
+                                <TableCell>
+                                    €{p.earnings}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </motion.div>
+            {!!partnerPerformance?.table?.meta?.totalPage && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="px-4 md:px-6 py-5"
+                >
+                    <PaginationComponent
+                        totalPages={partnerPerformance?.table?.meta?.totalPage as number}
+                    />
+                </motion.div>
             )}
 
             {/* small animation */}
