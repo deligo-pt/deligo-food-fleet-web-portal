@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { changePasswordReq } from "@/services/dashboard/changePassword/changePassword";
 import { TResponse } from "@/types";
 import { removeCookie } from "@/utils/cookies";
-import { changePasswordValidation } from "@/validations/Auth/change-password.validation";
+import { changePasswordValidation } from "@/validations/auth/change-password.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle, Eye, EyeOff, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";

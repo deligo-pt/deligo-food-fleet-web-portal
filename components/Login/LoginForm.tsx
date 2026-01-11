@@ -14,7 +14,7 @@ import { TResponse } from "@/types";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
 import { postData } from "@/utils/requests";
-import { loginValidation } from "@/validations/Auth/auth.validation";
+import { loginValidation } from "@/validations/auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { Eye, EyeOff, Lock, Mail, Send } from "lucide-react";
@@ -191,7 +191,7 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
         </p>
 
         <p className="mt-6 text-center text-gray-700 text-sm">
-          {t("donot_have_an_account")} {" "}
+          {t("donot_have_an_account")}{" "}
           <Link
             href="/become-agent"
             className="text-[#DC3173] font-medium hover:underline"
