@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -6,13 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useRef, useState } from "react";
 
+import { USER_ROLE } from "@/consts/user.const";
 import { useChatSocket } from "@/hooks/use-chat-socket";
 import { TMeta } from "@/types";
 import { TConversation, TMessage } from "@/types/chat.type";
 import { getCookie } from "@/utils/cookies";
 import { format } from "date-fns";
 import { Bot, Clock, PhoneCall, Send } from "lucide-react";
-import { useTranslation } from "@/hooks/use-translation";
 
 interface IProps {
   initialConversation: TConversation;
@@ -27,13 +28,11 @@ export default function ChatSupport({
   initialConversation: conversation,
   initialMessagesData,
 }: IProps) {
-  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<TMessage[]>(
     initialMessagesData?.data || []
   );
   const [text, setText] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [status, setStatus] = useState(conversation.status);
   const accessToken = getCookie("accessToken");
 
@@ -41,6 +40,7 @@ export default function ChatSupport({
     room: conversation.room,
     token: accessToken as string,
     onMessage: (msg) => setMessages((prev) => [...prev, msg]),
+    onTyping: (data) => {},
     onClosed: () => setStatus("CLOSED"),
     onError: (msg) => alert(msg),
   });
@@ -63,10 +63,10 @@ export default function ChatSupport({
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-extrabold" style={{ color: PRIMARY }}>
-              {t("chat_support")}
+              Chat Support
             </h1>
             <p className="text-gray-600 text-sm mt-1">
-              {t("get_help_from_support")}
+              Get help from our support team in real‑time.
             </p>
           </div>
 
@@ -85,9 +85,9 @@ export default function ChatSupport({
                   <Bot className="text-pink-700" />
                 </div>
                 <div>
-                  <h2 className="font-bold text-lg">{t("deligo_support")}</h2>
+                  <h2 className="font-bold text-lg">Deligo Support</h2>
                   <p className="text-xs text-gray-500 flex items-center gap-1">
-                    <Clock size={12} /> {t("active_now")}
+                    <Clock size={12} /> Active now
                   </p>
                 </div>
               </div>
@@ -101,16 +101,18 @@ export default function ChatSupport({
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex ${msg.senderRole === "FLEET_MANAGER"
-                    ? "justify-end"
-                    : "justify-start"
-                    }`}
+                  className={`flex ${
+                    msg.senderRole === USER_ROLE.FLEET_MANAGER
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
                 >
                   <div
-                    className={`max-w-[75%] rounded-2xl px-4 py-3 shadow-sm ${msg.senderRole === "FLEET_MANAGER"
-                      ? "bg-[" + PRIMARY + "] text-white rounded-br-none"
-                      : "bg-white rounded-bl-none border"
-                      }`}
+                    className={`max-w-[75%] rounded-2xl px-4 py-3 shadow-sm ${
+                      msg.senderRole === USER_ROLE.FLEET_MANAGER
+                        ? "bg-[" + PRIMARY + "] text-white rounded-br-none"
+                        : "bg-white rounded-bl-none border"
+                    }`}
                   >
                     <div className="text-sm leading-relaxed">{msg.message}</div>
                     <p className="text-[10px] opacity-70 mt-1">
@@ -142,7 +144,7 @@ export default function ChatSupport({
                 className="flex items-center gap-1 text-white"
                 style={{ background: PRIMARY }}
               >
-                <Send size={16} /> {t("send")}
+                <Send size={16} /> Send
               </Button>
             </div>
           </CardContent>

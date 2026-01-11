@@ -1,19 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import ChatSupport from "@/components/ChatSupport/ChatSupport";
+import LiveChat from "@/components/LiveChat/LiveChat";
 import { serverFetch } from "@/lib/serverFetch";
 import { TMeta } from "@/types";
 import { TConversation, TMessage } from "@/types/chat.type";
 import { queryStringFormatter } from "@/utils/formatter";
 
-export default async function ChatSupportPage() {
+export default async function LiveChatPage() {
   let conversationData = {} as TConversation;
   let messagesData = {} as { data: TMessage[]; meta?: TMeta };
 
   try {
-    const conversationRes = await serverFetch.post("/support/conversation");
+    const conversationRes = await serverFetch.get("/support/conversation");
     const conversationResult = await conversationRes.json();
 
-    conversationData = conversationResult.data;
+    conversationData = conversationResult.data?.[0];
 
     const queryString = queryStringFormatter({
       page: "1",
@@ -22,16 +21,18 @@ export default async function ChatSupportPage() {
     });
 
     const messagesRes = await serverFetch.get(
-      `/support/conversations/${conversationResult.data.room}/messages?${queryString}`
+      `/support/conversations/${conversationResult.data?.[0]?.room}/messages?${queryString}`
     );
 
     messagesData = await messagesRes.json();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error?.response?.data, error.message);
   }
 
   return (
-    <ChatSupport
+    <LiveChat
       initialConversation={conversationData}
       initialMessagesData={messagesData}
     />
