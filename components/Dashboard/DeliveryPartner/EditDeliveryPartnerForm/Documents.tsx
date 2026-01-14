@@ -13,11 +13,11 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { CardTitle } from "@/components/ui/card";
-import { uploadPartnerDocuments } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { submitForApproval, uploadPartnerDocuments } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
-import { fetchData, updateData } from "@/utils/requests";
+import { fetchData } from "@/utils/requests";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/use-translation";
@@ -200,17 +200,8 @@ export default function Documents() {
   const completeReg = async () => {
     const toastId = toast.loading("Uploading...");
     try {
-      const accessToken = getCookie("accessToken");
 
-      const result = (await updateData(
-        `/auth/${id}/submitForApproval`,
-        {},
-        {
-          headers: {
-            authorization: accessToken || "",
-          },
-        }
-      )) as unknown as TResponse<null>;
+      const result = await submitForApproval(id as string);
 
       if (result.success) {
         toast.success(
