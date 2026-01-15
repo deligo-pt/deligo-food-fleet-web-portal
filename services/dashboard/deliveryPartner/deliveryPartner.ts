@@ -55,6 +55,33 @@ export const getDeliveryPartnerDetails = async (id?: string) => {
   }
 };
 
+export const createDeliveryPartner = async (payload: any) => {
+  const res = await serverFetch.post("/auth/register/onboard/delivery-partner", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const result = await res.json();
+
+  return result;
+};
+
+export const updatePartnerInformation = async (id: string, payload: any) => {
+
+  const res = await serverFetch.patch(`/delivery-partners/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const result = await res.json();
+
+  return result;
+};
+
 export const uploadPartnerDocuments = async (
   id: string,
   key: string,
@@ -79,4 +106,12 @@ export const uploadPartnerDocuments = async (
     console.error("Server fetch error:", error);
     return { success: false, message: error?.response?.data?.message };
   }
+};
+
+export const submitForApproval = async (id: string) => {
+  const res = await serverFetch.patch(`/auth/${id}/submitForApproval`);
+
+  const result = await res.json();
+
+  return result;
 };

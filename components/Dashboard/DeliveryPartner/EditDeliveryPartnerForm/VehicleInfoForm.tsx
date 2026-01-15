@@ -10,10 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "@/hooks/use-translation";
+import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
-import { fetchData, updateData } from "@/utils/requests";
+import { fetchData } from "@/utils/requests";
 import { vehicleInfoValidation } from "@/validations/edit-delivery-partner/vehicle-info.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -61,7 +62,6 @@ export function VehicleInfoForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
-    const accessToken = getCookie("accessToken");
 
     try {
       const payload = {
@@ -79,15 +79,7 @@ export function VehicleInfoForm({ onNext }: IProps) {
         },
       };
 
-      const result = (await updateData(`/delivery-partners/${id}`, payload,
-        {
-          headers: {
-            "content-type": "application/json",
-            authorization: accessToken || "",
-          },
-          credentials: "include",
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      const result = await updatePartnerInformation(id as string, payload);
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {

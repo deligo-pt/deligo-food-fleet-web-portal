@@ -18,10 +18,11 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
+import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
-import { fetchData, updateData } from "@/utils/requests";
+import { fetchData } from "@/utils/requests";
 import { equipmentValidation } from "@/validations/edit-delivery-partner/equipment.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -100,7 +101,6 @@ export function EquipmentForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
-    const accessToken = getCookie("accessToken");
     try {
       const payload = {
         workPreferences: {
@@ -116,15 +116,7 @@ export function EquipmentForm({ onNext }: IProps) {
         },
       };
 
-      const result = (await updateData(`/delivery-partners/${id}`, payload,
-        {
-          headers: {
-            "content-type": "application/json",
-            authorization: accessToken || "",
-          },
-          credentials: "include",
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      const result = await updatePartnerInformation(id as string, payload);
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {

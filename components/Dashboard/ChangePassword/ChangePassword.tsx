@@ -18,13 +18,13 @@ import { cn } from "@/lib/utils";
 import { changePasswordReq } from "@/services/dashboard/changePassword/changePassword";
 import { TResponse } from "@/types";
 import { removeCookie } from "@/utils/cookies";
-import { changePasswordValidation } from "@/validations/auth/change-password.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle, Eye, EyeOff, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { changePasswordValidation } from "@/validations/Auth/change-password.validation";
 
 const PRIMARY = "#DC3173";
 const BG = "#FFF1F7";

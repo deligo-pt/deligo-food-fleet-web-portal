@@ -4,32 +4,37 @@ import { cookies } from "next/headers";
 const backendUrl =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
 
+async function serverFetchHelper(
+  endPoint: string,
+  options: RequestInit
+): Promise<Response> {
+  const { headers, ...rest } = options;
 
-const serverFetchHelper = async (endPoint: string, options: RequestInit): Promise<Response> => {
-  const { headers, ...restOptions } = options;
+  const accessToken = (await cookies()).get("accessToken")?.value;
 
-  const accessToken = (await cookies()).get("accessToken")?.value || "";
-
-  const response = await fetch(`${backendUrl}${endPoint}`, {
-    credentials: 'include',
+  return fetch(`${backendUrl}${endPoint}`, {
+    credentials: "include",
     headers: {
       ...headers,
-      authorization: accessToken ? accessToken : "",
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
     },
-    ...restOptions
+    ...rest,
   });
-
-  return response;
-};
+}
 
 export const serverFetch = {
-  get: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'GET', ...options }),
+  get: (endPoint: string, options: RequestInit = {}) =>
+    serverFetchHelper(endPoint, { method: "GET", ...options }),
 
-  post: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'POST', ...options }),
+  post: (endPoint: string, options: RequestInit = {}) =>
+    serverFetchHelper(endPoint, { method: "POST", ...options }),
 
-  put: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'PUT', ...options }),
+  put: (endPoint: string, options: RequestInit = {}) =>
+    serverFetchHelper(endPoint, { method: "PUT", ...options }),
 
-  patch: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'PATCH', ...options }),
+  patch: (endPoint: string, options: RequestInit = {}) =>
+    serverFetchHelper(endPoint, { method: "PATCH", ...options }),
 
-  delete: async (endPoint: string, options: RequestInit = {}): Promise<Response> => serverFetchHelper(endPoint, { method: 'DELETE', ...options }),
+  delete: (endPoint: string, options: RequestInit = {}) =>
+    serverFetchHelper(endPoint, { method: "DELETE", ...options }),
 };

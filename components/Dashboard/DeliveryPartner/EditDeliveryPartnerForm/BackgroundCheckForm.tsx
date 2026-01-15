@@ -9,10 +9,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useTranslation } from "@/hooks/use-translation";
+import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
-import { fetchData, updateData } from "@/utils/requests";
+import { fetchData } from "@/utils/requests";
 import { backgroundCheckValidation } from "@/validations/edit-delivery-partner/background-check.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -42,7 +43,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
-    const accessToken = getCookie("accessToken");
+
     try {
       const payload = {
         criminalRecord: {
@@ -59,15 +60,7 @@ export function BackgroundCheckForm({ onNext }: IProps) {
         delete payload?.criminalRecord?.issueDate;
       }
 
-      const result = (await updateData(`/delivery-partners/${id}`, payload,
-        {
-          headers: {
-            "content-type": "application/json",
-            authorization: accessToken || "",
-          },
-          credentials: "include",
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      const result = await updatePartnerInformation(id as string, payload);
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
