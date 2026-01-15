@@ -349,6 +349,7 @@ export const en = {
     and: "Terms & Conditions",
     confirm_continue: "Confirm & Continue",
     already_agent: "Already a Agent?",
+    go_home: "Go home",
 
     // register -> stepper
     agent_registration_process: "Agent Registration Process",

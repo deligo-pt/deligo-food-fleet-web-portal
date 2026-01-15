@@ -486,6 +486,8 @@ export const pt = {
     and: "e",
     confirm_continue: "Confirmar & Continuar",
     already_agent: "Já é Agente?",
+    go_home: "Ir para o início",
+
 
     // register -> stepper
     agent_registration_process: "Processo de Registo do Agente",
