@@ -98,11 +98,7 @@ export type TFleetManager = {
   // ---------------------------------------------
   // Documents & Verification
   // ---------------------------------------------
-  documents?: {
-    idProofFront?: string;
-    idProofBack?: string;
-    businessLicense?: string;
-  };
+  documents?: IDocs;
 
   // ---------------------------------------------
   // Operational Data
@@ -141,6 +137,12 @@ export type TFleetManager = {
   // ---------------------------------------------
   createdAt: Date;
   updatedAt: Date;
+};
+
+export interface IDocs {
+  idProofFront?: string;
+  idProofBack?: string;
+  businessLicense?: string;
 };
 
 export type TFleetManagerImageDocuments = {

@@ -1,13 +1,7 @@
+import { IDocs } from "@/types/fleet-manager.type";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-interface IDocs {
-  businessLicenseDoc?: string | undefined;
-  taxDoc?: string | undefined;
-  idProof?: string | undefined;
-  storePhoto?: string | undefined;
-  menuUpload?: string | undefined;
-}
 interface IProps {
   documents: IDocs | undefined;
 }

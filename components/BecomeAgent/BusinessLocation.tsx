@@ -13,15 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
 import { updateFleetInformation } from "@/services/becomeAgent/becomeAgentManagement";
-import { getFleetManagerProfile } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
-import { TResponse } from "@/types";
 import { TFleetManager } from "@/types/fleet-manager.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData, updateData } from "@/utils/requests";
 import { businessLocationValidation } from "@/validations/become-agent/business-location.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { jwtDecode } from "jwt-decode";
 import { ArrowLeftCircle, Save, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";

@@ -38,7 +38,7 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
     };
     return colors[status];
   };
-  console.log(agent);
+
   const accountAge = Math.floor(
     (new Date().getTime() - new Date(agent.createdAt).getTime()) /
     (1000 * 60 * 60 * 24)
@@ -185,7 +185,7 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
             <div className="space-y-1">
               <ProfileInfoRow
                 label={t("street_address")}
-                value={`${agent.businessLocation?.streetNumber} ${agent.businessLocation?.streetAddress}`}
+                value={`${agent.businessLocation?.street} , ${agent.businessLocation?.state}`}
                 icon={MapIcon}
               />
               <ProfileInfoRow
