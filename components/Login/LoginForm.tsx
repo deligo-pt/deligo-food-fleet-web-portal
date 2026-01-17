@@ -14,7 +14,7 @@ import { TResponse } from "@/types";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
 import { postData } from "@/utils/requests";
-import { loginValidation } from "@/validations/Auth/auth.validation";
+import { loginValidation } from "@/validations/auth/auth.validation";
 // import { loginValidation } from "@/validations/auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
@@ -47,7 +47,7 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
     try {
       const result = (await postData(
         "/auth/login",
-        data
+        data,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       )) as unknown as TResponse<any>;
 
@@ -62,7 +62,9 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
           toast.success("Login successful!", { id: toastId });
 
           // get and save fcm token
-          getAndSaveFcmToken(result.data.accessToken);
+          setTimeout(() => {
+            getAndSaveFcmToken(result.data.accessToken);
+          }, 1000);
 
           switch (decoded.status) {
             case "PENDING":

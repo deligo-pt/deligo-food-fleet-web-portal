@@ -1,14 +1,20 @@
 "use client";
 
+import TopbarNotification from "@/components/Dashboard/AgentTopbar/TopbarNotification";
 import RemarkModal from "@/components/Modals/RemarkModal";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useStore } from "@/store/store";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
-  Bell,
   ChevronDown,
   LogOut,
   MessageSquare,
@@ -39,7 +45,6 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
     router.push("/login");
   };
 
-
   return (
     <>
       {/* Fixed Topbar */}
@@ -63,8 +68,8 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
             <div className="relative hidden sm:block z-1002">
               <Select
                 value={lang}
-                onValueChange={(value: 'en' | 'pt') => {
-                  setLang(value)
+                onValueChange={(value: "en" | "pt") => {
+                  setLang(value);
                 }}
               >
                 <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
@@ -98,20 +103,7 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
             </motion.button>
 
             {/* Notification */}
-            <div className="relative shrink-0">
-              <motion.button
-                whileHover={{ scale: 1.06 }}
-                className="p-2 rounded-lg hover:bg-pink-50 transition"
-              >
-                <Bell size={18} className="text-gray-700" />
-              </motion.button>
-
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-pink-600 rounded-full border-2 border-white"
-              />
-            </div>
+            <TopbarNotification />
 
             {/* Messages */}
             <motion.button
@@ -144,8 +136,9 @@ export default function Topbar({ sidebarWidth = 280, agent }: Props) {
                 )}
                 <ChevronDown
                   size={16}
-                  className={`text-gray-700 transition-transform ${profileOpen ? "rotate-180" : ""
-                    }`}
+                  className={`text-gray-700 transition-transform ${
+                    profileOpen ? "rotate-180" : ""
+                  }`}
                 />
               </button>
 

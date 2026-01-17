@@ -1,14 +1,12 @@
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type ApiConfig = RequestInit & {
   headers?: HeadersInit;
 };
 
-async function apiRequest<T>(
-  url: string,
-  options: ApiConfig = {}
-): Promise<T> {
+async function apiRequest<T>(url: string, options: ApiConfig = {}): Promise<T> {
+  console.log(options);
+
   const response = await fetch(`${BASE_URL}${url}`, {
     credentials: "include", // send cookies
     headers: {
@@ -42,10 +40,7 @@ async function apiRequest<T>(
 // PUBLIC API METHODS
 // =====================
 
-export const fetchData = <T>(
-  url: string,
-  config?: ApiConfig
-): Promise<T> => {
+export const fetchData = <T>(url: string, config?: ApiConfig): Promise<T> => {
   return apiRequest<T>(url, {
     method: "GET",
     ...config,
@@ -55,7 +50,7 @@ export const fetchData = <T>(
 export const postData = <T, B = unknown>(
   url: string,
   data: B,
-  config?: ApiConfig
+  config?: ApiConfig,
 ): Promise<T> => {
   return apiRequest<T>(url, {
     method: "POST",
@@ -67,7 +62,7 @@ export const postData = <T, B = unknown>(
 export const updateData = <T, B = unknown>(
   url: string,
   data: B,
-  config?: ApiConfig
+  config?: ApiConfig,
 ): Promise<T> => {
   return apiRequest<T>(url, {
     method: "PATCH",
@@ -76,18 +71,12 @@ export const updateData = <T, B = unknown>(
   });
 };
 
-export const deleteData = <T>(
-  url: string,
-  config?: ApiConfig
-): Promise<T> => {
+export const deleteData = <T>(url: string, config?: ApiConfig): Promise<T> => {
   return apiRequest<T>(url, {
     method: "DELETE",
     ...config,
   });
 };
-
-
-
 
 // import axios, { AxiosRequestConfig } from "axios";
 
