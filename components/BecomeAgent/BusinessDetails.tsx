@@ -29,10 +29,12 @@ type BusinessForm = {
     NIF: string;
     totalBranches: number;
 };
-interface Props {
-    profile: TFleetManager;
-}
 
+interface Props {
+    profile: {
+        data: TFleetManager
+    };
+};
 const BusinessDetails = ({ profile }: Props) => {
     const { t } = useTranslation();
     const router = useRouter();
@@ -48,19 +50,23 @@ const BusinessDetails = ({ profile }: Props) => {
     });
 
     useEffect(() => {
-        if (!profile.businessDetails) return;
+        if (!profile?.data?.businessDetails) return;
 
         form.setValue(
             "businessName",
-            profile?.businessDetails?.businessName || ""
+            profile?.data?.businessDetails?.businessName || ""
         );
         form.setValue(
             "businessLicenseNumber",
-            profile?.businessDetails?.businessLicenseNumber || ""
+            profile?.data?.businessDetails?.businessLicenseNumber || ""
         );
         form.setValue(
             "NIF",
-            profile?.businessDetails?.businessLicenseNumber || ""
+            profile?.data?.businessDetails?.businessLicenseNumber || ""
+        );
+        form.setValue(
+            "totalBranches",
+            profile?.data?.businessDetails?.totalBranches || 0
         );
     }, [form, profile]);
 
@@ -78,7 +84,7 @@ const BusinessDetails = ({ profile }: Props) => {
                 },
             };
 
-            const result = await updateFleetInformation(profile._id as string, businessDetails);
+            const result = await updateFleetInformation(profile?.data?.userId as string, businessDetails);
 
             if (result.success) {
                 toast.success("Business details updated successfully!", { id: toastId });
@@ -210,25 +216,36 @@ const BusinessDetails = ({ profile }: Props) => {
                                         name="totalBranches"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <div className="relative">
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
-                                                            <Input
-                                                                placeholder="Total Branches"
-                                                                type="number"
-                                                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 uppercase"
-                                                                {...field}
-                                                                value={field.value || 0}
-                                                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                                                            />
-                                                        </div>
-                                                    </FormControl>
-                                                </div>
+                                                <FormControl>
+                                                    <div className="relative">
+                                                        <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
+
+                                                        <Input
+                                                            type="number"
+                                                            placeholder="Total Branches"
+                                                            className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                            value={field.value ?? ""}
+                                                            min={0}
+                                                            onChange={(e) => {
+                                                                const value = e.target.value;
+                                                                if (value === "") {
+                                                                    field.onChange(undefined);
+                                                                    return;
+                                                                }
+                                                                const num = Number(value);
+                                                                if (!isNaN(num) && num >= 0) {
+                                                                    field.onChange(num);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </FormControl>
+
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
+
                                 </div>
                             </div>
 

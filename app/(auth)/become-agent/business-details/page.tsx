@@ -1,9 +1,9 @@
 import BusinessDetails from "@/components/BecomeAgent/BusinessDetails";
-import { getFleetManagerProfile } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
+import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
 
 
 const BusinessDetailsPage = async () => {
-  const profileData = await getFleetManagerProfile();
+  const profileData = await getFleetManagerInfo();
 
   return (
     <div>

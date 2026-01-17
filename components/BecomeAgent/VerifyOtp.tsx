@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
-import { TResponse } from "@/types";
+import { resendOTP, verifyOtp } from "@/services/becomeAgent/becomeAgentManagement";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
-import { postData } from "@/utils/requests";
 import { motion } from "framer-motion";
 import { Clock, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -61,24 +60,24 @@ export default function VerifyOtp({ email }: { email: string }) {
     const toastId = toast.loading("Verifying OTP...");
 
     try {
-      const result = await postData<
-        TResponse<{ accessToken: string; refreshToken: string }>
-      >("/auth/verify-otp", {
+      const payload = {
         email,
         otp: finalOtp,
-      });
+      };
 
-      if (!result.success) {
+      const result = await verifyOtp(payload)
+
+      if (!result?.success) {
         toast.error(result.message, { id: toastId });
         return;
       }
 
-      setCookie("accessToken", result.data.accessToken, 7);
-      setCookie("refreshToken", result.data.refreshToken, 365);
+      setCookie("accessToken", result?.data.accessToken, 7);
+      setCookie("refreshToken", result?.data.refreshToken, 365);
 
       toast.success("OTP verified successfully!", { id: toastId });
 
-      getAndSaveFcmToken(result.data.accessToken);
+      getAndSaveFcmToken(result?.data.accessToken);
       router.push("/become-agent/personal-details");
     } catch (error) {
       toast.error(
@@ -92,17 +91,10 @@ export default function VerifyOtp({ email }: { email: string }) {
   const resendOtp = async () => {
     const toastId = toast.loading("Resending OTP...");
     try {
-      const result = (await postData(
-        "/auth/resend-otp",
-        {
-          email,
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      )) as unknown as TResponse<any>;
+      const result = await resendOTP({ email });
 
       if (result.success) {
         setTimer(300);
-        console.log("OTP resent!");
         toast.success("OTP resent successfully!", { id: toastId });
         return;
       }

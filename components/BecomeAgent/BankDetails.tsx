@@ -40,8 +40,10 @@ type FormValues = {
 };
 
 interface Props {
-    profile: TFleetManager;
-}
+    profile: {
+        data: TFleetManager
+    };
+};
 
 const BankDetails = ({ profile }: Props) => {
     const { t } = useTranslation();
@@ -58,16 +60,16 @@ const BankDetails = ({ profile }: Props) => {
     });
 
     useEffect(() => {
-        if (!profile?.bankDetails) return;
+        if (!profile?.data?.bankDetails) return;
 
-        form.setValue("bankName", profile.bankDetails.bankName || "");
+        form.setValue("bankName", profile?.data?.bankDetails.bankName || "");
         form.setValue(
             "accountHolderName",
-            profile.bankDetails.accountHolderName || ""
+            profile?.data?.bankDetails.accountHolderName || ""
         );
-        form.setValue("iban", profile.bankDetails.iban || "");
-        form.setValue("swiftCode", profile.bankDetails.swiftCode || "");
-    }, [profile, form]);
+        form.setValue("iban", profile?.data?.bankDetails.iban || "");
+        form.setValue("swiftCode", profile?.data?.bankDetails.swiftCode || "");
+    }, [profile?.data, form]);
 
     const onSubmit = async (data: FormValues) => {
         const toastId = toast.loading("Updating bank details...");
@@ -82,7 +84,7 @@ const BankDetails = ({ profile }: Props) => {
                 },
             };
 
-            const result = await updateFleetInformation(profile._id as string, payload);
+            const result = await updateFleetInformation(profile?.data?.userId as string, payload);
 
             if (result?.success) {
                 toast.success("Bank details updated successfully!", { id: toastId });
@@ -199,7 +201,7 @@ const BankDetails = ({ profile }: Props) => {
                                     type="submit"
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="w-full bg-[#DC3173] text-white py-3 rounded-xl"
+                                    className="flex gap-1 px-4 bg-[#DC3173] text-white py-3 rounded-xl"
                                 >
                                     <Save /> {t("saveContinue")}
                                 </motion.button>
