@@ -22,8 +22,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import Image from "next/image";
 import { useTranslation } from "@/hooks/use-translation";
+import Image from "next/image";
 
 interface IProps {
   open?: boolean;
@@ -60,7 +60,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
           name: t("add_new_delivery_partner"),
           path: "/agent/add-delivery-partner",
         },
-        { name: t("pending_verification"), path: "/agent/pending-verification" },
+        {
+          name: t("pending_verification"),
+          path: "/agent/pending-verification",
+        },
         {
           name: t("active_delivery_partners"),
           path: "/agent/active-delivery-partners",
@@ -93,7 +96,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
         { name: t("pending_pickup"), path: "/agent/pending-pickup" },
         { name: t("on_the_way"), path: "/agent/on-the-way" },
         { name: t("delivered"), path: "/agent/delivered" },
-        { name: t("cancelled_deliveries"), path: "/agent/cancelled-deliveries" },
+        {
+          name: t("cancelled_deliveries"),
+          path: "/agent/cancelled-deliveries",
+        },
         { name: t("delivery_history"), path: "/agent/delivery-history" },
       ],
     },
@@ -103,7 +109,10 @@ export default function Sidebar({ open, setOpen }: IProps) {
       title: t("payments_nd_earnings"),
       icon: <BadgeEuro size={18} />,
       items: [
-        { name: t("fleet_earnings_overview"), path: "/agent/earnings-overview" },
+        {
+          name: t("fleet_earnings_overview"),
+          path: "/agent/earnings-overview",
+        },
         {
           name: t("delivery_partner_payouts"),
           path: "/agent/delivery-partner-payouts",
@@ -176,8 +185,11 @@ export default function Sidebar({ open, setOpen }: IProps) {
       icon: <MessageSquare size={18} />,
       items: [
         { name: t("chat_with_support"), path: "/agent/chat-support" },
-        // { name: "Support Tickets", path: "/agent/support-tickets" },
-        { name: t("delivery_partner_chat"), path: "/agent/delivery-partner-chat" },
+        { name: "Live Chat", path: "/agent/live-chat" },
+        {
+          name: t("delivery_partner_chat"),
+          path: "/agent/delivery-partner-chat",
+        },
         { name: t("report_an_issue"), path: "/agent/report-issue" },
         { name: t("help_center"), path: "/agent/help-center" },
       ],
@@ -289,10 +301,11 @@ export default function Sidebar({ open, setOpen }: IProps) {
               {menu.path ? (
                 <Link
                   href={menu.path}
-                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${pathname === menu.path
-                    ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
-                    : "hover:bg-pink-100"
-                    }`}
+                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${
+                    pathname === menu.path
+                      ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
+                      : "hover:bg-pink-100"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="text-pink-600">{menu.icon}</div>
@@ -338,10 +351,11 @@ export default function Sidebar({ open, setOpen }: IProps) {
                           <Link
                             key={sub.name}
                             href={sub.path}
-                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${pathname === sub.path
-                              ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
-                              : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
-                              }`}
+                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${
+                              pathname === sub.path
+                                ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
+                                : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
+                            }`}
                           >
                             {sub.name}
                           </Link>
@@ -397,10 +411,11 @@ export default function Sidebar({ open, setOpen }: IProps) {
                     <Link
                       href={menu.path}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-2 py-2 ${pathname === menu.path
-                        ? "text-pink-700 font-semibold"
-                        : "text-gray-800 hover:text-pink-600"
-                        }`}
+                      className={`flex items-center gap-2 py-2 ${
+                        pathname === menu.path
+                          ? "text-pink-700 font-semibold"
+                          : "text-gray-800 hover:text-pink-600"
+                      }`}
                     >
                       <div className="text-pink-600">{menu.icon}</div>
                       <span className="text-left">{menu.title}</span>
@@ -417,8 +432,9 @@ export default function Sidebar({ open, setOpen }: IProps) {
                         </div>
                         <ChevronDown
                           size={16}
-                          className={`transition-transform ${expanded[menu.id] ? "rotate-180" : ""
-                            }`}
+                          className={`transition-transform ${
+                            expanded[menu.id] ? "rotate-180" : ""
+                          }`}
                         />
                       </button>
 
@@ -435,10 +451,11 @@ export default function Sidebar({ open, setOpen }: IProps) {
                                 key={sub.name}
                                 href={sub.path}
                                 onClick={() => setMobileOpen(false)}
-                                className={`text-sm py-1 transition-all ${pathname === sub.path
-                                  ? "text-pink-700 font-semibold"
-                                  : "text-gray-600 hover:text-pink-600"
-                                  }`}
+                                className={`text-sm py-1 transition-all ${
+                                  pathname === sub.path
+                                    ? "text-pink-700 font-semibold"
+                                    : "text-gray-600 hover:text-pink-600"
+                                }`}
                               >
                                 {sub.name}
                               </Link>
