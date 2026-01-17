@@ -19,10 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
-import { TResponse } from "@/types";
-import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData, updateData } from "@/utils/requests";
+import { getDeliveryPartnerDetails, updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { personalInfoValidation } from "@/validations/edit-delivery-partner/personal-info.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -76,7 +73,6 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
-    const accessToken = getCookie("accessToken");
 
     try {
       const payload = {
@@ -102,16 +98,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
           country: values.country,
         },
       };
-
-      const result = (await updateData(`/delivery-partners/${id}`, payload,
-        {
-          headers: {
-            "content-type": "application/json",
-            authorization: accessToken || "",
-          },
-          credentials: "include",
-        }
-      )) as unknown as TResponse<TDeliveryPartner[]>;
+      const result = await updatePartnerInformation(id as string, payload);
 
       if (result.success) {
         toast.success("Delivery Partner details updated successfully!", {
@@ -133,14 +120,8 @@ export function PersonalInfoForm({ onNext }: IProps) {
   };
 
   const getPartnerData = async () => {
-    const accessToken = getCookie("accessToken");
-
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`,
-        {
-          headers: { authorization: accessToken || "" },
-        }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      const result = await getDeliveryPartnerDetails(id as string);
 
       if (result.success) {
         const phone = parsePhoneNumberFromString(

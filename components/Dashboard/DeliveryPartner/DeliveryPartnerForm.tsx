@@ -17,10 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
-import { TResponse } from "@/types";
-import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { postData } from "@/utils/requests";
+import { createDeliveryPartner } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { deliveryPartnerValidation } from "@/validations/delivery-partner/delivery-partner.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -49,20 +46,9 @@ export function DeliveryPartnerForm({
 
   const onSubmit = async (data: FormData) => {
     const toastId = toast.loading("Creating Delivery Partner...");
-    const accessToken = getCookie("accessToken");
 
     try {
-      const result = (await postData(
-        "/auth/register/create-delivery-partner",
-        data,
-        {
-          headers: {
-            "content-type": "application/json",
-            authorization: accessToken || "",
-          },
-          credentials: "include",
-        }
-      )) as TResponse<TDeliveryPartner>;
+      const result = await createDeliveryPartner(data as FormData);
 
       if (result.success) {
         toast.success("Delivery Partner created successfully!", {
