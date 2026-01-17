@@ -1103,6 +1103,8 @@ export const en = {
     days_active: "days active",
     business_name: "Business Name",
     license_number: "License Number",
+    nif :"NIF",
+    total_branches : "Total Branches",
     business_location: "Business Location",
     street_address: "Street Address",
     swift_code: "SWIFT Code",

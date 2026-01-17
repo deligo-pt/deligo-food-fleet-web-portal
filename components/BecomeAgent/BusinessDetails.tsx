@@ -45,7 +45,7 @@ const BusinessDetails = ({ profile }: Props) => {
             businessName: "",
             businessLicenseNumber: "",
             NIF: "",
-            totalBranches: 0
+            totalBranches: 1
         },
     });
 
@@ -66,7 +66,7 @@ const BusinessDetails = ({ profile }: Props) => {
         );
         form.setValue(
             "totalBranches",
-            profile?.data?.businessDetails?.totalBranches || 0
+            profile?.data?.businessDetails?.totalBranches || 1
         );
     }, [form, profile]);
 
@@ -233,7 +233,7 @@ const BusinessDetails = ({ profile }: Props) => {
                                                                     return;
                                                                 }
                                                                 const num = Number(value);
-                                                                if (!isNaN(num) && num >= 0) {
+                                                                if (!isNaN(num) && num > 0) {
                                                                     field.onChange(num);
                                                                 }
                                                             }}

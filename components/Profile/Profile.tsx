@@ -173,6 +173,16 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
                 value={agent.businessDetails?.businessLicenseNumber}
                 icon={HashIcon}
               />
+              <ProfileInfoRow
+                label={t("nif")}
+                value={agent.businessDetails?.NIF}
+                icon={Building2Icon}
+              />
+              <ProfileInfoRow
+                label={t("total_branches")}
+                value={agent.businessDetails?.totalBranches}
+                icon={CreditCardIcon}
+              />
             </div>
           </ProfileSection>
 
@@ -197,6 +207,11 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
                 label={t("postal_code")}
                 value={agent.businessLocation?.postalCode}
                 icon={HashIcon}
+              />
+              <ProfileInfoRow
+                label={t("country")}
+                value={agent.businessLocation?.country}
+                icon={CalendarIcon}
               />
             </div>
           </ProfileSection>

@@ -1290,6 +1290,8 @@ export const pt = {
     days_active: "dias ativos",
     business_name: "Nome do negócio",
     license_number: "Número de licença",
+    nif: "NIF",
+    total_branches: "Total de Filiais",
     business_location: "Localização do negócio",
     street_address: "Morada",
     swift_code: "Código SWIFT",
