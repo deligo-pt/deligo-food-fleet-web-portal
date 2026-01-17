@@ -349,6 +349,7 @@ export const en = {
     and: "Terms & Conditions",
     confirm_continue: "Confirm & Continue",
     already_agent: "Already a Agent?",
+    go_home: "Go home",
 
     // register -> stepper
     agent_registration_process: "Agent Registration Process",
@@ -1102,6 +1103,8 @@ export const en = {
     days_active: "days active",
     business_name: "Business Name",
     license_number: "License Number",
+    nif :"NIF",
+    total_branches : "Total Branches",
     business_location: "Business Location",
     street_address: "Street Address",
     swift_code: "SWIFT Code",

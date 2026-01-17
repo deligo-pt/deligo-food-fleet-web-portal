@@ -17,7 +17,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { uploadDocumentsReq } from "@/services/becomeAgent/uploadDocumentsReq";
 import { TResponse } from "@/types";
 import { getCookie } from "@/utils/cookies";
 import { updateData } from "@/utils/requests";
@@ -26,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/use-translation";
 import { DocKey } from "@/types/documents.type";
+import { uploadDocumentsReq } from "@/services/becomeAgent/becomeAgentManagement";
 
 type FilePreview = {
   file: File | null;

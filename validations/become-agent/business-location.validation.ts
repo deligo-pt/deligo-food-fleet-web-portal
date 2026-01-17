@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const businessLocationValidation = z.object({
-  streetAddress: z
+  street: z
+    .string()
+    .nonempty("Street Address is required")
+    .min(5, "Street Address must be at least 5 characters")
+    .max(100, "Street Address must be at most 100 characters"),
+
+  state: z
     .string()
     .nonempty("Street Address is required")
     .min(5, "Street Address must be at least 5 characters")

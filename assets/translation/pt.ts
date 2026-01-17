@@ -486,6 +486,8 @@ export const pt = {
     and: "e",
     confirm_continue: "Confirmar & Continuar",
     already_agent: "Já é Agente?",
+    go_home: "Ir para o início",
+
 
     // register -> stepper
     agent_registration_process: "Processo de Registo do Agente",
@@ -1288,6 +1290,8 @@ export const pt = {
     days_active: "dias ativos",
     business_name: "Nome do negócio",
     license_number: "Número de licença",
+    nif: "NIF",
+    total_branches: "Total de Filiais",
     business_location: "Localização do negócio",
     street_address: "Morada",
     swift_code: "Código SWIFT",

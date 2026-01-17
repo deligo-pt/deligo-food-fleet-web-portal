@@ -1,31 +1,48 @@
 import { USER_STATUS } from "@/consts/user.const";
 
 export type TFleetManager = {
+  // ---------------------------------------------
+  // Core Identifiers
+  // ---------------------------------------------
   _id?: string;
   userId: string;
-  role: "FLEET_MANAGER";
+  registeredBy?: string;
+  role: 'FLEET_MANAGER';
   email: string;
   password: string;
+
   status: keyof typeof USER_STATUS;
   isEmailVerified: boolean;
   isDeleted: boolean;
+  isUpdateLocked: boolean;
 
-  // fcm token for push notifications
+  // Push notifications
   fcmTokens?: string[];
 
-  // OTP Details
-  otp?: string;
-  isOtpExpired?: Date | string;
+  // --------------------------------------------------------
+  // Pending temporary Email and contact number
+  // --------------------------------------------------------
+  pendingEmail?: string;
+  pendingContactNumber?: string;
 
-  // Password Reset Details
+  // ---------------------------------------------
+  // OTP & Password Reset
+  // ---------------------------------------------
+  otp?: string;
+  isOtpExpired?: Date;
+
   passwordResetToken?: string;
   passwordResetTokenExpiresAt?: Date;
+  passwordChangedAt?: Date;
 
-  // Personal Details
+  // ---------------------------------------------
+  // Personal Information
+  // ---------------------------------------------
   name?: {
     firstName?: string;
     lastName?: string;
   };
+
   contactNumber?: string;
   profilePhoto?: string;
 
@@ -33,63 +50,101 @@ export type TFleetManager = {
     street?: string;
     city?: string;
     state?: string;
-    postalCode?: string;
     country?: string;
+    postalCode?: string;
+    longitude?: number;
+    latitude?: number;
+    geoAccuracy?: number;
   };
 
-  passwordChangedAt?: Date | string;
+  currentSessionLocation?: {
+    type: 'Point';
+    coordinates: [number, number]; // [longitude, latitude]
+    accuracy?: number; // GPS Accuracy in meters
+    lastLocationUpdate: Date; // Timestamp for data freshness
+  };
 
-  //  Business Details
+  // ---------------------------------------------
+  // Business Details
+  // ---------------------------------------------
   businessDetails?: {
     businessName: string;
     businessLicenseNumber?: string;
+    NIF?: string;
+    totalBranches?: number;
   };
-  // business Location
+
   businessLocation?: {
-    streetAddress: string;
-    streetNumber: string;
+    street: string;
     city: string;
+    state: string;
+    country: string;
     postalCode: string;
     latitude?: number;
     longitude?: number;
-    geoAccuracy?: number; // meters
+    geoAccuracy?: number;
   };
+
+  // ---------------------------------------------
   // Bank & Payment Information
+  // ---------------------------------------------
   bankDetails?: {
     bankName: string;
     accountHolderName: string;
     iban: string;
     swiftCode: string;
   };
-  // Documents & Verification
-  documents?: {
-    idProof?: string;
-    businessLicense?: string;
-  };
 
-  // Operation Data
+  // ---------------------------------------------
+  // Documents & Verification
+  // ---------------------------------------------
+  documents?: IDocs;
+
+  // ---------------------------------------------
+  // Operational Data
+  // ---------------------------------------------
   operationalData?: {
-    noOfDrivers: number;
+    totalDrivers: number;
     activeVehicles?: number;
     totalDeliveries?: number;
-    rating?: {
-      average: number;
-      totalReviews: number;
-    };
   };
 
-  // Security & Access Control
+  // ---------------------------------------------
+  // Security & Access
+  // ---------------------------------------------
   twoFactorEnabled?: boolean;
   loginDevices?: { deviceId: string; lastLogin: Date | string }[];
 
-  // Admin & Audit Fields
+  // ---------------------------------------------
+  // Admin Workflow / Audit
+  // ---------------------------------------------
   approvedBy?: string;
   rejectedBy?: string;
   blockedBy?: string;
-  submittedForApprovalAt?: Date | string;
-  approvedOrRejectedOrBlockedAt?: Date | string;
+
+  submittedForApprovalAt?: Date;
+  approvedOrRejectedOrBlockedAt?: Date;
+
   remarks?: string;
 
+  rating?: {
+    average: number;
+    totalReviews: number;
+  };
+
+  // ---------------------------------------------
+  // Timestamps
+  // ---------------------------------------------
   createdAt: Date;
   updatedAt: Date;
+};
+
+export interface IDocs {
+  idProofFront?: string;
+  idProofBack?: string;
+  businessLicense?: string;
+};
+
+export type TFleetManagerImageDocuments = {
+  docImageTitle: 'idProofFront' | 'idProofBack' | 'businessLicense';
 };
