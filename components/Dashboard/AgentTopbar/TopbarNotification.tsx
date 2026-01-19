@@ -80,9 +80,9 @@ export default function TopbarNotification() {
             </div>
             <div className="space-y-2">
               {notificationsData?.meta?.total === 0 && (
-                <p className="text-center text-sm text-gray-500">
-                  No notifications found.
-                </p>
+                <div className="text-center">
+                  <p className="text-sm text-slate-500">No notifications</p>
+                </div>
               )}
               {notificationsData?.data?.map((notification) => (
                 <div
