@@ -130,10 +130,10 @@ export function EquipmentForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
+          "Failed to update Delivery Partner details",
         {
           id: toastId,
-        }
+        },
       );
     }
   };
@@ -142,44 +142,42 @@ export function EquipmentForm({ onNext }: IProps) {
     const accessToken = getCookie("accessToken");
 
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`,
-        {
-          headers: { authorization: accessToken || "" },
-        }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      const result = (await fetchData(`/delivery-partners/${id}`, {
+        headers: { authorization: accessToken || "" },
+      })) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         form.setValue(
           "preferredZones",
-          result?.data?.workPreferences?.preferredZones || []
+          result?.data?.workPreferences?.preferredZones || [],
         );
         form.setValue(
           "preferredHours",
-          result?.data?.workPreferences?.preferredHours || []
+          result?.data?.workPreferences?.preferredHours || [],
         );
         form.setValue(
           "isothermalBag",
-          result?.data?.workPreferences?.hasEquipment?.isothermalBag || false
+          result?.data?.workPreferences?.hasEquipment?.isothermalBag || false,
         );
         form.setValue(
           "helmet",
-          result?.data?.workPreferences?.hasEquipment?.helmet || false
+          result?.data?.workPreferences?.hasEquipment?.helmet || false,
         );
         form.setValue(
           "powerBank",
-          result?.data?.workPreferences?.hasEquipment?.powerBank || false
+          result?.data?.workPreferences?.hasEquipment?.powerBank || false,
         );
         form.setValue(
           "workedWithOtherPlatform",
-          result?.data?.workPreferences?.workedWithOtherPlatform || false
+          result?.data?.workPreferences?.workedWithOtherPlatform || false,
         );
         form.setValue(
           "otherPlatformName",
-          result?.data?.workPreferences?.otherPlatformName || ""
+          result?.data?.workPreferences?.otherPlatformName || "",
         );
       }
     } catch (error) {
-      console.error("Error fetching delivery partner data:", error);
+      console.log("Error fetching delivery partner data:", error);
     }
   };
 
@@ -207,9 +205,7 @@ export function EquipmentForm({ onNext }: IProps) {
         <h2 className="text-2xl font-bold text-gray-800">
           {t("equipment_availability")}
         </h2>
-        <p className="text-gray-600">
-          {t("tell_us_about_equipment")}
-        </p>
+        <p className="text-gray-600">{t("tell_us_about_equipment")}</p>
       </motion.div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -287,7 +283,9 @@ export function EquipmentForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <ClockIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("preferred_working_hours")}</span>
+                      <span className="ml-2">
+                        {t("preferred_working_hours")}
+                      </span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -300,7 +298,7 @@ export function EquipmentForm({ onNext }: IProps) {
                           "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
                           fieldState.invalid
                             ? "border-red-500"
-                            : "border-gray-300"
+                            : "border-gray-300",
                         )}
                       >
                         <SelectValue placeholder="Select Preferred Hours" />
@@ -315,9 +313,13 @@ export function EquipmentForm({ onNext }: IProps) {
                         <SelectItem value="evening">
                           {t("evening_6_10")}
                         </SelectItem>
-                        <SelectItem value="night">{t("night_10_12")}</SelectItem>
+                        <SelectItem value="night">
+                          {t("night_10_12")}
+                        </SelectItem>
                         <SelectItem value="fullday">{t("full_day")}</SelectItem>
-                        <SelectItem value="flexible">{t("flexible")}</SelectItem>
+                        <SelectItem value="flexible">
+                          {t("flexible")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

@@ -103,7 +103,7 @@ export const uploadPartnerDocuments = async (
 
     return result;
   } catch (error: any) {
-    console.error("Server fetch error:", error);
+    console.log("Server fetch error:", error);
     return { success: false, message: error?.response?.data?.message };
   }
 };

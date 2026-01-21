@@ -90,7 +90,7 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
       toast.error(error.response?.data?.message || "Login failed", {
         id: toastId,
       });
-      console.error("Error logging in:", error);
+      console.log("Error logging in:", error);
     }
   };
 

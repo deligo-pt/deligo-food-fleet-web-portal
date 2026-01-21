@@ -5,8 +5,6 @@ import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetMana
 import { DocKey, FilePreview } from "@/types/documents.type";
 
 export default async function UploadDocumentPage() {
-
-
   const savedPreviews: Record<DocKey, FilePreview | null> = {} as Record<
     DocKey,
     FilePreview | null
@@ -31,7 +29,7 @@ export default async function UploadDocumentPage() {
       }
     }
   } catch (err) {
-    console.error("Server fetch error:", err);
+    console.log("Server fetch error:", err);
   }
 
   return <UploadDocuments savedPreviews={savedPreviews} />;

@@ -19,7 +19,10 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
-import { getDeliveryPartnerDetails, updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import {
+  getDeliveryPartnerDetails,
+  updatePartnerInformation,
+} from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { personalInfoValidation } from "@/validations/edit-delivery-partner/personal-info.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -111,10 +114,10 @@ export function PersonalInfoForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
+          "Failed to update Delivery Partner details",
         {
           id: toastId,
-        }
+        },
       );
     }
   };
@@ -125,37 +128,37 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
       if (result.success) {
         const phone = parsePhoneNumberFromString(
-          result?.data?.contactNumber || ""
+          result?.data?.contactNumber || "",
         );
 
         form.setValue("firstName", result?.data?.name?.firstName || "");
         form.setValue("lastName", result?.data?.name?.lastName || "");
         form.setValue(
           "prefixPhoneNumber",
-          (phone?.countryCallingCode && `+${phone?.countryCallingCode}`) || ""
+          (phone?.countryCallingCode && `+${phone?.countryCallingCode}`) || "",
         );
         form.setValue("phoneNumber", phone?.nationalNumber || "");
         form.setValue(
           "dateOfBirth",
-          (result?.data?.personalInfo?.dateOfBirth as unknown as string) || ""
+          (result?.data?.personalInfo?.dateOfBirth as unknown as string) || "",
         );
         form.setValue(
           "nationality",
-          result?.data?.personalInfo?.nationality || ""
+          result?.data?.personalInfo?.nationality || "",
         );
         form.setValue("gender", result?.data?.personalInfo?.gender || "MALE");
         form.setValue("nifNumber", result?.data?.personalInfo?.nifNumber || "");
         form.setValue(
           "citizenCardNumber",
-          result?.data?.personalInfo?.citizenCardNumber || ""
+          result?.data?.personalInfo?.citizenCardNumber || "",
         );
         form.setValue(
           "passportNumber",
-          result?.data?.personalInfo?.passportNumber || ""
+          result?.data?.personalInfo?.passportNumber || "",
         );
         form.setValue(
           "idExpiryDate",
-          (result?.data?.personalInfo?.idExpiryDate as unknown as string) || ""
+          (result?.data?.personalInfo?.idExpiryDate as unknown as string) || "",
         );
         form.setValue("street", result?.data?.address?.street || "");
         form.setValue("city", result?.data?.address?.city || "");
@@ -164,7 +167,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
         form.setValue("country", result?.data?.address?.country || "");
       }
     } catch (error) {
-      console.error("Error fetching delivery partner data:", error);
+      console.log("Error fetching delivery partner data:", error);
     }
   };
 
@@ -192,9 +195,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
         <h2 className="text-2xl font-bold text-gray-800">
           {t("personal_information")}
         </h2>
-        <p className="text-gray-600">
-          {t("please_provide_partner_details")}
-        </p>
+        <p className="text-gray-600">{t("please_provide_partner_details")}</p>
       </motion.div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -355,7 +356,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                           "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
                           fieldState.invalid
                             ? "border-red-500"
-                            : "border-gray-300"
+                            : "border-gray-300",
                         )}
                       >
                         <SelectValue placeholder="Select Gender" />

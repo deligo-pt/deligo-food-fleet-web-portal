@@ -73,7 +73,7 @@ export function LegalStatusForm({ onNext }: IProps) {
           residencePermitType: values.residencePermitType,
           residencePermitNumber: values.residencePermitNumber,
           residencePermitExpiry: new Date(
-            values.residencePermitExpiry
+            values.residencePermitExpiry,
           ).toISOString(),
         },
       };
@@ -91,10 +91,10 @@ export function LegalStatusForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
+          "Failed to update Delivery Partner details",
         {
           id: toastId,
-        }
+        },
       );
     }
   };
@@ -103,29 +103,27 @@ export function LegalStatusForm({ onNext }: IProps) {
     const accessToken = getCookie("accessToken");
 
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`,
-        {
-          headers: { authorization: accessToken || "" },
-        }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      const result = (await fetchData(`/delivery-partners/${id}`, {
+        headers: { authorization: accessToken || "" },
+      })) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         form.setValue(
           "residencePermitType",
-          result?.data?.legalStatus?.residencePermitType || ""
+          result?.data?.legalStatus?.residencePermitType || "",
         );
         form.setValue(
           "residencePermitNumber",
-          result?.data?.legalStatus?.residencePermitNumber || ""
+          result?.data?.legalStatus?.residencePermitNumber || "",
         );
         form.setValue(
           "residencePermitExpiry",
           (result?.data?.legalStatus
-            ?.residencePermitExpiry as unknown as string) || ""
+            ?.residencePermitExpiry as unknown as string) || "",
         );
       }
     } catch (error) {
-      console.error("Error fetching delivery partner data:", error);
+      console.log("Error fetching delivery partner data:", error);
     }
   };
 
@@ -153,9 +151,7 @@ export function LegalStatusForm({ onNext }: IProps) {
         <h2 className="text-2xl font-bold text-gray-800">
           {t("right_to_work")} / {t("legal_status")}
         </h2>
-        <p className="text-gray-600">
-          {t("please_provide_details_partner")}
-        </p>
+        <p className="text-gray-600">{t("please_provide_details_partner")}</p>
       </motion.div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -178,7 +174,7 @@ export function LegalStatusForm({ onNext }: IProps) {
                           "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
                           fieldState.invalid
                             ? "border-red-500"
-                            : "border-gray-300"
+                            : "border-gray-300",
                         )}
                       >
                         <SelectValue placeholder="Select" />
@@ -205,9 +201,7 @@ export function LegalStatusForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">
-                        {t("arc_number")}
-                      </span>
+                      <span className="ml-2">{t("arc_number")}</span>
                     </div>
                   </FormLabel>
                   <FormControl>

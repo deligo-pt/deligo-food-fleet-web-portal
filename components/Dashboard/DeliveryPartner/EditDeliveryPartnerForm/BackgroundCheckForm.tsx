@@ -73,10 +73,10 @@ export function BackgroundCheckForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
+          "Failed to update Delivery Partner details",
         {
           id: toastId,
-        }
+        },
       );
     }
   };
@@ -85,24 +85,22 @@ export function BackgroundCheckForm({ onNext }: IProps) {
     const accessToken = getCookie("accessToken");
 
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`,
-        {
-          headers: { authorization: accessToken || "" },
-        }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      const result = (await fetchData(`/delivery-partners/${id}`, {
+        headers: { authorization: accessToken || "" },
+      })) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         form.setValue(
           "haveCriminalRecordCertificate",
-          result?.data?.criminalRecord?.certificate ? true : false
+          result?.data?.criminalRecord?.certificate ? true : false,
         );
         form.setValue(
           "issueDate",
-          (result?.data?.criminalRecord?.issueDate as unknown as string) || ""
+          (result?.data?.criminalRecord?.issueDate as unknown as string) || "",
         );
       }
     } catch (error) {
-      console.error("Error fetching delivery partner data:", error);
+      console.log("Error fetching delivery partner data:", error);
     }
   };
 
@@ -204,7 +202,9 @@ export function BackgroundCheckForm({ onNext }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("certificate_issue_date")}</span>
+                      <span className="ml-2">
+                        {t("certificate_issue_date")}
+                      </span>
                     </div>
                   </FormLabel>
                   <FormControl>

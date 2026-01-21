@@ -73,10 +73,10 @@ export function PaymentDetailsForm({ onNext }: IProps) {
       console.log(error);
       toast.error(
         error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
+          "Failed to update Delivery Partner details",
         {
           id: toastId,
-        }
+        },
       );
     }
   };
@@ -85,11 +85,9 @@ export function PaymentDetailsForm({ onNext }: IProps) {
     const accessToken = getCookie("accessToken");
 
     try {
-      const result = (await fetchData(`/delivery-partners/${id}`,
-        {
-          headers: { authorization: accessToken || "" },
-        }
-      )) as unknown as TResponse<TDeliveryPartner>;
+      const result = (await fetchData(`/delivery-partners/${id}`, {
+        headers: { authorization: accessToken || "" },
+      })) as unknown as TResponse<TDeliveryPartner>;
 
       if (result.success) {
         form.setValue("iban", result?.data?.bankDetails?.iban || "");
@@ -97,11 +95,11 @@ export function PaymentDetailsForm({ onNext }: IProps) {
         form.setValue("swiftCode", result?.data?.bankDetails?.swiftCode || "");
         form.setValue(
           "accountHolderName",
-          result?.data?.bankDetails?.accountHolderName || ""
+          result?.data?.bankDetails?.accountHolderName || "",
         );
       }
     } catch (error) {
-      console.error("Error fetching delivery partner data:", error);
+      console.log("Error fetching delivery partner data:", error);
     }
   };
 
@@ -129,9 +127,7 @@ export function PaymentDetailsForm({ onNext }: IProps) {
         <h2 className="text-2xl font-bold text-gray-800">
           {t("payment_banking_details")}
         </h2>
-        <p className="text-gray-600">
-          {t("please_provide_partner_banking")}
-        </p>
+        <p className="text-gray-600">{t("please_provide_partner_banking")}</p>
       </motion.div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
