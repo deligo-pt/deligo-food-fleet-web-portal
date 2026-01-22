@@ -5,6 +5,7 @@ import InfoRow from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetai
 import DeliveryPartnerSection from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerSection";
 import DeliveryPartnerStatusBadge from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerStatusBadge";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
@@ -34,6 +35,7 @@ interface IProps {
 
 export const DeliveryPartnerDetails = ({ partner }: IProps) => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const fullName =
     `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""
@@ -60,7 +62,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           variant="link"
           className="inline-flex items-center text-sm gap-2 text-[#DC3173] px-0! py-0 h-4 cursor-pointer"
         >
-          <ArrowLeftCircle /> Go Back
+          <ArrowLeftCircle /> {t("go_back")}
         </Button>
       </div>
       <motion.div
@@ -155,26 +157,26 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
       </motion.div>
       <div className="bg-gray-50 my-4 rounded-b-lg">
         <DeliveryPartnerSection
-          title="Personal Details"
+          title={t("personal_details")}
           icon={<User />}
           defaultOpen={true}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
-              <InfoRow label="Full Name" value={fullName} />
-              <InfoRow label="Email" value={partner.email} />
+              <InfoRow label={t("full_name")} value={fullName} />
+              <InfoRow label={t("email")} value={partner.email} />
               <InfoRow
-                label="Contact Number"
+                label={t("contact_number")}
                 value={partner?.contactNumber || "N/A"}
               />
               <InfoRow
-                label="Gender"
+                label={t("gender")}
                 value={partner.personalInfo?.gender || "N/A"}
               />
             </div>
             <div>
               <InfoRow
-                label="Date of Birth"
+                label={t("date_of_birth")}
                 value={
                   partner.personalInfo?.dateOfBirth
                     ? format(partner.personalInfo?.dateOfBirth, "dd/MM/yyyy")
@@ -182,16 +184,16 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               <InfoRow
-                label="Nationality"
+                label={t("nationality")}
                 value={partner.personalInfo?.nationality || "N/A"}
               />
               <InfoRow
-                label="Email Verified"
+                label={t("email_verified")}
                 value={
                   <span
                     className={`px-2 py-0.5 rounded text-xs ${partner.isEmailVerified
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
                       }`}
                   >
                     {partner.isEmailVerified ? "Yes" : "No"}
@@ -199,7 +201,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               <InfoRow
-                label="ID Expiry Date"
+                label={t("id_expiry_date")}
                 value={
                   partner.personalInfo?.idExpiryDate
                     ? format(partner.personalInfo?.idExpiryDate, "dd/MM/yyyy")
@@ -209,58 +211,58 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
           </div>
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title="Address" icon={<MapPin />}>
+        <DeliveryPartnerSection title={t("address")} icon={<MapPin />}>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
-                label="Street"
+                label={t("street")}
                 value={partner?.address?.street || "N/A"}
               />
-              <InfoRow label="City" value={partner?.address?.city || "N/A"} />
+              <InfoRow label={t("city")} value={partner?.address?.city || "N/A"} />
             </div>
             <div>
-              <InfoRow label="State" value={partner?.address?.state || "N/A"} />
+              <InfoRow label={t("state")} value={partner?.address?.state || "N/A"} />
               <InfoRow
-                label="Country"
+                label={t("country")}
                 value={partner?.address?.country || "N/A"}
               />
               <InfoRow
-                label="Zip Code"
+                label={t("zip_code")}
                 value={partner?.address?.postalCode || "N/A"}
               />
             </div>
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection
-          title="Vehicle Information"
+          title={t("vehicle_information")}
           icon={getVehicleIcon()}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
-                label="Vehicle Type"
+                label={t("vehicle_type")}
                 value={partner.vehicleInfo?.vehicleType || "N/A"}
               />
               <InfoRow
-                label="Brand"
+                label={t("brand")}
                 value={partner.vehicleInfo?.brand || "N/A"}
               />
               <InfoRow
-                label="Model"
+                label={t("model")}
                 value={partner.vehicleInfo?.model || "N/A"}
               />
               <InfoRow
-                label="License Plate"
+                label={t("license_plate")}
                 value={partner.vehicleInfo?.licensePlate || "N/A"}
               />
             </div>
             <div>
               <InfoRow
-                label="Driving License Number"
+                label={t("driving_license_number")}
                 value={partner.vehicleInfo?.drivingLicenseNumber || "N/A"}
               />
               <InfoRow
-                label="License Expiry"
+                label={t("license_expiry")}
                 value={
                   partner.vehicleInfo?.drivingLicenseExpiry
                     ? format(
@@ -271,11 +273,11 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               <InfoRow
-                label="Insurance Policy Number"
+                label={t("insurance_policy_number")}
                 value={partner.vehicleInfo?.insurancePolicyNumber || "N/A"}
               />
               <InfoRow
-                label="Insurance Expiry"
+                label={t("insurance_expiry")}
                 value={
                   partner.vehicleInfo?.insuranceExpiry
                     ? format(partner.vehicleInfo?.insuranceExpiry, "dd/MM/yyyy")
@@ -285,45 +287,45 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
           </div>
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title="Bank Details" icon={<CreditCard />}>
+        <DeliveryPartnerSection title={t("bank_details")} icon={<CreditCard />}>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
-                label="Bank Name"
+                label={t("bank_name")}
                 value={partner.bankDetails?.bankName || "N/A"}
               />
               <InfoRow
-                label="Account Holder"
+                label={t("account_holder")}
                 value={partner.bankDetails?.accountHolderName || "N/A"}
               />
             </div>
             <div>
               <InfoRow
-                label="IBAN"
+                label={t("iban")}
                 value={partner.bankDetails?.iban || "N/A"}
               />
               <InfoRow
-                label="SWIFT Code"
+                label={t("swift_code")}
                 value={partner.bankDetails?.swiftCode || "N/A"}
               />
             </div>
           </div>
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title="Legal Status" icon={<Gavel />}>
+        <DeliveryPartnerSection title={t("legal_status")} icon={<Gavel />}>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
-                label="Residence Permit Type"
+                label={t("residence_permit_type")}
                 value={partner.legalStatus?.residencePermitType || "N/A"}
               />
               <InfoRow
-                label="Residence Permit Number"
+                label={t("residence_permit_number")}
                 value={partner.legalStatus?.residencePermitNumber || "N/A"}
               />
             </div>
             <div>
               <InfoRow
-                label="Permit Expiry Date"
+                label={t("permit_expiry_date")}
                 value={
                   partner.legalStatus?.residencePermitExpiry
                     ? format(
@@ -334,28 +336,28 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               <InfoRow
-                label="Criminal Record Certificate"
+                label={t("criminal_record_certification")}
                 value={
                   <span
                     className={`px-2 py-0.5 rounded text-xs ${partner.criminalRecord?.certificate
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-100 text-gray-800"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-800"
                       }`}
                   >
                     {partner.criminalRecord?.certificate
-                      ? "Provided"
-                      : "Not Provided"}
+                      ? t("provided")
+                      : t("not_provided")}
                   </span>
                 }
               />
             </div>
           </div>
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title="Documents" icon={<FileText />}>
+        <DeliveryPartnerSection title={t("documents")} icon={<FileText />}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
             {partner.documents?.idProofFront && (
               <div>
-                <div className="mb-2 text-gray-500 text-sm">ID Proof Front</div>
+                <div className="mb-2 text-gray-500 text-sm">{t("id_proof_front")}</div>
                 <ImagePreview
                   url={partner.documents?.idProofFront}
                   alt="ID Prrof"
@@ -364,7 +366,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             )}
             {partner.documents?.idProofBack && (
               <div>
-                <div className="mb-2 text-gray-500 text-sm">ID Proof Back</div>
+                <div className="mb-2 text-gray-500 text-sm">{t("id_proof_back")}</div>
                 <ImagePreview
                   url={partner.documents?.idProofBack}
                   alt="ID Prrof"
@@ -374,7 +376,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             {partner.documents?.drivingLicenseFront && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
-                  Driving License (Front)
+                  {t("driving_license_front")}
                 </div>
                 <ImagePreview
                   url={partner.documents.drivingLicenseFront}
@@ -385,7 +387,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             {partner.documents?.drivingLicenseBack && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
-                  Driving License (Back)
+                  {t("driving_license_back")}
                 </div>
                 <ImagePreview
                   url={partner.documents.drivingLicenseBack}
@@ -396,7 +398,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             {partner.documents?.vehicleRegistration && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
-                  Vehicle Registration
+                  {t("vehicle_registration")}
                 </div>
                 <ImagePreview
                   url={partner.documents.vehicleRegistration}
@@ -407,7 +409,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             {partner.documents?.criminalRecordCertificate && (
               <div>
                 <div className="mb-2 text-gray-500 text-sm">
-                  Criminal Record Certificate
+                  {t("criminal_record_certificate")}
                 </div>
                 <ImagePreview
                   url={partner.documents.criminalRecordCertificate}
@@ -417,46 +419,46 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             )}
           </div>
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title="Operational Data" icon={<Package />}>
+        <DeliveryPartnerSection title={t("operational_data")} icon={<Package />}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-              <div className="text-gray-500 text-xs mb-1">Total Deliveries</div>
+              <div className="text-gray-500 text-xs mb-1">{t("total_deliveries")}</div>
               <div className="text-2xl font-bold text-gray-900">
                 {partner.operationalData?.totalDeliveries || 0}
               </div>
             </div>
             <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-              <div className="text-gray-500 text-xs mb-1">Completed</div>
+              <div className="text-gray-500 text-xs mb-1">{t("completed")}</div>
               <div className="text-2xl font-bold text-green-600">
                 {partner.operationalData?.completedDeliveries || 0}
               </div>
             </div>
             <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-              <div className="text-gray-500 text-xs mb-1">Canceled</div>
+              <div className="text-gray-500 text-xs mb-1">{t("cancelled")}</div>
               <div className="text-2xl font-bold text-red-600">
                 {partner.operationalData?.canceledDeliveries || 0}
               </div>
             </div>
             <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-              <div className="text-gray-500 text-xs mb-1">Rating</div>
+              <div className="text-gray-500 text-xs mb-1">{t("rating")}</div>
               <div className="text-2xl font-bold text-amber-500 flex items-center justify-center">
                 {partner.operationalData?.rating?.average.toFixed(1) || "N/A"}{" "}
                 <Star className="w-4 h-4 ml-1" fill="currentColor" />
               </div>
               <div className="text-xs text-gray-500">
-                {partner.operationalData?.rating?.totalReviews || 0} reviews
+                {partner.operationalData?.rating?.totalReviews || 0} {t("reviews")}
               </div>
             </div>
           </div>
           {partner.earnings && (
             <div className="mt-6">
               <h4 className="text-sm font-medium text-gray-700 mb-2">
-                Earnings
+                {t("earnings")}
               </h4>
               <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <div className="text-gray-500 text-xs mb-1">
-                    Total Earnings
+                    {t("total_earnings")}
                   </div>
                   <div className="text-xl font-bold text-gray-900">
                     €{partner.earnings.totalEarnings?.toFixed(2) || "0.00"}
@@ -464,7 +466,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <div className="text-gray-500 text-xs mb-1">
-                    Pending Earnings
+                    {t("pending_earnings")}
                   </div>
                   <div className="text-xl font-bold text-[#DC3173]">
                     €{partner.earnings.pendingEarnings?.toFixed(2) || "0.00"}
@@ -474,25 +476,25 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
           )}
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title="Work Preferences" icon={<Briefcase />}>
+        <DeliveryPartnerSection title={t("work_preferences")} icon={<Briefcase />}>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
-                label="Preferred Zones"
+                label={t("preferred_zones")}
                 value={
                   partner.workPreferences?.preferredZones?.join(", ") ||
-                  "None specified"
+                  t("none_specified")
                 }
               />
               <InfoRow
-                label="Preferred Hours"
+                label={t("preferred_hours")}
                 value={
                   partner.workPreferences?.preferredHours?.join(", ") ||
-                  "None specified"
+                  t("none_specified")
                 }
               />
               <InfoRow
-                label="Worked with other platforms"
+                label={t("worked_with_other_platforms")}
                 value={
                   partner.workPreferences?.workedWithOtherPlatform
                     ? "Yes"
@@ -501,58 +503,58 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
               />
               {partner.workPreferences?.workedWithOtherPlatform && (
                 <InfoRow
-                  label="Platform Name"
+                  label={t("platform_name")}
                   value={
                     partner.workPreferences?.otherPlatformName ||
-                    "Not specified"
+                    t("not_specified")
                   }
                 />
               )}
             </div>
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2">
-                Equipment
+                {t("equipment")}
               </h4>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <div
                     className={`w-4 h-4 rounded-full ${partner.workPreferences?.hasEquipment?.isothermalBag
-                        ? "bg-[#DC3173]"
-                        : "bg-gray-300"
+                      ? "bg-[#DC3173]"
+                      : "bg-gray-300"
                       }`}
                   ></div>
-                  <span className="text-sm text-gray-700">Isothermal Bag</span>
+                  <span className="text-sm text-gray-700">{t("isothermal_bag")}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div
                     className={`w-4 h-4 rounded-full ${partner.workPreferences?.hasEquipment?.helmet
-                        ? "bg-[#DC3173]"
-                        : "bg-gray-300"
+                      ? "bg-[#DC3173]"
+                      : "bg-gray-300"
                       }`}
                   ></div>
-                  <span className="text-sm text-gray-700">Helmet</span>
+                  <span className="text-sm text-gray-700">{t("helmet")}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div
                     className={`w-4 h-4 rounded-full ${partner.workPreferences?.hasEquipment?.powerBank
-                        ? "bg-[#DC3173]"
-                        : "bg-gray-300"
+                      ? "bg-[#DC3173]"
+                      : "bg-gray-300"
                       }`}
                   ></div>
-                  <span className="text-sm text-gray-700">Power Bank</span>
+                  <span className="text-sm text-gray-700">{t("power_bank")}</span>
                 </div>
               </div>
             </div>
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection
-          title="Account Information"
+          title={t("account_information")}
           icon={<CalendarClock />}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
             <div>
               <InfoRow
-                label="Account Created"
+                label={t("account_created")}
                 value={
                   partner.createdAt
                     ? format(partner.createdAt, "dd/MM/yyyy")
@@ -560,7 +562,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               <InfoRow
-                label="Last Updated"
+                label={t("last_updated")}
                 value={
                   partner.updatedAt
                     ? format(partner.updatedAt, "dd/MM/yyyy")
@@ -568,7 +570,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               <InfoRow
-                label="Submitted For Approval"
+                label={t("submitted_for_approval")}
                 value={
                   partner.submittedForApprovalAt
                     ? format(partner.submittedForApprovalAt, "dd/MM/yyyy")
@@ -578,7 +580,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
             <div>
               <InfoRow
-                label="Approved/Rejected/Blocked At"
+                label={t("approved_rejected_blocked_at")}
                 value={
                   partner.approvedOrRejectedOrBlockedAt
                     ? format(
@@ -589,7 +591,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 }
               />
               {partner.remarks && (
-                <InfoRow label="Remarks" value={partner.remarks} />
+                <InfoRow label={t("remarks")} value={partner.remarks} />
               )}
             </div>
           </div>

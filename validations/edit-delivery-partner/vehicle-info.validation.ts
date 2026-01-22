@@ -1,66 +1,52 @@
-import z from "zod";
 
-export const vehicleInfoValidation = z
-  .object({
-    vehicleType: z.enum(
-      ["BICYCLE", "E-BIKE", "SCOOTER", "MOTORBIKE", "CAR"],
-      "Vehicle type is required"
-    ),
+import { z } from "zod";
 
-    brand: z
-      .string()
-      .min(2, "Brand must be at least 2 character")
-      .max(50, "Brand must be at most 50 characters")
-      .optional(),
+const baseFields = {
+  vehicleType: z.enum(["BICYCLE", "E-BIKE", "SCOOTER", "MOTORBIKE", "CAR"]),
+  brand: z.string().min(2, "Brand is required"),
+  model: z.string().min(2, "Model is required"),
+};
 
-    model: z
-      .string()
-      .min(2, "Brand must be at least 2 character")
-      .max(50, "Brand must be at most 50 characters")
-      .optional(),
+const motorVehicleFields = {
+  licensePlate: z.string().min(2, "License plate is required"),
+  drivingLicenseNumber: z.string().min(2, "Driving license number is required"),
+  drivingLicenseExpiry: z.string().refine(
+    (v) => !isNaN(Date.parse(v)),
+    "Invalid date"
+  ),
+  insurancePolicyNumber: z.string().min(2, "Insurance policy number is required"),
+  insuranceExpiry: z.string().refine(
+    (v) => !isNaN(Date.parse(v)),
+    "Invalid date"
+  ),
+};
 
-    licensePlate: z
-      .string()
-      .min(2, "Brand must be at least 2 character")
-      .max(50, "Brand must be at most 50 characters")
-      .optional(),
+export const vehicleInfoValidation = z.discriminatedUnion("vehicleType", [
+  z.object({
+    ...baseFields,
+    vehicleType: z.literal("BICYCLE"),
+  }),
 
-    drivingLicenseNumber: z
-      .string()
-      .min(2, "Brand must be at least 2 character")
-      .max(50, "Brand must be at most 50 characters")
-      .optional(),
+  z.object({
+    ...baseFields,
+    vehicleType: z.literal("E-BIKE"),
+  }),
 
-    drivingLicenseExpiry: z
-      .string()
-      .refine((value) => {
-        return Date.parse(value);
-      }, "Invalid date format")
-      .optional(),
+  z.object({
+    ...baseFields,
+    ...motorVehicleFields,
+    vehicleType: z.literal("SCOOTER"),
+  }),
 
-    insurancePolicyNumber: z
-      .string()
-      .min(2, "Brand must be at least 2 character")
-      .max(50, "Brand must be at most 50 characters")
-      .optional(),
+  z.object({
+    ...baseFields,
+    ...motorVehicleFields,
+    vehicleType: z.literal("MOTORBIKE"),
+  }),
 
-    insuranceExpiry: z.string().refine((value) => {
-      return Date.parse(value);
-    }, "Invalid date format"),
-  })
-  .refine((data) => {
-    if (
-      data.vehicleType === "CAR" ||
-      data.vehicleType === "SCOOTER" ||
-      data.vehicleType === "MOTORBIKE"
-    ) {
-      return (
-        data.licensePlate !== "" &&
-        data.drivingLicenseNumber !== "" &&
-        data.drivingLicenseExpiry !== "" &&
-        data.insurancePolicyNumber !== "" &&
-        data.insuranceExpiry !== ""
-      );
-    }
-    return true;
-  }, "License plate, driving license number, driving license expiry, insurance policy number and insurance expiry is required if vehicle type is car, scooter or bike");
+  z.object({
+    ...baseFields,
+    ...motorVehicleFields,
+    vehicleType: z.literal("CAR"),
+  }),
+]);
