@@ -49,7 +49,7 @@ export function DeliveryPartnerForm({
 
     try {
       const result = await createDeliveryPartner(data as FormData);
-
+      
       if (result.success) {
         toast.success("Delivery Partner created successfully!", {
           id: toastId,
@@ -57,6 +57,8 @@ export function DeliveryPartnerForm({
         form.reset();
 
         onSuccess(result?.data?.email || "");
+      } else {
+        toast.error(result?.message, { id: toastId })
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

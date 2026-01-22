@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { changePasswordValidation } from "@/validations/Auth/change-password.validation";
+import { changePasswordValidation } from "@/validations/auth/change-password.validation";
 
 const PRIMARY = "#DC3173";
 const BG = "#FFF1F7";
