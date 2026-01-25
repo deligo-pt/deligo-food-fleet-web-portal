@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
@@ -49,7 +50,7 @@ export default function PartnerPerformancePage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -63,12 +64,10 @@ export default function PartnerPerformancePage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("partner_performance")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("define_custom_roles")}
-        </p>
+        <DashboardPageHeader
+          title={t("partner_performance")}
+          desc={t("define_custom_roles")}
+        />
       </motion.div>
       <Card className="mt-10">
         <CardContent className="p-0">

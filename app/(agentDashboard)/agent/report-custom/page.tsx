@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { CustomSelect } from "@/components/CustomInput/CustomSelect";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ export default function CustomReportBuilder() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -26,12 +27,10 @@ export default function CustomReportBuilder() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("custom_report_builder")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("generate_ad_hoc_reports_selecting")}
-        </p>
+        <DashboardPageHeader
+          title={t("custom_report_builder")}
+          desc={t("generate_ad_hoc_reports_selecting")}
+        />
       </motion.div>
       <div className="grid gap-6 lg:grid-cols-3 mt-10">
         <div className="lg:col-span-1 space-y-6">
