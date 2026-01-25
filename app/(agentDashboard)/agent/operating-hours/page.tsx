@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
@@ -58,7 +59,7 @@ export default function OperatingHoursPage() {
   };
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -72,10 +73,10 @@ export default function OperatingHoursPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("operating_hours")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("configure_your_fleet_active")}
-        </p>
+        <DashboardPageHeader
+          title={t("operating_hours")}
+          desc={t("configure_your_fleet_active")}
+        />
       </motion.div>
 
       <Card className="mt-10">

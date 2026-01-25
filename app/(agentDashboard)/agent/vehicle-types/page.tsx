@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,9 +18,8 @@ export default function VehicleTypesPage() {
     { id: 4, type: t("van"), capacity: "Large", multiplier: 2.0, icon: Truck },
   ];
 
-
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -33,10 +33,10 @@ export default function VehicleTypesPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("vehicle_types")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("configure_available_vehicle")}
-        </p>
+        <DashboardPageHeader
+          title={t("vehicle_types")}
+          desc={t("configure_available_vehicle")}
+        />
       </motion.div>
       <Card className="mt-10">
         <CardContent className="p-0">
