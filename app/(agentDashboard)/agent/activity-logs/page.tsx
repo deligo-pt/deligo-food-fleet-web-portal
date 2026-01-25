@@ -1,10 +1,11 @@
 "use client";
 
-import { CustomInput } from "@/components/CustomInput/CustomInput";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import AllFilters from "@/components/Filtering/AllFilters";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
+import { getSortOptions } from "@/utils/sortOptions";
 import { motion } from "framer-motion";
-import { Filter, Search } from "lucide-react";
 
 const activityLogs = [
   {
@@ -43,9 +44,10 @@ const activityLogs = [
 
 export default function ActivityLogsPage() {
   const { t } = useTranslation();
+  const sortOptions = getSortOptions(t);
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -59,22 +61,13 @@ export default function ActivityLogsPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("activity_logs")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("audit_trail_all_administrative")}
-        </p>
+        <DashboardPageHeader
+          title={t("activity_logs")}
+          desc={t("audit_trail_all_administrative")}
+        />
       </motion.div>
-      <div className="flex items-center gap-4 mb-6 mt-10">
-        <div className="w-72">
-          <CustomInput
-            placeholder="Search logs..."
-            icon={<Search className="h-4 w-4" />}
-          />
-        </div>
-        <button className="p-2 border border-input rounded-md hover:bg-accent">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-        </button>
-      </div>
+
+      <AllFilters sortOptions={sortOptions} />
 
       <Card>
         <CardContent className="p-0">
