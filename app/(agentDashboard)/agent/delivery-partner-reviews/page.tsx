@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/static-components */
 "use client"
 import { useState, useMemo } from "react";
-import { Search, Star, MessageSquare } from "lucide-react";
+import { Star } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
+import AllFilters from "@/components/Filtering/AllFilters";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import { getSortOptions } from "@/utils/sortOptions";
 
 
 const DELIGO = "#DC3173";
@@ -65,6 +68,7 @@ const sampleReviews: Review[] = [
 
 export default function DeliveryPartnerReviews() {
   const { t } = useTranslation();
+  const sortOptions = getSortOptions(t);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<Review | null>(null);
 
@@ -88,28 +92,15 @@ export default function DeliveryPartnerReviews() {
   }
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div>
       <style>{`:root{--deligo:${DELIGO}}`}</style>
 
-      {/* PAGE HEADER */}
-      <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-            <MessageSquare size={20} /> {t("delivery_partner_reviews")}
-          </h1>
-          <p className="text-sm text-gray-600">{t("analyze_customer_feedback")}</p>
-        </div>
+      <DashboardPageHeader
+        title={t("delivery_partner_reviews")}
+        desc={t("analyze_customer_feedback")}
+      />
 
-        <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-80">
-          <span className="p-2 text-gray-500"><Search size={16} /></span>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search partner, comment, city, customer"
-            className="px-3 py-2 outline-none text-sm w-full"
-          />
-        </div>
-      </div>
+      <AllFilters sortOptions={sortOptions} />
 
       {/* REVIEWS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">

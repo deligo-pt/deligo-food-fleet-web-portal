@@ -14,7 +14,6 @@ import { Bike, Clock, MapPin, } from 'lucide-react';
 const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
     const { t } = useTranslation();
     const sortOptions = getSortOptions(t);
-    console.log(deliveries);
 
     const ESTIMATED_TIME_STATUSES = new Set([
         ORDER_STATUS.PENDING,

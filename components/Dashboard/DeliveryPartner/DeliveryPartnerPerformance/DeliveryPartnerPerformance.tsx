@@ -93,7 +93,7 @@ const DeliveryPartnerPerformance = ({ partnerPerformance }: { partnerPerformance
     };
 
     return (
-        <div className="min-h-screen p-6 bg-linear-to-b from-gray-50 to-gray-100">
+        <div>
 
             <DashboardPageHeader
                 title={t("delivery_partner_performance")}
