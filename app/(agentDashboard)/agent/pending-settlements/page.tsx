@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,7 +55,7 @@ export default function PendingSettlementsPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -68,12 +69,10 @@ export default function PendingSettlementsPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("pending_settlements")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("track_earnings_accumulated")}
-        </p>
+        <DashboardPageHeader
+          title={t("pending_settlements")}
+          desc={t("track_earnings_accumulated")}
+        />
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">

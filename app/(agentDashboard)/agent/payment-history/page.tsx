@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Button } from "@/components/ui/button";
@@ -69,7 +70,7 @@ export default function PaymentHistoryPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -83,10 +84,10 @@ export default function PaymentHistoryPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("payment_history")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("log_past_payouts")}
-        </p>
+        <DashboardPageHeader
+          title={t("payment_history")}
+          desc={t("log_past_payouts")}
+        />
       </motion.div>
       <Card className="mt-10">
         <CardHeader>
