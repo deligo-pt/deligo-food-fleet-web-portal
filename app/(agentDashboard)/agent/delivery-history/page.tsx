@@ -16,7 +16,7 @@ import { useTranslation } from "@/hooks/use-translation";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import AllFilters from "@/components/Filtering/AllFilters";
 import { getSortOptions } from "@/utils/sortOptions";
-
+import { motion } from 'framer-motion';
 
 
 const DELIGO = "#DC3173";
@@ -134,11 +134,24 @@ export default function DeliveryHistoryPage(): JSX.Element {
   return (
     <div>
       <style>{`:root{--deligo:${DELIGO}}`}</style>
-
-      <DashboardPageHeader
-        title={t("delivery_history")}
-        desc={t("complete_timeline")}
-      />
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={t("delivery_history")}
+          desc={t("complete_timeline")}
+        />
+      </motion.div>
 
       <AllFilters sortOptions={sortOptions} filterOptions={filterOptions} />
 

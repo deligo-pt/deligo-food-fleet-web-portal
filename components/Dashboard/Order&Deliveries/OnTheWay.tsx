@@ -7,6 +7,7 @@ import DashboardPageHeader from "@/components/common/DashboardPageHeader/Dashboa
 import AllFilters from "@/components/Filtering/AllFilters";
 import { getSortOptions } from "@/utils/sortOptions";
 import { formatDateTime } from "@/utils/formatter";
+import { motion } from 'framer-motion';
 
 const OnTheWay = ({ deliveries }: { deliveries: any }) => {
     const { t } = useTranslation();
@@ -14,10 +15,24 @@ const OnTheWay = ({ deliveries }: { deliveries: any }) => {
 
     return (
         <div>
-            <DashboardPageHeader
-                title={t("on_the_way_deliveries")}
-                desc={t("live_tracking")}
-            />
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    y: -10,
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                transition={{
+                    duration: 0.5,
+                }}
+            >
+                <DashboardPageHeader
+                    title={t("on_the_way_deliveries")}
+                    desc={t("live_tracking")}
+                />
+            </motion.div>
 
             <AllFilters sortOptions={sortOptions} />
 

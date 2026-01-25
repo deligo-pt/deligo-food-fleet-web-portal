@@ -7,6 +7,7 @@ import { useTranslation } from '@/hooks/use-translation';
 import { getSortOptions } from '@/utils/sortOptions';
 import { Clock, MapPin, Bike } from "lucide-react";
 import { formatDateTime } from '@/utils/formatter';
+import { motion } from 'framer-motion';
 
 
 const PendingPickup = ({ deliveries }: { deliveries: any }) => {
@@ -15,10 +16,24 @@ const PendingPickup = ({ deliveries }: { deliveries: any }) => {
 
     return (
         <div>
-            <DashboardPageHeader
-                title={t("pending_pickup_orders")}
-                desc={t("orders_accepted_by_delivery")}
-            />
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    y: -10,
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                transition={{
+                    duration: 0.5,
+                }}
+            >
+                <DashboardPageHeader
+                    title={t("pending_pickup_orders")}
+                    desc={t("orders_accepted_by_delivery")}
+                />
+            </motion.div>
 
             <AllFilters sortOptions={sortOptions} />
 

@@ -7,6 +7,7 @@ import { getSortOptions } from "@/utils/sortOptions";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import AllFilters from "@/components/Filtering/AllFilters";
 import { formatDateTime } from "@/utils/formatter";
+import { motion } from 'framer-motion';
 
 const DELIGO = "#DC3173";
 
@@ -16,10 +17,24 @@ const Delivered = ({ deliveries }: { deliveries: any }) => {
 
     return (
         <div>
-            <DashboardPageHeader
-                title={t("delivered_orders")}
-                desc={t("completed_delivery_history")}
-            />
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    y: -10,
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                transition={{
+                    duration: 0.5,
+                }}
+            >
+                <DashboardPageHeader
+                    title={t("delivered_orders")}
+                    desc={t("completed_delivery_history")}
+                />
+            </motion.div>
 
             <AllFilters sortOptions={sortOptions} />
 

@@ -10,6 +10,7 @@ import { formatDateTime } from '@/utils/formatter';
 import { getSortOptions } from '@/utils/sortOptions';
 import { StatusPill } from '@/utils/statusPill';
 import { Bike, Clock, MapPin, } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
     const { t } = useTranslation();
@@ -32,10 +33,24 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
 
     return (
         <div>
-            <DashboardPageHeader
-                title={t("all_deliveries")}
-                desc={t("track_every_delivery")}
-            />
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    y: -10,
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                transition={{
+                    duration: 0.5,
+                }}
+            >
+                <DashboardPageHeader
+                    title={t("all_deliveries")}
+                    desc={t("track_every_delivery")}
+                />
+            </motion.div>
 
             <AllFilters sortOptions={sortOptions} />
 
