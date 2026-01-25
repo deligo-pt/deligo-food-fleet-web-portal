@@ -1,6 +1,5 @@
 "use client";
 
-import DashboardHeader from "@/components/Dashboard/Dashboard/DashboardHeader";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
@@ -9,6 +8,7 @@ import TopDrivers from "./TopDrivers";
 import { useTranslation } from "@/hooks/use-translation";
 import { IDashboardAnalytics } from "@/types/dashboard.type";
 import { IDeliveryPartnerCard } from "@/types/delivery-partner.type";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 
 const VEHICLE_NAME_MAP: Record<string, string> = {
   MOTORBIKE: "Motorbike",
@@ -57,8 +57,25 @@ const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDa
 
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <DashboardHeader agentName={agentName} />
+    <div className="min-h-screen">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={`${t("hello")}, ${agentName}`}
+          desc={t("welcome_to_food_delivery_dashboard")}
+        />
+      </motion.div>
 
       {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-10 mb-4">

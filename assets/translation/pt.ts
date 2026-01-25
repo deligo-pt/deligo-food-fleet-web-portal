@@ -730,6 +730,8 @@ export const pt = {
     no_partners_found: "Nenhum parceiro encontrado",
 
     // dashboard
+    hello: "Olá",
+    welcome_to_food_delivery_dashboard: "Bem-vindo ao painel geral da sua plataforma de entregas de comida",
     total_partners: "Total de parceiros",
     across_all_zones: "Em todas as zonas",
     online_now: "Online agora",
