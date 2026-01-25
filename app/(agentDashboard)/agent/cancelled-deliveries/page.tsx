@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import CancelledDeliveries from "@/components/Dashboard/Order&Deliveries/CancelledDeliveries";
 import { getAllDeliveries } from "@/services/dashboard/order&deliveries/deliveries";
@@ -19,7 +20,7 @@ const CancelledDeliveriesPage = async ({ searchParams }: IProps) => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-50">
-      <CancelledDeliveries deliveries={deliveries} />
+      <CancelledDeliveries deliveries={deliveries?.data} />
     </div>
   );
 };

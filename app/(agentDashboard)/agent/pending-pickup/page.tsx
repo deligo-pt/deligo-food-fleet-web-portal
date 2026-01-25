@@ -19,7 +19,7 @@ const PendingPickupPage = async ({ searchParams }: IProps) => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-50">
-      <PendingPickup deliveries={deliveries} />
+      <PendingPickup deliveries={deliveries?.data} />
     </div>
   );
 };
