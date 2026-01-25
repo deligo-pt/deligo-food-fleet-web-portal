@@ -50,15 +50,28 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
 
   return (
     <div>
-
-      <DashboardPageHeader
-        title={t("delivery_partners")}
-        desc={t("manage_your_delivery")}
-        isButton={true}
-        onClick={() => router.push("/agent/add-delivery-partner")}
-        icon={<PlusCircleIcon className="mr-2 h-5 w-5" />}
-        button_title={t("add_new_partner")}
-      />
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={t("delivery_partners")}
+          desc={t("manage_your_delivery")}
+          isButton={true}
+          onClick={() => router.push("/agent/add-delivery-partner")}
+          icon={<PlusCircleIcon className="mr-2 h-5 w-5" />}
+          button_title={t("add_new_partner")}
+        />
+      </motion.div>
 
       <AllFilters sortOptions={sortOptions} filterOptions={filterOptions} />
 

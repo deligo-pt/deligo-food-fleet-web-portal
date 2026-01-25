@@ -6,7 +6,7 @@ import { useTranslation } from "@/hooks/use-translation";
 import AllFilters from "@/components/Filtering/AllFilters";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { getSortOptions } from "@/utils/sortOptions";
-
+import { motion } from 'framer-motion';
 
 const DELIGO = "#DC3173";
 
@@ -94,11 +94,24 @@ export default function DeliveryPartnerReviews() {
   return (
     <div>
       <style>{`:root{--deligo:${DELIGO}}`}</style>
-
-      <DashboardPageHeader
-        title={t("delivery_partner_reviews")}
-        desc={t("analyze_customer_feedback")}
-      />
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={t("delivery_partner_reviews")}
+          desc={t("analyze_customer_feedback")}
+        />
+      </motion.div>
 
       <AllFilters sortOptions={sortOptions} />
 

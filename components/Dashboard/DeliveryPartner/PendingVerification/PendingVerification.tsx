@@ -23,6 +23,7 @@ import {
 import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import { getSortOptions } from "@/utils/sortOptions";
 
 
 interface IProps {
@@ -33,22 +34,29 @@ export default function PendingVerification({
   partnersResult,
 }: IProps): JSX.Element {
   const { t } = useTranslation();
+  const sortOptions = getSortOptions(t);
   const router = useRouter();
-
-  const sortOptions = [
-    { label: t("newest_first"), value: "-createdAt" },
-    { label: t("oldest_first"), value: "createdAt" },
-    { label: t("name_a_z"), value: "name.firstName" },
-    { label: t("name_z_a"), value: "-name.lastName" },
-  ];
 
   return (
     <>
-
-      <DashboardPageHeader
-        title={t("pending_delivery_partners")}
-        desc={t("wait_for_admin_to_approve")}
-      />
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={t("pending_delivery_partners")}
+          desc={t("wait_for_admin_to_approve")}
+        />
+      </motion.div>
 
       <AllFilters sortOptions={sortOptions} />
 

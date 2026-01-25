@@ -37,7 +37,6 @@ const DeliveryPartnerPerformance = ({ partnerPerformance }: { partnerPerformance
         { label: t("top_earnings"), value: "top-earnings" }
     ];
 
-
     function exportCSV(data: PartnerRow[]) {
         const headers = [
             "ID",
@@ -85,7 +84,6 @@ const DeliveryPartnerPerformance = ({ partnerPerformance }: { partnerPerformance
         URL.revokeObjectURL(url);
     }
 
-
     function refresh() {
         startTransition(() => {
             router.refresh();
@@ -94,11 +92,24 @@ const DeliveryPartnerPerformance = ({ partnerPerformance }: { partnerPerformance
 
     return (
         <div>
-
-            <DashboardPageHeader
-                title={t("delivery_partner_performance")}
-                desc={t("sortable_filterable_exportable")}
-            />
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    y: -10,
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                transition={{
+                    duration: 0.5,
+                }}
+            >
+                <DashboardPageHeader
+                    title={t("delivery_partner_performance")}
+                    desc={t("sortable_filterable_exportable")}
+                />
+            </motion.div>
 
             <div className="flex flex-row justify-between items-center my-5">
                 <SearchFilter paramName="searchTerm" placeholder="Search name, city or vehicle" />
