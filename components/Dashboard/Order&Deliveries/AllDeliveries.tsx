@@ -5,93 +5,31 @@
 import DashboardPageHeader from '@/components/common/DashboardPageHeader/DashboardPageHeader';
 import AllFilters from '@/components/Filtering/AllFilters';
 import { useTranslation } from '@/hooks/use-translation';
+import { ORDER_STATUS } from '@/types/order-deliveries';
+import { formatDateTime } from '@/utils/formatter';
 import { getSortOptions } from '@/utils/sortOptions';
-import { Bike, CheckCircle, Clock, MapPin, XCircle } from 'lucide-react';
-import { useMemo, useState } from 'react';
-
-
-const DELIGO = "#DC3173";
-
-type Delivery = {
-    id: string;
-    partnerName: string;
-    partnerAvatar: string;
-    customer: string;
-    pickup: string;
-    drop: string;
-    status: "completed" | "ongoing" | "cancelled";
-    distance: string;
-    time: string;
-    fee: number;
-    date: string;
-};
-
-const sample: Delivery[] = [
-    {
-        id: "DL-3101",
-        partnerName: "João Silva",
-        partnerAvatar: "bg-pink-400",
-        customer: "Daniel Sousa",
-        pickup: "Rua da Liberdade 21",
-        drop: "Av. Republica 88",
-        status: "completed",
-        distance: "3.2 km",
-        time: "18 min",
-        fee: 4.5,
-        date: "2025-11-21 13:14",
-    },
-    {
-        id: "DL-3102",
-        partnerName: "Maria Fernandes",
-        partnerAvatar: "bg-rose-300",
-        customer: "Bruno Vieira",
-        pickup: "Av. Porto 12",
-        drop: "Rua Central 55",
-        status: "ongoing",
-        distance: "1.8 km",
-        time: "9 min",
-        fee: 3.2,
-        date: "2025-11-22 16:40",
-    },
-    {
-        id: "DL-3103",
-        partnerName: "Rui Costa",
-        partnerAvatar: "bg-amber-300",
-        customer: "Ana Moreira",
-        pickup: "Rua Nova 31",
-        drop: "Praça Norte 77",
-        status: "cancelled",
-        distance: "—",
-        time: "—",
-        fee: 0,
-        date: "2025-11-20 10:22",
-    },
-];
-
+import { StatusPill } from '@/utils/statusPill';
+import { Bike, Clock, MapPin, } from 'lucide-react';
 
 const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
     const { t } = useTranslation();
     const sortOptions = getSortOptions(t);
-    const [query, setQuery] = useState("");
-    const [active, setActive] = useState<Delivery | null>(null);
+    console.log(deliveries);
 
-    const filtered = useMemo(() => {
-        const q = query.trim().toLowerCase();
-        return sample.filter(
-            (d) =>
-                d.id.toLowerCase().includes(q) ||
-                d.partnerName.toLowerCase().includes(q) ||
-                d.customer.toLowerCase().includes(q) ||
-                d.pickup.toLowerCase().includes(q) ||
-                d.drop.toLowerCase().includes(q)
-        );
-    }, [query]);
+    const ESTIMATED_TIME_STATUSES = new Set([
+        ORDER_STATUS.PENDING,
+        ORDER_STATUS.ACCEPTED,
+        ORDER_STATUS.AWAITING_PARTNER,
+        ORDER_STATUS.DISPATCHING,
+        ORDER_STATUS.ASSIGNED,
+        ORDER_STATUS.PREPARING,
+        ORDER_STATUS.READY_FOR_PICKUP,
+    ]);
 
-    function StatusPill({ s }: { s: Delivery["status"] }) {
-        if (s === "completed") return <span className="px-2 py-1 text-xs rounded-md bg-green-50 text-green-700 flex items-center gap-1"><CheckCircle size={12} /> {t("completed")}</span>;
-        if (s === "cancelled") return <span className="px-2 py-1 text-xs rounded-md bg-red-50 text-red-600 flex items-center gap-1"><XCircle size={12} /> {t("cancelled")}</span>;
-        return <span className="px-2 py-1 text-xs rounded-md bg-blue-50 text-blue-700 flex items-center gap-1"><Clock size={12} /> {t("ongoing")}</span>;
-    }
+    const ONGOING_STATUSES = new Set([
+        ORDER_STATUS.PICKED_UP,
+        ORDER_STATUS.ON_THE_WAY,
+    ]);
 
     return (
         <div>
@@ -102,27 +40,33 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
 
             <AllFilters sortOptions={sortOptions} />
 
-
-
             {/* Delivery List */}
-            <div className="space-y-4">
-                {filtered.map((d) => (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {deliveries?.data?.length < 1 ? (
+                    <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
+                        <h1 className='text-xl font-semibold italic'>{t("no_results_found")}</h1>
+                    </div>
+                ) : deliveries?.data?.map((delivery: any) => (
                     <div
-                        key={d.id}
-                        onClick={() => setActive(d)}
+                        key={delivery?._id}
                         className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all"
                     >
                         <div className="flex items-center gap-4">
-                            <div className={`h-12 w-12 rounded-full flex items-center justify-center text-white font-semibold ${d.partnerAvatar}`}>
-                                {d.partnerName.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                            <div className={`h-12 w-12 rounded-full flex items-center justify-center text-white font-semibold bg-[#DC3173]`}>
+                                {(
+                                    (delivery?.deliveryPartnerId?.name?.firstName?.trim()?.[0] || "") +
+                                    (delivery?.deliveryPartnerId?.name?.lastName?.trim()?.[0] || "")
+                                ).toUpperCase() || "NA"}
                             </div>
 
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between">
-                                    <div className="text-sm font-semibold text-gray-900 truncate">{d.partnerName}</div>
-                                    <StatusPill s={d.status} />
+                                    <div className="text-sm font-semibold text-gray-900 truncate">
+                                        {delivery?.deliveryParterId?.name?.firstName || "MD"} {" "} {delivery?.deliveryParterId?.name?.lastName || "Name"}
+                                    </div>
+                                    <StatusPill s={delivery.orderStatus} />
                                 </div>
-                                <div className="text-xs text-gray-500">#{d.id} • {d.date}</div>
+                                <div className="text-xs text-gray-500">#{delivery.deliveryPartnerId?.userId || "DL-user"} • {formatDateTime(delivery.createdAt)}</div>
                             </div>
                         </div>
 
@@ -132,7 +76,9 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
                                 <MapPin size={16} className="text-green-600 mt-1" />
                                 <div>
                                     <div className="text-xs text-gray-500">{t("pickup")}</div>
-                                    <div className="text-sm font-medium text-gray-800">{d.pickup}</div>
+                                    <div className="text-sm font-medium text-gray-800">
+                                        {`${delivery?.pickupAddress?.street || ""}, ${delivery?.pickupAddress?.city || ""}, ${delivery?.pickupAddress?.state || ""}, ${delivery?.pickupAddress?.country || ""}` || "Portugal"}
+                                    </div>
                                 </div>
                             </div>
 
@@ -140,79 +86,42 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
                                 <MapPin size={16} className="text-red-600 mt-1" />
                                 <div>
                                     <div className="text-xs text-gray-500">{t("drop_off")}</div>
-                                    <div className="text-sm font-medium text-gray-800">{d.drop}</div>
+                                    <div className="text-sm font-medium text-gray-800">
+                                        {`${delivery?.deliveryAddress?.street || ""}, ${delivery?.deliveryAddress?.city || ""}, ${delivery?.deliveryAddress?.state || ""}, ${delivery?.deliveryAddress?.country || ""}` || "Portugal"}
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-                            <div className="flex items-center gap-2"><Bike size={16} /> {d.distance}</div>
-                            <div className="flex items-center gap-2"><Clock size={16} /> {d.time}</div>
-                            <div className="text-sm font-semibold text-gray-900">€{d.fee.toFixed(2)}</div>
+                            <div className="flex items-center gap-2"><Bike size={16} /> {delivery.distance || "0 KM"}</div>
+
+                            {ESTIMATED_TIME_STATUSES.has(delivery?.orderStatus) ? (
+                                <div className="flex items-center gap-2 text-sm text-gray-600">
+                                    <Clock size={16} />
+                                    {delivery.estimatedDeliveryTime || "0 min"}
+                                </div>
+                            ) : ONGOING_STATUSES.has(delivery?.orderStatus) ? (
+                                <div className="flex items-center gap-2 text-sm text-blue-600">
+                                    <Clock size={16} />
+                                    {delivery.remainingDeliveryTime || "0 min"}
+                                </div>
+                            ) : delivery?.orderStatus === ORDER_STATUS.DELIVERED ? (
+                                <div className="flex items-center gap-2 text-sm text-green-600">
+                                    <Clock size={16} />
+                                    {delivery.completedDeliveryTime || "Completed"}
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-2 text-sm text-green-600">
+                                    —
+                                </div>
+                            )}
+
+                            <div className="text-sm font-semibold text-gray-900">€{delivery.totalFee || 0}</div>
                         </div>
                     </div>
                 ))}
             </div>
-
-            {/* Drawer Preview */}
-            {active && (
-                <div className="fixed inset-0 z-50 flex">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setActive(null)} />
-
-                    <aside className="ml-auto w-full sm:w-[420px] bg-white shadow-2xl rounded-l-2xl p-6 overflow-y-auto animate-slide-in">
-                        <h3 className="text-lg font-semibold">{t("delivery")} #{active.id}</h3>
-                        <p className="text-xs text-gray-500 mb-4">{active.date}</p>
-
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className={`h-12 w-12 rounded-full flex items-center justify-center text-white font-semibold ${active.partnerAvatar}`}>
-                                {active.partnerName.split(" ").map((n) => n[0]).slice(0, 2).join("")}
-                            </div>
-
-                            <div>
-                                <div className="text-sm font-medium">{active.partnerName}</div>
-                                <div className="text-xs text-gray-500">{t("customer")}: {active.customer}</div>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500 mb-1">{t("pickup")}</div>
-                                <div className="text-sm font-medium">{active.pickup}</div>
-                            </div>
-
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500 mb-1">{t("drop_off")}</div>
-                                <div className="text-sm font-medium">{active.drop}</div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="p-3 rounded-lg bg-gray-50 border">
-                                    <div className="text-xs text-gray-500">{t("distance")}</div>
-                                    <div className="text-sm font-semibold">{active.distance}</div>
-                                </div>
-
-                                <div className="p-3 rounded-lg bg-gray-50 border">
-                                    <div className="text-xs text-gray-500">{t("time")}</div>
-                                    <div className="text-sm font-semibold">{active.time}</div>
-                                </div>
-                            </div>
-
-                            <div className="p-3 rounded-lg bg-gray-50 border">
-                                <div className="text-xs text-gray-500">{t("delivery_fee")}</div>
-                                <div className="text-lg font-semibold">€{active.fee.toFixed(2)}</div>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 flex items-center justify-end">
-                            <button
-                                onClick={() => setActive(null)}
-                                className="px-4 py-2 rounded-md text-white text-sm hover:opacity-90"
-                                style={{ backgroundColor: DELIGO }}
-                            >{t("close")}</button>
-                        </div>
-                    </aside>
-                </div>
-            )}
 
             <style jsx>{`
         @keyframes slide-in {

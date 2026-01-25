@@ -12,7 +12,6 @@ export const AllDeliveriesPage = async ({ searchParams }: IProps) => {
   const queryString = queryStringFormatter(searchParamsObj);
   const deliveries = await getAllDeliveries(queryString);
 
-
   return (
     <div className="min-h-screen p-6 bg-gray-50">
       <AllDeliveries deliveries={deliveries} />
