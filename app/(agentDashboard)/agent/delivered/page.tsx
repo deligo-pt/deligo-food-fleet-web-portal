@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import Delivered from "@/components/Dashboard/Order&Deliveries/Delivered";
 import { getAllDeliveries } from "@/services/dashboard/order&deliveries/deliveries";
@@ -19,7 +20,7 @@ const DeliveredPage = async ({ searchParams }: IProps) => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-50">
-      <Delivered deliveries={deliveries} />
+      <Delivered deliveries={deliveries?.data} />
     </div>
   );
 };

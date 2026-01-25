@@ -40,13 +40,13 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
 
             <AllFilters sortOptions={sortOptions} />
 
+            {deliveries?.length < 1 && <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
+                <h1 className='text-xl font-semibold italic'>{t("no_results_found")}</h1>
+            </div>}
+
             {/* Delivery List */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                {deliveries?.data?.length < 1 ? (
-                    <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
-                        <h1 className='text-xl font-semibold italic'>{t("no_results_found")}</h1>
-                    </div>
-                ) : deliveries?.data?.map((delivery: any) => (
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
+                {deliveries?.map((delivery: any) => (
                     <div
                         key={delivery?._id}
                         className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all"
@@ -94,12 +94,12 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
                         </div>
 
                         <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-                            <div className="flex items-center gap-2"><Bike size={16} /> {delivery.distance || "0 KM"}</div>
+                            <div className="flex items-center gap-2"><Bike size={16} /> {delivery?.distance || "0 KM"}</div>
 
                             {ESTIMATED_TIME_STATUSES.has(delivery?.orderStatus) ? (
                                 <div className="flex items-center gap-2 text-sm text-gray-600">
                                     <Clock size={16} />
-                                    {delivery.estimatedDeliveryTime || "0 min"}
+                                    {delivery?.estimatedDeliveryTime || "0 min"}
                                 </div>
                             ) : ONGOING_STATUSES.has(delivery?.orderStatus) ? (
                                 <div className="flex items-center gap-2 text-sm text-blue-600">
@@ -109,7 +109,7 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
                             ) : delivery?.orderStatus === ORDER_STATUS.DELIVERED ? (
                                 <div className="flex items-center gap-2 text-sm text-green-600">
                                     <Clock size={16} />
-                                    {delivery.completedDeliveryTime || "Completed"}
+                                    {delivery?.completedDeliveryTime || "0 min"}
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-2 text-sm text-green-600">
