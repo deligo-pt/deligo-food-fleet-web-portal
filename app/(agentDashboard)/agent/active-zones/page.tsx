@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Switch } from "@/components/Switch/Switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,7 +55,7 @@ export default function ActiveZonesPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -68,10 +69,10 @@ export default function ActiveZonesPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("active_zones")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("manage_your_operational_zones")}
-        </p>
+        <DashboardPageHeader
+          title={t("active_zones")}
+          desc={t("manage_your_operational_zones")}
+        />
       </motion.div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-10">

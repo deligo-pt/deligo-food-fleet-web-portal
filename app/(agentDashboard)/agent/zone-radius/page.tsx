@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomSelect } from "@/components/CustomInput/CustomSelect";
 import { Map } from "@/components/Map/Map";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ export default function ZoneRadiusPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -26,12 +27,10 @@ export default function ZoneRadiusPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("adjust_zone_radius")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("modify_geographical_boundaries")}
-        </p>
+        <DashboardPageHeader
+          title={t("adjust_zone_radius")}
+          desc={t("modify_geographical_boundaries")}
+        />
       </motion.div>
       <div className="grid gap-6 lg:grid-cols-4 mt-10">
         <div className="lg:col-span-3 h-[600px]">
