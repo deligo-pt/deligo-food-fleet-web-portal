@@ -49,7 +49,7 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
   ];
 
   return (
-    <div className="w-full p-8">
+    <div>
 
       <DashboardPageHeader
         title={t("delivery_partners")}

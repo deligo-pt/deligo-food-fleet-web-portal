@@ -18,7 +18,7 @@ const OnTheWayPage = async ({ searchParams }: IProps) => {
   const deliveries = await getAllDeliveries(queryString);
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div>
       <OnTheWay deliveries={deliveries?.data} />
     </div>
   );

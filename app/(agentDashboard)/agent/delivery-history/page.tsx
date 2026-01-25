@@ -132,7 +132,7 @@ export default function DeliveryHistoryPage(): JSX.Element {
   ];
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div>
       <style>{`:root{--deligo:${DELIGO}}`}</style>
 
       <DashboardPageHeader
