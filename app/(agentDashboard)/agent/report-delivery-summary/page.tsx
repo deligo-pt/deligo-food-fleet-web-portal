@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
@@ -44,7 +45,7 @@ export default function DeliverySummaryPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -58,12 +59,10 @@ export default function DeliverySummaryPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("delivery_summary_report")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("comprehensive_list")}
-        </p>
+        <DashboardPageHeader
+          title={t("delivery_summary_report")}
+          desc={t("comprehensive_list")}
+        />
       </motion.div>
       <Card className="mt-10">
         <CardContent className="p-0">

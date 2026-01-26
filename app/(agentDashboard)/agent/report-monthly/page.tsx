@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
@@ -8,7 +9,7 @@ export default function MonthlyReportPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -22,10 +23,10 @@ export default function MonthlyReportPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("monthly_report")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("aggregate_kpis_performance_metrics")}
-        </p>
+        <DashboardPageHeader
+          title={t("monthly_report")}
+          desc={t("aggregate_kpis_performance_metrics")}
+        />
       </motion.div>
       <div className="grid gap-6 md:grid-cols-3 mt-10">
         <Card>

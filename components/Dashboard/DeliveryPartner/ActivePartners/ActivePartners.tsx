@@ -39,10 +39,24 @@ export default function ActiveDeliveryPartners({
 
   return (
     <>
-      <DashboardPageHeader
-        title={t("active_delivery_partners")}
-        desc={t("live_availability_online_status")}
-      />
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={t("active_delivery_partners")}
+          desc={t("live_availability_online_status")}
+        />
+      </motion.div>
 
       <AllFilters sortOptions={sortOptions} />
 

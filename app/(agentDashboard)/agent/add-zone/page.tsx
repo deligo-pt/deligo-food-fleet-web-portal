@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { CustomSelect } from "@/components/CustomInput/CustomSelect";
 import { Map } from "@/components/Map/Map";
@@ -13,7 +14,7 @@ export default function AddNewZonePage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -27,10 +28,10 @@ export default function AddNewZonePage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("add_new_zone")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("define_operational_area")}
-        </p>
+        <DashboardPageHeader
+          title={t("add_new_zone")}
+          desc={t("define_operational_area")}
+        />
       </motion.div>
 
       <div className="grid gap-6 lg:grid-cols-3 mt-10">

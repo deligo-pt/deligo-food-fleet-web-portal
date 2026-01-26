@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
@@ -30,7 +31,7 @@ export default function ZonePerformance() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -44,10 +45,10 @@ export default function ZonePerformance() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("zone_performance")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("detailed_analytics_matrics")}
-        </p>
+        <DashboardPageHeader
+          title={t("zone_performance")}
+          desc={t("detailed_analytics_matrics")}
+        />
       </motion.div>
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-10">

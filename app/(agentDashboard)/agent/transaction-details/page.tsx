@@ -1,5 +1,7 @@
+
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 import { CustomInput } from "@/components/CustomInput/CustomInput";
 import { Button } from "@/components/ui/button";
@@ -21,7 +23,7 @@ export default function TransactionDetailsPage() {
   };
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -35,12 +37,10 @@ export default function TransactionDetailsPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("transaction_lookup")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("find_detailed_financial_breakdown")}
-        </p>
+        <DashboardPageHeader
+          title={t("transaction_lookup")}
+          desc={t("find_detailed_financial_breakdown")}
+        />
       </motion.div>
 
       <Card className="mb-8 border-[#DC3173]/20 shadow-lg shadow-[#DC3173]/5 mt-10">

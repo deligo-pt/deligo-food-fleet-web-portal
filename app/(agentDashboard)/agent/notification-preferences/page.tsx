@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { Switch } from "@/components/Switch/Switch";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
@@ -63,7 +64,7 @@ export default function NotificationPreferencesPage() {
   ];
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -77,12 +78,10 @@ export default function NotificationPreferencesPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">
-          {t("notification_preferences")}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          {t("configure_which_alerts_updates")}
-        </p>
+        <DashboardPageHeader
+          title={t("notification_preferences")}
+          desc={t("configure_which_alerts_updates")}
+        />
       </motion.div>
 
       <div className="grid lg:grid-cols-2 gap-6 mt-10">

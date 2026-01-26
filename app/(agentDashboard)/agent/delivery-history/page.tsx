@@ -13,7 +13,10 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
-
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import AllFilters from "@/components/Filtering/AllFilters";
+import { getSortOptions } from "@/utils/sortOptions";
+import { motion } from 'framer-motion';
 
 
 const DELIGO = "#DC3173";
@@ -80,6 +83,7 @@ const sample: History[] = [
 
 export default function DeliveryHistoryPage(): JSX.Element {
   const { t } = useTranslation();
+  const sortOptions = getSortOptions(t);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<History | null>(null);
   const [filter, setFilter] = useState<"all" | "completed" | "cancelled" | "failed">("all");
@@ -100,49 +104,56 @@ export default function DeliveryHistoryPage(): JSX.Element {
       );
   }, [query, filter]);
 
+  const filterOptions = [
+    {
+      label: t("status"),
+      key: "status",
+      placeholder: t("select_status"),
+      type: "select",
+      items: [
+        {
+          label: t("delivered"),
+          value: "DELIVERED",
+        },
+        {
+          label: t("approved"),
+          value: "CANCELLED",
+        },
+        {
+          label: t("pending"),
+          value: "PENDING",
+        },
+        {
+          label: t("pickup"),
+          value: "PICKED_UP",
+        },
+      ],
+    },
+  ];
+
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div>
       <style>{`:root{--deligo:${DELIGO}}`}</style>
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: -10,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        <DashboardPageHeader
+          title={t("delivery_history")}
+          desc={t("complete_timeline")}
+        />
+      </motion.div>
 
-      {/* Header */}
-      <div className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
-            <Package size={22} color={DELIGO} /> {t("delivery_history")}
-          </h1>
-          <p className="text-sm text-gray-600">
-            {t("complete_timeline")}
-          </p>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <div className="flex items-center bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-80">
-            <span className="p-2 text-gray-500">
-              <Search size={16} color={DELIGO} />
-            </span>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search deliveries, partners, status…"
-              className="px-3 py-2 outline-none text-sm w-full"
-              aria-label="Search delivery history"
-            />
-          </div>
-
-          <div className="flex items-center gap-2 ml-0 sm:ml-3">
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value as any)}
-              className="text-sm rounded-md border px-3 py-2 bg-white"
-            >
-              <option value="all">{t("all")}</option>
-              <option value="completed">{t("completed")}</option>
-              <option value="cancelled">{t("cancelled")}</option>
-              <option value="failed">{t("failed")}</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <AllFilters sortOptions={sortOptions} filterOptions={filterOptions} />
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">

@@ -1,12 +1,14 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
-import { CustomInput } from "@/components/CustomInput/CustomInput";
+import AllFilters from "@/components/Filtering/AllFilters";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
+import { getSortOptions } from "@/utils/sortOptions";
 import { motion } from "framer-motion";
-import { Mail, MoreVertical, Search } from "lucide-react";
+import { Mail, MoreVertical} from "lucide-react";
 
 export const teamMembers = [
   {
@@ -45,9 +47,10 @@ export const teamMembers = [
 
 export default function AllTeamMembersPage() {
   const { t } = useTranslation();
+  const sortOptions = getSortOptions(t);
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -61,20 +64,13 @@ export default function AllTeamMembersPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("team_members")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("manage_administrative_staff")}
-        </p>
+        <DashboardPageHeader
+          title={t("team_members")}
+          desc={t("manage_administrative_staff")}
+        />
       </motion.div>
 
-      <div className="flex items-center gap-4 mb-6 mt-10">
-        <div className="w-72">
-          <CustomInput
-            placeholder="Search by name or email..."
-            icon={<Search className="h-4 w-4" />}
-          />
-        </div>
-      </div>
+      <AllFilters sortOptions={sortOptions} />
 
       <Card>
         <CardContent className="p-0">

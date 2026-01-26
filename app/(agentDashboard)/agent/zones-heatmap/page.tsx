@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { Map } from "@/components/Map/Map";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/hooks/use-translation";
@@ -9,7 +10,7 @@ export default function ZonesHeatmapPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <motion.div
         initial={{
           opacity: 0,
@@ -23,10 +24,10 @@ export default function ZonesHeatmapPage() {
           duration: 0.5,
         }}
       >
-        <h1 className="text-2xl font-bold text-[#DC3173]">{t("zone_heatmaps")}</h1>
-        <p className="text-gray-500 mt-1">
-          {t("real_time_visualization")}
-        </p>
+        <DashboardPageHeader
+          title={t("zone_heatmaps")}
+          desc={t("real_time_visualization")}
+        />
       </motion.div>
       <div className="relative h-[calc(100vh-12rem)] w-full rounded-xl overflow-hidden border border-border mt-10">
         <Map className="h-full w-full rounded-none" zoom={12} />

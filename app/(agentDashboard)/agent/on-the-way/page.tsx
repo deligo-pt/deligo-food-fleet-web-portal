@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import OnTheWay from "@/components/Dashboard/Order&Deliveries/OnTheWay";
 import { getAllDeliveries } from "@/services/dashboard/order&deliveries/deliveries";
 import { queryStringFormatter } from "@/utils/formatter";
@@ -17,8 +18,8 @@ const OnTheWayPage = async ({ searchParams }: IProps) => {
   const deliveries = await getAllDeliveries(queryString);
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
-      <OnTheWay deliveries={deliveries} />
+    <div>
+      <OnTheWay deliveries={deliveries?.data} />
     </div>
   );
 };
