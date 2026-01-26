@@ -19,5 +19,8 @@ export const businessDetailsValidation = z.object({
     .max(50, "NIF number must be at most 50 characters long")
     .nonempty("NIF number is required"),
 
-  totalBranches: z.number()
+  totalBranches: z
+    .number()
+    .min(1, "Must be at least 1"),
+
 });

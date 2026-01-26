@@ -210,6 +210,11 @@ const AddYourBusinessLocation = ({ profile }: Props) => {
     const handleSave = async (data: LocationFormType) => {
         const toastId = toast.loading("Updating...");
 
+        if (locationCoordinates?.latitude === 0 || locationCoordinates?.longitude === 0) {
+            toast.error("Please search your area and select in map!", { id: toastId });
+            return;
+        };
+
         try {
             const payload = {
                 businessLocation: {

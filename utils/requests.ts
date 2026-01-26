@@ -5,8 +5,6 @@ type ApiConfig = RequestInit & {
 };
 
 async function apiRequest<T>(url: string, options: ApiConfig = {}): Promise<T> {
-  console.log(options);
-
   const response = await fetch(`${BASE_URL}${url}`, {
     credentials: "include", // send cookies
     headers: {
