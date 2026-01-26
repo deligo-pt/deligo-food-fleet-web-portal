@@ -45,7 +45,7 @@ const BusinessDetails = ({ profile }: Props) => {
             businessName: "",
             businessLicenseNumber: "",
             NIF: "",
-            totalBranches: 1
+            totalBranches: undefined
         },
     });
 
@@ -66,7 +66,7 @@ const BusinessDetails = ({ profile }: Props) => {
         );
         form.setValue(
             "totalBranches",
-            profile?.data?.businessDetails?.totalBranches || 1
+            profile?.data?.businessDetails?.totalBranches as number
         );
     }, [form, profile]);
 
@@ -221,21 +221,15 @@ const BusinessDetails = ({ profile }: Props) => {
                                                         <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
 
                                                         <Input
+                                                            {...field}
                                                             type="number"
                                                             placeholder="Total Branches"
                                                             className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                            // min={1}
                                                             value={field.value ?? ""}
-                                                            min={0}
                                                             onChange={(e) => {
                                                                 const value = e.target.value;
-                                                                if (value === "") {
-                                                                    field.onChange(undefined);
-                                                                    return;
-                                                                }
-                                                                const num = Number(value);
-                                                                if (!isNaN(num) && num > 0) {
-                                                                    field.onChange(num);
-                                                                }
+                                                                field.onChange(value === "" ? undefined : Number(value));
                                                             }}
                                                         />
                                                     </div>
@@ -245,6 +239,7 @@ const BusinessDetails = ({ profile }: Props) => {
                                             </FormItem>
                                         )}
                                     />
+
 
                                 </div>
                             </div>

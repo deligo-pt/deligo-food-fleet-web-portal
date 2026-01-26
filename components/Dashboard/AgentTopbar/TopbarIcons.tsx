@@ -118,9 +118,8 @@ export default function TopbarIcons({ agent }: IProps) {
           )}
           <ChevronDown
             size={16}
-            className={`text-gray-700 hidden sm:inline transition-transform ${
-              profileOpen ? "rotate-180" : ""
-            }`}
+            className={`text-gray-700 hidden sm:inline transition-transform ${profileOpen ? "rotate-180" : ""
+              }`}
           />
         </button>
 
@@ -165,7 +164,7 @@ export default function TopbarIcons({ agent }: IProps) {
           if (isSubmitting) return;
           setOpenSosModal(open);
         }}
-        userId={agent?.userId || ""}
+        isSubmitting={isSubmitting}
         setIsSubmitting={setIsSubmitting}
       />
     </>
