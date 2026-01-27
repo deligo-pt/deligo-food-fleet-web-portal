@@ -1078,8 +1078,6 @@ export const en = {
     generate_report: "Generate Report",
     select_parameters_click: "Select parameters and click Generate to view report preview",
 
-
-
     // support tickets
     chat_support: "Chat Support",
     get_help_from_support: "Get help from our support team in real‑time.",
@@ -1131,7 +1129,12 @@ export const en = {
     support_team_available: "Our support team is available 7 days a week to assist you with your vendor account.",
     contact_support: "Contact Support",
 
-
+    // delivery partner emergency alerts
+    real_time_monitoring_delivery_partner: "Real-time monitoring of delivery partner SOS triggers",
+    partner_name: "Partner Name",
+    emergency_type: "Emergency Type",
+    time_triggered: "Time Triggered",
+    no_alerts_found: "No alerts found",
 
     // profile
     verified: "Verified",
