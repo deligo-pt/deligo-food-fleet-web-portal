@@ -1317,6 +1317,17 @@ export const pt = {
     support_team_available: "A nossa equipa de suporte está disponível 7 dias por semana para ajudar com a sua conta de vendedor.",
     contact_support: "Contactar suporte",
 
+    // report incident/accident
+    report_incident: "Reportar Incidente",
+    send_us_your_accidents_and_incidents: "Envie-nos os seus acidentes e incidentes.",
+    sos_emergency_alert: "Alerta de Emergência SOS",
+    instantly_send_emergency_alert: "Envie instantaneamente um alerta de emergência com a sua localização em tempo real para administradores e contactos de emergência para assistência imediata.",
+    what_going_wrong: "O que está a correr mal?",
+    describe_issue_here: "Descreva aqui o problema...",
+    issue_tags: "Etiquetas do Problema",
+    reset: "Repor",
+    send_sos: "Enviar SOS",
+    sending_sos: "A enviar SOS...",
 
     // profile
     verified: "Verificado",
