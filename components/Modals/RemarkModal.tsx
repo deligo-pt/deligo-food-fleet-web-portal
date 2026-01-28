@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SOS_ISSUE_TAGS } from "@/consts/sos.const";
+import { useTranslation } from "@/hooks/use-translation";
 import { triggerSos } from "@/services/sos/sos.service";
 import { TSosIssueTag } from "@/types/sos.type";
 import { createSosValidationSchema } from "@/validations/sos/sos.validation";
@@ -46,6 +47,7 @@ interface IProps {
 type TSosForm = z.infer<typeof createSosValidationSchema>;
 
 const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IProps) => {
+  const { t } = useTranslation();
   const form = useForm<TSosForm>({
     resolver: zodResolver(createSosValidationSchema),
     defaultValues: {
@@ -116,11 +118,10 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogTitle className="text-[#DC3173]">SOS Emergency Alert</DialogTitle>
+          <DialogTitle className="text-[#DC3173]">{t("sos_emergency_alert")}</DialogTitle>
           <DialogHeader>
             <DialogDescription>
-              Instantly send an emergency alert with your live location to
-              admins and emergency contacts for immediate assistance.
+              {t("instantly_send_emergency_alert")}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -134,13 +135,13 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
                 name="userNote"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>What&lsquo;s going wrong?</FormLabel>
+                    <FormLabel>{t("what_going_wrong")}</FormLabel>
                     <FormControl>
                       <Input
                         id="userNote"
                         name="userNote"
                         onBlur={(e) => field.onChange(e.target.value)}
-                        placeholder="Describe your issue here..."
+                        placeholder={t("describe_issue_here")}
                       />
                     </FormControl>
                     <FormMessage />
@@ -150,7 +151,7 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Issue Tags
+                  {t("issue_tags")}
                 </label>
                 {watchIssueTags && watchIssueTags?.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-1">
@@ -203,7 +204,7 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
           </Form>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" onClick={() => form.reset()}>Cancel</Button>
+              <Button variant="outline" onClick={() => form.reset()}>{t("cancel")}</Button>
             </DialogClose>
 
             <Button
