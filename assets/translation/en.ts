@@ -1078,8 +1078,6 @@ export const en = {
     generate_report: "Generate Report",
     select_parameters_click: "Select parameters and click Generate to view report preview",
 
-
-
     // support tickets
     chat_support: "Chat Support",
     get_help_from_support: "Get help from our support team in real‑time.",
@@ -1131,7 +1129,33 @@ export const en = {
     support_team_available: "Our support team is available 7 days a week to assist you with your vendor account.",
     contact_support: "Contact Support",
 
+    // delivery partner emergency alerts
+    real_time_monitoring_delivery_partner: "Real-time monitoring of delivery partner SOS triggers",
+    partner_name: "Partner Name",
+    emergency_type: "Emergency Type",
+    time_triggered: "Time Triggered",
+    no_alerts_found: "No alerts found",
+    alert_details: "Alert Details",
+    triggered_by: "Triggered By",
+    location: "Location",
+    load_map: "Load Map",
+    click_to_view_location: "Click to view location",
+    latitude: "Latitude",
+    longitude: "Longitude",
+    partner_notes: "Partner Notes",
+    incident_description: "Incident Description",
 
+    // report incident/accident
+    report_incident: "Report Incident",
+    send_us_your_accidents_and_incidents: "Send us your accidents and incidents.",
+    sos_emergency_alert: "SOS Emergency Alert",
+    instantly_send_emergency_alert: "Instantly send an emergency alert with your live location to admins and emergency contacts for immediate assistance.",
+    what_going_wrong: "What’s going wrong?",
+    describe_issue_here: "Describe your issue here...",
+    issue_tags: "Issue Tags",
+    reset: "Reset",
+    send_sos: "Send SOS",
+    sending_sos:"Sending SOS....",
 
     // profile
     verified: "Verified",

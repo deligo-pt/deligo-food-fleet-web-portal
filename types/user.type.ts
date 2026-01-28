@@ -1,0 +1,11 @@
+export const USER_ROLE = {
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    ADMIN: 'ADMIN',
+    CUSTOMER: 'CUSTOMER',
+    FLEET_MANAGER: 'FLEET_MANAGER',
+    VENDOR: 'VENDOR',
+    SUB_VENDOR: 'SUB_VENDOR',
+    DELIVERY_PARTNER: 'DELIVERY_PARTNER',
+} as const;
+
+export type TUserRole = keyof typeof USER_ROLE;
