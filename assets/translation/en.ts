@@ -1135,6 +1135,15 @@ export const en = {
     emergency_type: "Emergency Type",
     time_triggered: "Time Triggered",
     no_alerts_found: "No alerts found",
+    alert_details:"Alert Details",
+    triggered_by:"Triggered By",
+    location:"Location",
+    load_map:"Load Map",
+    click_to_view_location:"Click to view location",
+    latitude:"Latitude",
+    longitude:"Longitude",
+    partner_notes:"Partner Notes",
+    incident_description:"Incident Description",
 
     // profile
     verified: "Verified",

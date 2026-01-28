@@ -5,17 +5,29 @@ import { useTranslation } from '@/hooks/use-translation';
 import { getSortOptions } from '@/utils/sortOptions';
 import { motion } from 'framer-motion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CircleCheckBig, Clock2, Cog, IdCard, Mail, MoreVertical } from "lucide-react";
+import { CircleCheckBig, Clock2, Cog, IdCard, Mail } from "lucide-react";
+import { ISos } from '@/types/sos.type';
+import { Badge, issueStyles, statusStyles } from "./SosBadges";
+import { useState } from 'react';
+import { formatDateTime } from '@/utils/formatter';
+import { Metadata } from 'next';
+import SosDetailsModal from './SosDetailsModal';
 
-const DeliveryPartnerEmergencyAlerts = () => {
+interface IProps {
+    sosAlerts: {
+        data: ISos[];
+        meta: Metadata
+    }
+}
+
+const DeliveryPartnerEmergencyAlerts = ({ sosAlerts }: IProps) => {
     const { t } = useTranslation();
     const sortOptions = getSortOptions(t);
-    const alertsData = {
-        data: []
-    };
+    const [selectedSos, setSelectedSos] = useState<ISos | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <div>
+        <>
             <motion.div
                 initial={{
                     opacity: 0,
@@ -36,7 +48,6 @@ const DeliveryPartnerEmergencyAlerts = () => {
             </motion.div>
 
             <AllFilters sortOptions={sortOptions} />
-
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -77,41 +88,7 @@ const DeliveryPartnerEmergencyAlerts = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {/* {partnersResult &&
-                            partnersResult?.data?.length > 0 &&
-                            partnersResult?.data?.map((partner) => (
-                                <TableRow key={partner._id}>
-                                    <TableCell>
-                                        {partner.name?.firstName} {partner.name?.lastName}
-                                    </TableCell>
-                                    <TableCell>{partner.email}</TableCell>
-                                    <TableCell>{partner.contactNumber}</TableCell>
-                                    <TableCell>
-                                        {partner.isDeleted ? "Deleted" : partner.status}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {!partner.isDeleted && (
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger>
-                                                    <MoreVertical className="h-4 w-4" />
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end"
-                                                    className="min-w-20 w-auto px-2">
-                                                    <DropdownMenuItem
-                                                        className=""
-                                                        onClick={() =>
-                                                            router.push("/agent/delivery-partners/" + partner.userId)
-                                                        }
-                                                    >
-                                                        {t("viewCTA")}
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))} */}
-                        {alertsData?.data?.length === 0 && (
+                        {sosAlerts?.data?.length === 0 && (
                             <TableRow>
                                 <TableCell
                                     className="text-[#DC3173] text-lg text-center"
@@ -121,11 +98,68 @@ const DeliveryPartnerEmergencyAlerts = () => {
                                 </TableCell>
                             </TableRow>
                         )}
+                        {sosAlerts?.data?.map((alert: ISos) => (
+                            <TableRow key={alert?._id} className="hover:bg-gray-50">
+                                {/* Partner */}
+                                <TableCell>
+                                    <div className="font-semibold">
+                                        {alert?.userId?.id?.name?.firstName} {" "} {alert?.userId?.id?.name?.lastName}
+                                    </div>
+                                    <p className="text-xs text-gray-500">
+                                        ID: {alert?.userId?.id?.userId}
+                                    </p>
+                                </TableCell>
+
+                                {/* Issue */}
+                                <TableCell>
+                                    {alert?.issueTags?.map(issue => (
+                                        <Badge
+                                            key={issue}
+                                            label={issue}
+                                            className={issueStyles[issue]}
+                                        />
+                                    ))}
+                                </TableCell>
+
+                                {/* Time */}
+                                <TableCell className="text-gray-600 flex items-center gap-2">
+                                    <Clock2 size={14} />
+                                    {formatDateTime(alert?.createdAt)}
+                                </TableCell>
+
+                                {/* Status */}
+                                <TableCell>
+                                    <Badge
+                                        label={alert?.status}
+                                        className={statusStyles[alert?.status]}
+                                    />
+                                </TableCell>
+
+                                {/* Action */}
+                                <TableCell className="text-right">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedSos(alert);
+                                            setIsModalOpen(true);
+                                        }}
+                                        className="text-pink-600 font-semibold hover:underline"
+                                    >
+                                        View Details
+                                    </button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </motion.div>
 
-        </div>
+            {/* Drawer */}
+            <SosDetailsModal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                sos={selectedSos}
+            />
+        </>
     );
 };
 
