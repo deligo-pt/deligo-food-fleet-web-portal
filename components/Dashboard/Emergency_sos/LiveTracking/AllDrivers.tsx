@@ -5,6 +5,8 @@ import { useTranslation } from "@/hooks/use-translation";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { ArrowUp, RefreshCcw, Search, Star } from "lucide-react";
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     deliveryPartners: {
@@ -16,15 +18,24 @@ interface IProps {
             totalPage: number
         };
     };
-    setSelectedPartner: (value: TDeliveryPartner) => void;
+    setSelectedPartner: (value: TDeliveryPartner | null) => void;
 }
 
 const AllDrivers = ({ deliveryPartners, setSelectedPartner }: IProps) => {
+    const router = useRouter();
     const { t } = useTranslation();
+    const [, startTransition] = useTransition();
 
     const handleViewLocation = (deliveryPartner: TDeliveryPartner) => {
         setSelectedPartner(deliveryPartner);
     };
+
+    const handleRefresh = () => {
+        startTransition(() => {
+            router.refresh();
+            setSelectedPartner(null);
+        })
+    }
 
     return (
         <div className="bg-white p-2 md:p-3 xl:p-5 rounded-xl h-screen w-full space-y-5">
@@ -33,6 +44,7 @@ const AllDrivers = ({ deliveryPartners, setSelectedPartner }: IProps) => {
                 <Button
                     variant="ghost"
                     className="hover:bg-pink-600 hover:text-white"
+                    onClick={handleRefresh}
                 >
                     <RefreshCcw className="h-4 w-4" />
                 </Button>
