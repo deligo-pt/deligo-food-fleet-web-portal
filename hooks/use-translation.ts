@@ -7,8 +7,8 @@ export const useTranslation = () => {
 
     const t = (key: string): string => {
         return (
-            translations[lang]?.[key as keyof typeof translations.en] ||
-            translations.en[key as keyof typeof translations.en] ||
+            (translations[lang] as Record<string, string>)?.[key] ||
+            (translations.en as Record<string, string>)[key] ||
             key
         )
     }
