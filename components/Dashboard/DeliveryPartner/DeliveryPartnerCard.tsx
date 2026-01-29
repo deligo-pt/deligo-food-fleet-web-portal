@@ -98,14 +98,14 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
                 {partner?.status}
               </Badge>
               <div className="flex items-center mt-1">
-                {partner?.operationalData?.rating && (
+                {partner?.rating && (
                   <div className="flex items-center text-sm">
                     <Star className="h-4 w-4 text-yellow-500 mr-1" />
                     <span className="font-medium">
-                      {partner?.operationalData.rating.average.toFixed(1)}
+                      {partner?.rating.average.toFixed(1)}
                     </span>
                     <span className="text-gray-500 ml-1">
-                      ({partner?.operationalData.rating.totalReviews} {t("reviews")})
+                      ({partner?.rating.totalReviews} {t("reviews")})
                     </span>
                   </div>
                 )}

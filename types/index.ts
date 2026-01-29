@@ -13,3 +13,13 @@ export type TResponse<T> = {
   meta?: TMeta;
   error?: unknown;
 };
+
+export type TGeoJSONPoint = {
+  type: 'Point';
+  coordinates: [number, number];
+  geoAccuracy?: number;
+  heading?: number;
+  speed?: number;
+  isMocked?: boolean;
+  lastLocationUpdate: Date;
+};

@@ -1,4 +1,4 @@
-import DeliveryPartnerEmergencyAlerts from "@/components/Dashboard/Emergency_sos/DeliveryPartnerEmergencyAlerts";
+import DeliveryPartnerEmergencyAlerts from "@/components/Dashboard/Emergency_sos/DeliveryPartnerEmergencyAlerts/DeliveryPartnerEmergencyAlerts";
 import { getPartnerSosAlerts } from "@/services/dashboard/sos/sos.service";
 import { queryStringFormatter } from "@/utils/formatter";
 

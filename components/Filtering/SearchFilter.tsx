@@ -9,9 +9,11 @@ import { useEffect, useState, useTransition } from "react";
 export default function SearchFilter({
   placeholder = "Search...",
   paramName = "searchTerm",
+  className
 }: {
   placeholder: string;
   paramName: string;
+  className?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -41,7 +43,7 @@ export default function SearchFilter({
   }, [debouncedValue]);
 
   return (
-    <div className="relative w-full lg:w-72">
+    <div className={`${className ? `relative w-full ${className}` : "relative w-full lg:w-72"}`}>
       <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#DC3173] placeholder:text-[#DC3173] h-4 w-4" />
       <Input
         placeholder={placeholder}

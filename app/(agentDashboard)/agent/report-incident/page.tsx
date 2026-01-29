@@ -1,4 +1,4 @@
-import ReportIncident from "@/components/Dashboard/Report_incident/ReportIncident";
+import ReportIncident from "@/components/Dashboard/Emergency_sos/Report_incident/ReportIncident";
 
 
 const ReportIncidentPage = () => {

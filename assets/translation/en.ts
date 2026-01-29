@@ -1155,7 +1155,10 @@ export const en = {
     issue_tags: "Issue Tags",
     reset: "Reset",
     send_sos: "Send SOS",
-    sending_sos:"Sending SOS....",
+    sending_sos: "Sending SOS....",
+
+    // live tracking
+    tracking_drivers_live_location_and_where_they_are: "Tracking driver's live location and where they are actually",
 
     // profile
     verified: "Verified",
