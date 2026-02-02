@@ -417,6 +417,28 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
                 />
               </div>
             )}
+            {partner.documents?.activity && (
+              <div>
+                <div className="mb-2 text-gray-500 text-sm">
+                  {t("criminal_record_certificate")}
+                </div>
+                <ImagePreview
+                  url={partner.documents.activity}
+                  alt="Criminal Record"
+                />
+              </div>
+            )}
+            {partner.documents?.insurancePolicy && (
+              <div>
+                <div className="mb-2 text-gray-500 text-sm">
+                  {t("criminal_record_certificate")}
+                </div>
+                <ImagePreview
+                  url={partner.documents.insurancePolicy}
+                  alt="Criminal Record"
+                />
+              </div>
+            )}
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title={t("operational_data")} icon={<Package />}>

@@ -67,7 +67,7 @@ export function EquipmentForm({ onNext }: IProps) {
   const equipment = [
     {
       id: "isothermalBag",
-      label: t("isothermal_bag"),
+      label: t("delivery_bag"),
     },
     {
       id: "helmet",

@@ -180,6 +180,8 @@ export type TDeliveryPartner = {
     drivingLicenseBack?: string;
     vehicleRegistration?: string;
     criminalRecordCertificate?: string;
+    activity?: string;
+    insurancePolicy?: string;
   };
 
   // -------------------------------------------------
