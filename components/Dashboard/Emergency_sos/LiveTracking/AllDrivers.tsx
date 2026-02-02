@@ -7,6 +7,7 @@ import { ArrowUp, RefreshCcw, Search, Star } from "lucide-react";
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface IProps {
     deliveryPartners: {
@@ -18,15 +19,19 @@ interface IProps {
             totalPage: number
         };
     };
+    selectedPartner: TDeliveryPartner;
     setSelectedPartner: (value: TDeliveryPartner | null) => void;
 }
 
-const AllDrivers = ({ deliveryPartners, setSelectedPartner }: IProps) => {
+const AllDrivers = ({ deliveryPartners, selectedPartner, setSelectedPartner }: IProps) => {
     const router = useRouter();
     const { t } = useTranslation();
     const [, startTransition] = useTransition();
 
     const handleViewLocation = (deliveryPartner: TDeliveryPartner) => {
+        if (!deliveryPartner?.currentSessionLocation?.coordinates) {
+            toast.error("Driver hasn't updated his location yet");
+        }
         setSelectedPartner(deliveryPartner);
     };
 
@@ -71,13 +76,13 @@ const AllDrivers = ({ deliveryPartners, setSelectedPartner }: IProps) => {
             {deliveryPartners?.data?.length > 0 ? (
                 <motion.div
                     layout
-                    className={deliveryPartners?.data?.length > 6 ? "overflow-y-scroll h-auto" : ""}
+                    className={deliveryPartners?.data?.length > 6 ? "overflow-y-scroll h-auto space-y-3" : "space-y-3"}
                 >
                     <AnimatePresence>
                         {deliveryPartners?.data?.map((partner: TDeliveryPartner) => (
                             <div
                                 key={partner?._id}
-                                className="flex flex-wrap items-center justify-between border rounded-xl p-4 hover:bg-gray-50 transition">
+                                className="flex flex-wrap items-center justify-between gap-2 border rounded-xl p-4 hover:bg-gray-50 transition">
 
                                 <div className="flex items-center gap-3">
                                     <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-600">
@@ -100,10 +105,10 @@ const AllDrivers = ({ deliveryPartners, setSelectedPartner }: IProps) => {
 
                                 <button
                                     onClick={() => handleViewLocation(partner)}
-                                    className="flex items-center gap-2 bg-[#DC3173] hover:bg-[#DC3173]/90 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                                    className={`flex items-center gap-2 ${selectedPartner?._id === partner?._id ? "bg-gray-200 text-black hover:bg-gray-400" : "bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"} px-4 py-2 rounded-lg text-sm font-medium`}
                                 >
                                     <ArrowUp className="w-4 h-4" />
-                                    View Location
+                                    {selectedPartner?._id === partner?._id ? "Selected" : "View Location"}
                                 </button>
                             </div>
                         ))}

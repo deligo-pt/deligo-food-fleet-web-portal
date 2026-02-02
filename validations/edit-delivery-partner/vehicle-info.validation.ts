@@ -1,10 +1,15 @@
 
 import { z } from "zod";
 
+const optionalString = z
+  .string()
+  .min(2, "Must be at least 2 characters")
+  .optional()
+  .or(z.literal(""));
+
 const baseFields = {
-  vehicleType: z.enum(["BICYCLE", "E-BIKE", "SCOOTER", "MOTORBIKE", "CAR"]),
-  brand: z.string().min(2, "Brand is required"),
-  model: z.string().min(2, "Model is required"),
+  brand: optionalString,
+  model: optionalString,
 };
 
 const motorVehicleFields = {

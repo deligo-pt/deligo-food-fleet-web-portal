@@ -45,7 +45,11 @@ const LiveTracking = ({ deliveryPartners }: { deliveryPartners: IProps }) => {
 
                 <div className='my-5 grid grid-cols-12 gap-5'>
                     <div className='col-span-4'>
-                        <AllDrivers deliveryPartners={deliveryPartners} setSelectedPartner={setSelectedPartner} />
+                        <AllDrivers
+                            deliveryPartners={deliveryPartners}
+                            selectedPartner={selectedPartner as TDeliveryPartner}
+                            setSelectedPartner={setSelectedPartner}
+                        />
                     </div>
                     <div className='col-span-8'>
                         <TrackingMapView selectedPartner={selectedPartner as TDeliveryPartner} />
