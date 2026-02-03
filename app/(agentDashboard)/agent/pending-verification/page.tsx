@@ -12,7 +12,7 @@ const PendingApprovalsPage = async ({ searchParams }: IProps) => {
   const { status, ...restParams } = params;
   const queryString = queryStringFormatter({
     ...restParams,
-    status: "PENDING",
+    status: "SUBMITTED",
   });
   const deliveryPartners = await getDeliveryPartners(queryString);
 
