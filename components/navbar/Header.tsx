@@ -84,12 +84,6 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
             {t("aboutUs")}
           </Link>
           <Link
-            href="/blog"
-            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
-          >
-            {t("blog")}
-          </Link>
-          <Link
             href="/contact-us"
             className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >

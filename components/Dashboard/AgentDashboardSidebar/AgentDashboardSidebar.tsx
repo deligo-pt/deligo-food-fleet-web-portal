@@ -144,9 +144,6 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       title: t("fleet_settings"),
       icon: <Settings size={18} />,
       items: [
-        { name: t("vehicle_types"), path: "/agent/vehicle-types" },
-        { name: t("operating_hours"), path: "/agent/operating-hours" },
-        { name: t("commission_settings"), path: "/agent/commission-settings" },
         { name: t("payment_preferences"), path: "/agent/payment-preferences" },
         {
           name: t("notification_preferences"),
@@ -171,10 +168,6 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       title: t("reports_nd_analytics"),
       icon: <FileBarChart size={18} />,
       items: [
-        {
-          name: t("delivery_partner_performance_report"),
-          path: "/agent/report-delivery-partner-performance",
-        },
         { name: t("earnings_report"), path: "/agent/report-earnings" },
         { name: t("delivery_summary"), path: "/agent/report-delivery-summary" },
         { name: t("monthly_report"), path: "/agent/report-monthly" },
@@ -307,11 +300,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
               {menu.path ? (
                 <Link
                   href={menu.path}
-                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${
-                    pathname === menu.path
+                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${pathname === menu.path
                       ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
                       : "hover:bg-pink-100"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="text-pink-600">{menu.icon}</div>
@@ -357,11 +349,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                           <Link
                             key={sub.name}
                             href={sub.path}
-                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${
-                              pathname === sub.path
+                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${pathname === sub.path
                                 ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
                                 : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
-                            }`}
+                              }`}
                           >
                             {sub.name}
                           </Link>
@@ -417,11 +408,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                     <Link
                       href={menu.path}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-2 py-2 ${
-                        pathname === menu.path
+                      className={`flex items-center gap-2 py-2 ${pathname === menu.path
                           ? "text-pink-700 font-semibold"
                           : "text-gray-800 hover:text-pink-600"
-                      }`}
+                        }`}
                     >
                       <div className="text-pink-600">{menu.icon}</div>
                       <span className="text-left">{menu.title}</span>
@@ -438,9 +428,8 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                         </div>
                         <ChevronDown
                           size={16}
-                          className={`transition-transform ${
-                            expanded[menu.id] ? "rotate-180" : ""
-                          }`}
+                          className={`transition-transform ${expanded[menu.id] ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
 
@@ -457,11 +446,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                                 key={sub.name}
                                 href={sub.path}
                                 onClick={() => setMobileOpen(false)}
-                                className={`text-sm py-1 transition-all ${
-                                  pathname === sub.path
+                                className={`text-sm py-1 transition-all ${pathname === sub.path
                                     ? "text-pink-700 font-semibold"
                                     : "text-gray-600 hover:text-pink-600"
-                                }`}
+                                  }`}
                               >
                                 {sub.name}
                               </Link>
