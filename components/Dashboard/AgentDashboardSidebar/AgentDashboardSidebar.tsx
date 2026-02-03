@@ -103,7 +103,6 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
           name: t("cancelled_deliveries"),
           path: "/agent/cancelled-deliveries",
         },
-        { name: t("delivery_history"), path: "/agent/delivery-history" },
       ],
     },
 
