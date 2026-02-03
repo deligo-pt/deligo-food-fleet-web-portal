@@ -1,128 +1,83 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
-import { CustomSelect } from "@/components/CustomInput/CustomSelect";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { motion } from "framer-motion";
-import { CreditCard, Save } from "lucide-react";
+import { CreditCard, Building2, Hash, User } from "lucide-react";
 
-const PaymentPreferences = () => {
+const PaymentPreferences = ({ bankDetails }: { bankDetails: any }) => {
     const { t } = useTranslation();
+
+    const FIELD_ITEMS = [
+        {
+            label: t("account_holder"),
+            value: bankDetails?.accountHolderName,
+            icon: <User className="w-5 h-5 text-[#DC3173]" />,
+        },
+        {
+            label: t("bank_name"),
+            value: bankDetails?.bankName,
+            icon: <Building2 className="w-5 h-5 text-[#DC3173]" />,
+        },
+        {
+            label: t("iban"),
+            value: bankDetails?.iban,
+            icon: <CreditCard className="w-5 h-5 text-[#DC3173]" />,
+        },
+        {
+            label: t("swift_code"),
+            value: bankDetails?.swiftCode,
+            icon: <Hash className="w-5 h-5 text-[#DC3173]" />,
+        },
+    ];
 
     return (
         <div>
             <motion.div
-                initial={{
-                    opacity: 0,
-                    y: -10,
-                }}
-                animate={{
-                    opacity: 1,
-                    y: 0,
-                }}
-                transition={{
-                    duration: 0.5,
-                }}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
             >
                 <DashboardPageHeader
                     title={t("payment_preference")}
                     desc={t("manage_payout_gateways")}
                 />
             </motion.div>
-            <div className="grid lg:grid-cols-2 gap-6 mt-10">
-                <Card>
+
+            <div className="grid grid-cols-1 mt-10">
+                <Card className="shadow-sm">
                     <CardHeader>
-                        <CardTitle>{t("payout_configuration")}</CardTitle>
+                        <CardTitle className="flex items-center gap-2">
+                            <CreditCard className="w-5 h-5 text-[#DC3173]" />
+                            {t("payout_configuration")}
+                        </CardTitle>
                     </CardHeader>
+
                     <CardContent className="space-y-4">
-                        <CustomSelect
-                            label={t("payment_gateway")}
-                            options={[
-                                {
-                                    value: "stripe",
-                                    label: t("stripe_connect"),
-                                },
-                                {
-                                    value: "paypal",
-                                    label: t("paypal_payouts"),
-                                },
-                                {
-                                    value: "bank",
-                                    label: t("direct_bank_transfer"),
-                                },
-                            ]}
-                        />
+                        {FIELD_ITEMS.map((item) => (
+                            <div
+                                key={item.label}
+                                className="flex items-center justify-between p-3 rounded-lg bg-gray-50 border"
+                            >
+                                <div className="flex items-center gap-3">
+                                    {item.icon}
+                                    <span className="text-sm text-gray-600">
+                                        {item.label}
+                                    </span>
+                                </div>
 
-                        <CustomSelect
-                            label={t("payout_frequency")}
-                            options={[
-                                {
-                                    value: "daily",
-                                    label: t("daily_automatic"),
-                                },
-                                {
-                                    value: "weekly",
-                                    label: t("weekly_every_monday"),
-                                },
-                                {
-                                    value: "monthly",
-                                    label: t("monthly_1st_month"),
-                                },
-                                {
-                                    value: "manual",
-                                    label: t("manual_request_only"),
-                                },
-                            ]}
-                        />
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle>{t("tax_compliance")}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <CustomSelect
-                            label={t("tax_form_generation")}
-                            options={[
-                                {
-                                    value: "auto",
-                                    label: t("automated_1099_nec"),
-                                },
-                                {
-                                    value: "manual",
-                                    label: t("manual_upload"),
-                                },
-                            ]}
-                        />
-
-                        <div className="p-4 bg-secondary/50 rounded-lg flex items-start gap-3">
-                            <CreditCard className="h-5 w-5 text-primary mt-0.5" />
-                            <div className="text-sm">
-                                <p className="font-medium">{t("connected_account")}</p>
-                                <p className="text-muted-foreground">
-                                    {t("stripe_connect_id")}: acct_123456789
-                                </p>
-                                <p className="text-green-600 font-medium mt-1">
-                                    {t("status")}: Verified
-                                </p>
+                                <span className="text-sm font-medium text-gray-900 truncate max-w-[60%]">
+                                    {item.value || "—"}
+                                </span>
                             </div>
-                        </div>
+                        ))}
                     </CardContent>
                 </Card>
-
-                <div className="flex justify-end">
-                    <Button className="bg-[#DC3173] hover:bg-[#DC3173]/90" size="lg">
-                        <Save className="mr-2 h-4 w-4" />
-                        {t("save_preferences")}
-                    </Button>
-                </div>
             </div>
         </div>
     );
-}
-
+};
 
 export default PaymentPreferences;

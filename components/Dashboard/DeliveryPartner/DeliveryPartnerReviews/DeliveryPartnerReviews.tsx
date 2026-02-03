@@ -79,7 +79,7 @@ const DeliveryPartnerReviews = ({ reviews }: any) => {
                         <p className="text-sm text-gray-700 line-clamp-3 mb-3">{r?.review ? r?.review : "The customer hasn't said anything!"}</p>
 
                         <div className="flex items-center justify-between text-xs text-gray-500 mt-4">
-                            <span>#{r?.orderId}</span>
+                            <span>#{r?.orderId?.orderId || ""}</span>
                             <SentimentTag type={r?.sentiment} />
                         </div>
                     </div>

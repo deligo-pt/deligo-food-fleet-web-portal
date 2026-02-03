@@ -4,10 +4,10 @@ import { getFleetManagerInfo } from '@/services/getFleetManagerInfo/getFleetMana
 
 const PaymentPreferencesPage = async () => {
   const fleetInfo = await getFleetManagerInfo();
-  // console.log(fleetInfo);
+
   return (
     <div>
-      <PaymentPreferences />
+      <PaymentPreferences bankDetails={fleetInfo?.data?.bankDetails} />
     </div>
   );
 };
