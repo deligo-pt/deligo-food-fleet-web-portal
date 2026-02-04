@@ -46,6 +46,10 @@ const DeliveryPartnerReviews = ({ reviews }: any) => {
 
             <AllFilters sortOptions={sortOptions} />
 
+            {reviews?.length < 1 && <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
+                <h1 className='text-xl font-semibold italic'>{t("no_results_found")}</h1>
+            </div>}
+
             {/* REVIEWS GRID */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 {reviews?.map((r: any) => (
