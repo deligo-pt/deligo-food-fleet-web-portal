@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Bike, CheckCircle, Clock, Users } from "lucide-react";
 import TopDrivers from "./TopDrivers";
 import { useTranslation } from "@/hooks/use-translation";
@@ -10,50 +9,8 @@ import { IDashboardAnalytics } from "@/types/dashboard.type";
 import { IDeliveryPartnerCard } from "@/types/delivery-partner.type";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 
-const VEHICLE_NAME_MAP: Record<string, string> = {
-  MOTORBIKE: "Motorbike",
-  BICYCLE: "Bicycle",
-  CAR: "Car",
-  VAN: "Van",
-};
-
-
-const vehicleData = [
-  {
-    name: "Bicycle",
-    // value: 45,
-    color: "#DC3173",
-  },
-  {
-    name: "Motorbike",
-    // value: 30,
-    color: "#E87A9F",
-  },
-  {
-    name: "Car",
-    // value: 15,
-    color: "#F2ABC6",
-  },
-  {
-    name: "Van",
-    // value: 10,
-    color: "#FCE7EF",
-  },
-];
-
 const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDashboardAnalytics }) => {
   const { t } = useTranslation();
-  const fleetChartData = vehicleData.map((item) => {
-    const apiVehicle = analytics?.fleetComposition.find(
-      (v) => VEHICLE_NAME_MAP[v.vehicle] === item.name
-    )
-
-    return {
-      name: item.name,
-      value: apiVehicle?.count ?? 0,
-      color: item.color,
-    }
-  });
 
 
   return (
@@ -129,37 +86,7 @@ const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDa
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("fleet_composition")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[300px] flex items-center justify-center">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={fleetChartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                    nameKey="name"
-                  >
-                    {fleetChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
+      <div className="grid gap-4 grid-cols-1">
         <Card>
           <CardHeader>
             <CardTitle>{t("partner_status")}</CardTitle>
