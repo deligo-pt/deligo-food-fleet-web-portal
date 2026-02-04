@@ -794,10 +794,10 @@ export const pt = {
     id_expiry_date: "Data de validade do documento",
     nif_number: "Número de NIF",
     citizen_card: "Número do Cartão de Cidadão",
-    passport_number: "Número do passaporte",
+    passport_number_optional: "Número do Passaporte (Opcional)",
     street: "Rua",
     postal_code: "Código postal",
-    state: "Distrito",
+    state_optional: "Distrito (Opcional)",
     continue_to_legal_status: "Continuar para estado legal",
 
     // -> legal status form
@@ -805,7 +805,7 @@ export const pt = {
     please_provide_details_partner: "Forneça informações sobre o estado legal do parceiro",
     residence_permit_type: "Tipo de autorização de residência",
     trc_number: "Número do TRC / Título de residência",
-    expiration_date: "Data de validade",
+    trc_expiration_date: "Data de Expiração do TRC",
     continue_to_payment_details: "Continuar para detalhes de pagamento",
 
     // -> payment details
@@ -844,6 +844,7 @@ export const pt = {
     have_criminal_record_certificate: "Possui Certificado de Registo Criminal",
     criminal_record_certificate: "Certificado de Registo Criminal",
     certificate_issue_date: "Data de emissão do certificado",
+    certificate_expiry_date: "Data de Expiração do Certificado",
     continue_to_equipment: "Continuar para equipamento e disponibilidade",
 
     // -> equipment & availability
@@ -867,6 +868,8 @@ export const pt = {
 
     // -> upload documents
     upload_your_documents: "Carregar os seus documentos",
+    vehicle_type_bicycle: "Se o seu tipo de veículo for Bicicleta ou E-Bike, não é necessário submeter a carta de condução.",
+    vehicle_type_not_bicycle: "Se o seu tipo de veículo não for Bicicleta ou E-Bike, terá de submeter a carta de condução para maior segurança. Caso não a submeta, as autoridades não serão responsáveis por isso.",
     id_proof_front: "Documento de identificação (frente)",
     id_proof_back: "Documento de identificação (verso)",
     driving_license_front: "Carta de condução (frente)",
