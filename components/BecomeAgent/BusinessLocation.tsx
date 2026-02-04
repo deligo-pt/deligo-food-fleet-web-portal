@@ -35,7 +35,7 @@ interface Props {
 };
 type LocationFormType = {
     street: string;
-    state: string;
+    state?: string;
     city: string;
     postalCode: string;
     country: string;
@@ -219,7 +219,7 @@ const AddYourBusinessLocation = ({ profile }: Props) => {
             const payload = {
                 businessLocation: {
                     street: data.street,
-                    state: data.state,
+                    state: data.state || "",
                     city: data.city,
                     postalCode: data.postalCode,
                     country: data.country,
