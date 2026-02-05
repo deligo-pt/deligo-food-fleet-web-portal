@@ -6,6 +6,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getSocket } from "@/lib/socket";
 import { formatDateTime } from "@/utils/formatter";
+import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
 
 interface Props {
     selectedPartner?: TDeliveryPartner | null;
@@ -96,10 +97,17 @@ const TrackingMapView = ({ selectedPartner }: Props) => {
 
 
                         <div className="absolute bottom-4 left-4 bg-white rounded-xl shadow-lg p-4 w-64">
-                            <h3 className="font-semibold text-sm">
-                                {selectedPartner?.name?.firstName}{" "}
-                                {selectedPartner?.name?.lastName}
-                            </h3>
+                            <div className="flex flex-row justify-between items-center">
+                                <h3 className="font-semibold text-sm">
+                                    {selectedPartner?.name?.firstName}{" "}
+                                    {selectedPartner?.name?.lastName}
+                                </h3>
+                                <CustomBadge
+                                    variant={selectedPartner?.operationalData?.currentStatus === "ON_DELIVERY" ? "success" : "secondary"}
+                                >
+                                    {selectedPartner?.operationalData?.currentStatus}
+                                </CustomBadge>
+                            </div>
 
                             <p className="text-xs text-gray-600 mt-1">
                                 Lat: {location.lat.toFixed(6)}

@@ -22,7 +22,7 @@ interface IProps {
 const LiveTracking = ({ deliveryPartners }: { deliveryPartners: IProps }) => {
     const { t } = useTranslation();
     const [selectedPartner, setSelectedPartner] = useState<TDeliveryPartner | null>();
-
+    console.log(selectedPartner)
     return (
         <div>
             <motion.div

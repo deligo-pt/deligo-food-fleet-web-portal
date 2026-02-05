@@ -24,6 +24,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
+import Link from "next/link";
 
 const PRIMARY = "#DC3173";
 const BG = "#FFF1F7";
@@ -164,12 +165,14 @@ export default function ReportIssuePage() {
             <p className="text-sm text-gray-600 max-w-[400px]">
               {t("contact_support_team")}
             </p>
-            <Button
-              className="h-11 px-6 text-white rounded-xl"
-              style={{ background: PRIMARY }}
-            >
-              {t("open_live_chat")}
-            </Button>
+            <Link href="/agent/live-chat">
+              <Button
+                className="h-11 px-6 text-white rounded-xl"
+                style={{ background: PRIMARY }}
+              >
+                {t("open_live_chat")}
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>
