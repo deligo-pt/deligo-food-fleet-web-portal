@@ -125,18 +125,18 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       ],
     },
 
-    {
-      id: "zones",
-      title: t("delivery_zones"),
-      icon: <Map size={18} />,
-      items: [
-        { name: t("active_zones"), path: "/agent/active-zones" },
-        { name: t("add_new_zone"), path: "/agent/add-zone" },
-        { name: t("zone_performance"), path: "/agent/zone-performance" },
-        { name: t("heatmap_busy_zones"), path: "/agent/zones-heatmap" },
-        { name: t("adjust_zone_radius"), path: "/agent/zone-radius" },
-      ],
-    },
+    // {
+    //   id: "zones",
+    //   title: t("delivery_zones"),
+    //   icon: <Map size={18} />,
+    //   items: [
+    //     { name: t("active_zones"), path: "/agent/active-zones" },
+    //     { name: t("add_new_zone"), path: "/agent/add-zone" },
+    //     { name: t("zone_performance"), path: "/agent/zone-performance" },
+    //     { name: t("heatmap_busy_zones"), path: "/agent/zones-heatmap" },
+    //     { name: t("adjust_zone_radius"), path: "/agent/zone-radius" },
+    //   ],
+    // },
 
     {
       id: "settings",
@@ -144,33 +144,6 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       icon: <Settings size={18} />,
       items: [
         { name: t("payment_preferences"), path: "/agent/payment-preferences" },
-        {
-          name: t("notification_preferences"),
-          path: "/agent/notification-preferences",
-        },
-      ],
-    },
-
-    {
-      id: "team",
-      title: t("team_management"),
-      icon: <UserCog size={18} />,
-      items: [
-        { name: t("all_team_members"), path: "/agent/team-members" },
-        { name: t("roles_nd_permissions"), path: "/agent/roles-permissions" },
-        { name: t("activity_logs"), path: "/agent/activity-logs" },
-      ],
-    },
-
-    {
-      id: "reports",
-      title: t("reports_nd_analytics"),
-      icon: <FileBarChart size={18} />,
-      items: [
-        { name: t("earnings_report"), path: "/agent/report-earnings" },
-        { name: t("delivery_summary"), path: "/agent/report-delivery-summary" },
-        { name: t("monthly_report"), path: "/agent/report-monthly" },
-        { name: t("custom_report_builder"), path: "/agent/report-custom" },
       ],
     },
 
@@ -181,12 +154,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       items: [
         { name: t("chat_with_support"), path: "/agent/chat-support" },
         { name: "Live Chat", path: "/agent/live-chat" },
-        {
-          name: t("delivery_partner_chat"),
-          path: "/agent/delivery-partner-chat",
-        },
         { name: t("report_an_issue"), path: "/agent/report-issue" },
-        { name: t("help_center"), path: "/agent/help-center" },
       ],
     },
 
@@ -300,8 +268,8 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                 <Link
                   href={menu.path}
                   className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${pathname === menu.path
-                      ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
-                      : "hover:bg-pink-100"
+                    ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
+                    : "hover:bg-pink-100"
                     }`}
                 >
                   <div className="flex items-center gap-3">
@@ -349,8 +317,8 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                             key={sub.name}
                             href={sub.path}
                             className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${pathname === sub.path
-                                ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
-                                : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
+                              ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
+                              : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
                               }`}
                           >
                             {sub.name}
@@ -408,8 +376,8 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                       href={menu.path}
                       onClick={() => setMobileOpen(false)}
                       className={`flex items-center gap-2 py-2 ${pathname === menu.path
-                          ? "text-pink-700 font-semibold"
-                          : "text-gray-800 hover:text-pink-600"
+                        ? "text-pink-700 font-semibold"
+                        : "text-gray-800 hover:text-pink-600"
                         }`}
                     >
                       <div className="text-pink-600">{menu.icon}</div>
@@ -446,8 +414,8 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                                 href={sub.path}
                                 onClick={() => setMobileOpen(false)}
                                 className={`text-sm py-1 transition-all ${pathname === sub.path
-                                    ? "text-pink-700 font-semibold"
-                                    : "text-gray-600 hover:text-pink-600"
+                                  ? "text-pink-700 font-semibold"
+                                  : "text-gray-600 hover:text-pink-600"
                                   }`}
                               >
                                 {sub.name}

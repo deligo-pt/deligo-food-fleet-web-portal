@@ -546,7 +546,7 @@ export const en = {
     no_partners_found: "No partners found",
     // dashboard
     hello: "Hello",
-    welcome_to_food_delivery_dashboard: "Welcome to your food delivery dashboard overview",
+    welcome_to_fleet_manager_dashboard: "Welcome to Fleet Manager dashboard",
     total_partners: "Total Partners",
     across_all_zones: "Across all zones",
     online_now: "Online Now",

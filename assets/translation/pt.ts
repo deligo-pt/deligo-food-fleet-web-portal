@@ -731,7 +731,7 @@ export const pt = {
 
     // dashboard
     hello: "Olá",
-    welcome_to_food_delivery_dashboard: "Bem-vindo ao painel geral da sua plataforma de entregas de comida",
+    welcome_to_fleet_manager_dashboard: "Bem-vindo ao painel do Gestor de Frota",
     total_partners: "Total de parceiros",
     across_all_zones: "Em todas as zonas",
     online_now: "Online agora",
