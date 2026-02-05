@@ -66,7 +66,7 @@ export default function AgentHeroBackground() {
                     ★
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">4.8/5</div>
+                    <div className="font-semibold text-gray-900">4.9/5</div>
                     <div className="text-md">{t("agentSatisfaction")}</div>
                   </div>
                 </div>

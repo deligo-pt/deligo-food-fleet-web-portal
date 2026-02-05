@@ -122,7 +122,7 @@ export default function LearnMore() {
           className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
         >
           <Link
-            href="/signup"
+            href="/become-agent"
             className="inline-block px-10 py-4 bg-white text-[#DC3173] font-bold rounded-full shadow-lg hover:shadow-xl transition"
           >
             {t("sign_up_now")}

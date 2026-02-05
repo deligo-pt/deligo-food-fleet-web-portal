@@ -86,7 +86,7 @@ export default function BecomAgentPage() {
       >
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-[#DC3173]">
-            {t("agent_registration_steps")}
+            {t("fleet_registration_steps")}
           </h2>
           <p className="text-gray-500 text-sm mt-1">
             {t("follow_these_simple_steps")}

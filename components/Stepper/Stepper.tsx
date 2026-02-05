@@ -56,7 +56,7 @@ export default function StepperFlow() {
         className="text-center mb-8"
       >
         <h2 className="text-2xl sm:text-3xl font-extrabold bg-linear-to-r from-[#DC3173] to-[#a72b5c] bg-clip-text text-transparent tracking-wide">
-          {t("agent_registration_process")}
+          {t("fleet_registration_process")}
         </h2>
         <p className="text-gray-600 text-sm mt-2">
           {t("follow_these_simple_steps")}
