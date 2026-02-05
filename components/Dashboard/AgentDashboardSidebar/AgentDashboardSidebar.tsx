@@ -7,15 +7,12 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  FileBarChart,
   Home,
   LayoutDashboard,
-  Map,
   Menu,
   MessageSquare,
   Package,
   Settings,
-  UserCog,
   X,
 } from "lucide-react";
 import Link from "next/link";

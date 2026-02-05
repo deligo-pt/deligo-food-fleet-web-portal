@@ -38,7 +38,7 @@ const TopDrivers = ({ deliveryPartners }: { deliveryPartners: IDeliveryPartnerCa
             <div className="p-2">
               <div className="flex flex-row justify-between items-center">
                 <h4 className="font-medium">{partner?.name?.firstName}{" "}{partner?.name?.lastName}</h4>
-                <Badge>{partner?.personalInfo?.gender}</Badge>
+                <Badge>{partner?.personalInfo?.gender || "Male"}</Badge>
               </div>
               <div className="flex justify-between items-center mt-2">
                 <div className="flex items-center">

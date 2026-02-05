@@ -50,6 +50,8 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
   const { t } = useTranslation();
   const form = useForm<TSosForm>({
     resolver: zodResolver(createSosValidationSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
       userNote: "",
       issueTags: [],
@@ -138,9 +140,9 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
                     <FormLabel>{t("what_going_wrong")}</FormLabel>
                     <FormControl>
                       <Input
+                        {...field}
                         id="userNote"
                         name="userNote"
-                        onBlur={(e) => field.onChange(e.target.value)}
                         placeholder={t("describe_issue_here")}
                       />
                     </FormControl>

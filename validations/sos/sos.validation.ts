@@ -14,4 +14,15 @@ export const createSosValidationSchema = z.object({
       ),
     )
     .min(1, "Please select at least one issue tag"),
-});
+})
+  .superRefine((data, ctx) => {
+    const wordCount = data.userNote.length;
+
+    if (wordCount < 5) {
+      ctx.addIssue({
+        path: ["userNote"],
+        code: "custom",
+        message: "Note must contain at least 5 words",
+      });
+    }
+  });
