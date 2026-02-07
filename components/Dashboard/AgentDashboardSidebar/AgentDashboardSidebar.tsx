@@ -164,7 +164,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
           name: t("delivery_partner_emergency_alerts"),
           path: "/agent/delivery-partner-emergency-alerts",
         },
-        { name: t("report_accident_incident"), path: "/agent/report-incident" },
+        { name: t("report_insights"), path: "/agent/report-insights" },
         {
           name: t("live_delivery_partner_tracking"),
           path: "/agent/live-tracking",

@@ -520,7 +520,7 @@ export const en = {
     // ->
     emergency_sos: "Emergency / SOS",
     delivery_partner_emergency_alerts: "Delivery Partner Emergency Alerts",
-    report_accident_incident: "Report Accident / Incident",
+    report_insights: "Report Insights",
     live_delivery_partner_tracking: "Live Delivery Partner Tracking",
 
 
@@ -1151,6 +1151,7 @@ export const en = {
     incident_description: "Incident Description",
 
     // report incident/accident
+    get_clear_overview_data: "Get a clear overview of report data and insights.",
     report_incident: "Report Incident",
     send_us_your_accidents_and_incidents: "Send us your accidents and incidents.",
     sos_emergency_alert: "SOS Emergency Alert",

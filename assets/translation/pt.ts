@@ -676,7 +676,7 @@ export const pt = {
     // ->
     emergency_sos: "Emergência / SOS",
     delivery_partner_emergency_alerts: "Alertas de Emergência dos Parceiros de Entrega",
-    report_accident_incident: "Reportar Acidente / Incidente",
+    report_insights: "Insights de Relatórios",
     live_delivery_partner_tracking: "Monitorização em Tempo Real dos Parceiros de Entrega",
 
 
@@ -1297,6 +1297,7 @@ export const pt = {
     contact_support: "Contactar suporte",
 
     // report incident/accident
+    get_clear_overview_data: "Obtenha uma visão clara dos dados e insights dos relatórios.",
     report_incident: "Reportar Incidente",
     send_us_your_accidents_and_incidents: "Envie-nos os seus acidentes e incidentes.",
     sos_emergency_alert: "Alerta de Emergência SOS",
