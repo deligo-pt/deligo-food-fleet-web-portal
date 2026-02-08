@@ -30,7 +30,7 @@ const Dashboard = ({ agentName, analytics }: { agentName: string, analytics: IDa
       >
         <DashboardPageHeader
           title={`${t("hello")}, ${agentName}`}
-          desc={t("welcome_to_food_delivery_dashboard")}
+          desc={t("welcome_to_fleet_manager_dashboard")}
         />
       </motion.div>
 

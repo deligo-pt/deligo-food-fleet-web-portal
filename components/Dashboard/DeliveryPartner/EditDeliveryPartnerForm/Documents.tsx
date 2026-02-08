@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { useTranslation } from "@/hooks/use-translation";
 
 type DocKey =
+  | "myPhoto"
   | "idProofFront"
   | "idProofBack"
   | "drivingLicenseFront"
@@ -42,6 +43,7 @@ type FilePreview = {
 const OPTIONAL_DOCS: DocKey[] = ["activity", "insurancePolicy", "drivingLicenseFront", "drivingLicenseBack",];
 
 const REQUIRED_DOCS: DocKey[] = [
+  "myPhoto",
   "idProofFront",
   "idProofBack",
   "vehicleRegistration",
@@ -53,6 +55,7 @@ export default function Documents() {
   const { id } = useParams();
 
   const [previews, setPreviews] = useState<Record<DocKey, FilePreview | null>>({
+    myPhoto: null,
     idProofFront: null,
     idProofBack: null,
     drivingLicenseFront: null,
@@ -70,6 +73,11 @@ export default function Documents() {
     label: string;
     prefersImagePreview: boolean;
   }[] = [
+      {
+        key: "myPhoto",
+        label: t("myPhoto"),
+        prefersImagePreview: true,
+      },
       {
         key: "idProofFront",
         label: t("id_proof_front"),
@@ -185,6 +193,7 @@ export default function Documents() {
         const docs = result?.data?.documents || {};
 
         const newPreviews: Record<DocKey, FilePreview | null> = {
+          myPhoto: null,
           idProofFront: null,
           idProofBack: null,
           drivingLicenseFront: null,

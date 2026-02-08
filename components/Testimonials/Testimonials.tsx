@@ -4,7 +4,6 @@
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { useTranslation } from "@/hooks/use-translation";
 
 export default function FloatingTestimonialCarousel() {

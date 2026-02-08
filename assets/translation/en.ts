@@ -17,10 +17,10 @@ export const en = {
     joinOur: "Join Our",
     deliveryNetwork: "Delivery Network",
     inPortugal: "in Portugal",
-    heroDesc: "Become a verified delivery boy agent and start working today. Access a reliable platform, steady earnings, and tools to manage your deliveries efficiently.",
+    heroDesc: "Become a verified delivery partner and start working today. Access a reliable platform, steady earnings, and tools to manage your deliveries efficiently.",
     registerNow: "Register Now",
     learnMore: "Learn More",
-    agentSatisfaction: "Agent satisfaction",
+    agentSatisfaction: "Fleet satisfaction",
     verifiedPartners: "Verified partners",
     backgroundChecked: "Background checked",
     startEarningFast: "Start Earning Fast",
@@ -28,7 +28,7 @@ export const en = {
 
     //home -> how it works
     how_iw_title: "How It Works",
-    how_iw_desc: "Follow these simple steps to become a verified agent and start managing deliveries efficiently.",
+    how_iw_desc: "Follow these simple steps to become a verified fleet manager and start managing deliveries efficiently.",
     how_iw_step_title1: "Sign Up & Submit Documents",
     how_iw_step_desc1: "Register and submit required documents for verification.",
     how_iw_step_title2: "Verification by Admin",
@@ -53,7 +53,7 @@ export const en = {
 
     // home -> testimonials
     testimonials_header: "Success Stories",
-    testimonials_desc: "Hear from agents who joined our network and are seeing amazing results.",
+    testimonials_desc: "Hear from fleet managers who joined our network and are seeing amazing results.",
     testimonial_name1: "João Silva",
     testimonial_quote1: "Joining this delivery network boosted my earnings and gave me flexible working hours. Highly recommended!",
     testimonial_name2: "Maria Fernandes",
@@ -65,9 +65,9 @@ export const en = {
 
     // home -> faq
     faq_header: "Frequently Asked Questions",
-    faq_desc: "Answers to common questions before you become a verified delivery agent.",
+    faq_desc: "Answers to common questions before you become a verified fleet manager.",
     faq_question1: "What documents are required?",
-    faq_answer1: "To register as an agent, you need to submit a valid ID, proof of address, and a bank account for payouts. Additional documents may be required based on local regulations.",
+    faq_answer1: "To register as a fleet manager, you need to submit a valid ID, proof of address, and a bank account for payouts. Additional documents may be required based on local regulations.",
     faq_question2: "How long is verification?",
     faq_answer2: "Verification typically takes 24-48 hours. You will be notified via email once your account is approved and ready to start managing delivery boys.",
     faq_question3: "Can I manage multiple delivery boys?",
@@ -77,28 +77,28 @@ export const en = {
 
     // home -> cta section
     cta_header: "Ready to Join the Network?",
-    cta_desc: "Become a verified delivery boy agent and start managing your network with flexible hours, weekly payouts, and full support.",
+    cta_desc: "Become a verified fleet manager and start managing your network with flexible hours, weekly payouts, and full support.",
     sign_up_now: "Sign Up Now",
 
 
     // about us
-    about_us_header: "About Us — PIXELMIRACLE LDA / DeliGo",
-    about_us_desc: "Our mission is to empower Fleet Managers and Agents across Portugal to efficiently manage their operations, monitor delivery drivers, and grow their business while ensuring the highest standards of safety and reliability.",
+    about_us_header: "About Us — DeliGo",
+    about_us_desc: "Our mission is to empower Fleet Managers across Portugal to efficiently manage their operations, monitor delivery drivers, and grow their business while ensuring the highest standards of safety and reliability.",
     join_us_now: "Join Us Now",
     our_mission: "Our Mission",
-    our_mission_desc: "To provide a reliable, innovative, and secure platform that empowers Fleet Managers and Agents to streamline operations, connect with verified delivery professionals, and maximize efficiency in the logistics ecosystem across Portugal.",
+    our_mission_desc: "To provide a reliable, innovative, and secure platform that empowers Fleet Managers to streamline operations, connect with verified delivery professionals, and maximize efficiency in the logistics ecosystem across Portugal.",
     our_vision: "Our Vision",
     our_vision_desc: "We envision a future where every city in Portugal has empowered and successful fleet management teams, seamlessly connected through our platform, driving transparency, safety, and sustainable growth.",
     empowering_people: "Empowering People",
-    empowering_desc: "We prioritize support, training, and resources for fleet managers and agents.",
+    empowering_desc: "We prioritize support, training, and resources for fleet managers.",
     nationwide_reach: "Nationwide Reach",
     nationwide_desc: "Connecting every city in Portugal to a unified logistics ecosystem.",
     innovation_growth: "Innovation & Growth",
     innovation_desc: "Leveraging modern technology to enhance delivery operations and efficiency.",
     trusted_secure: "Trusted & Secure",
-    trusted_desc: "Ensuring data protection, compliance, and reliable service for every agent.",
+    trusted_desc: "Ensuring data protection, compliance, and reliable service for every fleet manager.",
     join_our_fleet_community: "Join Our Fleet Community Today",
-    fleet_community_desc: "Become a verified Fleet Manager / Agent in Portugal and access tools, support, and verified delivery professionals to grow your business.",
+    fleet_community_desc: "Become a verified Fleet Manager in Portugal and access tools, support, and verified delivery professionals to grow your business.",
 
     // blog
     blog_header: "Fleet Management/Agent Blog",
@@ -106,9 +106,9 @@ export const en = {
 
     // contact us
     contact_us_header: "Contact Us",
-    contact_us_desc: "Have questions? Need support? Reach out to us and our team will respond promptly. We are here to help Fleet Managers and Agents across Portugal succeed.",
+    contact_us_desc: "Have questions? Need support? Reach out to us and our team will respond promptly. We are here to help Fleet Managers across Portugal succeed.",
     get_in_touch: "Get in Touch",
-    get_in_touch_desc: "Whether you are a new agent, existing fleet manager, or just curious about our platform, you can contact us using the information below or send a message directly.",
+    get_in_touch_desc: "Whether you are a new fleet manager, existing fleet manager, or just curious about our platform, you can contact us using the information below or send a message directly.",
     address: "Address",
     send_a_message: "Send a Message",
     send_message: "Send Message",
@@ -116,20 +116,20 @@ export const en = {
 
     // terms of services
     term_legal: "Terms & Legal",
-    term_of_service: "Terms of Service — Fleet Managers / Agents 🇵🇹",
-    term_of_s_desc1: "Please read carefully — by registering as an Agent with",
-    term_of_s_desc_strong: "PIXELMIRACLE LDA / DeliGo",
+    term_of_service: "Terms of Service — Fleet Managers 🇵🇹",
+    term_of_s_desc1: "Please read carefully — by registering as a Fleet Manager with",
+    term_of_s_desc_strong: "DeliGo",
     term_of_s_desc2: ", you agree to these terms and platform policies.",
     jump_to_sections: "Jump to Sections",
     effective_date: "Effective Date",
     october25_2025: "25 October 2025",
     need_help: "Need Help?",
     on_this_page: "On This Page",
-    deligo_pixelmiracle: "DeliGo — PIXELMIRACLE LDA. All rights reserved.",
+    deligo_pixelmiracle: "DeliGo. All rights reserved.",
     introduction: "Introduction",
     eligibility: "Eligibility",
     registration: "Registration & Verification",
-    responsibilities: "Agent Responsibilities",
+    responsibilities: "Fleet Manager Responsibilities",
     payments: "Payments & Commissions",
     terminations: "Termination",
     data_privacy: "Data & Privacy",
@@ -137,13 +137,13 @@ export const en = {
     changes: "Changes",
     governing_law: "Governing Law",
     terms_article_title1: "1. Introduction",
-    terms_article_text1: `Welcome to PIXELMIRACLE LDA / DeliGo. These Terms govern your registration and activity as a Fleet Manager/Agent in Portugal. By using our platform, you confirm that you have read and accepted all conditions.`,
+    terms_article_text1: `Welcome to DeliGo. These Terms govern your registration and activity as a Fleet Manager in Portugal. By using our platform, you confirm that you have read and accepted all conditions.`,
     terms_article_title2: "2. Eligibility",
     terms_article_text2: `You must be 18 or older and legally authorized to work in Portugal. All information and documents provided must be accurate and up to date.`,
     terms_article_title3: "3. Registration & Verification",
     terms_article_text3: `Submit required documents (ID, NIF, proof of address). Verification may take 3–5 business days. You will receive updates via email.`,
-    terms_article_title4: "4. Agent Responsibilities",
-    terms_article_text4: `Agents must manage drivers responsibly, ensure compliance with local transport laws, and maintain professional conduct at all times.`,
+    terms_article_title4: "4. Fleet Manager Responsibilities",
+    terms_article_text4: `Fleet Managers must manage drivers responsibly, ensure compliance with local transport laws, and maintain professional conduct at all times.`,
     terms_article_title5: "5. Payments & Commissions",
     terms_article_text5: `Commissions are credited weekly or monthly based on your plan. You are responsible for declaring income to Portuguese tax authorities.`,
     terms_article_title6: "6. Termination",
@@ -161,7 +161,7 @@ export const en = {
     // privacy policy
     privacy_data: "Privacy & Data",
     deligo_privacy_policy: "DeliGo Privacy Policy — Portugal / EU (GDPR)",
-    privacy_policy_desc: "This policy explains how DeliGo collects, uses, stores, and protects personal data when you register as a Fleet Manager / Agent and use our services in Portugal and the EU. Effective date:",
+    privacy_policy_desc: "This policy explains how DeliGo collects, uses, stores, and protects personal data when you register as a Fleet Manager and use our services in Portugal and the EU. Effective date:",
     download_pdf: "Download PDF",
     contact_data_protection: "Contact Data Protection",
     controller: "Controller",
@@ -188,7 +188,7 @@ export const en = {
     why_we_process_personal: "Why we process personal data",
     we_process_personal: "We process personal data only for lawful purposes, including",
     contractual_necessity: "Contractual necessity",
-    to_provide_the_services: "to provide the services you request as a Fleet Manager/Agent.",
+    to_provide_the_services: "to provide the services you request as a Fleet Manager.",
     legal_compliance: "Legal compliance",
     to_meet_tax: "to meet tax, employment and regulatory obligations in Portugal.",
     legitimate_interests: "Legitimate interests",
@@ -196,8 +196,8 @@ export const en = {
     consent: "Consent",
     for_optional_marketing: "for optional marketing communications and non-essential cookies.",
     how_we_use_personal_data: "How we use personal data",
-    verify_your_identity: "Verify your identity and eligibility to operate as an Agent.",
-    provide_maintain: "Provide and maintain your Agent dashboard (driver management, reporting, payouts).",
+    verify_your_identity: "Verify your identity and eligibility to operate as a Fleet Manager.",
+    provide_maintain: "Provide and maintain your Fleet Manager dashboard (driver management, reporting, payouts).",
     process_payments: "Process payments and tax-related documentation.",
     detect_prevent: "Detect and prevent fraud, and investigate policy violations.",
     communicate_important: "Communicate important updates and regulatory notices.",
@@ -241,9 +241,9 @@ export const en = {
 
     // cookies
     legal_privacy: "Legal & Privacy",
-    cookies_policy: "Cookies Policy — Fleet Managers/Agents (Portugal)",
+    cookies_policy: "Cookies Policy — Fleet Managers (Portugal)",
     this_is_cookies_policy: "This Cookies Policy explains how",
-    pixelmiracle: "PIXELMIRACLE LDA / DeliGo",
+    pixelmiracle: "DeliGo",
     collects_stores: "collects, stores, and uses cookies when you access our platform. By using the platform, you consent to our cookie practices.",
     what_are_cookies: "What are Cookies?",
     types_of_cookies: "Types of Cookies",
@@ -288,7 +288,7 @@ export const en = {
 
     // security
     security_safety: "Security & Safety",
-    security_data_protection: "Security & Data Protection — Fleet Managers/Agents",
+    security_data_protection: "Security & Data Protection — Fleet Managers",
     we_prioritize: "We prioritize your data and operational security. Learn how",
     safeguards_your_account: "safeguards your account, information, and platform integrity.",
     need_support: "Need Support?",
@@ -298,22 +298,22 @@ export const en = {
     encryption_standards: "Encryption Standards",
     monitoring_alerts: "Monitoring & Alerts",
     gdpr_regulatory_compliance: "GDPR & Regulatory Compliance",
-    we_ensure_your_account: "We ensure your account is secure with multi-layered authentication and strict access policies. Agents must create strong passwords, avoid sharing credentials, and enable two-factor authentication (2FA).",
+    we_ensure_your_account: "We ensure your account is secure with multi-layered authentication and strict access policies. Fleet Managers must create strong passwords, avoid sharing credentials, and enable two-factor authentication (2FA).",
     all_personal_operational: "All personal and operational data is stored securely on servers located in EU-compliant data centers. We follow GDPR guidelines and encrypt sensitive information to prevent unauthorized access.",
-    role_based_access: "Role-based access for agents and admins",
+    role_based_access: "Role-based access for Fleet Managers and admins",
     regular_access_audits: "Regular access audits to ensure compliance",
     secure_session: "Secure session management with automatic timeouts",
     we_encrypt_sensitive: "We encrypt all sensitive data both at rest and in transit using industry-standard protocols. SSL/TLS encryption ensures data safety during communication, and AES-256 is used for storage.",
-    our_platform_continuously: "Our platform continuously monitors for unusual activity. Agents and admins receive real-time alerts for suspicious login attempts, unauthorized access, or security breaches.",
-    all_personal_data_handled: "All personal data handled by PIXELMIRACLE LDA/DeliGo complies with GDPR. Agents can request access, correction, or deletion of personal information. We maintain transparent logs and secure processing.",
+    our_platform_continuously: "Our platform continuously monitors for unusual activity. Fleet Managers and admins receive real-time alerts for suspicious login attempts, unauthorized access, or security breaches.",
+    all_personal_data_handled: "All personal data handled by DeliGo complies with GDPR. Fleet Managers can request access, correction, or deletion of personal information. We maintain transparent logs and secure processing.",
     for_security_inquiries: "For security inquiries or reporting incidents",
 
 
     // learn-more
-    learn_more_fleet_management: "Learn More About Fleet/Agent Management in Portugal",
+    learn_more_fleet_management: "Learn More About Fleet Management in Portugal",
     learn_more_desc: "Discover how you can efficiently manage delivery fleets, grow your business, and ensure secure operations across every city in Portugal.",
-    ready_to_grow: "Ready to Grow Your Fleet/Agent Business?",
-    learn_more_cta_desc: "Join DeliGo and take full control of your fleet/Agent operations anywhere in Portugal.",
+    ready_to_grow: "Ready to Grow Your Fleet Business?",
+    learn_more_cta_desc: "Join DeliGo and take full control of your fleet operations anywhere in Portugal.",
     learn_feature_title1: "Why Join as a Fleet Manager?",
     learn_feature_desc1: "Operate your delivery fleet with ease, earn reliably, and gain insights that help your business grow across Portugal.",
     learn_feature_title2: "Manage Anywhere",
@@ -341,18 +341,18 @@ export const en = {
 
 
     // register -> become an agent
-    agent_registration_steps: "Agent Registration Steps",
-    follow_these_simple_steps: "Follow these simple steps to become a verified Agent",
+    fleet_registration_steps: "Fleet Registration Steps",
+    follow_these_simple_steps: "Follow these simple steps to become a verified Fleet Manager",
     join_our_partner_network: "Join our partner network and grow with us",
     i_accept_the: "I accept the",
     terms_conditions: "Terms & Conditions",
     and: "Terms & Conditions",
     confirm_continue: "Confirm & Continue",
-    already_agent: "Already a Agent?",
+    already_fleet: "Already a Fleet Manager?",
     go_home: "Go home",
 
     // register -> stepper
-    agent_registration_process: "Agent Registration Process",
+    fleet_registration_process: "Fleet Registration Process",
     personal: "Personal",
     business: "Business",
     bank: "Bank",
@@ -387,6 +387,7 @@ export const en = {
     uploadDocuments: "Upload Your Documents",
     uploadDocDesc: "Select each required document. Once all 5 are selected, you will see the registration success modal.",
     noFileSelected: "No file selected",
+    myPhoto: "My Photo",
     documentsLabel1: "Business License",
     documentsLabel2: "ID Proof (Front)",
     documentsLabel3: "ID Proof (Back)",
@@ -457,7 +458,7 @@ export const en = {
     complaints_book: "Complaints Book",
     deligo_all_rights: "DeliGo. All rights reserved.",
     delivering_excellence: "Delivering excellence across Portugal",
-    become_an_agent: "Become an Agent",
+    become_an_agent: "Become a Fleet Manager",
 
 
     // dashboard contents
@@ -520,7 +521,7 @@ export const en = {
     // ->
     emergency_sos: "Emergency / SOS",
     delivery_partner_emergency_alerts: "Delivery Partner Emergency Alerts",
-    report_accident_incident: "Report Accident / Incident",
+    report_insights: "Report Insights",
     live_delivery_partner_tracking: "Live Delivery Partner Tracking",
 
 
@@ -546,7 +547,7 @@ export const en = {
     no_partners_found: "No partners found",
     // dashboard
     hello: "Hello",
-    welcome_to_food_delivery_dashboard: "Welcome to your food delivery dashboard overview",
+    welcome_to_fleet_manager_dashboard: "Welcome to Fleet Manager dashboard",
     total_partners: "Total Partners",
     across_all_zones: "Across all zones",
     online_now: "Online Now",
@@ -1151,6 +1152,7 @@ export const en = {
     incident_description: "Incident Description",
 
     // report incident/accident
+    get_clear_overview_data: "Get a clear overview of report data and insights.",
     report_incident: "Report Incident",
     send_us_your_accidents_and_incidents: "Send us your accidents and incidents.",
     sos_emergency_alert: "SOS Emergency Alert",

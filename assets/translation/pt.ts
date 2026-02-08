@@ -17,11 +17,10 @@ export const pt = {
     joinOur: "Junte-se à Nossa",
     deliveryNetwork: "Rede de Entregas",
     inPortugal: "em Portugal",
-    heroDesc:
-        "Torne-se um agente de estafetas verificado e comece a trabalhar hoje mesmo. Aceda a uma plataforma fiável, rendimentos consistentes e ferramentas para gerir entregas de forma eficiente.",
+    heroDesc: "Torne-se um parceiro de entregas verificado e comece a trabalhar hoje. Aceda a uma plataforma fiável, ganhos estáveis e ferramentas para gerir as suas entregas de forma eficiente.",
     registerNow: "Registar Agora",
     learnMore: "Saber Mais",
-    agentSatisfaction: "Satisfação dos agentes",
+    agentSatisfaction: "Satisfação dos Frota",
     verifiedPartners: "Parceiros verificados",
     backgroundChecked: "Antecedentes verificados",
     startEarningFast: "Comece a Ganhar Rapidamente",
@@ -29,8 +28,7 @@ export const pt = {
 
     // home -> how it works
     how_iw_title: "Como Funciona",
-    how_iw_desc:
-        "Siga estes passos simples para se tornar um agente verificado e começar a gerir entregas de forma eficiente.",
+    how_iw_desc: "Siga estes passos simples para se tornar um gestor de frota verificado e começar a gerir entregas de forma eficiente.",
     how_iw_step_title1: "Registo e Envio de Documentos",
     how_iw_step_desc1: "Registe-se e envie os documentos necessários para verificação.",
     how_iw_step_title2: "Verificação pela Administração",
@@ -63,8 +61,7 @@ export const pt = {
 
     // home -> testimonials
     testimonials_header: "Histórias de Sucesso",
-    testimonials_desc:
-        "Veja o que dizem os agentes que já fazem parte da nossa rede.",
+    testimonials_desc: "Ouça gestores de frota que aderiram à nossa rede e estão a obter resultados incríveis.",
     testimonial_name1: "João Silva",
     testimonial_quote1:
         "Entrar nesta rede aumentou os meus rendimentos e deu-me horários flexíveis. Recomendo!",
@@ -80,11 +77,9 @@ export const pt = {
 
     // home -> faq
     faq_header: "Perguntas Frequentes",
-    faq_desc:
-        "Respostas às dúvidas mais comuns antes de se tornar um agente verificado.",
+    faq_desc: "Respostas às perguntas mais comuns antes de se tornar um gestor de frota verificado.",
     faq_question1: "Que documentos são necessários?",
-    faq_answer1:
-        "É necessário um documento de identificação válido, comprovativo de morada e conta bancária para pagamentos.",
+    faq_answer1: "Para se registar como gestor de frota, é necessário apresentar um documento de identificação válido, comprovativo de morada e uma conta bancária para os pagamentos. Poderão ser exigidos documentos adicionais de acordo com os regulamentos locais.",
     faq_question2: "Quanto tempo demora a verificação?",
     faq_answer2:
         "Normalmente entre 24 a 48 horas. Será notificado por email após aprovação.",
@@ -97,24 +92,20 @@ export const pt = {
 
     // home -> cta
     cta_header: "Pronto para Entrar na Rede?",
-    cta_desc:
-        "Torne-se um agente verificado e comece a gerir a sua rede com apoio total.",
+    cta_desc: "Torne-se um gestor de frota verificado e comece a gerir a sua rede com horários flexíveis, pagamentos semanais e apoio completo.",
     sign_up_now: "Registar Agora",
 
     // about us
-    about_us_header: "Sobre Nós — PIXELMIRACLE LDA / DeliGo",
-    about_us_desc:
-        "A nossa missão é capacitar gestores de frota e agentes em Portugal com ferramentas seguras e eficientes.",
+    about_us_header: "Sobre Nós — DeliGo",
+    about_us_desc: "A nossa missão é capacitar Gestores de Frota em todo o Portugal para gerir eficazmente as suas operações, acompanhar estafetas e fazer crescer o seu negócio, garantindo os mais elevados padrões de segurança e fiabilidade.",
     join_us_now: "Junte-se a Nós",
     our_mission: "A Nossa Missão",
-    our_mission_desc:
-        "Fornecer uma plataforma segura e inovadora para agentes e gestores de frota.",
+    our_mission_desc: "Fornecer uma plataforma fiável, inovadora e segura que capacite os Gestores de Frota a otimizar operações, ligar-se a profissionais de entrega verificados e maximizar a eficiência no ecossistema logístico em Portugal.",
     our_vision: "A Nossa Visão",
     our_vision_desc:
         "Criar uma rede logística transparente e sustentável em todo o país.",
     empowering_people: "Capacitar Pessoas",
-    empowering_desc:
-        "Apoio, formação e recursos para agentes e gestores.",
+    empowering_desc: "Priorizamos apoio, formação e recursos para gestores de frota.",
     nationwide_reach: "Cobertura Nacional",
     nationwide_desc:
         "Ligamos cidades em todo o território português.",
@@ -122,11 +113,9 @@ export const pt = {
     innovation_desc:
         "Tecnologia moderna para melhorar operações de entrega.",
     trusted_secure: "Seguro e Evidente",
-    trusted_desc:
-        "Proteção de dados e conformidade legal.",
+    trusted_desc: "Garantir proteção de dados, conformidade e um serviço fiável para todos os gestores de frota.",
     join_our_fleet_community: "Junte-se à Comunidade de Frota",
-    fleet_community_desc:
-        "Torne-se um gestor de frota ou agente verificado em Portugal.",
+    fleet_community_desc: "Torne-se um Gestor de Frota verificado em Portugal e tenha acesso a ferramentas, apoio e profissionais de entrega verificados para fazer crescer o seu negócio.",
 
     // blog
     blog_header: "Blog de Gestão de Frota / Agentes",
@@ -135,11 +124,9 @@ export const pt = {
 
     // contact us
     contact_us_header: "Contacte-nos",
-    contact_us_desc:
-        "Precisa de ajuda? A nossa equipa responde rapidamente.",
+    contact_us_desc: "Tem dúvidas? Precisa de apoio? Contacte-nos e a nossa equipa responderá rapidamente. Estamos aqui para ajudar os Gestores de Frota em todo o Portugal a ter sucesso.",
     get_in_touch: "Entrar em Contacto",
-    get_in_touch_desc:
-        "Use os contactos abaixo ou envie-nos uma mensagem.",
+    get_in_touch_desc: "Quer seja um novo gestor de frota, um gestor de frota já existente ou apenas curioso sobre a nossa plataforma, pode contactar-nos através das informações abaixo ou enviar uma mensagem diretamente.",
     address: "Morada",
     send_a_message: "Enviar Mensagem",
     send_message: "Enviar Mensagem",
@@ -147,20 +134,20 @@ export const pt = {
 
     // terms of services
     term_legal: "Termos & Legal",
-    term_of_service: "Termos de Serviço — Gestores de Frota / Agentes 🇵🇹",
-    term_of_s_desc1: "Por favor leia atentamente — ao registar-se como Agente na",
-    term_of_s_desc_strong: "PIXELMIRACLE LDA / DeliGo",
+    term_of_service: "Termos de Serviço — Gestores de Frota 🇵🇹",
+    term_of_s_desc1: "Leia atentamente — ao registar-se como Gestor de Frota na",
+    term_of_s_desc_strong: "DeliGo",
     term_of_s_desc2: ", concorda com estes termos e políticas da plataforma.",
     jump_to_sections: "Ir para Secções",
     effective_date: "Data de Entrada em Vigor",
     october25_2025: "25 de Outubro de 2025",
     need_help: "Precisa de Ajuda?",
     on_this_page: "Nesta Página",
-    deligo_pixelmiracle: "DeliGo — PIXELMIRACLE LDA. Todos os direitos reservados.",
+    deligo_pixelmiracle: "DeliGo. Todos os direitos reservados.",
     introduction: "Introdução",
     eligibility: "Elegibilidade",
     registration: "Registo & Verificação",
-    responsibilities: "Responsabilidades do Agente",
+    responsibilities: "Responsabilidades do Gestor de Frota",
     payments: "Pagamentos & Comissões",
     terminations: "Rescisão",
     data_privacy: "Dados & Privacidade",
@@ -169,7 +156,7 @@ export const pt = {
     governing_law: "Lei Aplicável",
 
     terms_article_title1: "1. Introdução",
-    terms_article_text1: `Bem-vindo à PIXELMIRACLE LDA / DeliGo. Estes Termos regulam o seu registo e atividade como Gestor de Frota/Agente em Portugal. Ao utilizar a nossa plataforma, confirma que leu e aceitou todas as condições.`,
+    terms_article_text1: "Bem-vindo à DeliGo. Estes Termos regulam o seu registo e atividade como Gestor de Frota em Portugal. Ao utilizar a nossa plataforma, confirma que leu e aceitou todas as condições.",
 
     terms_article_title2: "2. Elegibilidade",
     terms_article_text2: `Deve ter 18 anos ou mais e estar legalmente autorizado a trabalhar em Portugal. Todas as informações e documentos fornecidos devem ser verdadeiros e atualizados.`,
@@ -177,8 +164,8 @@ export const pt = {
     terms_article_title3: "3. Registo & Verificação",
     terms_article_text3: `Deverá submeter os documentos exigidos (documento de identificação, NIF, comprovativo de morada). O processo de verificação pode demorar entre 3 a 5 dias úteis. Receberá atualizações por email.`,
 
-    terms_article_title4: "4. Responsabilidades do Agente",
-    terms_article_text4: `Os Agentes devem gerir os estafetas de forma responsável, cumprir a legislação local de transportes e manter sempre uma conduta profissional.`,
+    terms_article_title4: "4. Responsabilidades do Gestor de Frota",
+    terms_article_text4: "Os Gestores de Frota devem gerir os estafetas de forma responsável, garantir o cumprimento das leis locais de transporte e manter sempre uma conduta profissional.",
 
     terms_article_title5: "5. Pagamentos & Comissões",
     terms_article_text5: `As comissões são creditadas semanal ou mensalmente, conforme o plano escolhido. O Agente é responsável pela declaração dos rendimentos junto das autoridades fiscais portuguesas.`,
@@ -201,8 +188,7 @@ export const pt = {
     // privacy policy
     privacy_data: "Privacidade & Dados",
     deligo_privacy_policy: "Política de Privacidade da DeliGo — Portugal / UE (RGPD)",
-    privacy_policy_desc:
-        "Esta política explica como a DeliGo recolhe, utiliza, armazena e protege os dados pessoais quando se regista como Gestor de Frota / Agente e utiliza os nossos serviços em Portugal e na UE. Data de entrada em vigor:",
+    privacy_policy_desc: "Esta política explica como a DeliGo recolhe, utiliza, armazena e protege dados pessoais quando se regista como Gestor de Frota e utiliza os nossos serviços em Portugal e na UE. Data de entrada em vigor:",
     download_pdf: "Descarregar PDF",
     contact_data_protection: "Contactar Proteção de Dados",
     controller: "Responsável pelo Tratamento",
@@ -237,8 +223,7 @@ export const pt = {
     we_process_personal:
         "Tratamos dados pessoais apenas para fins legais, incluindo",
     contractual_necessity: "Necessidade contratual",
-    to_provide_the_services:
-        "para fornecer os serviços solicitados enquanto Gestor de Frota/Agente.",
+    to_provide_the_services: "para prestar os serviços que solicita como Gestor de Frota.",
     legal_compliance: "Cumprimento legal",
     to_meet_tax:
         "para cumprir obrigações fiscais, laborais e regulamentares em Portugal.",
@@ -250,10 +235,8 @@ export const pt = {
         "para comunicações de marketing opcionais e cookies não essenciais.",
 
     how_we_use_personal_data: "Como utilizamos os dados pessoais",
-    verify_your_identity:
-        "Verificar a sua identidade e elegibilidade para atuar como Agente.",
-    provide_maintain:
-        "Fornecer e manter o seu painel de Agente (gestão de estafetas, relatórios, pagamentos).",
+    verify_your_identity: "Verificar a sua identidade e elegibilidade para operar como Gestor de Frota.",
+    provide_maintain: "Fornecer e manter o seu painel de Gestor de Frota (gestão de estafetas, relatórios, pagamentos).",
     process_payments:
         "Processar pagamentos e documentação fiscal.",
     detect_prevent:
@@ -329,9 +312,9 @@ export const pt = {
 
     // cookies
     legal_privacy: "Legal & Privacidade",
-    cookies_policy: "Política de Cookies — Gestores de Frota/Agentes (Portugal)",
+    cookies_policy: "Política de Cookies — Gestores de Frota (Portugal)",
     this_is_cookies_policy: "Esta Política de Cookies explica como",
-    pixelmiracle: "PIXELMIRACLE LDA / DeliGo",
+    pixelmiracle: "DeliGo",
     collects_stores:
         "recolhe, armazena e utiliza cookies quando acede à nossa plataforma.",
     what_are_cookies: "O que são Cookies?",
@@ -396,7 +379,7 @@ export const pt = {
 
     // security
     security_safety: "Segurança & Proteção",
-    security_data_protection: "Segurança & Proteção de Dados — Gestores de Frota/Agentes",
+    security_data_protection: "Segurança & Proteção de Dados — Gestores de Frota",
     we_prioritize: "Priorizamos a segurança dos seus dados e operações. Saiba como",
     safeguards_your_account: "protegemos a sua conta, informações e a integridade da plataforma.",
     need_support: "Precisa de Suporte?",
@@ -406,39 +389,30 @@ export const pt = {
     encryption_standards: "Padrões de Encriptação",
     monitoring_alerts: "Monitorização & Alertas",
     gdpr_regulatory_compliance: "RGPD & Conformidade Regulamentar",
-
-    we_ensure_your_account:
-        "Garantimos a segurança da sua conta através de autenticação em múltiplas camadas e políticas rigorosas de acesso. Os Agentes devem criar palavras-passe fortes, não partilhar credenciais e ativar a autenticação de dois fatores (2FA).",
-
+    we_ensure_your_account: "Garantimos que a sua conta é segura com autenticação em múltiplas camadas e políticas de acesso rigorosas. Os Gestores de Frota devem criar palavras-passe fortes, evitar partilhar credenciais e ativar a autenticação de dois fatores (2FA).",
     all_personal_operational:
         "Todos os dados pessoais e operacionais são armazenados de forma segura em servidores localizados em centros de dados compatíveis com a UE. Seguimos as diretrizes do RGPD e encriptamos informações sensíveis para evitar acessos não autorizados.",
-
-    role_based_access: "Acesso baseado em funções para agentes e administradores",
+    role_based_access: "Acesso baseado em funções para Gestores de Frota e administradores",
     regular_access_audits: "Auditorias regulares de acesso para garantir conformidade",
     secure_session: "Gestão segura de sessões com encerramento automático",
 
     we_encrypt_sensitive:
         "Encriptamos todos os dados sensíveis, tanto em repouso como em trânsito, utilizando protocolos de padrão industrial. A encriptação SSL/TLS garante a segurança durante a comunicação, e o AES-256 é utilizado para armazenamento.",
-
-    our_platform_continuously:
-        "A nossa plataforma monitoriza continuamente atividades invulgares. Agentes e administradores recebem alertas em tempo real sobre tentativas de login suspeitas, acessos não autorizados ou incidentes de segurança.",
-
-    all_personal_data_handled:
-        "Todos os dados pessoais tratados pela PIXELMIRACLE LDA / DeliGo cumprem o RGPD. Os Agentes podem solicitar acesso, correção ou eliminação das suas informações pessoais. Mantemos registos transparentes e processamento seguro.",
-
+    our_platform_continuously: "A nossa plataforma monitoriza continuamente atividades invulgares. Os Gestores de Frota e administradores recebem alertas em tempo real sobre tentativas de login suspeitas, acessos não autorizados ou falhas de segurança.",
+    all_personal_data_handled: "Todos os dados pessoais tratados pela DeliGo estão em conformidade com o RGPD. Os Gestores de Frota podem solicitar acesso, correção ou eliminação das suas informações pessoais. Mantemos registos transparentes e processamento seguro.",
     for_security_inquiries:
         "Para questões de segurança ou comunicação de incidentes",
 
     // learn-more
     learn_more_fleet_management:
-        "Saiba Mais Sobre Gestão de Frota / Agentes em Portugal",
+        "Saiba Mais Sobre Gestão de Frota em Portugal",
     learn_more_desc:
         "Descubra como pode gerir frotas de entregas de forma eficiente, expandir o seu negócio e garantir operações seguras em todas as cidades de Portugal.",
 
     ready_to_grow:
-        "Pronto para Crescer o Seu Negócio de Frota / Agente?",
+        "Pronto para Crescer o Seu Negócio de Frota?",
     learn_more_cta_desc:
-        "Junte-se à DeliGo e assuma total controlo das operações da sua frota ou agentes em qualquer ponto de Portugal.",
+        "Junte-se à DeliGo e assuma total controlo das operações da sua frota em qualquer ponto de Portugal.",
 
     learn_feature_title1: "Porquê Tornar-se Gestor de Frota?",
     learn_feature_desc1:
@@ -476,21 +450,21 @@ export const pt = {
     register_fleet_manager: "Registar Gestor de Frota",
 
     // register -> become an agent
-    agent_registration_steps: "Etapas de Registo do Agente",
+    fleet_registration_steps: "Passos de Registo da Frota",
     follow_these_simple_steps:
-        "Siga estes passos simples para se tornar um Agente verificado",
+        "Siga estes passos simples para se tornar um Frota verificado",
     join_our_partner_network:
         "Junte-se à nossa rede de parceiros e cresça connosco",
     i_accept_the: "Aceito os",
     terms_conditions: "Termos & Condições",
     and: "e",
     confirm_continue: "Confirmar & Continuar",
-    already_agent: "Já é Agente?",
+    already_fleet: "Já é um Gestor de Frota?",
     go_home: "Ir para o início",
 
 
     // register -> stepper
-    agent_registration_process: "Processo de Registo do Agente",
+    fleet_registration_process: "Processo de Registo de Gestor de Frota",
     personal: "Pessoal",
     business: "Negócio",
     bank: "Banco",
@@ -531,6 +505,7 @@ export const pt = {
     uploadDocDesc:
         "Selecione cada documento obrigatório. Assim que os 5 documentos forem selecionados, verá o modal de sucesso do registo.",
     noFileSelected: "Nenhum ficheiro selecionado",
+    myPhoto: "Minha Foto",
     documentsLabel1: "Licença Comercial",
     documentsLabel2: "Documento de Identificação (Frente)",
     documentsLabel3: "Documento de Identificação (Verso)",
@@ -632,7 +607,7 @@ export const pt = {
     complaints_book: "Livro de Reclamações",
     deligo_all_rights: "DeliGo. Todos os direitos reservados.",
     delivering_excellence: "Excelência em entregas em Portugal",
-    become_an_agent: "Tornar-se Agente",
+    become_an_agent: "Torne-se um Gestor de Frota",
 
 
     // dashboard contents
@@ -702,7 +677,7 @@ export const pt = {
     // ->
     emergency_sos: "Emergência / SOS",
     delivery_partner_emergency_alerts: "Alertas de Emergência dos Parceiros de Entrega",
-    report_accident_incident: "Reportar Acidente / Incidente",
+    report_insights: "Insights de Relatórios",
     live_delivery_partner_tracking: "Monitorização em Tempo Real dos Parceiros de Entrega",
 
 
@@ -731,7 +706,7 @@ export const pt = {
 
     // dashboard
     hello: "Olá",
-    welcome_to_food_delivery_dashboard: "Bem-vindo ao painel geral da sua plataforma de entregas de comida",
+    welcome_to_fleet_manager_dashboard: "Bem-vindo ao painel do Gestor de Frota",
     total_partners: "Total de parceiros",
     across_all_zones: "Em todas as zonas",
     online_now: "Online agora",
@@ -1323,6 +1298,7 @@ export const pt = {
     contact_support: "Contactar suporte",
 
     // report incident/accident
+    get_clear_overview_data: "Obtenha uma visão clara dos dados e insights dos relatórios.",
     report_incident: "Reportar Incidente",
     send_us_your_accidents_and_incidents: "Envie-nos os seus acidentes e incidentes.",
     sos_emergency_alert: "Alerta de Emergência SOS",
