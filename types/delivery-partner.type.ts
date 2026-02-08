@@ -175,6 +175,7 @@ export type TDeliveryPartner = {
   // 9) Documents
   // -------------------------------------------------
   documents?: {
+    myPhoto?: string;
     idProofFront?: string;
     idProofBack?: string;
     drivingLicenseFront?: string;

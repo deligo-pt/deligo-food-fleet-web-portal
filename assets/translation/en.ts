@@ -387,6 +387,7 @@ export const en = {
     uploadDocuments: "Upload Your Documents",
     uploadDocDesc: "Select each required document. Once all 5 are selected, you will see the registration success modal.",
     noFileSelected: "No file selected",
+    myPhoto: "My Photo",
     documentsLabel1: "Business License",
     documentsLabel2: "ID Proof (Front)",
     documentsLabel3: "ID Proof (Back)",

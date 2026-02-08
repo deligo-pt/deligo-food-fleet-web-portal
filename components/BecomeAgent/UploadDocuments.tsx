@@ -49,6 +49,11 @@ export default function UploadDocuments({
     prefersImagePreview: boolean;
   }[] = [
       {
+        key: "myPhoto",
+        label: t('myPhoto'),
+        prefersImagePreview: false,
+      },
+      {
         key: "businessLicense",
         label: t('documentsLabel1'),
         prefersImagePreview: false,

@@ -505,6 +505,7 @@ export const pt = {
     uploadDocDesc:
         "Selecione cada documento obrigatório. Assim que os 5 documentos forem selecionados, verá o modal de sucesso do registo.",
     noFileSelected: "Nenhum ficheiro selecionado",
+    myPhoto: "Minha Foto",
     documentsLabel1: "Licença Comercial",
     documentsLabel2: "Documento de Identificação (Frente)",
     documentsLabel3: "Documento de Identificação (Verso)",
