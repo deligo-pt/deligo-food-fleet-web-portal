@@ -386,6 +386,7 @@ export const en = {
     country: "Country",
     saveLocationNext: "Save Location & Next",
     // document-image-details
+    note : "Note",
     uploadDocuments: "Upload Your Documents",
     uploadDocDesc: "Select each required document. Once all 5 are selected, you will see the registration success modal.",
     noFileSelected: "No file selected",

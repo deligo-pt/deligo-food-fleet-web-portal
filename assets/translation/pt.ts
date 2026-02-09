@@ -503,6 +503,7 @@ export const pt = {
     saveLocationNext: "Guardar Localização & Seguinte",
 
     // document-image-details
+    note: "Nota",
     uploadDocuments: "Carregar os Seus Documentos",
     uploadDocDesc:
         "Selecione cada documento obrigatório. Assim que os 5 documentos forem selecionados, verá o modal de sucesso do registo.",
