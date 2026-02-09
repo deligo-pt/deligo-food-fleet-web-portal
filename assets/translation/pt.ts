@@ -12,8 +12,7 @@ export const pt = {
     signUp: "Registar",
 
     // home -> hero
-    partner: "Parceiro",
-    trusted: "Confiável",
+    trusted_partner: "Parceiro oficial",
     joinOur: "Junte-se à Nossa",
     deliveryNetwork: "Rede de Entregas",
     inPortugal: "em Portugal",
@@ -24,7 +23,7 @@ export const pt = {
     verifiedPartners: "Parceiros verificados",
     backgroundChecked: "Antecedentes verificados",
     startEarningFast: "Comece a Ganhar Rapidamente",
-    heroCTADesc: "Horários flexíveis • pagamentos semanais • Suporte em Portugal",
+    heroCTADesc: "Horários flexíveis • Pagamentos Semanais • Suporte em Portugal",
 
     // home -> how it works
     how_iw_title: "Como Funciona",
@@ -103,7 +102,7 @@ export const pt = {
     our_mission_desc: "Fornecer uma plataforma fiável, inovadora e segura que capacite os Gestores de Frota a otimizar operações, ligar-se a profissionais de entrega verificados e maximizar a eficiência no ecossistema logístico em Portugal.",
     our_vision: "A Nossa Visão",
     our_vision_desc:
-        "Criar uma rede logística transparente e sustentável em todo o país.",
+        "Imaginamos um futuro onde todas as cidades de Portugal tenham equipas de gestão de frotas capacitadas e bem-sucedidas, perfeitamente conectadas através da nossa plataforma, promovendo transparência, segurança e crescimento sustentável.",
     empowering_people: "Capacitar Pessoas",
     empowering_desc: "Priorizamos apoio, formação e recursos para gestores de frota.",
     nationwide_reach: "Cobertura Nacional",
@@ -130,6 +129,9 @@ export const pt = {
     address: "Morada",
     send_a_message: "Enviar Mensagem",
     send_message: "Enviar Mensagem",
+    your_name: "Nome",
+    your_email: "E-mail",
+    your_message: "Mensagem",
 
 
     // terms of services
@@ -592,7 +594,7 @@ export const pt = {
 
     // footer
     contact_us: "Contactos",
-    email: "Email",
+    email: "E-mail",
     phone: "Telefone",
     follow_us: "Siga-nos",
     facebook: "Facebook",
@@ -1263,7 +1265,6 @@ export const pt = {
     menu_items_issue: "Problema de menu / itens",
     ui_dashboard_bug: "Erro na interface / painel",
     delivery_partner_problem: "Problema com parceiro de entrega",
-    your_email: "O seu email",
     describe_the_issue: "Descreva o problema",
     attach_screenshot: "Anexar captura de ecrã (opcional)",
     no_file_chosen: "Nenhum ficheiro selecionado",

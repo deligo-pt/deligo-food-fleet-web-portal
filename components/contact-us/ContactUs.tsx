@@ -65,7 +65,11 @@ const ContactUs = () => {
                             </div>
                             <div>
                                 <p className="font-semibold text-gray-900">{t("address")}</p>
-                                <p className="text-gray-700">Lisbon, Portugal</p>
+                                <p className="text-gray-700">
+                                    Rua Joaquim Agostinho 16C
+                                    <br />
+                                    1750-126 Lisboa
+                                </p>
                             </div>
                         </div>
                     </div>

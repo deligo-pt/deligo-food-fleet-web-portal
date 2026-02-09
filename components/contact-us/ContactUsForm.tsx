@@ -86,10 +86,10 @@ const ContactUsForm = () => {
                         name="name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Your Name</FormLabel>
+                                <FormLabel>{t("your_name")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Your Name"
+                                        placeholder={t("your_name")!}
                                         {...field}
                                     />
                                 </FormControl>
@@ -104,11 +104,11 @@ const ContactUsForm = () => {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Your Email</FormLabel>
+                                <FormLabel>{t("your_email")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="email"
-                                        placeholder="Your Email"
+                                        placeholder={t("your_email")}
                                         {...field}
                                     />
                                 </FormControl>
@@ -123,11 +123,11 @@ const ContactUsForm = () => {
                         name="message"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Your Message</FormLabel>
+                                <FormLabel>{t("your_message")}</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         rows={5}
-                                        placeholder="Your Message"
+                                        placeholder={t("your_message")}
                                         {...field}
                                     />
                                 </FormControl>
