@@ -10,17 +10,17 @@ interface IProps {
 
 const DeliveredPage = async ({ searchParams }: IProps) => {
   const params = await searchParams;
-  const { status, ...restParams } = params;
+  const { orderStatus, ...restParams } = params;
   const queryString = queryStringFormatter({
     ...restParams,
-    status: "DELIVERED",
+    orderStatus: "DELIVERED",
   });
 
   const deliveries = await getAllDeliveries(queryString);
 
   return (
     <div>
-      <Delivered deliveries={deliveries?.data} />
+      <Delivered deliveries={deliveries} />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import DashboardPageHeader from "@/components/common/DashboardPageHeader/Dashboa
 import AllFilters from "@/components/Filtering/AllFilters";
 import { formatDateTime } from "@/utils/formatter";
 import { motion } from 'framer-motion';
+import PaginationComponent from "@/components/Filtering/PaginationComponent";
 
 const DELIGO = "#DC3173";
 
@@ -38,13 +39,13 @@ const Delivered = ({ deliveries }: { deliveries: any }) => {
 
             <AllFilters sortOptions={sortOptions} />
 
-            {deliveries?.length < 1 && <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
+            {deliveries?.data?.length < 1 && <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
                 <h1 className='text-xl font-semibold italic'>{t("no_results_found")}</h1>
             </div>}
 
             {/* GRID */}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
-                {deliveries?.map((delivery: any) => (
+                {deliveries?.data?.map((delivery: any) => (
                     <div
                         key={delivery?._id}
                         className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all"
@@ -61,7 +62,7 @@ const Delivered = ({ deliveries }: { deliveries: any }) => {
 
                             <div className="min-w-0 flex-1">
                                 <div className="text-sm font-semibold text-gray-900 truncate">
-                                    {delivery?.deliveryParterId?.name?.firstName || "MD"} {" "} {delivery?.deliveryParterId?.name?.lastName || "Name"}
+                                    {delivery?.deliveryPartnerId?.name?.firstName || "MD"} {" "} {delivery?.deliveryPartnerId?.name?.lastName || "Name"}
                                 </div>
                                 <div className="text-xs text-gray-500 truncate">#{delivery.deliveryPartnerId?.userId || "DL-user"} • {formatDateTime(delivery.createdAt)}</div>
                             </div>
@@ -102,6 +103,19 @@ const Delivered = ({ deliveries }: { deliveries: any }) => {
                     </div>
                 ))}
             </div>
+
+            {/* pagination */}
+            {!!deliveries?.meta?.totalPage && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="px-4 md:px-6 py-10"
+                >
+                    <PaginationComponent
+                        totalPages={deliveries?.meta?.totalPage as number}
+                    />
+                </motion.div>
+            )}
 
             <style jsx>{`
         @keyframes slide-in {

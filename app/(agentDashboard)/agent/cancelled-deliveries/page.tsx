@@ -10,17 +10,17 @@ interface IProps {
 
 const CancelledDeliveriesPage = async ({ searchParams }: IProps) => {
   const params = await searchParams;
-  const { status, ...restParams } = params;
+  const { orderStatus, ...restParams } = params;
   const queryString = queryStringFormatter({
     ...restParams,
-    status: "CANCELED",
+    orderStatus: "CANCELED",
   });
 
   const deliveries = await getAllDeliveries(queryString);
 
   return (
     <div>
-      <CancelledDeliveries deliveries={deliveries?.data} />
+      <CancelledDeliveries deliveries={deliveries} />
     </div>
   );
 };
