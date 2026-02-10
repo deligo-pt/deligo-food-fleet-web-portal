@@ -9,17 +9,17 @@ interface IProps {
 
 const PendingPickupPage = async ({ searchParams }: IProps) => {
   const params = await searchParams;
-  const { status, ...restParams } = params;
+  const { orderStatus, ...restParams } = params;
   const queryString = queryStringFormatter({
     ...restParams,
-    status: "PENDING",
+    orderStatus: "PENDING",
   });
 
   const deliveries = await getAllDeliveries(queryString);
 
   return (
     <div>
-      <PendingPickup deliveries={deliveries?.data} />
+      <PendingPickup deliveries={deliveries} />
     </div>
   );
 };

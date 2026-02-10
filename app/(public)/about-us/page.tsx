@@ -73,7 +73,7 @@ export default function AboutUs() {
 
             <h2 className="text-4xl font-extrabold text-[#DC3173] mt-8">{t("our_vision")}</h2>
             <p className="text-gray-800 text-lg sm:text-xl">
-              {t("We envision a future where every city in Portugal has empowered and successful fleet management teams, seamlessly connected through our platform, driving transparency, safety, and sustainable growth.")}
+              {t("our_vision_desc")}
             </p>
           </motion.div>
 

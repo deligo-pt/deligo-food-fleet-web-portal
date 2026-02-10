@@ -12,8 +12,7 @@ export const en = {
     signUp: "Sign Up",
 
     // home -> hero
-    partner: "Partner",
-    trusted: "Trusted",
+    trusted_partner: "Trusted Partner",
     joinOur: "Join Our",
     deliveryNetwork: "Delivery Network",
     inPortugal: "in Portugal",
@@ -24,7 +23,7 @@ export const en = {
     verifiedPartners: "Verified partners",
     backgroundChecked: "Background checked",
     startEarningFast: "Start Earning Fast",
-    heroCTADesc: "Flexible hours • weekly payouts • Support in Portugal",
+    heroCTADesc: "Flexible hours • Weekly payouts • Support in Portugal",
 
     //home -> how it works
     how_iw_title: "How It Works",
@@ -112,6 +111,9 @@ export const en = {
     address: "Address",
     send_a_message: "Send a Message",
     send_message: "Send Message",
+    your_name:"Your Name",
+    your_email: "Your Email",
+    your_message: "Your Message",
 
 
     // terms of services
@@ -384,6 +386,7 @@ export const en = {
     country: "Country",
     saveLocationNext: "Save Location & Next",
     // document-image-details
+    note : "Note",
     uploadDocuments: "Upload Your Documents",
     uploadDocDesc: "Select each required document. Once all 5 are selected, you will see the registration success modal.",
     noFileSelected: "No file selected",
@@ -1101,7 +1104,6 @@ export const en = {
     menu_items_issue: "Menu / Items Issue",
     ui_dashboard_bug: "UI / Dashboard Bug",
     delivery_partner_problem: "Delivery Partner Problem",
-    your_email: "Your Email",
     describe_the_issue: "Describe the Issue",
     attach_screenshot: "Attach Screenshot (optional)",
     no_file_chosen: "No file chosen",

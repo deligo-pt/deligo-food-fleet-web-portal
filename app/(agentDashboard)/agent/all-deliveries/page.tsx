@@ -14,7 +14,7 @@ export const AllDeliveriesPage = async ({ searchParams }: IProps) => {
 
   return (
     <div>
-      <AllDeliveries deliveries={deliveries?.data} />
+      <AllDeliveries deliveries={deliveries} />
     </div>
   );
 };

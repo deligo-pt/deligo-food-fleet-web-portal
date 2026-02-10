@@ -28,9 +28,8 @@ export default function AgentHeroBackground() {
             <div className="max-w-xl">
               <p className="inline-flex items-center gap-2 text-sm font-medium uppercase text-[#DC3173] tracking-wider mb-4">
                 <span className="rounded-full bg-[#DC3173]/10 px-3 py-1 text-[#DC3173]">
-                  {t("partner")}
+                  {t("trusted_partner")}
                 </span>
-                <span className="text-gray-500">{t("trusted")}</span>
               </p>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-black">
@@ -90,7 +89,7 @@ export default function AgentHeroBackground() {
           <div className="md:col-span-5 lg:col-span-6 flex items-center justify-center">
             <div className="w-full max-w-lg p-8 rounded-3xl bg-white shadow-2xl border border-gray-200 hover:shadow-11xl transition-shadow duration-300">
               {/* Animated Illustration */}
-              <div className="relative w-full h-64 rounded-2xl overflow-hidden bg-gradient-to-tr from-[#FFC0D9] via-[#FFE6F0] to-[#FFD1E8] flex items-center justify-center">
+              <div className="relative w-full h-64 rounded-2xl overflow-hidden bg-linear-to-tr from-[#FFC0D9] via-[#FFE6F0] to-[#FFD1E8] flex items-center justify-center">
                 <svg viewBox="0 0 240 140" fill="none" className="w-72 h-48">
                   {/* Base rectangle */}
                   <rect
