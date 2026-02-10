@@ -53,6 +53,7 @@ const ContactUsForm = () => {
             const result = await contactUsformReq(payload);
             if (result.success) {
                 toast.success(result?.message, { id: toastId });
+                form.reset();
             } else {
                 toast.error(result?.message || "Message sending failed");
             };

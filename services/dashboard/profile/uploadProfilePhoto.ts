@@ -15,6 +15,8 @@ export const uploadProfilePhoto = async (file: File) => {
     body: formData,
   }));
 
+  if (!res.ok) throw new Error('Failed to upload profile photo');
+
   const result = await res.json();
 
   return result;

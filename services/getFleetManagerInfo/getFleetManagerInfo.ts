@@ -13,6 +13,8 @@ export const getFleetManagerInfo = async () => {
     try {
         const res = await serverFetch.get(`/fleet-managers/${id}`);
 
+        if (!res.ok) throw new Error('Failed to fetch fleet info');
+
         const result = await res.json();
 
         return result;
@@ -30,6 +32,8 @@ export const getFleetManagerProfile = async () => {
 
     try {
         const res = await serverFetch.get("/profile");
+
+        if (!res.ok) throw new Error('Failed to fetch fleet info');
 
         const result = await res.json();
 

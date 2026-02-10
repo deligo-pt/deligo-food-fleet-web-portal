@@ -7,7 +7,13 @@ import { serverFetch } from "@/lib/serverFetch";
 
 export const getAllReviews = async (queryString?: string) => {
     try {
-        const res = await serverFetch.get(`/ratings/get-all-ratings${queryString ? `?${queryString}` : ""}`);
+        const res = await serverFetch.get(`/ratings/get-all-ratings${queryString ? `?${queryString}` : ""}`, {
+            next: {
+                revalidate: 30
+            }
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch reviews');
 
         const result = await res.json();
 
