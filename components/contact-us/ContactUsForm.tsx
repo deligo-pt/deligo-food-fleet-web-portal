@@ -42,7 +42,7 @@ const ContactUsForm = () => {
     });
 
     const onSubmit = async (values: ContactFormValues) => {
-        const toastId = toast.loading("Sending...");
+        const toastId = toast.loading("Sending request...");
         const payload = {
             name: values.name,
             sender: values.email,
@@ -53,6 +53,7 @@ const ContactUsForm = () => {
             const result = await contactUsformReq(payload);
             if (result.success) {
                 toast.success(result?.message, { id: toastId });
+                form.reset();
             } else {
                 toast.error(result?.message || "Message sending failed");
             };

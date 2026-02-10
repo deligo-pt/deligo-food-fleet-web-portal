@@ -12,6 +12,8 @@ export const verifyOtp = async (payload: { email: string, otp: string }) => {
         body: JSON.stringify(payload)
     });
 
+    if (!res.ok) throw new Error('Failed to send OTP verification request');
+
     const result = await res.json();
 
     return result;
@@ -26,6 +28,8 @@ export const resendOTP = async (payload: { email: string }) => {
         body: JSON.stringify(payload)
     });
 
+    if (!res.ok) throw new Error('Failed to resend OTP verification request');
+
     const result = await res.json();
 
     return result;
@@ -39,6 +43,8 @@ export const updateFleetInformation = async (id: string, payload: Partial<TFleet
         },
         body: JSON.stringify(payload)
     });
+
+    if (!res.ok) throw new Error('Failed to update fleet information');
 
     const result = await res.json();
 
@@ -58,6 +64,8 @@ export const uploadDocumentsReq = async (
         const res = await serverFetch.patch(`/fleet-managers/${id}/docImage`, {
             body: formData,
         });
+
+        if (!res.ok) throw new Error('Failed to upload documents');
 
         const result = await res.json();
 

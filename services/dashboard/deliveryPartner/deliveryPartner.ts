@@ -2,11 +2,18 @@
 "use server";
 
 import { serverFetch } from "@/lib/serverFetch";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 
 export const getDeliveryPartners = async (queryString?: string) => {
   try {
-    const res = await serverFetch.get(`/delivery-partners${queryString ? `?${queryString}` : ""}`);
+    const res = await serverFetch.get(`/delivery-partners${queryString ? `?${queryString}` : ""}`, {
+      next: {
+        revalidate: 30
+      }
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch delivery partners');
 
     const result = await res.json();
 
@@ -23,7 +30,13 @@ export const getDeliveryPartners = async (queryString?: string) => {
 
 export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
   try {
-    const res = await serverFetch.get(`/analytics/partner-performance-analytics${queryString ? `?${queryString}` : ""}`);
+    const res = await serverFetch.get(`/analytics/partner-performance-analytics${queryString ? `?${queryString}` : ""}`, {
+      next: {
+        revalidate: 30
+      }
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch performance analytics');
 
     const result = await res.json();
 
@@ -40,7 +53,13 @@ export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
 
 export const getDeliveryPartnerDetails = async (id?: string) => {
   try {
-    const res = await serverFetch.get(`/delivery-partners/${id}`);
+    const res = await serverFetch.get(`/delivery-partners/${id}`, {
+      next: {
+        revalidate: 30
+      }
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch partner details');
 
     const result = await res.json();
 
@@ -64,6 +83,9 @@ export const createDeliveryPartner = async (payload: any) => {
   });
 
   const result = await res.json();
+
+  revalidateTag("delivery-partners", {});
+  revalidatePath("/agent/delivery-partners");
 
   return result;
 };
@@ -112,6 +134,9 @@ export const submitForApproval = async (id: string) => {
   const res = await serverFetch.patch(`/auth/${id}/submitForApproval`);
 
   const result = await res.json();
+
+  revalidatePath("/agent/delivery-partners");
+  revalidateTag("delivery-partners", {});
 
   return result;
 };
