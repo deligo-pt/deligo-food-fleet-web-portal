@@ -112,13 +112,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
           name: t("fleet_earnings_overview"),
           path: "/agent/earnings-overview",
         },
-        {
-          name: t("delivery_partner_payouts"),
-          path: "/agent/delivery-partner-payouts",
-        },
         { name: t("payment_history"), path: "/agent/payment-history" },
-        { name: t("transaction_details"), path: "/agent/transaction-details" },
-        { name: t("pending_settlements"), path: "/agent/pending-settlements" },
       ],
     },
 
