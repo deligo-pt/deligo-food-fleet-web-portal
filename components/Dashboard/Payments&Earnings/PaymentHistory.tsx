@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { CustomBadge } from "@/components/CustomBadge/CustomBadge";
-import AllFilters from "@/components/Filtering/AllFilters";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/use-translation";
 import { getSortOptions } from "@/utils/sortOptions";
@@ -25,6 +25,11 @@ import {
     Eye,
     EuroIcon,
 } from "lucide-react";
+import { useState } from "react";
+import SearchFilter from "@/components/Filtering/SearchFilter";
+import SelectFilter from "@/components/Filtering/SelectFilter";
+import { ExportAllPaymentsModal } from "./ExportAllPaymentsModal";
+import { PaymentDetailsModal } from "./PaymentDetailsModal";
 
 
 const historyData = [
@@ -81,6 +86,9 @@ const historyData = [
 const PaymentHistory = () => {
     const { t } = useTranslation();
     const sortOptions = getSortOptions(t);
+    const [open, setOpen] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState<any>(null);
+    const [exportOpen, setExportOpen] = useState(false);
 
     return (
         <div>
@@ -103,7 +111,19 @@ const PaymentHistory = () => {
                 />
             </motion.div>
 
-            <AllFilters sortOptions={sortOptions} />
+            <div className="flex flex-row gap-2 justify-between items-center">
+                <SearchFilter paramName="searchTerm" placeholder="Searching..." />
+                <div className="flex flex-row gap-2 items-center">
+                    <SelectFilter
+                        paramName="sortBy"
+                        options={sortOptions}
+                        placeholder="Sort By"
+                    />
+                    <Button onClick={() => setExportOpen(true)} className="bg-[#DC3173]">
+                        Export
+                    </Button>
+                </div>
+            </div>
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -193,8 +213,14 @@ const PaymentHistory = () => {
                                         </CustomBadge>
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Button variant="ghost" size="sm">
-                                            <FileText className="w-4 h-4" />
+                                        <Button onClick={() => {
+                                            setSelectedPayment(item);
+                                            setOpen(true);
+                                        }} variant="ghost" size="sm">
+                                            <FileText
+                                                className="cursor-pointer"
+
+                                            />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -212,6 +238,33 @@ const PaymentHistory = () => {
                     </TableBody>
                 </Table>
             </motion.div>
+
+
+            {/* {!!historyData?.meta?.totalPage && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="px-4 md:px-6"
+                >
+                    <PaginationComponent
+                        totalPages={historyData?.meta?.totalPage as number}
+                    />
+                </motion.div>
+            )} */}
+
+            {/* EXPORT individual */}
+            <PaymentDetailsModal
+                open={open}
+                onClose={() => setOpen(false)}
+                payment={selectedPayment}
+            />
+
+            {/* EXPORT ALL MODAL */}
+            <ExportAllPaymentsModal
+                open={exportOpen}
+                onClose={() => setExportOpen(false)}
+                payments={historyData}
+            />
         </div>
     );
 }
