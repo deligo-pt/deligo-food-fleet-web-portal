@@ -1021,10 +1021,12 @@ export const pt = {
     log_past_payouts: "Registo de todos os pagamentos anteriores aos parceiros de entrega",
     date_range: "Intervalo de datas",
     transaction_id: "ID da transação",
+    partner: "Parceiro",
     period: "Período",
     amount: "Valor",
     to: "até",
     results: "resultados",
+    no_payment_history_found: "Nenhum histórico de pagamento encontrado",
 
 
 

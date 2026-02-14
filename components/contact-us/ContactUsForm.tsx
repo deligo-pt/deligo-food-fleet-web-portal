@@ -42,7 +42,7 @@ const ContactUsForm = () => {
     });
 
     const onSubmit = async (values: ContactFormValues) => {
-        const toastId = toast.loading("Sending request...");
+        const toastId = toast.loading("Sending...");
         const payload = {
             name: values.name,
             sender: values.email,

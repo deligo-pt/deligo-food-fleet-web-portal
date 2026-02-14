@@ -111,7 +111,7 @@ export const en = {
     address: "Address",
     send_a_message: "Send a Message",
     send_message: "Send Message",
-    your_name:"Your Name",
+    your_name: "Your Name",
     your_email: "Your Email",
     your_message: "Your Message",
 
@@ -386,7 +386,7 @@ export const en = {
     country: "Country",
     saveLocationNext: "Save Location & Next",
     // document-image-details
-    note : "Note",
+    note: "Note",
     uploadDocuments: "Upload Your Documents",
     uploadDocDesc: "Select each required document. Once all 5 are selected, you will see the registration success modal.",
     noFileSelected: "No file selected",
@@ -868,10 +868,12 @@ export const en = {
     log_past_payouts: "Log of all past payouts to delivery partners",
     date_range: "Date Range",
     transaction_id: "Transaction ID",
+    partner: "Partner",
     period: "Period",
     amount: "Amount",
     to: "to",
     results: "results",
+    no_payment_history_found: "No payment history found",
 
 
     // transaction details
