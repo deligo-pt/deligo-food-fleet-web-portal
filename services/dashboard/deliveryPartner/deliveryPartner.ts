@@ -13,7 +13,10 @@ export const getDeliveryPartners = async (queryString?: string) => {
       }
     });
 
-    if (!res.ok) throw new Error('Failed to fetch delivery partners');
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to fetch delivery partners");
+    }
 
     const result = await res.json();
 
@@ -23,7 +26,7 @@ export const getDeliveryPartners = async (queryString?: string) => {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+      message: `${process.env.NODE_ENV === 'development' ? error?.message ? error?.message : error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
     };
   }
 };
@@ -36,7 +39,10 @@ export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
       }
     });
 
-    if (!res.ok) throw new Error('Failed to fetch performance analytics');
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to fetch performance analytics");
+    }
 
     const result = await res.json();
 
@@ -46,7 +52,7 @@ export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in partner performance fetching.'}`
+      message: `${process.env.NODE_ENV === 'development' ? error?.message ? error?.message : error?.response?.data?.message : 'Something went wrong in partner performance fetching.'}`
     };
   }
 };
@@ -59,7 +65,10 @@ export const getDeliveryPartnerDetails = async (id?: string) => {
       }
     });
 
-    if (!res.ok) throw new Error('Failed to fetch partner details');
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to fetch partner details");
+    }
 
     const result = await res.json();
 
@@ -69,7 +78,7 @@ export const getDeliveryPartnerDetails = async (id?: string) => {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+      message: `${process.env.NODE_ENV === 'development' ? error?.message ? error?.message : error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
     };
   }
 };
@@ -81,6 +90,11 @@ export const createDeliveryPartner = async (payload: any) => {
     },
     body: JSON.stringify(payload)
   });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to create delivery partner");
+  }
 
   const result = await res.json();
 
@@ -98,6 +112,11 @@ export const updatePartnerInformation = async (id: string, payload: any) => {
     },
     body: JSON.stringify(payload)
   });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to update partner information");
+  }
 
   const result = await res.json();
 
@@ -121,17 +140,27 @@ export const uploadPartnerDocuments = async (
       }
     );
 
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to upload partner documents");
+    };
+
     const result = await res.json();
 
     return result;
   } catch (error: any) {
     console.log("Server fetch error:", error);
-    return { success: false, message: error?.response?.data?.message };
+    return { success: false, message: error?.message ? error?.message : error?.response?.data?.message };
   }
 };
 
 export const submitForApproval = async (id: string) => {
   const res = await serverFetch.patch(`/auth/${id}/submitForApproval`);
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to submit partner for approval");
+  }
 
   const result = await res.json();
 

@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { SOS_ISSUE_TAGS } from "@/consts/sos.const";
 import { useTranslation } from "@/hooks/use-translation";
-import { triggerSos } from "@/services/sos/sos.service";
+import { triggerSos } from "@/services/dashboard/sos/sos.service";
 import { TSosIssueTag } from "@/types/sos.type";
 import { createSosValidationSchema } from "@/validations/sos/sos.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
