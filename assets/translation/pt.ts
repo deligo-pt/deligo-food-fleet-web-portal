@@ -654,6 +654,8 @@ export const pt = {
     operating_hours: "Horário de Funcionamento",
     commission_settings: "Definições de Comissão",
     payment_preferences: "Preferências de Pagamento",
+    change_password: "Alterar Palavra-passe",
+    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
     notification_preferences: "Preferências de Notificação",
 
     // ->

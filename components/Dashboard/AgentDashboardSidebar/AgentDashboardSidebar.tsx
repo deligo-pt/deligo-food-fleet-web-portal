@@ -135,6 +135,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       icon: <Settings size={18} />,
       items: [
         { name: t("payment_preferences"), path: "/agent/payment-preferences" },
+        { name: t("change_password"), path: "/agent/change-password" },
       ],
     },
 
@@ -211,23 +212,22 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
 
       {/* Desktop Sidebar */}
       <motion.aside
-        animate={{ width: open ? 280 : 80 }}
+        animate={{ width: open ? "100%" : 80 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        className="hidden md:flex h-screen bg-linear-to-b from-pink-50 via-white to-pink-100 shadow-xl flex-col border-r border-pink-200 overflow-hidden fixed left-0 top-0 z-40"
+        className="h-screen bg-linear-to-b from-pink-50 via-white to-pink-100 shadow-xl hidden md:flex flex-col border-r border-pink-200 overflow-hidden relative w-full"
       >
         <div className="flex items-center justify-between px-4 py-4 border-b border-pink-200">
           <div className="flex items-center gap-2">
             <motion.div
               animate={{ rotate: open ? 0 : 360 }}
               transition={{ duration: 0.5 }}
-              className="w-10 h-10 flex items-center justify-center rounded-xl text-white font-bold shadow-lg overflow-hidden"
+              className="w-10 h-10 p-2 relative flex items-center justify-center rounded-xl text-white font-bold shadow-lg overflow-hidden"
               style={{ background: PRIMARY }}
             >
               <Image
                 src="/deligoLogo.png"
                 alt="DeliGo Logo"
-                width={40}
-                height={40}
+                fill
                 className="object-cover"
                 unoptimized
               />
@@ -263,7 +263,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                     : "hover:bg-pink-100"
                     }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className={`flex items-center gap-3 ${open ? "" : "justify-center w-full"}`}>
                     <div className="text-pink-600">{menu.icon}</div>
                     {open && (
                       <span className="font-medium text-gray-700 text-left">
@@ -278,7 +278,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                     onClick={() => toggleExpand(menu.id)}
                     className="flex items-center w-full justify-between p-2 rounded-lg hover:bg-pink-100 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className={`flex items-center gap-3 ${open ? "" : "justify-center w-full"}`}>
                       <div className="text-pink-600">{menu.icon}</div>
                       {open && (
                         <span className="font-medium text-gray-700 text-left">

@@ -12,7 +12,10 @@ export const verifyOtp = async (payload: { email: string, otp: string }) => {
         body: JSON.stringify(payload)
     });
 
-    if (!res.ok) throw new Error('Failed to send OTP verification request');
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to send OTP verification request");
+    }
 
     const result = await res.json();
 
@@ -28,7 +31,10 @@ export const resendOTP = async (payload: { email: string }) => {
         body: JSON.stringify(payload)
     });
 
-    if (!res.ok) throw new Error('Failed to resend OTP verification request');
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to resend OTP verification request");
+    };
 
     const result = await res.json();
 
@@ -44,7 +50,10 @@ export const updateFleetInformation = async (id: string, payload: Partial<TFleet
         body: JSON.stringify(payload)
     });
 
-    if (!res.ok) throw new Error('Failed to update fleet information');
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to update fleet information");
+    }
 
     const result = await res.json();
 
@@ -65,7 +74,10 @@ export const uploadDocumentsReq = async (
             body: formData,
         });
 
-        if (!res.ok) throw new Error('Failed to upload documents');
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.message || "Failed to upload documents");
+        }
 
         const result = await res.json();
 

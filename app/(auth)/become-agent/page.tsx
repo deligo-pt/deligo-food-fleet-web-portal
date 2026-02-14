@@ -62,7 +62,7 @@ export default function BecomAgentPage() {
       toast.error(result.message, { id: toastId });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Registration failed", {
+      toast.error(error?.message ? error?.message : error?.response?.data?.message || "Registration failed", {
         id: toastId,
       });
       console.log(error);
@@ -199,7 +199,7 @@ export default function BecomAgentPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <div className="flex items-center gap-2 justify-center text-sm text-gray-600 select-none flex-wrap text-center">
+                        <div className="flex flex-row items-start gap-1 text-center text-sm text-gray-600 select-none">
                           <Checkbox
                             id="terms"
                             className="w-4 h-4 rounded-xs data-[state=checked]:bg-[#DC3173] data-[state=checked]:border-[#DC3173] border-[#DC3173] cursor-pointer"

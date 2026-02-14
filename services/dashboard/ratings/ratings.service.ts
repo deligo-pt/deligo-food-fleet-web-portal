@@ -13,7 +13,10 @@ export const getAllReviews = async (queryString?: string) => {
             }
         });
 
-        if (!res.ok) throw new Error('Failed to fetch reviews');
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.message || "Failed to fetch reviews");
+        }
 
         const result = await res.json();
 

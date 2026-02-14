@@ -13,7 +13,10 @@ export const getAllDeliveries = async (queryString?: string) => {
             }
         });
 
-        if (!res.ok) throw new Error('Failed to fetch deliveries');
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.message || "Failed to fetch deliveries");
+        }
 
         const result = await res.json();
 
@@ -23,7 +26,7 @@ export const getAllDeliveries = async (queryString?: string) => {
         console.log(error);
         return {
             success: false,
-            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong in deliveries fetching.'}`
+            message: `${process.env.NODE_ENV === 'development' ? error?.message : 'Something went wrong in deliveries fetching.'}`
         };
     }
 };
