@@ -19,7 +19,7 @@ export default async function LiveChatPage() {
     });
 
     const conversationRes = await serverFetch.get(
-      `/support/conversation?${conversationQueryString}`
+      `/support/conversations?${conversationQueryString}`,
     );
     const conversationResult = await conversationRes.json();
 
@@ -32,7 +32,7 @@ export default async function LiveChatPage() {
     });
 
     const messagesRes = await serverFetch.get(
-      `/support/conversations/${conversationResult.data?.[0]?.room}/messages?${msgsQueryString}`
+      `/support/conversations/${conversationResult.data?.[0]?.room}/messages?${msgsQueryString}`,
     );
 
     messagesData = await messagesRes.json();

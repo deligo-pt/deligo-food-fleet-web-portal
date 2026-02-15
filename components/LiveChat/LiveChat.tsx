@@ -22,7 +22,7 @@ export default function LiveChat({
   fleetManagerId,
 }: IProps) {
   const [messages, setMessages] = useState<TMessage[]>(
-    initialMessagesData?.data || []
+    initialMessagesData?.data || [],
   );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState("");
@@ -33,7 +33,7 @@ export default function LiveChat({
   }>({ userId: "", isTyping: false, name: { firstName: "", lastName: "" } });
 
   const [status, setStatus] = useState(conversation?.status);
-  const accessToken = getCookie("accessToken");
+  const accessToken = getCookie("accessToken") || "";
 
   const { sendMessage, makeTyping } = useChatSocket({
     room: conversation?.room,
@@ -56,7 +56,8 @@ export default function LiveChat({
       }, 3000);
     },
     onClosed: () => setStatus("CLOSED"),
-    onError: (msg) => alert(msg),
+    onError: (msg) => console.log(msg),
+    chatType: "liveChat",
   });
 
   const handleSendMessage = () => {
@@ -97,7 +98,6 @@ export default function LiveChat({
           </div>
         ) : conversation?.room ? (
           <>
-            {" "}
             {/* Messages */}
             <div className="flex-1 flex flex-col overflow-y-auto">
               <div className="flex-1 p-6 space-y-4">
@@ -151,6 +151,7 @@ export default function LiveChat({
 
               <div ref={messagesEndRef} />
             </div>
+
             {/* Input */}
             <div className="flex items-center gap-3 p-5 bg-gray-200 rounded-b-3xl">
               <input

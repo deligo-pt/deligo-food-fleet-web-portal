@@ -1,53 +1,57 @@
 "use client";
 
-import { getSocket } from "@/lib/socket";
-import { TMessage } from "@/types/chat.type";
+import { getLiveChatSocket, getSupportSocket } from "@/lib/socket";
+import { TMessage, TReadData, TTypingData } from "@/types/chat.type";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useRef } from "react";
 import { Socket } from "socket.io-client";
 
 interface Props {
-  room: string;
+  room?: string;
   token: string;
   onMessage: (msg: TMessage) => void;
-  onClosed: () => void;
-  onError: (msg: string) => void;
-  onTyping: (data: {
-    userId: string;
-    name: {
-      firstName: string;
-      lastName: string;
-    };
-    isTyping: boolean;
-  }) => void;
+  onRead?: (data: TReadData) => void;
+  onClosed?: () => void;
+  onError?: (err: string) => void;
+  onTyping?: (data: TTypingData) => void;
+  chatType?: "support" | "liveChat";
+  willRead?: boolean;
 }
 
 export function useChatSocket({
   room,
   token,
   onMessage,
+  onRead,
   onClosed,
   onError,
   onTyping,
+  chatType = "support",
+  willRead,
 }: Props) {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    const socket = getSocket(token);
+    const socket =
+      chatType === "support"
+        ? getSupportSocket(token)
+        : getLiveChatSocket(token);
+
     socketRef.current = socket;
 
     socket.emit("join-conversation", { room });
 
-    socket.on("new-message", onMessage);
-    socket.on("user-typing", onTyping);
-    socket.on("conversation-closed", onClosed);
-    socket.on("chat-error", (e) => onError(e.message));
+    socket.on("new-message", (msg: TMessage) => {
+      onMessage(msg);
+      const decoded = jwtDecode(token) as { userId: string };
+      if (msg.senderId !== decoded.userId && willRead)
+        socket.emit("read-update", { room });
+    });
+    socket.on("read-update", onRead || (() => {}));
+    socket.on("user-typing", onTyping || (() => {}));
+    socket.on("conversation-closed", onClosed || (() => {}));
+    socket.on("chat-error", (e) => onError && onError(e.message));
 
-    return () => {
-      socket.off("new-message");
-      socket.off("user-typing");
-      socket.off("conversation-closed");
-      socket.off("chat-error");
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room]);
 
@@ -70,5 +74,19 @@ export function useChatSocket({
     socketRef.current?.emit("close-conversation", { room });
   };
 
-  return { sendMessage, markRead, makeTyping, closeConversation };
+  const turnOffEvents = () => {
+    socketRef.current?.off("new-message");
+    socketRef.current?.off("user-typing");
+    socketRef.current?.off("conversation-closed");
+    socketRef.current?.off("chat-error");
+  };
+
+  return {
+    // socket: socketRef.current,
+    sendMessage,
+    markRead,
+    makeTyping,
+    closeConversation,
+    turnOffEvents,
+  };
 }

@@ -2,12 +2,35 @@ import { USER_ROLE } from "@/consts/user.const";
 
 export type TConversationStatus = "OPEN" | "IN_PROGRESS" | "CLOSED";
 
-export type TConversationType = "SUPPORT" | "ORDER" | "DIRECT";
+export type TConversationType =
+  | "SUPPORT"
+  | "VENDOR_CHAT"
+  | "DRIVER_CHAT"
+  | "CUSTOMER_CHAT"
+  | "FLEET_MANAGER_CHAT"
+  | "FLEET_DRIVER_CHAT"
+  | "ORDER"
+  | "DIRECT";
 
 export type TConversationParticipant = {
   userId: string;
   role: keyof typeof USER_ROLE;
   name?: string;
+};
+
+export type TReadData = {
+  room: string;
+  userId: string;
+  time: Date;
+};
+
+export type TTypingData = {
+  userId: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  isTyping: boolean;
 };
 
 export type TMessage = {

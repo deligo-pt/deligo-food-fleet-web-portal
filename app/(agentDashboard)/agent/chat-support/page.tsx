@@ -4,6 +4,8 @@ import { serverFetch } from "@/lib/serverFetch";
 import { TMeta } from "@/types";
 import { TConversation, TMessage } from "@/types/chat.type";
 import { queryStringFormatter } from "@/utils/formatter";
+import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
 export default async function ChatSupportPage() {
   let conversationData = {} as TConversation;
@@ -22,7 +24,7 @@ export default async function ChatSupportPage() {
     });
 
     const messagesRes = await serverFetch.get(
-      `/support/conversations/${conversationResult.data.room}/messages?${queryString}`
+      `/support/conversations/${conversationResult.data.room}/messages?${queryString}`,
     );
 
     messagesData = await messagesRes.json();
@@ -30,10 +32,14 @@ export default async function ChatSupportPage() {
     console.log(error?.response?.data, error.message);
   }
 
+  const accessToken = (await cookies())?.get("accessToken")?.value || "";
+  const decoded = jwtDecode(accessToken) as { userId: string };
+
   return (
     <ChatSupport
       initialConversation={conversationData}
       initialMessagesData={messagesData}
+      fleetManagerId={decoded.userId}
     />
   );
 }
