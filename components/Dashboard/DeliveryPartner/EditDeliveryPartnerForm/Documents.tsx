@@ -287,7 +287,7 @@ export default function Documents() {
             transition={{
               duration: 0.5,
             }}
-            className="bg-primary/10 p-5 rounded-lg w-full text-primary italic my-3">
+            className="bg-[#DC3173]/10 p-5 rounded-lg w-full text-#DC3173 italic my-3">
             <h2 className="text-lg font-semibold">{t("note")} : </h2>
             <p className="text-sm">
               - {t("vehicle_type_bicycle")}

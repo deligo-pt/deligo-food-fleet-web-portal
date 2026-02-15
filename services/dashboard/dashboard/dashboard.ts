@@ -4,7 +4,13 @@ import { serverFetch } from "@/lib/serverFetch";
 
 export const getDashboardAnalytics = async () => {
     try {
-        const res = await serverFetch.get(`/analytics/fleet-dashboard-analytics`);
+        const res = await serverFetch.get(`/analytics/fleet-dashboard-analytics`, {
+            next : {
+                revalidate: 30
+            }
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch dashboard analytics');
 
         const result = await res.json();
 

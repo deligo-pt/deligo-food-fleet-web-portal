@@ -9,6 +9,8 @@ export const getPartnerSosAlerts = async (queryString?: string) => {
     try {
         const res = await serverFetch.get(`/sos${queryString ? `?${queryString}` : ""}`);
 
+        if (!res.ok) throw new Error('Failed to fetch sos alerts');
+
         const result = await res.json();
 
         return result;

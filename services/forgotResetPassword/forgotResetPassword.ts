@@ -11,6 +11,8 @@ export const forgotPasswordReq = async (data: { email: string }) => {
     body: JSON.stringify(data),
   }));
 
+  if (!res.ok) throw new Error('Failed to send forgot password request');
+
   const result = await res.json();
 
   return result;
@@ -27,6 +29,8 @@ export const resetPasswordReq = async (data: {
     },
     body: JSON.stringify(data),
   }));
+
+  if (!res.ok) throw new Error('Failed to send reset password request');
 
   const result = await res.json();
 

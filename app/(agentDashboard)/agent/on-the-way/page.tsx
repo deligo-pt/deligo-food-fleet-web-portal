@@ -9,17 +9,17 @@ interface IProps {
 
 const OnTheWayPage = async ({ searchParams }: IProps) => {
   const params = await searchParams;
-  const { status, ...restParams } = params;
+  const { orderStatus, ...restParams } = params;
   const queryString = queryStringFormatter({
     ...restParams,
-    status: "ON_THE_WAY",
+    orderStatus: "ON_THE_WAY",
   });
 
   const deliveries = await getAllDeliveries(queryString);
 
   return (
     <div>
-      <OnTheWay deliveries={deliveries?.data} />
+      <OnTheWay deliveries={deliveries} />
     </div>
   );
 };

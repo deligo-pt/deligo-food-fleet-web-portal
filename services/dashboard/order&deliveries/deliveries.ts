@@ -7,7 +7,13 @@ import { serverFetch } from "@/lib/serverFetch";
 
 export const getAllDeliveries = async (queryString?: string) => {
     try {
-        const res = await serverFetch.get(`/orders${queryString ? `?${queryString}` : ""}`);
+        const res = await serverFetch.get(`/orders${queryString ? `?${queryString}` : ""}`, {
+            next: {
+                revalidate: 30
+            }
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch deliveries');
 
         const result = await res.json();
 

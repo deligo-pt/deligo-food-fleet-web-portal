@@ -13,6 +13,8 @@ export const changePasswordReq = async (data: {
     body: JSON.stringify(data),
   }));
 
+  if (!res.ok) throw new Error('Failed to change password');
+
   const result = await res.json();
 
   return result;

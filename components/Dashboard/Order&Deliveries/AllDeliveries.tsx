@@ -11,6 +11,7 @@ import { getSortOptions } from '@/utils/sortOptions';
 import { StatusPill } from '@/utils/statusPill';
 import { Bike, Clock, MapPin, } from 'lucide-react';
 import { motion } from 'framer-motion';
+import PaginationComponent from '@/components/Filtering/PaginationComponent';
 
 const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
     const { t } = useTranslation();
@@ -54,13 +55,13 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
 
             <AllFilters sortOptions={sortOptions} />
 
-            {deliveries?.length < 1 && <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
+            {deliveries?.data?.length < 1 && <div className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center">
                 <h1 className='text-xl font-semibold italic'>{t("no_results_found")}</h1>
             </div>}
 
             {/* Delivery List */}
             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
-                {deliveries?.map((delivery: any) => (
+                {deliveries?.data?.map((delivery: any) => (
                     <div
                         key={delivery?._id}
                         className="cursor-pointer bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all"
@@ -76,7 +77,7 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between">
                                     <div className="text-sm font-semibold text-gray-900 truncate">
-                                        {delivery?.deliveryParterId?.name?.firstName || "MD"} {" "} {delivery?.deliveryParterId?.name?.lastName || "Name"}
+                                        {delivery?.deliveryPartnerId?.name?.firstName || "MD"} {" "} {delivery?.deliveryPartnerId?.name?.lastName || "Name"}
                                     </div>
                                     <StatusPill s={delivery.orderStatus} />
                                 </div>
@@ -136,6 +137,19 @@ const AllDeliveries = ({ deliveries }: { deliveries: any }) => {
                     </div>
                 ))}
             </div>
+
+            {/* pagination */}
+            {!!deliveries?.meta?.totalPage && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="px-4 md:px-6 py-10"
+                >
+                    <PaginationComponent
+                        totalPages={deliveries?.meta?.totalPage as number}
+                    />
+                </motion.div>
+            )}
 
             <style jsx>{`
         @keyframes slide-in {
