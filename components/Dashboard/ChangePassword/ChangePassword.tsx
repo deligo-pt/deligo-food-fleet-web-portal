@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 
 import {
@@ -19,24 +18,25 @@ import { changePasswordReq } from "@/services/dashboard/changePassword/changePas
 import { TResponse } from "@/types";
 import { removeCookie } from "@/utils/cookies";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle, Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { changePasswordValidation } from "@/validations/auth/change-password.validation";
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
+import { useTranslation } from "@/hooks/use-translation";
 
 const PRIMARY = "#DC3173";
-const BG = "#FFF1F7";
 const SHADOW = "0px 8px 24px rgba(0,0,0,0.06)";
 
 type ChangePasswordData = z.infer<typeof changePasswordValidation>;
 
 export default function ChangePassword() {
+  const { t } = useTranslation();
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [success, setSuccess] = useState(false);
   const form = useForm<ChangePasswordData>({
     resolver: zodResolver(changePasswordValidation),
     defaultValues: {
@@ -62,8 +62,8 @@ export default function ChangePassword() {
 
       if (result.success) {
         toast.success("Password Updated Successfully!", { id: toastId });
+        form.reset();
 
-        setSuccess(true);
         removeCookie("accessToken");
         removeCookie("refreshToken");
 
@@ -73,46 +73,27 @@ export default function ChangePassword() {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log(error.response);
-      toast.error(error?.response?.data?.message || "Password Update Failed", {
+      console.log(error);
+      toast.error(error?.message ? error?.message : error?.response?.data?.message || "Password Update Failed", {
         id: toastId,
       });
     }
   };
 
   return (
-    <div className="min-h-screen p-6 md:p-10" style={{ background: BG }}>
+    <div className="">
+      <DashboardPageHeader
+        title={t("change_password")}
+        desc={t("update_your_account_password_securely")}
+      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="max-w-[600px] mx-auto space-y-10"
         >
-          {/* HEADER */}
-          <div className="flex items-center gap-3">
-            <Lock size={40} className="text-pink-600" />
-            <div>
-              <h1
-                className="text-4xl font-extrabold"
-                style={{ color: PRIMARY }}
-              >
-                Change Password
-              </h1>
-              <p className="text-gray-600 mt-1 text-sm">
-                Update your account password securely.
-              </p>
-            </div>
-          </div>
-
-          {/* SUCCESS MESSAGE */}
-          {success && (
-            <div className="p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3 text-green-700">
-              <CheckCircle /> Password updated successfully.
-            </div>
-          )}
-
           {/* FORM */}
           <Card
-            className="rounded-3xl bg-white border shadow-md"
+            className="rounded-3xl bg-white border border-[#DC3173]/30 shadow-md"
             style={{ boxShadow: SHADOW }}
           >
             <CardContent className="p-6 space-y-6">
@@ -222,18 +203,16 @@ export default function ChangePassword() {
                 )}
               />
 
-              <Separator />
-
               {/* BUTTON */}
-              <div className="flex justify-end">
+              <>
                 <Button
-                  className="h-12 px-6 text-white rounded-xl"
+                  className="h-12 px-6 text-white rounded-xl w-full"
                   style={{ background: PRIMARY }}
-                  // onClick={updatePassword}
+                // onClick={updatePassword}
                 >
                   Update Password
                 </Button>
-              </div>
+              </>
             </CardContent>
           </Card>
         </form>

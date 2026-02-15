@@ -11,7 +11,10 @@ export const contactUsformReq = async (data: IContact) => {
         body: JSON.stringify(data),
     }));
 
-    if (!res.ok) throw new Error('Failed to submit contact us form');
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to submit contact us form");
+    }
 
     const result = await res.json();
 

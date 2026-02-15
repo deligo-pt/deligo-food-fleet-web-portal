@@ -86,7 +86,7 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
       toast.error(result.message, { id: toastId });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed", {
+      toast.error(error?.message ? error?.message : error.response?.data?.message || "Login failed", {
         id: toastId,
       });
       console.log("Error logging in:", error);
