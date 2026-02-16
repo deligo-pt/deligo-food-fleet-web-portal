@@ -502,6 +502,8 @@ export const en = {
     operating_hours: "Operating Hours",
     commission_settings: "Commission Settings",
     payment_preferences: "Payment Preferences",
+    change_password: "Change Password",
+    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
     notification_preferences: "Notification Preferences",
     // -> 
     team_management: "Team Management",
