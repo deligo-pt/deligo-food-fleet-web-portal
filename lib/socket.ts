@@ -2,6 +2,25 @@ import { io, Socket } from "socket.io-client";
 
 let supportSocket: Socket | null = null;
 let liveChatSocket: Socket | null = null;
+let SOSSocket: Socket | null = null;
+
+export const getSOSSocket = (token: string) => {
+  if (!SOSSocket) {
+    SOSSocket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
+      auth: { token },
+      withCredentials: true,
+      transports: ["websocket"],
+    });
+  }
+  return SOSSocket;
+};
+
+export const disconnectSOSSocket = () => {
+  if (SOSSocket) {
+    SOSSocket.disconnect();
+    SOSSocket = null;
+  }
+};
 
 export const getSupportSocket = (token: string) => {
   if (!supportSocket) {
