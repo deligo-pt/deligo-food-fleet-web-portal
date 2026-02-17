@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
@@ -58,37 +59,7 @@ const data = [
     },
 ];
 
-const stats = [
-    {
-        title: "Total Earnings",
-        value: 124592.0,
-        change: "+12.5%",
-        trend: "up",
-        icon: Euro,
-        color: "text-green-600",
-        bg: "bg-green-100",
-    },
-    {
-        title: "Monthly Earnings",
-        value: 45231.89,
-        change: "+8.2%",
-        trend: "up",
-        icon: TrendingUp,
-        color: "text-[#DC3173]",
-        bg: "bg-[#DC3173]/10",
-    },
-    {
-        title: "Weekly Earnings",
-        value: 1204,
-        change: "-2.1%",
-        trend: "down",
-        icon: Users,
-        color: "text-blue-600",
-        bg: "bg-blue-100",
-    }
-];
-
-const EarningsOverview = () => {
+const EarningsOverview = ({ earnings }: { earnings: any }) => {
     const { t } = useTranslation();
 
     return (
@@ -113,33 +84,43 @@ const EarningsOverview = () => {
             </motion.div>
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-6">
-                {stats.map((stat, index) => (
-                    <motion.div
-                        key={stat.title}
-                        initial={{
-                            opacity: 0,
-                            y: 20,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            y: 0,
-                        }}
-                        transition={{
-                            delay: index * 0.1,
-                        }}
-                    >
-                        <FleetEarningsCard
-                            Icon={stat.icon}
-                            color={stat.color}
-                            bgColor={stat.bg}
-                            trend={stat.trend}
-                            change={stat.change}
-                            title={stat.title}
-                            value={stat.value}
-                        />
-                    </motion.div>
-                ))}
+            <div className="mt-10 mb-6">
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                        y: 20,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                    }}
+                    transition={{
+                        delay: 1 * 0.1,
+                    }}
+                    className="grid grid-cols-1 lg:grid-cols-3 gap-6 "
+                >
+                    <FleetEarningsCard
+                        Icon={Euro}
+                        color="text-green-600"
+                        bgColor="bg-green-100"
+                        title="Total Earnings"
+                        value={earnings?.overview?.totalRevenue?.toFixed(2) || "€0.00"}
+                    />
+                    <FleetEarningsCard
+                        Icon={TrendingUp}
+                        color="text-[#DC3173]"
+                        bgColor="bg-[#DC3173]/10"
+                        title="Monthly Earnings"
+                        value={earnings?.overview?.monthlyEarnings?.toFixed(2) || "€0.00"}
+                    />
+                    <FleetEarningsCard
+                        Icon={Users}
+                        color="text-blue-600"
+                        bgColor="bg-blue-100"
+                        title="Weekly Earnings"
+                        value={earnings?.overview?.weeklyEarnings?.toFixed(2) || "€0.00"}
+                    />
+                </motion.div>
             </div>
 
             {/* Charts Section */}
