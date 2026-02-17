@@ -1,17 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 interface IProps {
     Icon: React.ElementType;
     color: string;
     bgColor: string;
-    trend: string
-    change: string;
     title: string;
     value: number | string;
 };
 
-const FleetEarningsCard = ({ Icon, color, bgColor, trend, change, title, value }: IProps) => {
+const FleetEarningsCard = ({ Icon, color, bgColor, title, value }: IProps) => {
     return (
         <Card>
             <CardContent className="p-6">
@@ -20,7 +17,7 @@ const FleetEarningsCard = ({ Icon, color, bgColor, trend, change, title, value }
 
                         <Icon className={`w-6 h-6 ${color}`} />
                     </div>
-                    <div
+                    {/* <div
                         className={`flex items-center text-sm font-medium ${trend === "up" ? "text-green-600" : "text-red-600"
                             }`}
                     >
@@ -30,7 +27,7 @@ const FleetEarningsCard = ({ Icon, color, bgColor, trend, change, title, value }
                         ) : (
                             <ArrowDownRight className="w-4 h-4 ml-1" />
                         )}
-                    </div>
+                    </div> */}
                 </div>
                 <h3 className="text-gray-500 text-sm font-medium">
                     {title}
