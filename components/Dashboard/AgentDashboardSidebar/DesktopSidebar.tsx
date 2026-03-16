@@ -30,7 +30,7 @@ export default function DesktopSidebar({
       {/* Content area */}
       <div
         className={cn(
-          "flex-1 flex flex-col",
+          "flex-1 flex flex-col overflow-hidden",
           open ? "lg:ml-[20%] md:ml-60" : "md:ml-20"
         )}
       >
