@@ -123,37 +123,6 @@ export const updatePartnerInformation = async (id: string, payload: any) => {
   return result;
 };
 
-export const uploadPartnerDocuments = async (
-  id: string,
-  key: string,
-  file: Blob
-) => {
-  try {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("data", JSON.stringify({ docImageTitle: key }));
-
-    const res = await serverFetch.patch(
-      `/delivery-partners/${id}/docImage`,
-      {
-        body: formData,
-      }
-    );
-
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || "Failed to upload partner documents");
-    };
-
-    const result = await res.json();
-
-    return result;
-  } catch (error: any) {
-    console.log("Server fetch error:", error);
-    return { success: false, message: error?.message ? error?.message : error?.response?.data?.message };
-  }
-};
-
 export const submitForApproval = async (id: string) => {
   const res = await serverFetch.patch(`/auth/${id}/submitForApproval`);
 

@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { CardTitle } from "@/components/ui/card";
-import { submitForApproval, uploadPartnerDocuments } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { submitForApproval } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { getCookie } from "@/utils/cookies";
@@ -128,44 +128,69 @@ export default function Documents() {
     el?.click();
   };
 
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("accessToken="))
+    ?.split("=")[1];
+
   const handleFileChange = async (key: DocKey, f?: File | null) => {
     if (!f) return;
+
+    // size validation
+    if (f.size > 5 * 1024 * 1024) {
+      toast.error("File must be less than 5MB");
+      return;
+    }
+
     const isImage = f.type.startsWith("image/");
     const url = URL.createObjectURL(f);
 
     const toastId = toast.loading("Uploading...");
 
     try {
-      const result = (await uploadPartnerDocuments(
-        id as string,
-        key,
-        f
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      )) as unknown as TResponse<any>;
+      const formData = new FormData();
+      formData.append("file", f);
+      formData.append(
+        "data",
+        JSON.stringify({ docImageTitle: key })
+      );
 
-      if (result.success) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/delivery-partners/${id}/docImage`,
+        {
+          method: "PATCH",
+          body: formData,
+          credentials: "include",
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          }
+        }
+      );
+
+      const result = await res.json();
+
+      if (result?.success) {
         toast.success("File uploaded successfully!", { id: toastId });
 
         const prev = previews[key];
-        if (prev && prev.url) URL.revokeObjectURL(prev.url);
+        if (prev?.url) URL.revokeObjectURL(prev.url);
 
-        setPreviews((p) => ({ ...p, [key]: { file: f, url, isImage } }));
+        setPreviews((p) => ({
+          ...p,
+          [key]: { file: f, url, isImage },
+        }));
 
         if (inputsRef.current[key]) {
           inputsRef.current[key]!.value = "";
         }
-        return;
+      } else {
+        toast.error(result?.message || "File upload failed", {
+          id: toastId,
+        });
       }
-      toast.error(result.message || "File upload failed", {
-        id: toastId,
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "File upload failed", {
-        id: toastId,
-      });
-      return;
+      toast.error("Upload failed", { id: toastId });
     }
   };
 
