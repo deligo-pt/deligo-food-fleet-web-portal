@@ -539,6 +539,8 @@ export const en = {
     status: "Status",
     select_status: "Select Status",
     pending: "Pending",
+    processing: "Processing",
+    paid: "Paid",
     submitted: "Submitted",
     approved: "Approved",
     rejected: "Rejected",

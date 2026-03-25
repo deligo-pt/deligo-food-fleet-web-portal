@@ -1,14 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { PaymentPdf } from "@/utils/PaymentPdf";
+import { PayoutData } from "@/types/payment.type";
+import { formatDateTime } from "@/utils/formatter";
 
 interface Props {
     open: boolean;
     onClose: () => void;
-    payment: any;
+    payment: PayoutData;
 }
 
 export function PaymentDetailsModal({ open, onClose, payment }: Props) {
@@ -23,10 +25,9 @@ export function PaymentDetailsModal({ open, onClose, payment }: Props) {
 
                 {/* PDF CONTENT */}
                 <div ref={pdfRef} className="space-y-4 bg-white p-4 rounded-md">
-                    <InfoRow label="Transaction ID" value={payment?.id} />
-                    <InfoRow label="Partner" value={payment?.partner} />
-                    <InfoRow label="Date" value={payment?.date} />
-                    <InfoRow label="Period" value={payment?.period} />
+                    <InfoRow label="Transaction ID" value={payment?.payoutId} />
+                    <InfoRow label="Partner" value={`${payment?.userId?.name?.firstName || ""} ${payment?.userId?.name?.lastName || ""}`} />
+                    <InfoRow label="Date" value={formatDateTime(payment?.createdAt)} />
                     <InfoRow label="Amount" value={`€ ${payment?.amount}`} />
                     <InfoRow label="Status" value={payment?.status} />
                 </div>
@@ -39,10 +40,10 @@ export function PaymentDetailsModal({ open, onClose, payment }: Props) {
 
                     <PDFDownloadLink
                         document={<PaymentPdf payments={[payment]} />}
-                        fileName={`payment-${payment?.id}.pdf`}
+                        fileName={`${payment?.payoutId}.pdf`}
                     >
                         {({ loading }) => (
-                            <Button disabled={loading}>
+                            <Button disabled={loading} className="bg-[#DC3173]">
                                 {loading ? "Preparing..." : "Export as PDF"}
                             </Button>
                         )}

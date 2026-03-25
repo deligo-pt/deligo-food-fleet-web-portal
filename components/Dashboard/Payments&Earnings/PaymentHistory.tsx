@@ -25,65 +25,13 @@ import {
     EuroIcon,
 } from "lucide-react";
 import { useState } from "react";
-import SearchFilter from "@/components/Filtering/SearchFilter";
-import SelectFilter from "@/components/Filtering/SelectFilter";
 import { ExportAllPaymentsModal } from "./ExportAllPaymentsModal";
 import { PaymentDetailsModal } from "./PaymentDetailsModal";
 import PaginationComponent from "@/components/Filtering/PaginationComponent";
 import { PayoutResponse } from "@/types/payment.type";
 import { formatDateTime } from "@/utils/formatter";
+import AllFilters from "@/components/Filtering/AllFilters";
 
-
-const historyData = [
-    {
-        id: "TX123456",
-        date: "2023-10-20",
-        partner: "Alex Johnson",
-        amount: 1250.5,
-        status: "completed",
-        period: "Oct 12 - Oct 19",
-    },
-    {
-        id: "TX123457",
-        date: "2023-10-20",
-        partner: "Sarah Williams",
-        amount: 980.0,
-        status: "completed",
-        period: "Oct 12 - Oct 19",
-    },
-    {
-        id: "TX123458",
-        date: "2023-10-20",
-        partner: "Michael Brown",
-        amount: 2100.75,
-        status: "processing",
-        period: "Oct 12 - Oct 19",
-    },
-    {
-        id: "TX123459",
-        date: "2023-10-13",
-        partner: "David Wilson",
-        amount: 1675.0,
-        status: "completed",
-        period: "Oct 05 - Oct 12",
-    },
-    {
-        id: "TX123460",
-        date: "2023-10-13",
-        partner: "Emily Davis",
-        amount: 450.25,
-        status: "failed",
-        period: "Oct 05 - Oct 12",
-    },
-    {
-        id: "TX123461",
-        date: "2023-10-13",
-        partner: "Alex Johnson",
-        amount: 1100.0,
-        status: "completed",
-        period: "Oct 05 - Oct 12",
-    },
-];
 
 interface IProps {
     payments: PayoutResponse
@@ -95,7 +43,33 @@ const PaymentHistory = ({ payments }: IProps) => {
     const [open, setOpen] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState<any>(null);
     const [exportOpen, setExportOpen] = useState(false);
-    console.log(payments);
+    const filterOptions = [
+        {
+            label: t("status"),
+            key: "status",
+            placeholder: t("select_status"),
+            type: "select",
+            items: [
+                {
+                    label: t("pending"),
+                    value: "PENDING",
+                },
+                {
+                    label: t("processing"),
+                    value: "PROCESSING",
+                },
+                {
+                    label: t("paid"),
+                    value: "PAID",
+                },
+                {
+                    label: t("failed"),
+                    value: "FAILED",
+                },
+            ],
+        },
+    ];
+
 
     return (
         <div>
@@ -118,24 +92,17 @@ const PaymentHistory = ({ payments }: IProps) => {
                 />
             </motion.div>
 
-            <div className="flex flex-row gap-2 justify-between items-center">
-                <SearchFilter paramName="searchTerm" placeholder="Searching..." />
-                <div className="flex flex-row gap-2 items-center">
-                    <SelectFilter
-                        paramName="sortBy"
-                        options={sortOptions}
-                        placeholder="Sort By"
-                    />
-                    <Button onClick={() => setExportOpen(true)} className="bg-[#DC3173]">
-                        Export
-                    </Button>
-                </div>
+            <div className="flex flex-row gap-2 justify-between items-start">
+                <AllFilters sortOptions={sortOptions} filterOptions={filterOptions} />
+                <Button onClick={() => setExportOpen(true)} className="bg-[#DC3173]">
+                    Export
+                </Button>
             </div>
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white shadow-md rounded-2xl p-4 md:p-6 mb-2 overflow-x-auto"
+                className="bg-white shadow-md rounded-2xl p-4 md:p-6 my-6 overflow-x-auto"
             >
                 <Table className="max-w-full">
                     <TableHeader>
@@ -196,7 +163,7 @@ const PaymentHistory = ({ payments }: IProps) => {
                             payments?.data?.map((item) => (
                                 <TableRow key={item._id}>
                                     <TableCell className="font-mono text-xs">
-                                        {item.payoutId || item._id}
+                                        {item.payoutId}
                                     </TableCell>
 
                                     <TableCell>
@@ -283,7 +250,7 @@ const PaymentHistory = ({ payments }: IProps) => {
             <ExportAllPaymentsModal
                 open={exportOpen}
                 onClose={() => setExportOpen(false)}
-                payments={historyData}
+                payments={payments?.data}
             />
         </div>
     );

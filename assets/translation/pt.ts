@@ -696,6 +696,8 @@ export const pt = {
     status: "Estado",
     select_status: "Selecionar estado",
     pending: "Pendente",
+    processing: "Processando",
+    paid: "Pago",
     submitted: "Submetido",
     approved: "Aprovado",
     rejected: "Rejeitado",
