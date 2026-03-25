@@ -10,13 +10,16 @@ async function serverFetchHelper(
 ): Promise<Response> {
   const { headers, ...rest } = options;
 
-  const accessToken = (await cookies()).get("accessToken")?.value;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+
 
   return fetch(`${backendUrl}${endPoint}`, {
     credentials: "include",
     headers: {
       ...headers,
       Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      cookie: cookieStore.toString()
     },
     ...rest,
   });

@@ -20,7 +20,6 @@ import {
     FileText,
     Calendar,
     Handshake,
-    Clock,
     CircleCheckBig,
     Eye,
     EuroIcon,
@@ -30,6 +29,9 @@ import SearchFilter from "@/components/Filtering/SearchFilter";
 import SelectFilter from "@/components/Filtering/SelectFilter";
 import { ExportAllPaymentsModal } from "./ExportAllPaymentsModal";
 import { PaymentDetailsModal } from "./PaymentDetailsModal";
+import PaginationComponent from "@/components/Filtering/PaginationComponent";
+import { PayoutResponse } from "@/types/payment.type";
+import { formatDateTime } from "@/utils/formatter";
 
 
 const historyData = [
@@ -83,12 +85,17 @@ const historyData = [
     },
 ];
 
-const PaymentHistory = () => {
+interface IProps {
+    payments: PayoutResponse
+}
+
+const PaymentHistory = ({ payments }: IProps) => {
     const { t } = useTranslation();
     const sortOptions = getSortOptions(t);
     const [open, setOpen] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState<any>(null);
     const [exportOpen, setExportOpen] = useState(false);
+    console.log(payments);
 
     return (
         <div>
@@ -136,7 +143,7 @@ const PaymentHistory = () => {
                             <TableHead>
                                 <div className="flex items-center gap-2 text-[#DC3173]">
                                     <Hash className="w-4 h-4" />
-                                    {t("transaction_id")}
+                                    {t("payout_id")}
                                 </div>
                             </TableHead>
 
@@ -154,12 +161,12 @@ const PaymentHistory = () => {
                                 </div>
                             </TableHead>
 
-                            <TableHead>
+                            {/* <TableHead>
                                 <div className="flex items-center gap-2 text-[#DC3173]">
                                     <Clock className="w-4 h-4" />
                                     {t("period")}
                                 </div>
-                            </TableHead>
+                            </TableHead> */}
 
                             <TableHead>
                                 <div className="flex items-center gap-2 text-[#DC3173]">
@@ -184,48 +191,61 @@ const PaymentHistory = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {historyData &&
-                            historyData?.length > 0 &&
-                            historyData?.map((item) => (
-                                <TableRow key={item.id}>
-                                    <TableCell>
-                                        {item.id}
+                        {payments?.data &&
+                            payments?.data?.length > 0 &&
+                            payments?.data?.map((item) => (
+                                <TableRow key={item._id}>
+                                    <TableCell className="font-mono text-xs">
+                                        {item.payoutId || item._id}
                                     </TableCell>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell>{item.partner}</TableCell>
+
                                     <TableCell>
-                                        {item.period}
+                                        {formatDateTime(item.createdAt)}
                                     </TableCell>
+
                                     <TableCell>
-                                        {item.amount}
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-medium">
+                                                {item.userId?.name?.firstName || ""} {item.userId?.name?.lastName || ""}
+                                            </span>
+                                            <span className="text-xs text-muted-foreground">({item.userId?.userId})</span>
+                                        </div>
                                     </TableCell>
+
+                                    <TableCell className="font-semibold">
+                                        {item.amount.toFixed(2)}
+                                    </TableCell>
+
                                     <TableCell>
                                         <CustomBadge
                                             variant={
-                                                item.status === "completed"
+                                                item.status === "PAID"
                                                     ? "success"
-                                                    : item.status === "processing"
+                                                    : item.status === "PROCESSING"
                                                         ? "warning"
                                                         : "destructive"
                                             }
+                                            className="uppercase text-[10px]"
                                         >
-                                            {item.status}
+                                            {t(item.status.toLowerCase())}
                                         </CustomBadge>
                                     </TableCell>
-                                    <TableCell className="text-right">
-                                        <Button onClick={() => {
-                                            setSelectedPayment(item);
-                                            setOpen(true);
-                                        }} variant="ghost" size="sm">
-                                            <FileText
-                                                className="cursor-pointer"
 
-                                            />
+                                    <TableCell className="text-right">
+                                        <Button
+                                            onClick={() => {
+                                                setSelectedPayment(item);
+                                                setOpen(true);
+                                            }}
+                                            variant="ghost"
+                                            size="sm"
+                                        >
+                                            <FileText className="w-4 h-4 cursor-pointer text-[#DC3173]" />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
-                        {historyData?.length === 0 && (
+                        {payments?.data?.length === 0 && (
                             <TableRow>
                                 <TableCell
                                     className="text-[#DC3173] text-lg text-center"
@@ -240,17 +260,17 @@ const PaymentHistory = () => {
             </motion.div>
 
 
-            {/* {!!historyData?.meta?.totalPage && (
+            {!!payments?.meta?.totalPage && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="px-4 md:px-6"
                 >
                     <PaginationComponent
-                        totalPages={historyData?.meta?.totalPage as number}
+                        totalPages={payments?.meta?.totalPage as number}
                     />
                 </motion.div>
-            )} */}
+            )}
 
             {/* EXPORT individual */}
             <PaymentDetailsModal

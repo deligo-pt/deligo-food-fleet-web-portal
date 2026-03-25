@@ -869,7 +869,7 @@ export const en = {
     // payment history
     log_past_payouts: "Log of all past payouts to delivery partners",
     date_range: "Date Range",
-    transaction_id: "Transaction ID",
+    payout_id: "Payout ID",
     partner: "Partner",
     period: "Period",
     amount: "Amount",

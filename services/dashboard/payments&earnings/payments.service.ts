@@ -28,3 +28,32 @@ export const getFleetEarnings = async (queryString?: string) => {
     };
   }
 };
+
+export const getPaymentHistory = async (queryString?: string) => {
+  try {
+    const res = await serverFetch.get(
+      `/payouts${queryString ? `?${queryString}` : ""}`,
+      {
+        next: {
+          revalidate: 30,
+        },
+        credentials: "include"
+      },
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to fetch payment history");
+    }
+
+    const result = await res.json();
+
+    return result;
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === "development" ? error?.message : "Something went wrong in payment history fetching."}`,
+    };
+  }
+};
