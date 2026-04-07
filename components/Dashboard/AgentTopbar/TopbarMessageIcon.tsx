@@ -1,13 +1,13 @@
 "use client";
 
 import { USER_ROLE } from "@/consts/user.const";
-import { useChatSocket } from "@/hooks/use-chat-socket";
-import { getSupportSocket } from "@/lib/socket";
-import { getUnreadCountReq } from "@/services/dashboard/chat/chat";
-import { TMessage } from "@/types/chat.type";
-import { catchAsync } from "@/utils/catchAsync";
+import { useTopbarMessageIconSocket } from "@/hooks/use-chat-socket";
+import {
+  getMyTicketReq,
+  getUnreadCountReq,
+} from "@/services/dashboard/support/support.service";
+import { TSupportMessage } from "@/types/support.type";
 import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
 import { motion } from "framer-motion";
 import { MessageSquare } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -15,11 +15,14 @@ import { useEffect, useRef, useState } from "react";
 export default function TopbarMessageIcon() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const accessToken = getCookie("accessToken") || "";
-  const [liveChatRoom, setLiveChatRoom] = useState("");
+  const [ticketId, setTicketId] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
 
-  const newMessageHandler = (msg: TMessage) => {
-    if (msg.senderRole !== USER_ROLE.FLEET_MANAGER) {
+  const newMessageHandler = (msg: TSupportMessage) => {
+    if (
+      msg.senderRole !== USER_ROLE.FLEET_MANAGER &&
+      msg.ticketId === ticketId
+    ) {
       getUnreadMessageCount();
       audioRef.current?.play().catch((error) => {
         console.log("Error playing audio:", error);
@@ -27,14 +30,11 @@ export default function TopbarMessageIcon() {
     }
   };
 
-  const getRoom = async () => {
-    const result = await catchAsync(async () => {
-      return await fetchData(`/support/conversations?type=FLEET_MANAGER_CHAT`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-    });
+  const getTicketId = async () => {
+    const result = await getMyTicketReq();
+
     if (result.success) {
-      setLiveChatRoom(result.data?.[0]?.room);
+      setTicketId(result.data?.ticketId || "");
     }
   };
 
@@ -46,21 +46,20 @@ export default function TopbarMessageIcon() {
     }
   };
 
-  useChatSocket({
-    room: liveChatRoom,
+  const { leaveConversation } = useTopbarMessageIconSocket({
+    ticketId,
     token: accessToken as string,
     onMessage: (msg) => newMessageHandler(msg),
-    chatType: "liveChat",
+    onError: () => {},
   });
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     (() => getUnreadMessageCount())();
-    (() => getRoom())();
+    (() => getTicketId())();
 
-    const supportSocket = getSupportSocket(accessToken);
-    supportSocket.on("new-message", newMessageHandler);
+    return () => {
+      leaveConversation();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,45 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import ChatSupport from "@/components/ChatSupport/ChatSupport";
-import { serverFetch } from "@/lib/serverFetch";
+import SupportTickets from "@/components/Dashboard/Support/SupportTickets/SupportTickets";
+import {
+  getMessagesReq,
+  getMyTicketReq,
+} from "@/services/dashboard/support/support.service";
 import { TMeta } from "@/types";
-import { TConversation, TMessage } from "@/types/chat.type";
-import { queryStringFormatter } from "@/utils/formatter";
+import { TSupportMessage } from "@/types/support.type";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 
 export default async function ChatSupportPage() {
-  let conversationData = {} as TConversation;
-  let messagesData = {} as { data: TMessage[]; meta?: TMeta };
+  const ticket = await getMyTicketReq();
+  let initialMessagesData = { data: [] } as {
+    data: TSupportMessage[];
+    meta?: TMeta;
+  };
 
-  try {
-    const conversationRes = await serverFetch.post("/support/conversation");
-    const conversationResult = await conversationRes.json();
-
-    conversationData = conversationResult.data;
-
-    const queryString = queryStringFormatter({
-      page: "1",
+  if (ticket.ticketId) {
+    initialMessagesData = await getMessagesReq(ticket.ticketId, {
       limit: "50",
-      sortBy: "createdAt",
     });
-
-    const messagesRes = await serverFetch.get(
-      `/support/conversations/${conversationResult.data.room}/messages?${queryString}`,
-    );
-
-    messagesData = await messagesRes.json();
-  } catch (error: any) {
-    console.log(error?.response?.data, error.message);
   }
 
-  const accessToken = (await cookies())?.get("accessToken")?.value || "";
-  const decoded = jwtDecode(accessToken) as { userId: string };
+  const accessToken = (await cookies()).get("accessToken")?.value || "";
+  const { userId, name } = jwtDecode(accessToken) as {
+    userId: string;
+    name: { firstName: string; lastName: string };
+  };
 
   return (
-    <ChatSupport
-      initialConversation={conversationData}
-      initialMessagesData={messagesData}
-      fleetManagerId={decoded.userId}
+    <SupportTickets
+      ticket={ticket}
+      userId={userId}
+      userName={`${name.firstName} ${name.lastName}`}
+      initialMessagesData={initialMessagesData}
     />
   );
 }

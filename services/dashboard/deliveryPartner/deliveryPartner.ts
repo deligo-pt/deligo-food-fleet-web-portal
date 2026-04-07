@@ -4,14 +4,16 @@
 import { serverFetch } from "@/lib/serverFetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-
 export const getDeliveryPartners = async (queryString?: string) => {
   try {
-    const res = await serverFetch.get(`/delivery-partners${queryString ? `?${queryString}` : ""}`, {
-      next: {
-        revalidate: 30
-      }
-    });
+    const res = await serverFetch.get(
+      `/delivery-partners${queryString ? `?${queryString}` : ""}`,
+      {
+        next: {
+          revalidate: 30,
+        },
+      },
+    );
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
@@ -21,38 +23,41 @@ export const getDeliveryPartners = async (queryString?: string) => {
     const result = await res.json();
 
     return result;
-
   } catch (error: any) {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error?.message ? error?.message : error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+      message: `${process.env.NODE_ENV === "development" ? (error?.message ? error?.message : error?.response?.data?.message) : "Something went wrong in delivery partner fetching."}`,
     };
   }
 };
 
 export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
   try {
-    const res = await serverFetch.get(`/analytics/partner-performance-analytics${queryString ? `?${queryString}` : ""}`, {
-      next: {
-        revalidate: 30
-      }
-    });
+    const res = await serverFetch.get(
+      `/analytics/partner-performance-analytics${queryString ? `?${queryString}` : ""}`,
+      {
+        next: {
+          revalidate: 30,
+        },
+      },
+    );
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || "Failed to fetch performance analytics");
+      throw new Error(
+        errorData.message || "Failed to fetch performance analytics",
+      );
     }
 
     const result = await res.json();
 
     return result?.data;
-
   } catch (error: any) {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error?.message ? error?.message : error?.response?.data?.message : 'Something went wrong in partner performance fetching.'}`
+      message: `${process.env.NODE_ENV === "development" ? (error?.message ? error?.message : error?.response?.data?.message) : "Something went wrong in partner performance fetching."}`,
     };
   }
 };
@@ -61,8 +66,8 @@ export const getDeliveryPartnerDetails = async (id?: string) => {
   try {
     const res = await serverFetch.get(`/delivery-partners/${id}`, {
       next: {
-        revalidate: 30
-      }
+        revalidate: 30,
+      },
     });
 
     if (!res.ok) {
@@ -73,23 +78,25 @@ export const getDeliveryPartnerDetails = async (id?: string) => {
     const result = await res.json();
 
     return result?.data;
-
   } catch (error: any) {
     console.log(error);
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error?.message ? error?.message : error?.response?.data?.message : 'Something went wrong in delivery partner fetching.'}`
+      message: `${process.env.NODE_ENV === "development" ? (error?.message ? error?.message : error?.response?.data?.message) : "Something went wrong in delivery partner fetching."}`,
     };
   }
 };
 
 export const createDeliveryPartner = async (payload: any) => {
-  const res = await serverFetch.post("/auth/register/onboard/delivery-partner", {
-    headers: {
-      "Content-Type": "application/json",
+  const res = await serverFetch.post(
+    "/auth/register/onboard/delivery-partner",
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     },
-    body: JSON.stringify(payload)
-  });
+  );
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
@@ -105,17 +112,18 @@ export const createDeliveryPartner = async (payload: any) => {
 };
 
 export const updatePartnerInformation = async (id: string, payload: any) => {
-
   const res = await serverFetch.patch(`/delivery-partners/${id}`, {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to update partner information");
+    throw new Error(
+      errorData.message || "Failed to update partner information",
+    );
   }
 
   const result = await res.json();
@@ -128,7 +136,9 @@ export const submitForApproval = async (id: string) => {
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to submit partner for approval");
+    throw new Error(
+      errorData.message || "Failed to submit partner for approval",
+    );
   }
 
   const result = await res.json();

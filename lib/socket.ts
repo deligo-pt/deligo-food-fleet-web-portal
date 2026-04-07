@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client";
 
 let supportSocket: Socket | null = null;
-let liveChatSocket: Socket | null = null;
+let topbarMessageIconSocket: Socket | null = null;
 let SOSSocket: Socket | null = null;
 
 export const getSOSSocket = (token: string) => {
@@ -40,20 +40,20 @@ export const disconnectSupportSocket = () => {
   }
 };
 
-export const getLiveChatSocket = (token: string) => {
-  if (!liveChatSocket) {
-    liveChatSocket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
+export const getTopbarMessageIconSocket = (token: string) => {
+  if (!topbarMessageIconSocket) {
+    topbarMessageIconSocket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
       auth: { token },
       withCredentials: true,
       transports: ["websocket"],
     });
   }
-  return liveChatSocket;
+  return topbarMessageIconSocket;
 };
 
-export const disconnectLiveSocket = () => {
-  if (liveChatSocket) {
-    liveChatSocket.disconnect();
-    liveChatSocket = null;
+export const disconnectTopbarMessageIconSocket = () => {
+  if (topbarMessageIconSocket) {
+    topbarMessageIconSocket.disconnect();
+    topbarMessageIconSocket = null;
   }
 };
