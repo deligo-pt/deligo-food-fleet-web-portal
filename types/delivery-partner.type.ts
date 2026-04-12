@@ -9,9 +9,9 @@ export type TVehicleType =
   | "MOTORBIKE"
   | "CAR";
 export const currentStatusOptions = {
-  IDLE: 'IDLE',
-  OFFLINE: 'OFFLINE',
-  ON_DELIVERY: 'ON_DELIVERY',
+  IDLE: "IDLE",
+  OFFLINE: "OFFLINE",
+  ON_DELIVERY: "ON_DELIVERY",
 } as const;
 
 export type TDeliveryPartner = {
@@ -75,9 +75,10 @@ export type TDeliveryPartner = {
   currentSessionLocation: TGeoJSONPoint;
   personalInfo?: {
     dateOfBirth?: Date;
-    gender?: 'MALE' | 'FEMALE' | 'OTHER';
+    gender?: "MALE" | "FEMALE" | "OTHER";
     nationality?: string;
     NIF?: string;
+    nifNumber?: string;
     citizenCardNumber?: string;
     passportNumber?: string;
     idExpiryDate?: Date;
@@ -106,7 +107,7 @@ export type TDeliveryPartner = {
   // 4) Vehicle Information
   // -------------------------------------------------
   vehicleInfo?: {
-    vehicleType?: 'BICYCLE' | 'E-BIKE' | 'SCOOTER' | 'MOTORBIKE' | 'CAR';
+    vehicleType?: "BICYCLE" | "E-BIKE" | "SCOOTER" | "MOTORBIKE" | "CAR";
     brand?: string;
     model?: string;
     licensePlate?: string;
@@ -221,7 +222,6 @@ export type TDeliveryPartnersQueryParams = {
   status?: string;
 };
 
-
 export interface IDeliveryPartnerCard {
   _id: string;
 
@@ -256,35 +256,33 @@ export interface IDeliveryPartnerCard {
   };
 }
 
-
-
 export interface IPartnersAnalyticsResponse {
   cards: {
-    avgAcceptanceRate: string
-    avgDeliveryTime: string
-    topPartnerDeliveries: number
-    totalEarnings: string
-  }
+    avgAcceptanceRate: string;
+    avgDeliveryTime: string;
+    topPartnerDeliveries: number;
+    totalEarnings: string;
+  };
 
   table: {
-    data: PartnerRow[]
+    data: PartnerRow[];
     meta: {
-      page: number
-      limit: number
-      total: number
-      totalPage: number
-    }
-  }
+      page: number;
+      limit: number;
+      total: number;
+      totalPage: number;
+    };
+  };
 }
 
 export interface PartnerRow {
-  id: string
-  displayId: string
-  name: string
-  vehicle: string
-  city: string
-  deliveries: number
-  acceptance: string
-  avgMins: string
-  earnings: string
+  id: string;
+  displayId: string;
+  name: string;
+  vehicle: string;
+  city: string;
+  deliveries: number;
+  acceptance: string;
+  avgMins: string;
+  earnings: string;
 }

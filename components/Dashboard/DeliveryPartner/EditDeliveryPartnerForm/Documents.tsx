@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { submitForApproval } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
@@ -20,7 +21,6 @@ import { getCookie } from "@/utils/cookies";
 import { fetchData } from "@/utils/requests";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useTranslation } from "@/hooks/use-translation";
 
 type DocKey =
   | "myPhoto"
@@ -33,14 +33,20 @@ type DocKey =
   | "activity"
   | "insurancePolicy";
 
-
 type FilePreview = {
   file: File | null;
   url: string | null;
   isImage: boolean;
 };
 
-const OPTIONAL_DOCS: DocKey[] = ["activity", "insurancePolicy", "drivingLicenseFront", "drivingLicenseBack", "vehicleRegistration",];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const OPTIONAL_DOCS: DocKey[] = [
+  "activity",
+  "insurancePolicy",
+  "drivingLicenseFront",
+  "drivingLicenseBack",
+  "vehicleRegistration",
+];
 
 const REQUIRED_DOCS: DocKey[] = [
   "myPhoto",
@@ -72,56 +78,54 @@ export default function Documents() {
     label: string;
     prefersImagePreview: boolean;
   }[] = [
-      {
-        key: "myPhoto",
-        label: t("myPhoto"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "idProofFront",
-        label: t("id_proof_front"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "idProofBack",
-        label: t("id_proof_back"),
-        prefersImagePreview: true
-      },
-      {
-        key: "drivingLicenseFront",
-        label: t("driving_license_front"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "drivingLicenseBack",
-        label: t("driving_license_back"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "vehicleRegistration",
-        label: t("vehicle_registration"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "criminalRecordCertificate",
-        label: t("criminal_record_certification"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "activity",
-        label: t("activity"),
-        prefersImagePreview: true,
-      },
-      {
-        key: "insurancePolicy",
-        label: t("insurance_policy"),
-        prefersImagePreview: true,
-      },
-    ];
+    {
+      key: "myPhoto",
+      label: t("myPhoto"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "idProofFront",
+      label: t("id_proof_front"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "idProofBack",
+      label: t("id_proof_back"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "drivingLicenseFront",
+      label: t("driving_license_front"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "drivingLicenseBack",
+      label: t("driving_license_back"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "vehicleRegistration",
+      label: t("vehicle_registration"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "criminalRecordCertificate",
+      label: t("criminal_record_certification"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "activity",
+      label: t("activity"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "insurancePolicy",
+      label: t("insurance_policy"),
+      prefersImagePreview: true,
+    },
+  ];
 
-  const isFormValid = REQUIRED_DOCS.every(
-    (key) => previews[key] !== null
-  );
+  const isFormValid = REQUIRED_DOCS.every((key) => previews[key] !== null);
 
   const openPicker = (key: DocKey) => {
     const el = inputsRef.current[key];
@@ -150,10 +154,7 @@ export default function Documents() {
     try {
       const formData = new FormData();
       formData.append("file", f);
-      formData.append(
-        "data",
-        JSON.stringify({ docImageTitle: key })
-      );
+      formData.append("data", JSON.stringify({ docImageTitle: key }));
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/delivery-partners/${id}/docImage`,
@@ -163,8 +164,8 @@ export default function Documents() {
           credentials: "include",
           headers: {
             Authorization: token ? `Bearer ${token}` : "",
-          }
-        }
+          },
+        },
       );
 
       const result = await res.json();
@@ -261,24 +262,18 @@ export default function Documents() {
 
   const completeReg = async () => {
     const toastId = toast.loading("Uploading...");
-    try {
 
-      const result = await submitForApproval(id as string);
+    const result = await submitForApproval(id as string);
 
-      if (result.success) {
-        toast.success(
-          result.message || "Registration successful & Request submitted",
-          { id: toastId }
-        );
-        router.push("/agent/delivery-partners");
-        return;
-      }
-      toast.error(result.message || "Request failed", { id: toastId });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.message, { id: toastId });
-      console.log(error);
+    if (result.success) {
+      toast.success(
+        result.message || "Registration successful & Request submitted",
+        { id: toastId },
+      );
+      router.push("/agent/delivery-partners");
+      return;
     }
+    toast.error(result.message || "Request failed", { id: toastId });
   };
 
   function getActualFileName(url: string): string {
@@ -311,14 +306,11 @@ export default function Documents() {
             transition={{
               duration: 0.5,
             }}
-            className="bg-[#DC3173]/10 p-5 rounded-lg w-full text-#DC3173 italic my-3">
+            className="bg-[#DC3173]/10 p-5 rounded-lg w-full text-#DC3173 italic my-3"
+          >
             <h2 className="text-lg font-semibold">{t("note")} : </h2>
-            <p className="text-sm">
-              - {t("vehicle_type_bicycle")}
-            </p>
-            <p className="text-sm">
-              - {t("vehicle_type_not_bicycle")}
-            </p>
+            <p className="text-sm">- {t("vehicle_type_bicycle")}</p>
+            <p className="text-sm">- {t("vehicle_type_not_bicycle")}</p>
           </motion.div>
         </div>
       </div>
@@ -333,13 +325,15 @@ export default function Documents() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06 }}
-              className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${isSelected ? "border-[#DC3173]/30 bg-[#FFF7FB]" : "bg-white"
-                }`}
+              className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${
+                isSelected ? "border-[#DC3173]/30 bg-[#FFF7FB]" : "bg-white"
+              }`}
             >
               <div className="flex items-center gap-4">
                 <div
-                  className={`w-14 h-14 rounded-lg flex items-center justify-center ${isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
-                    }`}
+                  className={`w-14 h-14 rounded-lg flex items-center justify-center ${
+                    isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
+                  }`}
                 >
                   {d.prefersImagePreview ? (
                     <ImageIcon className="w-6 h-6 text-[#DC3173]" />
@@ -355,8 +349,8 @@ export default function Documents() {
                   <div className="text-xs text-gray-500 mt-1">
                     {preview ? (
                       d.prefersImagePreview &&
-                        preview.isImage &&
-                        preview.url ? (
+                      preview.isImage &&
+                      preview.url ? (
                         <div className="flex items-center gap-2">
                           <Image
                             src={preview.url}
@@ -402,7 +396,7 @@ export default function Documents() {
                   onChange={(e) =>
                     handleFileChange(
                       d.key,
-                      e.target.files ? e.target.files[0] : null
+                      e.target.files ? e.target.files[0] : null,
                     )
                   }
                 />
@@ -450,10 +444,11 @@ export default function Documents() {
           disabled={!isFormValid}
           onClick={completeReg}
           className={`mt-8 w-full py-3 px-6 rounded-lg font-medium text-lg flex items-center justify-center transition-colors duration-300
-    ${isFormValid
-              ? "bg-[#DC3173] text-white hover:bg-[#c21c5e]"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }
+    ${
+      isFormValid
+        ? "bg-[#DC3173] text-white hover:bg-[#c21c5e]"
+        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+    }
   `}
         >
           {t("complete_submit")}

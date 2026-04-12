@@ -47,26 +47,17 @@ export function DeliveryPartnerForm({
   const onSubmit = async (data: TFormData) => {
     const toastId = toast.loading("Creating Delivery Partner...");
 
-    try {
-      const result = await createDeliveryPartner(data as TFormData);
+    const result = await createDeliveryPartner(data as TFormData);
 
-      if (result.success) {
-        toast.success("Delivery Partner created successfully!", {
-          id: toastId,
-        });
-        form.reset();
+    if (result.success) {
+      toast.success("Delivery Partner created successfully!", {
+        id: toastId,
+      });
+      form.reset();
 
-        onSuccess(result?.data?.email || "");
-      } else {
-        toast.error(result?.message, { id: toastId });
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "Delivery Partner creation failed",
-        { id: toastId },
-      );
-      console.log(error);
+      onSuccess(result?.data?.email || "");
+    } else {
+      toast.error(result?.message, { id: toastId });
     }
   };
 

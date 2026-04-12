@@ -75,60 +75,51 @@ export function PersonalInfoForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
 
-    try {
-      const payload = {
-        name: {
-          firstName: values.firstName,
-          lastName: values.lastName,
-        },
-        contactNumber: values.phoneNumber,
-        personalInfo: {
-          dateOfBirth: new Date(values.dateOfBirth).toISOString(),
-          nationality: values.nationality,
-          gender: values.gender,
-          nifNumber: values.nifNumber,
-          passportNumber: values.passportNumber,
-        },
-        address: {
-          street: values.street,
-          city: values.city,
-          postalCode: values.postalCode,
-          state: values.state,
-          country: values.country,
-        },
-      };
-      const result = await updatePartnerInformation(id as string, payload);
+    const payload = {
+      name: {
+        firstName: values.firstName,
+        lastName: values.lastName,
+      },
+      contactNumber: values.phoneNumber,
+      personalInfo: {
+        dateOfBirth: new Date(values.dateOfBirth).toISOString(),
+        nationality: values.nationality,
+        gender: values.gender,
+        nifNumber: values.nifNumber,
+        passportNumber: values.passportNumber,
+      },
+      address: {
+        street: values.street,
+        city: values.city,
+        postalCode: values.postalCode,
+        state: values.state,
+        country: values.country,
+      },
+    };
+    const result = await updatePartnerInformation(id as string, payload);
 
-      if (result.success) {
-        toast.success("Delivery Partner details updated successfully!", {
-          id: toastId,
-        });
-        onNext();
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error(
-        error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
-        {
-          id: toastId,
-        },
-      );
+    if (result.success) {
+      toast.success("Delivery Partner details updated successfully!", {
+        id: toastId,
+      });
+      onNext();
+      return;
     }
+
+    toast.error("Failed to update Delivery Partner details.", {
+      id: toastId,
+    });
   };
 
   const getPartnerData = async () => {
     try {
-      const result = await getDeliveryPartnerDetails(id as string);
+      const partner = await getDeliveryPartnerDetails(id as string);
 
-      if (result.success) {
-        const phone = parsePhoneNumberFromString(
-          result?.data?.contactNumber || "",
-        );
+      if (partner._id) {
+        const phone = parsePhoneNumberFromString(partner?.contactNumber || "");
 
-        form.setValue("firstName", result?.data?.name?.firstName || "");
-        form.setValue("lastName", result?.data?.name?.lastName || "");
+        form.setValue("firstName", partner?.name?.firstName || "");
+        form.setValue("lastName", partner?.name?.lastName || "");
         form.setValue(
           "prefixPhoneNumber",
           (phone?.countryCallingCode && `+${phone?.countryCallingCode}`) || "",
@@ -136,23 +127,20 @@ export function PersonalInfoForm({ onNext }: IProps) {
         form.setValue("phoneNumber", phone?.nationalNumber || "");
         form.setValue(
           "dateOfBirth",
-          (result?.data?.personalInfo?.dateOfBirth as unknown as string) || "",
+          (partner?.personalInfo?.dateOfBirth as unknown as string) || "",
         );
-        form.setValue(
-          "nationality",
-          result?.data?.personalInfo?.nationality || "",
-        );
-        form.setValue("gender", result?.data?.personalInfo?.gender || "MALE");
-        form.setValue("nifNumber", result?.data?.personalInfo?.nifNumber || "");
+        form.setValue("nationality", partner?.personalInfo?.nationality || "");
+        form.setValue("gender", partner?.personalInfo?.gender || "MALE");
+        form.setValue("nifNumber", partner?.personalInfo?.nifNumber || "");
         form.setValue(
           "passportNumber",
-          result?.data?.personalInfo?.passportNumber || "",
+          partner?.personalInfo?.passportNumber || "",
         );
-        form.setValue("street", result?.data?.address?.street || "");
-        form.setValue("city", result?.data?.address?.city || "");
-        form.setValue("postalCode", result?.data?.address?.postalCode || "");
-        form.setValue("state", result?.data?.address?.state || "");
-        form.setValue("country", result?.data?.address?.country || "");
+        form.setValue("street", partner?.address?.street || "");
+        form.setValue("city", partner?.address?.city || "");
+        form.setValue("postalCode", partner?.address?.postalCode || "");
+        form.setValue("state", partner?.address?.state || "");
+        form.setValue("country", partner?.address?.country || "");
       }
     } catch (error) {
       console.log("Error fetching delivery partner data:", error);
@@ -414,7 +402,9 @@ export function PersonalInfoForm({ onNext }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("passport_number_optional")}</span>
+                      <span className="ml-2">
+                        {t("passport_number_optional")}
+                      </span>
                     </div>
                   </FormLabel>
                   <FormControl>

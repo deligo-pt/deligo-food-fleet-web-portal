@@ -65,36 +65,35 @@ export function LegalStatusForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
 
-    try {
-      const payload = {
-        legalStatus: {
-          residencePermitType: values.residencePermitType,
-          residencePermitNumber: values.residencePermitNumber,
-          residencePermitExpiry: new Date(
-            values.residencePermitExpiry,
-          ).toISOString(),
-        },
-      };
+    const payload = {
+      legalStatus: {
+        residencePermitType: values.residencePermitType,
+        residencePermitNumber: values.residencePermitNumber,
+        residencePermitExpiry: new Date(
+          values.residencePermitExpiry,
+        ).toISOString(),
+      },
+    };
 
-      const result = await updatePartnerInformation(id as string, payload);
+    const result = await updatePartnerInformation(id as string, payload);
 
-      if (result.success) {
-        toast.success("Delivery Partner details updated successfully!", {
-          id: toastId,
-        });
-        onNext();
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error(
-        error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+    if (result.success) {
+      toast.success(
+        result?.message || "Delivery Partner details updated successfully!",
         {
           id: toastId,
         },
       );
+      onNext();
+      return;
     }
+
+    toast.error(
+      result?.message || "Failed to update Delivery Partner details.",
+      {
+        id: toastId,
+      },
+    );
   };
 
   const getPartnerData = async () => {

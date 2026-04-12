@@ -101,41 +101,40 @@ export function EquipmentForm({ onNext }: IProps) {
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
-    try {
-      const payload = {
-        workPreferences: {
-          preferredZones: values.preferredZones,
-          preferredHours: values.preferredHours,
-          hasEquipment: {
-            isothermalBag: values.isothermalBag,
-            helmet: values.helmet,
-            powerBank: values.powerBank,
-          },
-          workedWithOtherPlatform: values.workedWithOtherPlatform,
-          otherPlatformName: values.otherPlatformName,
+
+    const payload = {
+      workPreferences: {
+        preferredZones: values.preferredZones,
+        preferredHours: values.preferredHours,
+        hasEquipment: {
+          isothermalBag: values.isothermalBag,
+          helmet: values.helmet,
+          powerBank: values.powerBank,
         },
-      };
+        workedWithOtherPlatform: values.workedWithOtherPlatform,
+        otherPlatformName: values.otherPlatformName,
+      },
+    };
 
-      const result = await updatePartnerInformation(id as string, payload);
+    const result = await updatePartnerInformation(id as string, payload);
 
-      if (result.success) {
-        toast.success("Delivery Partner details updated successfully!", {
-          id: toastId,
-        });
-
-        onNext();
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error(
-        error?.response?.data?.message ||
-          "Failed to update Delivery Partner details",
+    if (result.success) {
+      toast.success(
+        result?.message || "Delivery Partner details updated successfully!",
         {
           id: toastId,
         },
       );
+      onNext();
+      return;
     }
+
+    toast.error(
+      result?.message || "Failed to update Delivery Partner details.",
+      {
+        id: toastId,
+      },
+    );
   };
 
   const getPartnerData = async () => {
