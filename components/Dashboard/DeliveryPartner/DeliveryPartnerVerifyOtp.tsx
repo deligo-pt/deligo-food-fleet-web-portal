@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
-import { TResponse } from "@/types";
-import { postData } from "@/utils/requests";
+import { resendOtpReq, verifyOtpReq } from "@/services/auth/auth";
 import { motion } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 import { Clock, MailIcon, RefreshCcw } from "lucide-react";
@@ -47,7 +46,7 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
@@ -58,34 +57,23 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
     e.preventDefault();
     const toastId = toast.loading("Verifying OTP...");
     const finalOtp = otp.join("");
-    if (finalOtp.length === 4) {
-      try {
-        const result = (await postData(
-          "/auth/verify-otp",
-          {
-            email,
-            otp: finalOtp,
-          }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        )) as unknown as TResponse<any>;
 
-        if (result.success) {
-          toast.success("OTP verified successfully!", { id: toastId });
-          const decoded = jwtDecode(result.data.accessToken) as { userId: string };
-          router.push(`/agent/delivery-partners/edit/${decoded?.userId}`);
-          return;
-        }
-        toast.error(result.message, { id: toastId });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        toast.error(
-          error?.response?.data?.message || "OTP verification failed",
-          {
-            id: toastId,
-          }
-        );
-        console.log(error);
+    if (finalOtp.length === 4) {
+      const result = await verifyOtpReq({
+        email,
+        otp: finalOtp,
+      });
+
+      if (result.success) {
+        toast.success("OTP verified successfully!", { id: toastId });
+        const decoded = jwtDecode(result.data.accessToken) as {
+          userId: string;
+        };
+        router.push(`/agent/delivery-partners/edit/${decoded?.userId}`);
+        return;
       }
+
+      toast.error(result.message || "OTP verification failed", { id: toastId });
     } else {
       toast.error("Please enter a valid 4-digit OTP", { id: toastId });
     }
@@ -93,29 +81,17 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
 
   const resendOtp = async () => {
     const toastId = toast.loading("Resending OTP...");
-    try {
-      const result = (await postData(
-        "/auth/resend-otp",
-        {
-          email,
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      )) as unknown as TResponse<any>;
 
-      if (result.success) {
-        setTimer(300);
-        console.log("OTP resent!");
-        toast.success("OTP resent successfully!", { id: toastId });
-        return;
-      }
-      toast.error(result.message, { id: toastId });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "OTP resend failed", {
-        id: toastId,
-      });
-      console.log(error);
+    const result = await resendOtpReq({ email });
+
+    if (result.success) {
+      setTimer(300);
+      console.log("OTP resent!");
+      toast.success("OTP resent successfully!", { id: toastId });
+      return;
     }
+
+    toast.error(result.message || "OTP resend failed", { id: toastId });
   };
 
   // Format time as MM:SS
@@ -196,7 +172,9 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
                 {canResend ? (
                   <span className="text-gray-500">{t("expired")}</span>
                 ) : (
-                  <span>{formatTime(timer)} {t("remaining")}</span>
+                  <span>
+                    {formatTime(timer)} {t("remaining")}
+                  </span>
                 )}
               </div>
 
@@ -204,10 +182,11 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
                 type="button"
                 onClick={resendOtp}
                 disabled={!canResend}
-                className={`flex items-center gap-1 font-medium ${canResend
-                  ? "text-[#DC3173] hover:text-[#a72b5c]"
-                  : "text-gray-400 cursor-not-allowed"
-                  } transition-colors`}
+                className={`flex items-center gap-1 font-medium ${
+                  canResend
+                    ? "text-[#DC3173] hover:text-[#a72b5c]"
+                    : "text-gray-400 cursor-not-allowed"
+                } transition-colors`}
               >
                 <RefreshCcw className="w-4 h-4" />
                 {t("resendOTP")}

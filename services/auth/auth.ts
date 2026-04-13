@@ -28,6 +28,32 @@ export const loginReq = async (payload: {
   });
 };
 
+export const resendOtpReq = async (payload: { email: string }) => {
+  return catchAsync(async () => {
+    return await serverFetch.post("/auth/resend-otp", {
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  });
+};
+
+export const verifyOtpReq = async (payload: {
+  email: string;
+  otp: string;
+  deviceDetails?: TDeviceDetails;
+}) => {
+  return catchAsync(async () => {
+    return await serverFetch.post("/auth/verify-otp", {
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  });
+};
+
 export const logoutReq = async (payload: { email: string; token: string }) => {
   const deviceId = (await cookies()).get(DEVICE_KEY)?.value || "";
   return catchAsync(async () => {

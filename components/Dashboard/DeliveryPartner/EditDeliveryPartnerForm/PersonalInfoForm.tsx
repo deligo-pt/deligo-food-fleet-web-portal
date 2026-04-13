@@ -99,16 +99,22 @@ export function PersonalInfoForm({ onNext }: IProps) {
     const result = await updatePartnerInformation(id as string, payload);
 
     if (result.success) {
-      toast.success("Delivery Partner details updated successfully!", {
-        id: toastId,
-      });
+      toast.success(
+        result?.message || "Delivery Partner details updated successfully!",
+        {
+          id: toastId,
+        },
+      );
       onNext();
       return;
     }
 
-    toast.error("Failed to update Delivery Partner details.", {
-      id: toastId,
-    });
+    toast.error(
+      result?.message || "Failed to update Delivery Partner details.",
+      {
+        id: toastId,
+      },
+    );
   };
 
   const getPartnerData = async () => {
@@ -131,7 +137,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
         );
         form.setValue("nationality", partner?.personalInfo?.nationality || "");
         form.setValue("gender", partner?.personalInfo?.gender || "MALE");
-        form.setValue("nifNumber", partner?.personalInfo?.nifNumber || "");
+        form.setValue("nifNumber", partner?.personalInfo?.NIF || "");
         form.setValue(
           "passportNumber",
           partner?.personalInfo?.passportNumber || "",

@@ -47,7 +47,7 @@ export const createDeliveryPartner = async (payload: any) => {
 
 export const updatePartnerInformation = async (id: string, payload: any) => {
   return catchAsync(async () => {
-    return await serverFetch.post(`/delivery-partners/${id}`, {
+    return await serverFetch.patch(`/delivery-partners/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
