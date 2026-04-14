@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,34 +73,29 @@ const BankDetails = ({ profile }: Props) => {
   const onSubmit = async (data: FormValues) => {
     const toastId = toast.loading("Updating bank details...");
 
-    try {
-      const payload = {
-        bankDetails: {
-          bankName: data.bankName,
-          accountHolderName: data.accountHolderName,
-          iban: data.iban.toUpperCase(),
-          swiftCode: data.swiftCode.toUpperCase(),
-        },
-      };
+    const payload = {
+      bankDetails: {
+        bankName: data.bankName,
+        accountHolderName: data.accountHolderName,
+        iban: data.iban.toUpperCase(),
+        swiftCode: data.swiftCode.toUpperCase(),
+      },
+    };
 
-      const result = await updateFleetInformation(
-        profile?.data?.userId as string,
-        payload,
-      );
+    const result = await updateFleetInformation(
+      profile?.data?.userId as string,
+      payload,
+    );
 
-      if (result?.success) {
-        toast.success("Bank details updated successfully!", { id: toastId });
-        router.push("/become-agent/document-image-details");
-        return;
-      }
-
-      toast.error(result?.message || "Update failed", { id: toastId });
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || "Something went wrong", {
+    if (result?.success) {
+      toast.success(result?.message || "Bank details updated successfully!", {
         id: toastId,
       });
+      router.push("/become-agent/document-image-details");
+      return;
     }
+
+    toast.error(result?.message || "Update failed", { id: toastId });
   };
 
   return (

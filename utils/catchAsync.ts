@@ -16,7 +16,7 @@ export const catchAsync = async (
       };
     }
 
-    return { success: false, data: result.error, message: result.message };
+    return { success: false, data: result, message: result.message };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -24,8 +24,8 @@ export const catchAsync = async (
 
     return {
       success: false,
-      data: error?.response?.data || null,
-      message: error?.response?.data?.message || customErrMsg,
+      data: null,
+      message: error?.message || customErrMsg || "Something went wrong",
     };
   }
 };

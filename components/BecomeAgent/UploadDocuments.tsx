@@ -17,15 +17,15 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
+import { uploadDocumentsReq } from "@/services/becomeAgent/becomeAgentManagement";
 import { TResponse } from "@/types";
+import { DocKey } from "@/types/documents.type";
 import { getCookie } from "@/utils/cookies";
 import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useTranslation } from "@/hooks/use-translation";
-import { DocKey } from "@/types/documents.type";
-import { uploadDocumentsReq } from "@/services/becomeAgent/becomeAgentManagement";
 
 type FilePreview = {
   file: File | null;
@@ -48,19 +48,27 @@ export default function UploadDocuments({
     label: string;
     prefersImagePreview: boolean;
   }[] = [
-      {
-        key: "myPhoto",
-        label: t('myPhoto'),
-        prefersImagePreview: false,
-      },
-      {
-        key: "businessLicense",
-        label: t('documentsLabel1'),
-        prefersImagePreview: false,
-      },
-      { key: "idProofFront", label: t("documentsLabel2"), prefersImagePreview: true },
-      { key: "idProofBack", label: t("documentsLabel3"), prefersImagePreview: true },
-    ];
+    {
+      key: "myPhoto",
+      label: t("myPhoto"),
+      prefersImagePreview: false,
+    },
+    {
+      key: "businessLicense",
+      label: t("documentsLabel1"),
+      prefersImagePreview: false,
+    },
+    {
+      key: "idProofFront",
+      label: t("documentsLabel2"),
+      prefersImagePreview: true,
+    },
+    {
+      key: "idProofBack",
+      label: t("documentsLabel3"),
+      prefersImagePreview: true,
+    },
+  ];
 
   // file input refs to trigger the browser picker
   const inputsRef = useRef<Record<string, HTMLInputElement | null>>({});
@@ -89,38 +97,34 @@ export default function UploadDocuments({
     const url = URL.createObjectURL(f);
 
     const toastId = toast.loading("Uploading...");
-    try {
-      const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { userId: string };
 
-      const result = (await uploadDocumentsReq(
-        decoded.userId,
-        key,
-        f
-      )) as unknown as TResponse<any>;
+    const accessToken = getCookie("accessToken");
+    const decoded = jwtDecode(accessToken || "") as { userId: string };
 
-      if (result.success) {
-        toast.success("File uploaded successfully!", { id: toastId });
+    const result = (await uploadDocumentsReq(
+      decoded.userId,
+      key,
+      f,
+    )) as unknown as TResponse<any>;
 
-        // revoke previous url if present
-        const prev = previews[key];
-        if (prev && prev.url) URL.revokeObjectURL(prev.url);
-
-        setPreviews((p) => ({ ...p, [key]: { file: f, url, isImage } }));
-
-        if (inputsRef.current[key]) {
-          inputsRef.current[key]!.value = "";
-        }
-        return;
-      } else {
-        toast.error(result?.message, { id: toastId });
-      }
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || "File upload failed", {
+    if (result.success) {
+      toast.success(result?.message || "File uploaded successfully!", {
         id: toastId,
       });
+
+      // revoke previous url if present
+      const prev = previews[key];
+      if (prev && prev.url) URL.revokeObjectURL(prev.url);
+
+      setPreviews((p) => ({ ...p, [key]: { file: f, url, isImage } }));
+
+      if (inputsRef.current[key]) {
+        inputsRef.current[key]!.value = "";
+      }
       return;
+    } else {
+      toast.error(result?.message || "File upload failed", { id: toastId });
+      console.log(result);
     }
   };
 
@@ -254,7 +258,7 @@ export default function UploadDocuments({
         {},
         {
           headers: { authorization: accessToken || "" },
-        }
+        },
       )) as unknown as TResponse<any>;
       if (result.success) {
         toast.success("Request submitted successfully!", {
@@ -266,7 +270,7 @@ export default function UploadDocuments({
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message || "Request submission failed",
-        { id: toastId }
+        { id: toastId },
       );
       console.log(error);
     }
@@ -303,10 +307,10 @@ export default function UploadDocuments({
               </div>
               <div>
                 <CardTitle className="text-2xl font-semibold tracking-wide">
-                  {t('uploadDocuments')}
+                  {t("uploadDocuments")}
                 </CardTitle>
                 <p className="mt-2 text-sm text-white/90 max-w-2xl leading-relaxed">
-                  {t('uploadDocDesc')}
+                  {t("uploadDocDesc")}
                 </p>
               </div>
             </div>
@@ -323,15 +327,17 @@ export default function UploadDocuments({
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.06 }}
-                    className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${isSelected
-                      ? "border-[#DC3173]/30 bg-[#FFF7FB]"
-                      : "bg-white"
-                      }`}
+                    className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${
+                      isSelected
+                        ? "border-[#DC3173]/30 bg-[#FFF7FB]"
+                        : "bg-white"
+                    }`}
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-14 h-14 rounded-lg flex items-center justify-center ${isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
-                          }`}
+                        className={`w-14 h-14 rounded-lg flex items-center justify-center ${
+                          isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
+                        }`}
                       >
                         {d.prefersImagePreview ? (
                           <ImageIcon className="w-6 h-6 text-[#DC3173]" />
@@ -392,7 +398,7 @@ export default function UploadDocuments({
                         onChange={(e) =>
                           handleFileChange(
                             d.key,
-                            e.target.files ? e.target.files[0] : null
+                            e.target.files ? e.target.files[0] : null,
                           )
                         }
                       />
@@ -407,7 +413,8 @@ export default function UploadDocuments({
                             }
                             className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm border border-gray-200 hover:shadow"
                           >
-                            <Eye className="w-4 h-4 text-[#DC3173]" /> {t("viewCTA")}
+                            <Eye className="w-4 h-4 text-[#DC3173]" />{" "}
+                            {t("viewCTA")}
                           </button>
 
                           <button
@@ -433,9 +440,7 @@ export default function UploadDocuments({
             </div>
 
             <div className="pt-6">
-              <div className="text-sm text-gray-500">
-                {t("tipDesc")}
-              </div>
+              <div className="text-sm text-gray-500">{t("tipDesc")}</div>
             </div>
             <div className="pt-4">
               <Button

@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
-import { TResponse } from "@/types";
-import { postData } from "@/utils/requests";
+import { registerFleetAndSendOTPReq } from "@/services/becomeAgent/becomeAgentManagement";
+import { setLocalOtpExpiry } from "@/utils/localOtpExpiry";
 import { becomeAgentValidation } from "@/validations/become-agent/become-agent.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -47,26 +47,21 @@ export default function BecomAgentPage() {
 
   const onSubmit = async (data: FormValues) => {
     const toastId = toast.loading("Registering...");
-    try {
-      const result = (await postData(
-        "/auth/register/create-fleet-manager",
-        data
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      )) as unknown as TResponse<any>;
 
-      if (result.success) {
-        toast.success("Registration successful!", { id: toastId });
-        router.push(`/become-agent/verify-otp?email=${data.email}`);
-        return;
-      }
-      toast.error(result.message, { id: toastId });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error?.message ? error?.message : error?.response?.data?.message || "Registration failed", {
+    const result = await registerFleetAndSendOTPReq(data);
+
+    if (result.success) {
+      toast.success(result.message || "OTP sent to your email successfully!", {
         id: toastId,
       });
-      console.log(error);
+
+      setLocalOtpExpiry();
+
+      router.push(`/become-agent/verify-otp?email=${data.email}`);
+      return;
     }
+
+    toast.error(result.message || "Registration failed", { id: toastId });
   };
 
   const [watchEmail, watchPassword, watchTerms] = useWatch({
@@ -95,7 +90,6 @@ export default function BecomAgentPage() {
 
         {/* stepper section */}
         <Stepper />
-
       </motion.div>
 
       {/* 🧾 Form Section */}
@@ -243,10 +237,11 @@ export default function BecomAgentPage() {
                   <Button
                     type="submit"
                     disabled={!isFormFilled}
-                    className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${isFormFilled
-                      ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      }`}
+                    className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${
+                      isFormFilled
+                        ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
                   >
                     {t("confirm_continue")}
                   </Button>

@@ -3,12 +3,12 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
@@ -24,289 +24,298 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 declare global {
-    interface Window {
-        google: any;
-    }
+  interface Window {
+    google: any;
+  }
 }
 interface Props {
-    profile: {
-        data: TFleetManager
-    };
-};
+  profile: {
+    data: TFleetManager;
+  };
+}
 type LocationFormType = {
-    street: string;
-    state?: string;
-    city: string;
-    postalCode: string;
-    country: string;
+  street: string;
+  state?: string;
+  city: string;
+  postalCode: string;
+  country: string;
 };
 
 const GOOGLE_API_URL = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBHT9ARgpTJIEdvsiaD72Gf7SUUXz-Xqfg&libraries=places`;
 
 const AddYourBusinessLocation = ({ profile }: Props) => {
-    const { t } = useTranslation();
-    const mapRef = useRef<HTMLDivElement | null>(null);
-    const markerRef = useRef<any>(null);
-    const geocoderRef = useRef<any>(null);
-    const router = useRouter();
+  const { t } = useTranslation();
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const markerRef = useRef<any>(null);
+  const geocoderRef = useRef<any>(null);
+  const router = useRouter();
 
-    const [locationCoordinates, setLocationCoordinates] = useState({
-        latitude: 0,
-        longitude: 0,
+  const [locationCoordinates, setLocationCoordinates] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+
+  const form = useForm<LocationFormType>({
+    resolver: zodResolver(businessLocationValidation),
+    defaultValues: {
+      street: "",
+      state: "",
+      city: "",
+      postalCode: "",
+      country: "",
+    },
+  });
+
+  const formFields = [
+    {
+      label: t("street"),
+      name: "street",
+    },
+    {
+      label: t("state_optional"),
+      name: "state",
+    },
+    {
+      label: t("city"),
+      name: "city",
+    },
+    {
+      label: t("postalCode"),
+      name: "postalCode",
+    },
+    {
+      label: t("country"),
+      name: "country",
+    },
+  ];
+
+  /** --- Extract and Set Address Fields --- */
+  const fillAddressFields = useCallback(
+    (components: any[]) => {
+      const address: any = {};
+      components.forEach((c) => {
+        if (c.types.includes("route")) address.street = c.long_name;
+        if (c.types.includes("street_number"))
+          address.streetNumber = c.long_name;
+        if (c.types.includes("administrative_area_level_1"))
+          address.state = c.long_name;
+        if (c.types.includes("locality")) address.city = c.long_name;
+        if (c.types.includes("postal_code")) address.postalCode = c.long_name;
+        if (c.types.includes("country")) address.country = c.long_name;
+      });
+
+      Object.entries(address).forEach(([key, value]) =>
+        form.setValue(key as keyof LocationFormType, (value || "") as string),
+      );
+    },
+    [form],
+  );
+
+  /** --- Update Marker Position --- */
+  const updateMarker = useCallback((map: any, location: any) => {
+    markerRef.current.setPosition(location);
+    map.setCenter(location);
+    map.setZoom(15);
+  }, []);
+
+  /** --- Initialize Google Map & Autocomplete --- */
+  const initializeMap = useCallback(async () => {
+    if (!window.google?.maps) return;
+
+    const defaultLocation = { lat: 40.4168, lng: -3.7038 }; // Madrid
+    const map = new window.google.maps.Map(mapRef.current, {
+      center: defaultLocation,
+      zoom: 12,
     });
 
-    const form = useForm<LocationFormType>({
-        resolver: zodResolver(businessLocationValidation),
-        defaultValues: {
-            street: "",
-            state: "",
-            city: "",
-            postalCode: "",
-            country: "",
-        },
+    geocoderRef.current = new window.google.maps.Geocoder();
+
+    markerRef.current = new window.google.maps.Marker({
+      map,
+      position: defaultLocation,
+      animation: window.google.maps.Animation.DROP,
     });
 
-    const formFields = [
-        {
-            label: t("street"),
-            name: "street",
-        },
-        {
-            label: t("state"),
-            name: "state",
-        },
-        {
-            label: t("city"),
-            name: "city",
-        },
-        {
-            label: t("postalCode"),
-            name: "postalCode",
-        },
-        {
-            label: t("country"),
-            name: "country",
-        },
-    ];
+    /** Autocomplete */
+    const input = document.getElementById("autocomplete") as HTMLInputElement;
+    const autocomplete = new window.google.maps.places.Autocomplete(input, {
+      fields: ["address_components", "geometry"],
+      types: ["address"],
+    });
 
-    /** --- Extract and Set Address Fields --- */
-    const fillAddressFields = useCallback(
-        (components: any[]) => {
-            const address: any = {};
-            components.forEach((c) => {
-                if (c.types.includes("route")) address.streetAddress = c.long_name;
-                if (c.types.includes("street_number"))
-                    address.streetNumber = c.long_name;
-                if (c.types.includes("locality")) address.city = c.long_name;
-                if (c.types.includes("postal_code")) address.postalCode = c.long_name;
-                if (c.types.includes("country")) address.country = c.long_name;
-            });
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) return;
 
-            Object.entries(address).forEach(([key, value]) =>
-                form.setValue(key as keyof LocationFormType, (value || "") as string)
-            );
-        },
-        [form]
-    );
+      const loc = place.geometry.location;
 
-    /** --- Update Marker Position --- */
-    const updateMarker = useCallback((map: any, location: any) => {
-        markerRef.current.setPosition(location);
-        map.setCenter(location);
-        map.setZoom(15);
-    }, []);
+      setLocationCoordinates({ latitude: loc.lat(), longitude: loc.lng() });
+      updateMarker(map, loc);
+      fillAddressFields(place.address_components);
+    });
 
-    /** --- Initialize Google Map & Autocomplete --- */
-    const initializeMap = useCallback(async () => {
-        if (!window.google?.maps) return;
+    /** On Map Click */
+    map.addListener("click", (e: any) => {
+      const loc = e.latLng;
+      setLocationCoordinates({ latitude: loc.lat(), longitude: loc.lng() });
 
-        const defaultLocation = { lat: 40.4168, lng: -3.7038 }; // Madrid
-        const map = new window.google.maps.Map(mapRef.current, {
-            center: defaultLocation,
-            zoom: 12,
-        });
-
-        geocoderRef.current = new window.google.maps.Geocoder();
-
-        markerRef.current = new window.google.maps.Marker({
-            map,
-            position: defaultLocation,
-            animation: window.google.maps.Animation.DROP,
-        });
-
-        /** Autocomplete */
-        const input = document.getElementById("autocomplete") as HTMLInputElement;
-        const autocomplete = new window.google.maps.places.Autocomplete(input, {
-            fields: ["address_components", "geometry"],
-            types: ["address"],
-        });
-
-        autocomplete.addListener("place_changed", () => {
-            const place = autocomplete.getPlace();
-            if (!place.geometry) return;
-
-            const loc = place.geometry.location;
-
-            setLocationCoordinates({ latitude: loc.lat(), longitude: loc.lng() });
+      geocoderRef.current.geocode(
+        { location: loc },
+        (results: any, status: string) => {
+          if (status === "OK" && results[0]) {
             updateMarker(map, loc);
-            fillAddressFields(place.address_components);
-        });
+            fillAddressFields(results[0].address_components);
+          }
+        },
+      );
+    });
 
-        /** On Map Click */
-        map.addListener("click", (e: any) => {
-            const loc = e.latLng;
-            setLocationCoordinates({ latitude: loc.lat(), longitude: loc.lng() });
+    /** Load Saved Agent Location */
 
-            geocoderRef.current.geocode(
-                { location: loc },
-                (results: any, status: string) => {
-                    if (status === "OK" && results[0]) {
-                        updateMarker(map, loc);
-                        fillAddressFields(results[0].address_components);
-                    }
-                }
-            );
-        });
+    const loc = profile?.data?.businessLocation;
+    form.reset({
+      street: loc?.street || "",
+      state: loc?.state || "",
+      city: loc?.city || "",
+      postalCode: loc?.postalCode || "",
+      country: loc?.country || "",
+    });
 
-        /** Load Saved Agent Location */
+    if (loc?.latitude && loc?.longitude) {
+      const savedLoc = new window.google.maps.LatLng(
+        loc?.latitude,
+        loc?.longitude,
+      );
+      setLocationCoordinates({
+        latitude: loc?.latitude,
+        longitude: loc?.longitude,
+      });
+      updateMarker(map, savedLoc);
+    }
+  }, [fillAddressFields, form, updateMarker, profile?.data]);
 
-        const loc = profile?.data?.businessLocation;
-        form.reset({
-            street: loc?.street || "",
-            state: loc?.state || "",
-            city: loc?.city || "",
-            postalCode: loc?.postalCode || "",
-            country: loc?.country || "",
-        });
+  /** --- Load Google Maps Script Once --- */
+  useEffect(() => {
+    if (document.querySelector(`script[src="${GOOGLE_API_URL}"]`)) {
+      (() => initializeMap())();
+      return;
+    }
 
-        if (loc?.latitude && loc?.longitude) {
-            const savedLoc = new window.google.maps.LatLng(
-                loc?.latitude,
-                loc?.longitude
-            );
-            setLocationCoordinates({
-                latitude: loc?.latitude,
-                longitude: loc?.longitude,
-            });
-            updateMarker(map, savedLoc);
-        }
-    }, [fillAddressFields, form, updateMarker, profile?.data]);
+    const script = document.createElement("script");
+    script.src = GOOGLE_API_URL;
+    script.async = true;
+    script.onload = initializeMap;
+    document.body.appendChild(script);
+  }, [initializeMap]);
 
-    /** --- Load Google Maps Script Once --- */
-    useEffect(() => {
-        if (document.querySelector(`script[src="${GOOGLE_API_URL}"]`)) {
-            initializeMap();
-            return;
-        }
+  /** --- Submit Handler --- */
+  const handleSave = async (data: LocationFormType) => {
+    const toastId = toast.loading("Updating...");
 
-        const script = document.createElement("script");
-        script.src = GOOGLE_API_URL;
-        script.async = true;
-        script.onload = initializeMap;
-        document.body.appendChild(script);
-    }, [initializeMap]);
+    if (
+      locationCoordinates?.latitude === 0 ||
+      locationCoordinates?.longitude === 0
+    ) {
+      toast.error("Please search your area and select in map!", {
+        id: toastId,
+      });
+      return;
+    }
 
-    /** --- Submit Handler --- */
-    const handleSave = async (data: LocationFormType) => {
-        const toastId = toast.loading("Updating...");
-
-        if (locationCoordinates?.latitude === 0 || locationCoordinates?.longitude === 0) {
-            toast.error("Please search your area and select in map!", { id: toastId });
-            return;
-        };
-
-        try {
-            const payload = {
-                businessLocation: {
-                    street: data.street,
-                    state: data.state || "",
-                    city: data.city,
-                    postalCode: data.postalCode,
-                    country: data.country,
-                    latitude: locationCoordinates.latitude,
-                    longitude: locationCoordinates.longitude,
-                },
-            };
-
-            const result = await updateFleetInformation(profile?.data?.userId as string, payload);
-
-            if (!result.success) throw new Error(result.message);
-
-            toast.success("Business location updated!", { id: toastId });
-            router.push("/become-agent/bank-details");
-        } catch (err: any) {
-            toast.error(err?.response?.data?.message || "Update failed", {
-                id: toastId,
-            });
-        }
+    const payload = {
+      businessLocation: {
+        street: data.street,
+        state: data.state || "",
+        city: data.city,
+        postalCode: data.postalCode,
+        country: data.country,
+        latitude: locationCoordinates.latitude,
+        longitude: locationCoordinates.longitude,
+      },
     };
 
-    return (
-        <motion.div
-            className="max-w-3xl mx-auto p-6 sm:p-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-        >
-            <Button
-                onClick={() => router.push("/become-agent/business-details")}
-                variant="link"
-                className="inline-flex items-center gap-2 text-[#DC3173] absolute top-0.5 px-0! cursor-pointer"
-            >
-                <ArrowLeftCircle /> Go Back
-            </Button>
-
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(handleSave)}
-                    className="space-y-6"
-                    autoComplete="off"
-                >
-                    <div className="relative">
-                        <Search className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
-                        <input
-                            id="autocomplete"
-                            placeholder="Search your business address..."
-                            className="pl-10 py-3 rounded-xl border w-full"
-                        />
-                    </div>
-
-                    <div
-                        ref={mapRef}
-                        className="w-full h-80 rounded-xl shadow-md border"
-                    />
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        {formFields.map((field) => (
-                            <FormField
-                                key={field.name}
-                                control={form.control}
-                                name={field.name as keyof LocationFormType}
-                                render={({ field: formField }) => (
-                                    <FormItem>
-                                        <FormLabel>{field.label}</FormLabel>
-                                        <FormControl>
-                                            <Input {...formField} placeholder={field.label} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        ))}
-                    </div>
-
-                    <motion.button
-                        type="submit"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white rounded-xl"
-                    >
-                        <Save className="w-5 h-5" /> {t("saveLocationNext")}
-                    </motion.button>
-                </form>
-            </Form>
-        </motion.div>
+    const result = await updateFleetInformation(
+      profile?.data?.userId as string,
+      payload,
     );
+
+    if (!result.success) {
+      toast.error(result.message || "Update failed", { id: toastId });
+      return;
+    }
+
+    toast.success(result.message || "Business location updated!", {
+      id: toastId,
+    });
+    router.push("/become-agent/bank-details");
+  };
+
+  return (
+    <motion.div
+      className="max-w-3xl mx-auto p-6 sm:p-10"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Button
+        onClick={() => router.push("/become-agent/business-details")}
+        variant="link"
+        className="inline-flex items-center gap-2 text-[#DC3173] absolute top-0.5 px-0! cursor-pointer"
+      >
+        <ArrowLeftCircle /> Go Back
+      </Button>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSave)}
+          className="space-y-6"
+          autoComplete="off"
+        >
+          <div className="relative">
+            <Search className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+            <input
+              id="autocomplete"
+              placeholder="Search your business address..."
+              className="pl-10 py-3 rounded-xl border w-full"
+            />
+          </div>
+
+          <div
+            ref={mapRef}
+            className="w-full h-80 rounded-xl shadow-md border"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {formFields.map((field) => (
+              <FormField
+                key={field.name}
+                control={form.control}
+                name={field.name as keyof LocationFormType}
+                render={({ field: formField }) => (
+                  <FormItem>
+                    <FormLabel>{field.label}</FormLabel>
+                    <FormControl>
+                      <Input {...formField} placeholder={field.label} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+          </div>
+
+          <motion.button
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white rounded-xl"
+          >
+            <Save className="w-5 h-5" /> {t("saveLocationNext")}
+          </motion.button>
+        </form>
+      </Form>
+    </motion.div>
+  );
 };
 
 export default AddYourBusinessLocation;
