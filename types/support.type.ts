@@ -17,14 +17,16 @@ export type TSupportTicket = {
   ticketId: string;
   userId: {
     _id: string;
+    userId: string;
     email: string;
     name: { firstName?: string; lastName?: string };
   };
   userModel: TUserModel;
   activeHandler: THandlerType;
+  assignedAdminId?: { userId: string };
   status: TTicketStatus;
-  category: "PAYMENT" | "IVA_INVOICE" | "TECHNICAL" | "GENERAL";
-  referenceOrderId?: unknown;
+  category: "ORDER_ISSUE" | "PAYMENT" | "IVA_INVOICE" | "TECHNICAL" | "GENERAL";
+  // referenceOrderId?: TOrder;
   lastMessage?: string;
   lastMessageSender?: TUserRole;
   lastMessageTime?: string;

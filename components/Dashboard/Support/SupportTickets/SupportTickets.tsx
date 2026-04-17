@@ -5,8 +5,10 @@ import SupportChatSheet from "@/components/Dashboard/Support/SupportTickets/Supp
 import SupportStatusBadge from "@/components/Dashboard/Support/SupportTickets/SupportStatusBadge";
 import TitleHeader from "@/components/TitleHeader/TitleHeader";
 import { Button } from "@/components/ui/button";
-import { TMeta } from "@/types";
+import { USER_ROLE } from "@/consts/user.const";
+import { useTopbarMessageIconSocket } from "@/hooks/use-chat-socket";
 import { TSupportMessage, TSupportTicket } from "@/types/support.type";
+import { getCookie } from "@/utils/cookies";
 import { removeUnderscore } from "@/utils/formatter";
 import { format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,17 +17,32 @@ import { useState } from "react";
 
 interface IProps {
   ticket: TSupportTicket;
-  userId: string;
-  userName: string;
-  initialMessagesData: { data: TSupportMessage[]; meta?: TMeta };
 }
 
-export default function SupportTickets({
-  ticket,
-  initialMessagesData,
-}: IProps) {
+export default function SupportTickets({ ticket }: IProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isChatSheetOpen, setIsChatSheetOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(
+    ticket.unreadCount?.[ticket.userId?.userId],
+  );
+
+  const accessToken = getCookie("accessToken");
+
+  const newMessageHandler = (msg: TSupportMessage) => {
+    if (
+      msg.senderRole !== USER_ROLE.FLEET_MANAGER &&
+      msg.ticketId === ticket.ticketId
+    ) {
+      setUnreadCount((c) => c + 1);
+    }
+  };
+
+  useTopbarMessageIconSocket({
+    ticketId: ticket.ticketId,
+    token: accessToken as string,
+    onMessage: (msg) => newMessageHandler(msg),
+    onError: () => {},
+  });
 
   return (
     <div>
@@ -43,8 +60,13 @@ export default function SupportTickets({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden"
+              className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden relative"
             >
+              {unreadCount > 0 && (
+                <div className="w-5 h-5 bg-[#DC3173] rounded-full flex justify-center items-center text-white text-[10px] absolute top-2 right-2">
+                  {unreadCount > 99 ? "99" : unreadCount}
+                </div>
+              )}
               <div className="p-8 md:p-10">
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                   <div className="flex items-center gap-3">
@@ -83,7 +105,7 @@ export default function SupportTickets({
                   </div>
 
                   <Button
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setIsChatSheetOpen(true)}
                     className="flex items-center justify-center gap-2 bg-[#DC3173] hover:bg-[#DC3173]/90 font-semibold transition-all hover:shadow-lg active:scale-95 cursor-pointer"
                   >
                     View Conversation
@@ -137,11 +159,10 @@ export default function SupportTickets({
 
       {/* Right-side Chat Sheet */}
       <AnimatePresence>
-        {isOpen && (
+        {isChatSheetOpen && (
           <SupportChatSheet
             ticket={ticket}
-            closeChatSheet={() => setIsOpen(false)}
-            initialMessagesData={initialMessagesData}
+            closeChatSheet={() => setIsChatSheetOpen(false)}
           />
         )}
       </AnimatePresence>

@@ -2,17 +2,16 @@
 
 import { USER_ROLE } from "@/consts/user.const";
 import { useTopbarMessageIconSocket } from "@/hooks/use-chat-socket";
-import {
-  getMyTicketReq,
-  getUnreadCountReq,
-} from "@/services/dashboard/support/support.service";
+import { getMyTicketReq } from "@/services/dashboard/support/support.service";
 import { TSupportMessage } from "@/types/support.type";
 import { getCookie } from "@/utils/cookies";
 import { motion } from "framer-motion";
 import { MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function TopbarMessageIcon() {
+  const router = useRouter();
   const audioRef = useRef<HTMLAudioElement>(null);
   const accessToken = getCookie("accessToken") || "";
   const [ticketId, setTicketId] = useState("");
@@ -23,7 +22,7 @@ export default function TopbarMessageIcon() {
       msg.senderRole !== USER_ROLE.FLEET_MANAGER &&
       msg.ticketId === ticketId
     ) {
-      getUnreadMessageCount();
+      setUnreadCount((c) => c + 1);
       audioRef.current?.play().catch((error) => {
         console.log("Error playing audio:", error);
       });
@@ -31,18 +30,11 @@ export default function TopbarMessageIcon() {
   };
 
   const getTicketId = async () => {
-    const result = await getMyTicketReq();
+    const ticket = await getMyTicketReq();
 
-    if (result.success) {
-      setTicketId(result.data?.ticketId || "");
-    }
-  };
-
-  const getUnreadMessageCount = async () => {
-    const result = await getUnreadCountReq();
-
-    if (result.success) {
-      setUnreadCount(result.data || 0);
+    if (ticket._id) {
+      setTicketId(ticket?.ticketId || "");
+      setUnreadCount(ticket?.unreadCount[ticket?.userId?.userId] || 0);
     }
   };
 
@@ -54,7 +46,6 @@ export default function TopbarMessageIcon() {
   });
 
   useEffect(() => {
-    (() => getUnreadMessageCount())();
     (() => getTicketId())();
 
     return () => {
@@ -66,6 +57,7 @@ export default function TopbarMessageIcon() {
   return (
     <>
       <motion.button
+        onClick={() => router.push("/agent/chat-support")}
         whileHover={{ scale: 1.06 }}
         className="p-2 rounded-lg hover:bg-pink-50 transition hidden sm:block shrink-0 relative"
       >

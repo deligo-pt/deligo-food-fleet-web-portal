@@ -1,39 +1,25 @@
 "use server";
 
 import { serverFetch } from "@/lib/serverFetch";
+import { TSupportTicket } from "@/types/support.type";
 import { catchAsync } from "@/utils/catchAsync";
 import { queryStringFormatter } from "@/utils/formatter";
 
-export const getMyTicketReq = async () => {
+export const getMyTicketReq = async (): Promise<TSupportTicket> => {
   const result = await catchAsync(async () => {
     return await serverFetch.get("/support/tickets");
   });
 
   if (result?.success) return result.data?.[0] || {};
 
-  return {
-    data: {},
-  };
+  return {} as TSupportTicket;
 };
 
 export const getMessagesReq = async (
   ticketId: string,
   queries: Record<string, string | undefined>,
 ) => {
-  const limit = queries.limit || "10";
-  const page = queries.page || "1";
-  const searchTerm = queries.searchTerm || "";
-  const sortBy = queries.sortBy || "-createdAt";
-  const status = queries.status || "";
-
-  const params = {
-    limit,
-    page,
-    sortBy,
-    ...(searchTerm ? { searchTerm } : {}),
-    ...(status ? { status } : {}),
-  };
-  const queryString = queryStringFormatter(params);
+  const queryString = queryStringFormatter(queries);
 
   const result = await catchAsync(async () => {
     return await serverFetch.get(
@@ -43,7 +29,7 @@ export const getMessagesReq = async (
 
   if (result?.success)
     return {
-      data: result.data?.reverse() || [],
+      data: result.data?.reverse(),
       meta: result.meta,
     };
 
