@@ -2,9 +2,10 @@
 
 import { USER_ROLE } from "@/consts/user.const";
 import { useTopbarMessageIconSocket } from "@/hooks/use-chat-socket";
-import { getMyTicketReq } from "@/services/dashboard/support/support.service";
 import { TSupportMessage } from "@/types/support.type";
+import { catchAsync } from "@/utils/catchAsync";
 import { getCookie } from "@/utils/cookies";
+import { fetchData } from "@/utils/requests";
 import { motion } from "framer-motion";
 import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -30,11 +31,15 @@ export default function TopbarMessageIcon() {
   };
 
   const getTicketId = async () => {
-    const ticket = await getMyTicketReq();
+    const result = await catchAsync(async () => {
+      return await fetchData("/support/tickets");
+    });
 
-    if (ticket._id) {
-      setTicketId(ticket?.ticketId || "");
-      setUnreadCount(ticket?.unreadCount[ticket?.userId?.userId] || 0);
+    if (result?.success && result.data?.[0].ticketId) {
+      setTicketId(result.data?.[0]?.ticketId || "");
+      setUnreadCount(
+        result.data?.[0]?.unreadCount[result.data?.[0]?.userId?.userId] || 0,
+      );
     }
   };
 

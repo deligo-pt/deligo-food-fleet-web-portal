@@ -1,3 +1,4 @@
+import { DEVICE_KEY } from "@/consts/device.const";
 import { USER_ROLE, USER_STATUS } from "@/consts/user.const";
 import { getFleetManagerInfo } from "@/utils/getFleetManagerInfo";
 import { verifyTokens } from "@/utils/verifyTokens";
@@ -6,13 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 const AUTH_PATHS = ["/login", "/become-agent"];
 
 export async function proxy(req: NextRequest) {
-  const { pathname, searchParams } = req.nextUrl;
-
-  if (searchParams.has("tokenRefreshed")) {
-    const url = req.nextUrl.clone();
-    url.searchParams.delete("tokenRefreshed");
-    return NextResponse.redirect(url);
-  }
+  const { pathname } = req.nextUrl;
 
   const loginUrl = new URL("/login", req.url);
   loginUrl.searchParams.set("redirect", pathname);
@@ -20,21 +15,36 @@ export async function proxy(req: NextRequest) {
   const tokenWasRefreshed = await verifyTokens();
 
   if (tokenWasRefreshed) {
-    const url = req.nextUrl.clone();
-    url.searchParams.set("tokenRefreshed", "true");
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL(pathname, req.url));
   }
 
   const fleetManagerResult = await getFleetManagerInfo();
 
   if (fleetManagerResult) {
     const fleetManagerInfo = fleetManagerResult?.fleetManager;
+
     if (fleetManagerInfo.role === USER_ROLE.FLEET_MANAGER) {
       if (
         AUTH_PATHS.some(
           (path) => pathname === path || pathname.startsWith(`${path}`),
         )
       ) {
+        const currentDeviceId = req.cookies.get(DEVICE_KEY)?.value || "";
+        const isValidSession = fleetManagerInfo?.loginDevices?.some(
+          (device) => currentDeviceId === device.deviceId,
+        );
+
+        if (!isValidSession) {
+          req.cookies.delete("accessToken");
+          req.cookies.delete("refreshToken");
+          if (pathname !== "/login") {
+            loginUrl.searchParams.set("sessionExpired", "true");
+            return NextResponse.redirect(loginUrl);
+          } else {
+            return NextResponse.next();
+          }
+        }
+
         if (
           pathname === "/login" ||
           pathname === "/become-agent" ||

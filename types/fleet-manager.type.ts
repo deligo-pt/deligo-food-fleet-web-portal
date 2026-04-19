@@ -7,7 +7,7 @@ export type TFleetManager = {
   _id?: string;
   userId: string;
   registeredBy?: string;
-  role: 'FLEET_MANAGER';
+  role: "FLEET_MANAGER";
   email: string;
   password: string;
 
@@ -58,7 +58,7 @@ export type TFleetManager = {
   };
 
   currentSessionLocation?: {
-    type: 'Point';
+    type: "Point";
     coordinates: [number, number]; // [longitude, latitude]
     accuracy?: number; // GPS Accuracy in meters
     lastLocationUpdate: Date; // Timestamp for data freshness
@@ -113,7 +113,15 @@ export type TFleetManager = {
   // Security & Access
   // ---------------------------------------------
   twoFactorEnabled?: boolean;
-  loginDevices?: { deviceId: string; lastLogin: Date | string }[];
+  loginDevices: {
+    deviceId: string;
+    deviceType: string;
+    deviceName: string;
+    userAgent: string;
+    ip: string;
+    isVerified: boolean;
+    lastLogin: string;
+  }[];
 
   // ---------------------------------------------
   // Admin Workflow / Audit
@@ -144,8 +152,8 @@ export interface IDocs {
   idProofFront?: string;
   idProofBack?: string;
   businessLicense?: string;
-};
+}
 
 export type TFleetManagerImageDocuments = {
-  docImageTitle: 'idProofFront' | 'idProofBack' | 'businessLicense';
+  docImageTitle: "idProofFront" | "idProofBack" | "businessLicense";
 };
