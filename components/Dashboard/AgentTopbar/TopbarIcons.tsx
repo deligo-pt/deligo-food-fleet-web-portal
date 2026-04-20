@@ -10,9 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { logoutReq } from "@/services/auth/auth";
 import { useStore } from "@/store/store";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
+import { getFcmToken } from "@/utils/fcmToken";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -24,6 +26,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const PRIMARY = "#DC3173";
 
@@ -38,10 +41,29 @@ export default function TopbarIcons({ agent }: IProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  const logOut = () => {
-    removeCookie("accessToken");
-    removeCookie("refreshToken");
-    router.push("/login");
+  const logOut = async () => {
+    const toastId = toast.loading("Logging out...");
+
+    const token = (await getFcmToken()) || "";
+
+    const result = await logoutReq({
+      email: agent?.email || "",
+      token,
+    });
+
+    if (result?.success) {
+      toast.success(result?.message || "Logout successful!", {
+        id: toastId,
+      });
+
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
+      router.push("/login");
+      return;
+    }
+
+    toast.error(result?.message || "Logout failed", { id: toastId });
+    console.log(result);
   };
 
   return (

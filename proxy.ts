@@ -51,9 +51,7 @@ export async function proxy(req: NextRequest) {
           pathname === "/become-agent/verify-otp"
         ) {
           if (fleetManagerInfo.status === USER_STATUS.APPROVED) {
-            return NextResponse.redirect(
-              new URL("/fleetManager/dashboard", req.url),
-            );
+            return NextResponse.redirect(new URL("/agent/dashboard", req.url));
           }
           return NextResponse.redirect(
             new URL("/become-agent/registration-status", req.url),

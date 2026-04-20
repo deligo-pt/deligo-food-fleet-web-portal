@@ -20,11 +20,11 @@ export const catchAsync = async (
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.log(error);
+    console.log(error.message);
 
     return {
       success: false,
-      data: null,
+      data: error,
       message: error?.message || customErrMsg || "Something went wrong",
     };
   }
