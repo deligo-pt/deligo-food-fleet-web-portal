@@ -1,3 +1,4 @@
+import { verifyTokens } from "@/utils/verifyTokens";
 import { cookies } from "next/headers";
 
 const backendUrl =
@@ -11,6 +12,10 @@ async function serverFetchHelper(
 
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
+
+  if (endPoint !== "/auth/refresh-token") {
+    await verifyTokens();
+  }
 
   return fetch(`${backendUrl}${endPoint}`, {
     credentials: "include",
