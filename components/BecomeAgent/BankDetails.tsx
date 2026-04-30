@@ -167,6 +167,22 @@ const BankDetails = ({ profile }: Props) => {
 
                   <FormField
                     control={form.control}
+                    name="accountNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          <CreditCard /> Account Number
+                        </FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
                     name="iban"
                     render={({ field }) => (
                       <FormItem>
