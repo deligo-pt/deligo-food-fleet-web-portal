@@ -30,13 +30,9 @@ import { useTranslation } from "@/hooks/use-translation";
 import { updateFleetInformation } from "@/services/becomeAgent/becomeAgentManagement";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { bankDetailsValidation } from "@/validations/become-agent/bank-details.validation";
+import z from "zod";
 
-type FormValues = {
-  bankName: string;
-  accountHolderName: string;
-  iban: string;
-  swiftCode: string;
-};
+type TBankForm = z.infer<typeof bankDetailsValidation>;
 
 interface Props {
   profile: {
@@ -48,11 +44,12 @@ const BankDetails = ({ profile }: Props) => {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const form = useForm<FormValues>({
+  const form = useForm<TBankForm>({
     resolver: zodResolver(bankDetailsValidation),
     defaultValues: {
       bankName: "",
       accountHolderName: "",
+      accountNumber: "",
       iban: "",
       swiftCode: "",
     },
@@ -66,17 +63,22 @@ const BankDetails = ({ profile }: Props) => {
       "accountHolderName",
       profile?.data?.bankDetails.accountHolderName || "",
     );
+    form.setValue(
+      "accountNumber",
+      profile?.data?.bankDetails.accountNumber || "",
+    );
     form.setValue("iban", profile?.data?.bankDetails.iban || "");
     form.setValue("swiftCode", profile?.data?.bankDetails.swiftCode || "");
   }, [profile?.data, form]);
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: TBankForm) => {
     const toastId = toast.loading("Updating bank details...");
 
     const payload = {
       bankDetails: {
         bankName: data.bankName,
         accountHolderName: data.accountHolderName,
+        accountNumber: data.accountNumber,
         iban: data.iban.toUpperCase(),
         swiftCode: data.swiftCode.toUpperCase(),
       },
