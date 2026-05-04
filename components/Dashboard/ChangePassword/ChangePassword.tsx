@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
+import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import {
   Form,
   FormControl,
@@ -13,19 +14,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { changePasswordReq } from "@/services/dashboard/changePassword/changePassword";
 import { TResponse } from "@/types";
 import { removeCookie } from "@/utils/cookies";
+import { changePasswordValidation } from "@/validations/auth/change-password.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { changePasswordValidation } from "@/validations/auth/change-password.validation";
-import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
-import { useTranslation } from "@/hooks/use-translation";
 
 const PRIMARY = "#DC3173";
 const SHADOW = "0px 8px 24px rgba(0,0,0,0.06)";
@@ -50,34 +50,32 @@ export default function ChangePassword() {
   const onSubmit = async (data: ChangePasswordData) => {
     const toastId = toast.loading("Updating Password...");
 
-    try {
-      const changePasswordData = {
-        oldPassword: data.oldPassword,
-        newPassword: data.newPassword,
-      };
+    const changePasswordData = {
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword,
+    };
 
-      const result = (await changePasswordReq(
-        changePasswordData
-      )) as TResponse<null>;
+    const result = (await changePasswordReq(
+      changePasswordData,
+    )) as TResponse<null>;
 
-      if (result.success) {
-        toast.success("Password Updated Successfully!", { id: toastId });
-        form.reset();
-
-        removeCookie("accessToken");
-        removeCookie("refreshToken");
-
-        setTimeout(() => {
-          router.push("/login");
-        }, 500);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.message ? error?.message : error?.response?.data?.message || "Password Update Failed", {
+    if (result.success) {
+      toast.success(result.message || "Password Updated Successfully!", {
         id: toastId,
       });
+      form.reset();
+
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 500);
+
+      return;
     }
+
+    toast.error(result.message || "Failed to update password", { id: toastId });
   };
 
   return (
@@ -113,7 +111,7 @@ export default function ChangePassword() {
                           placeholder="Enter current password"
                           className={cn(
                             "h-12 rounded-xl pr-10",
-                            fieldState.invalid ? "border-destructive" : ""
+                            fieldState.invalid ? "border-destructive" : "",
                           )}
                           {...field}
                         />
@@ -147,7 +145,7 @@ export default function ChangePassword() {
                           placeholder="Enter new password"
                           className={cn(
                             "h-12 rounded-xl pr-10",
-                            fieldState.invalid ? "border-destructive" : ""
+                            fieldState.invalid ? "border-destructive" : "",
                           )}
                           {...field}
                         />
@@ -181,7 +179,7 @@ export default function ChangePassword() {
                           placeholder="Re-enter new password"
                           className={cn(
                             "h-12 rounded-xl pr-10",
-                            fieldState.invalid ? "border-destructive" : ""
+                            fieldState.invalid ? "border-destructive" : "",
                           )}
                           {...field}
                         />
@@ -208,7 +206,7 @@ export default function ChangePassword() {
                 <Button
                   className="h-12 px-6 text-white rounded-xl w-full"
                   style={{ background: PRIMARY }}
-                // onClick={updatePassword}
+                  // onClick={updatePassword}
                 >
                   Update Password
                 </Button>

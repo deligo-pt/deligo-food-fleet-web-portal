@@ -16,16 +16,16 @@ export const catchAsync = async (
       };
     }
 
-    return { success: false, data: result.error, message: result.message };
+    return { success: false, data: result, message: result.message };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.log(error);
+    console.log(error.message);
 
     return {
       success: false,
-      data: error?.response?.data || null,
-      message: error?.response?.data?.message || customErrMsg,
+      data: error,
+      message: error?.message || customErrMsg || "Something went wrong",
     };
   }
 };

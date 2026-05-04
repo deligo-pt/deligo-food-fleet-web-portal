@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 
 export default function Profile({ agent }: { agent: TFleetManager }) {
-
   const { t } = useTranslation();
   const getStatusColor = (status: keyof typeof USER_STATUS) => {
     const colors = {
@@ -41,7 +40,7 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
 
   const accountAge = Math.floor(
     (new Date().getTime() - new Date(agent.createdAt).getTime()) /
-    (1000 * 60 * 60 * 24)
+      (1000 * 60 * 60 * 24),
   );
 
   return (
@@ -93,7 +92,7 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
                 </h1>
                 <motion.span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(
-                    agent.status
+                    agent.status,
                   )}`}
                   animate={{
                     scale: [1, 1.05, 1],
@@ -127,7 +126,9 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
                   <span className="text-lg font-bold text-gray-900">
                     {accountAge}
                   </span>
-                  <span className="text-sm text-gray-500">{t("days_active")}</span>
+                  <span className="text-sm text-gray-500">
+                    {t("days_active")}
+                  </span>
                 </div>
               </div>
             </div>
@@ -234,9 +235,14 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
                 icon={UserIcon}
               />
               <ProfileInfoRow
+                label="Account Number"
+                value={agent.bankDetails?.accountNumber}
+                icon={CreditCardIcon}
+              />
+              <ProfileInfoRow
                 label={t("iban")}
                 value={agent.bankDetails?.iban.replace(/(.{4})/g, "$1 ")}
-                icon={CreditCardIcon}
+                icon={FileTextIcon}
               />
               <ProfileInfoRow
                 label={t("swift_code")}
@@ -247,7 +253,11 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
           </ProfileSection>
 
           {/* Documents */}
-          <ProfileSection title={t("documents")} icon={FileTextIcon} delay={0.3}>
+          <ProfileSection
+            title={t("documents")}
+            icon={FileTextIcon}
+            delay={0.3}
+          >
             <ProfileDoc documents={agent?.documents} />
           </ProfileSection>
 

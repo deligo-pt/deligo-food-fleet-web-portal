@@ -47,42 +47,44 @@ export function BackgroundCheckForm({ onNext }: IProps) {
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
 
-    try {
-      const payload = {
-        criminalRecord: {
-          certificate: values.haveCriminalRecordCertificate,
-          ...(values.haveCriminalRecordCertificate && {
-            issueDate: new Date(values.issueDate || "").toISOString(),
-            expiryDate: new Date(values.expiryDate || "").toISOString(),
-          }),
-        },
-      };
-      if (
-        !values.haveCriminalRecordCertificate &&
-        payload?.criminalRecord?.issueDate && payload?.criminalRecord?.expiryDate
-      ) {
-        delete payload?.criminalRecord?.issueDate;
-        delete payload?.criminalRecord?.expiryDate;
-      }
-      const result = await updatePartnerInformation(id as string, payload);
+    const payload = {
+      criminalRecord: {
+        certificate: values.haveCriminalRecordCertificate,
+        ...(values.haveCriminalRecordCertificate && {
+          issueDate: new Date(values.issueDate || "").toISOString(),
+          expiryDate: new Date(values.expiryDate || "").toISOString(),
+        }),
+      },
+    };
 
-      if (result.success) {
-        toast.success("Delivery Partner details updated successfully!", {
-          id: toastId,
-        });
-        onNext();
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error(
-        error?.response?.data?.message ||
-        "Failed to update Delivery Partner details",
+    if (
+      !values.haveCriminalRecordCertificate &&
+      payload?.criminalRecord?.issueDate &&
+      payload?.criminalRecord?.expiryDate
+    ) {
+      delete payload?.criminalRecord?.issueDate;
+      delete payload?.criminalRecord?.expiryDate;
+    }
+
+    const result = await updatePartnerInformation(id as string, payload);
+
+    if (result.success) {
+      toast.success(
+        result?.message || "Delivery Partner details updated successfully!",
         {
           id: toastId,
         },
       );
+      onNext();
+      return;
     }
+
+    toast.error(
+      result?.message || "Failed to update Delivery Partner details.",
+      {
+        id: toastId,
+      },
+    );
   };
 
   const getPartnerData = async () => {
@@ -266,7 +268,6 @@ export function BackgroundCheckForm({ onNext }: IProps) {
                 </FormItem>
               )}
             />
-
           </div>
           <motion.button
             whileHover={{

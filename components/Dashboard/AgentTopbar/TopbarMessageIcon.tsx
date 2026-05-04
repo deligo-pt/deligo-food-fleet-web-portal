@@ -1,72 +1,68 @@
 "use client";
 
 import { USER_ROLE } from "@/consts/user.const";
-import { useChatSocket } from "@/hooks/use-chat-socket";
-import { getSupportSocket } from "@/lib/socket";
-import { getUnreadCountReq } from "@/services/dashboard/chat/chat";
-import { TMessage } from "@/types/chat.type";
+import { useTopbarMessageIconSocket } from "@/hooks/use-chat-socket";
+import { TSupportMessage } from "@/types/support.type";
 import { catchAsync } from "@/utils/catchAsync";
 import { getCookie } from "@/utils/cookies";
 import { fetchData } from "@/utils/requests";
 import { motion } from "framer-motion";
 import { MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function TopbarMessageIcon() {
+  const router = useRouter();
   const audioRef = useRef<HTMLAudioElement>(null);
   const accessToken = getCookie("accessToken") || "";
-  const [liveChatRoom, setLiveChatRoom] = useState("");
+  const [ticketId, setTicketId] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
 
-  const newMessageHandler = (msg: TMessage) => {
-    if (msg.senderRole !== USER_ROLE.FLEET_MANAGER) {
-      getUnreadMessageCount();
+  const newMessageHandler = (msg: TSupportMessage) => {
+    if (
+      msg.senderRole !== USER_ROLE.FLEET_MANAGER &&
+      msg.ticketId === ticketId
+    ) {
+      setUnreadCount((c) => c + 1);
       audioRef.current?.play().catch((error) => {
         console.log("Error playing audio:", error);
       });
     }
   };
 
-  const getRoom = async () => {
+  const getTicketId = async () => {
     const result = await catchAsync(async () => {
-      return await fetchData(`/support/conversations?type=FLEET_MANAGER_CHAT`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      return await fetchData("/support/tickets");
     });
-    if (result.success) {
-      setLiveChatRoom(result.data?.[0]?.room);
+
+    if (result?.success && result.data?.[0].ticketId) {
+      setTicketId(result.data?.[0]?.ticketId || "");
+      setUnreadCount(
+        result.data?.[0]?.unreadCount[result.data?.[0]?.userId?.userId] || 0,
+      );
     }
   };
 
-  const getUnreadMessageCount = async () => {
-    const result = await getUnreadCountReq();
-
-    if (result.success) {
-      setUnreadCount(result.data || 0);
-    }
-  };
-
-  useChatSocket({
-    room: liveChatRoom,
+  const { leaveConversation } = useTopbarMessageIconSocket({
+    ticketId,
     token: accessToken as string,
     onMessage: (msg) => newMessageHandler(msg),
-    chatType: "liveChat",
+    onError: () => {},
   });
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
-    (() => getUnreadMessageCount())();
-    (() => getRoom())();
+    (() => getTicketId())();
 
-    const supportSocket = getSupportSocket(accessToken);
-    supportSocket.on("new-message", newMessageHandler);
+    return () => {
+      leaveConversation();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <motion.button
+        onClick={() => router.push("/agent/chat-support")}
         whileHover={{ scale: 1.06 }}
         className="p-2 rounded-lg hover:bg-pink-50 transition hidden sm:block shrink-0 relative"
       >

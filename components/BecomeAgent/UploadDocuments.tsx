@@ -18,14 +18,14 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
+import { DocKey } from "@/types/documents.type";
 import { getCookie } from "@/utils/cookies";
 import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useTranslation } from "@/hooks/use-translation";
-import { DocKey } from "@/types/documents.type";
 import { deleteFleetDocumentReq, updateFleetDocumentsReq, uploadImagesReq } from "@/services/becomeAgent/becomeAgentManagement";
 
 type FilePreview = {
@@ -56,16 +56,24 @@ export default function UploadDocuments({
   }[] = [
       {
         key: "myPhoto",
-        label: t('myPhoto'),
+        label: t("myPhoto"),
         prefersImagePreview: false,
       },
       {
         key: "businessLicense",
-        label: t('documentsLabel1'),
+        label: t("documentsLabel1"),
         prefersImagePreview: false,
       },
-      { key: "idProofFront", label: t("documentsLabel2"), prefersImagePreview: true },
-      { key: "idProofBack", label: t("documentsLabel3"), prefersImagePreview: true },
+      {
+        key: "idProofFront",
+        label: t("documentsLabel2"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "idProofBack",
+        label: t("documentsLabel3"),
+        prefersImagePreview: true,
+      },
     ];
 
   // file input refs to trigger the browser picker
@@ -292,7 +300,7 @@ export default function UploadDocuments({
         {},
         {
           headers: { authorization: accessToken || "" },
-        }
+        },
       )) as unknown as TResponse<any>;
       if (result.success) {
         toast.success("Request submitted successfully!", {
@@ -304,7 +312,7 @@ export default function UploadDocuments({
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message || "Request submission failed",
-        { id: toastId }
+        { id: toastId },
       );
       console.log(error);
     }
@@ -341,10 +349,10 @@ export default function UploadDocuments({
               </div>
               <div>
                 <CardTitle className="text-2xl font-semibold tracking-wide">
-                  {t('uploadDocuments')}
+                  {t("uploadDocuments")}
                 </CardTitle>
                 <p className="mt-2 text-sm text-white/90 max-w-2xl leading-relaxed">
-                  {t('uploadDocDesc')}
+                  {t("uploadDocDesc")}
                 </p>
               </div>
             </div>
@@ -441,7 +449,7 @@ export default function UploadDocuments({
                         onChange={(e) =>
                           handleFileChange(
                             d.key,
-                            e.target.files ? e.target.files[0] : null
+                            e.target.files ? e.target.files[0] : null,
                           )
                         }
                       />
@@ -472,9 +480,7 @@ export default function UploadDocuments({
             </div>
 
             <div className="pt-6">
-              <div className="text-sm text-gray-500">
-                {t("tipDesc")}
-              </div>
+              <div className="text-sm text-gray-500">{t("tipDesc")}</div>
             </div>
             <div className="pt-4">
               <Button

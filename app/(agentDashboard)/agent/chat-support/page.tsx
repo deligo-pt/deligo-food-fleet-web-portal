@@ -1,45 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import ChatSupport from "@/components/ChatSupport/ChatSupport";
-import { serverFetch } from "@/lib/serverFetch";
-import { TMeta } from "@/types";
-import { TConversation, TMessage } from "@/types/chat.type";
-import { queryStringFormatter } from "@/utils/formatter";
-import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
+import SupportTickets from "@/components/Dashboard/Support/SupportTickets/SupportTickets";
+import { getMyTicketReq } from "@/services/dashboard/support/support.service";
 
 export default async function ChatSupportPage() {
-  let conversationData = {} as TConversation;
-  let messagesData = {} as { data: TMessage[]; meta?: TMeta };
+  const ticket = await getMyTicketReq();
 
-  try {
-    const conversationRes = await serverFetch.post("/support/conversation");
-    const conversationResult = await conversationRes.json();
-
-    conversationData = conversationResult.data;
-
-    const queryString = queryStringFormatter({
-      page: "1",
-      limit: "50",
-      sortBy: "createdAt",
-    });
-
-    const messagesRes = await serverFetch.get(
-      `/support/conversations/${conversationResult.data.room}/messages?${queryString}`,
-    );
-
-    messagesData = await messagesRes.json();
-  } catch (error: any) {
-    console.log(error?.response?.data, error.message);
-  }
-
-  const accessToken = (await cookies())?.get("accessToken")?.value || "";
-  const decoded = jwtDecode(accessToken) as { userId: string };
-
-  return (
-    <ChatSupport
-      initialConversation={conversationData}
-      initialMessagesData={messagesData}
-      fleetManagerId={decoded.userId}
-    />
-  );
+  return <SupportTickets ticket={ticket} />;
 }

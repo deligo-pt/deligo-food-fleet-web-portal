@@ -20,7 +20,6 @@ export const businessDetailsValidation = z.object({
     .nonempty("NIF number is required"),
 
   totalBranches: z
-    .number()
-    .min(1, "Must be at least 1"),
-
+    .number("Total branches must be a number")
+    .min(1, "Total branches must be at least 1"),
 });

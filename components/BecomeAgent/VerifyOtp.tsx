@@ -4,12 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
-import {
-  resendOTP,
-  verifyOtp,
-} from "@/services/becomeAgent/becomeAgentManagement";
+import { resendOtpReq, verifyOtpReq } from "@/services/auth/auth";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
+import { getDeviceInfo } from "@/utils/getDeviceInfo";
+import {
+  getExpiryTime,
+  removeLocalOtpExpiry,
+  setLocalOtpExpiry,
+} from "@/utils/localOtpExpiry";
 import { motion } from "framer-motion";
 import { Clock, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -19,15 +22,14 @@ import { toast } from "sonner";
 export default function VerifyOtp({ email }: { email: string }) {
   const { t } = useTranslation();
   const router = useRouter();
-  const [timer, setTimer] = useState(300); // 5 minutes = 300 seconds
+  const [timer, setTimer] = useState(getExpiryTime() || 0);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const canResend = timer <= 0;
 
-  // Countdown timer
   useEffect(() => {
     if (timer > 0) {
-      const interval = setInterval(() => setTimer((t) => t - 1), 1000); // ✅ every 1 second
+      const interval = setInterval(() => setTimer((t) => t - 1), 1000);
       return () => clearInterval(interval);
     }
   }, [timer]);
@@ -62,55 +64,53 @@ export default function VerifyOtp({ email }: { email: string }) {
 
     const toastId = toast.loading("Verifying OTP...");
 
-    try {
-      const payload = {
-        email,
-        otp: finalOtp,
-      };
+    const deviceDetails = await getDeviceInfo();
+    const payload = {
+      email,
+      otp: finalOtp,
+      deviceDetails,
+    };
 
-      const result = await verifyOtp(payload);
+    const result = await verifyOtpReq(payload);
 
-      if (!result?.success) {
-        toast.error(result.message, { id: toastId });
-        return;
-      }
-
-      setCookie("accessToken", result?.data.accessToken, 7);
-      setCookie("refreshToken", result?.data.refreshToken, 365);
-
-      toast.success("OTP verified successfully!", { id: toastId });
-
-      // get and save fcm token
-      setTimeout(() => {
-        getAndSaveFcmToken(result.data.accessToken);
-      }, 1000);
-      router.push("/become-agent/personal-details");
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "OTP verification failed",
-        { id: toastId },
-      );
+    if (!result?.success) {
+      toast.error(result.message || "OTP verification failed", { id: toastId });
+      removeLocalOtpExpiry();
+      return;
     }
+
+    setCookie("accessToken", result?.data.accessToken, 7);
+    setCookie("refreshToken", result?.data.refreshToken, 365);
+
+    toast.success(result.message || "OTP verified successfully!", {
+      id: toastId,
+    });
+
+    // get and save fcm token
+    setTimeout(() => {
+      getAndSaveFcmToken(result.data.accessToken);
+    }, 1000);
+
+    router.push("/become-agent/personal-details");
   };
 
   const resendOtp = async () => {
     const toastId = toast.loading("Resending OTP...");
-    try {
-      const result = await resendOTP({ email });
 
-      if (result.success) {
-        setTimer(300);
-        toast.success("OTP resent successfully!", { id: toastId });
-        return;
-      }
-      toast.error(result.message, { id: toastId });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "OTP resend failed", {
+    const result = await resendOtpReq({ email });
+
+    if (result.success) {
+      setTimer(300);
+      toast.success(result.message || "OTP resent successfully!", {
         id: toastId,
       });
-      console.log(error);
+
+      setLocalOtpExpiry();
+
+      return;
     }
+
+    toast.error(result.message || "OTP resend failed", { id: toastId });
   };
 
   // Format time as MM:SS

@@ -1,5 +1,6 @@
 "use client";
 
+import ClearSessionModal from "@/components/Login/ClearSessionModal";
 import {
   Form,
   FormControl,
@@ -9,29 +10,39 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { USER_ROLE } from "@/consts/user.const";
 import { useTranslation } from "@/hooks/use-translation";
-import { TResponse } from "@/types";
+import { loginReq } from "@/services/auth/auth";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
-import { postData } from "@/utils/requests";
+import { getDeviceInfo } from "@/utils/getDeviceInfo";
 import { loginValidation } from "@/validations/auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { Eye, EyeOff, Lock, Mail, Send } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+interface IProps {
+  redirect?: string;
+  sessionExpired?: boolean;
+}
 
 type LoginFormInputs = {
   email: string;
   password: string;
 };
 
-export default function LoginForm({ redirect }: { redirect?: string }) {
+export default function LoginForm({ redirect, sessionExpired }: IProps) {
+  const router = useRouter();
   const { t } = useTranslation();
+
+  const [showModal, setShowModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginValidation),
     defaultValues: {
@@ -39,59 +50,95 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
       password: "",
     },
   });
-  const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+  const login = async (payload: {
+    email: string;
+    password: string;
+    forceLogin?: boolean;
+  }) => {
     const toastId = toast.loading("Logging in...");
-    try {
-      const result = (await postData(
-        "/auth/login",
-        data,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      )) as unknown as TResponse<any>;
+    const deviceDetails = await getDeviceInfo();
 
-      if (result?.success) {
-        const decoded = jwtDecode(result.data.accessToken) as {
-          role: string;
-          status: string;
-        };
-        if (decoded.role === "FLEET_MANAGER") {
-          setCookie("accessToken", result.data.accessToken, 7);
-          setCookie("refreshToken", result.data.refreshToken, 365);
-          toast.success("Login successful!", { id: toastId });
+    const result = await loginReq({
+      ...payload,
+      deviceDetails,
+    });
 
-          // get and save fcm token
-          setTimeout(() => {
-            getAndSaveFcmToken(result.data.accessToken);
-          }, 1000);
+    if (result?.success) {
+      setShowModal(false);
 
-          switch (decoded.status) {
-            case "PENDING":
-            case "SUBMITTED":
-            case "REJECTED":
-              router.push("/become-agent/registration-status");
+      const decoded = jwtDecode(result.data.accessToken) as {
+        role: string;
+        status: string;
+      };
+      if (decoded.role === USER_ROLE.FLEET_MANAGER) {
+        setCookie("accessToken", result.data.accessToken, 7);
+        setCookie("refreshToken", result.data.refreshToken, 365);
+        toast.success(result?.message || "Login successful!", {
+          id: toastId,
+        });
+
+        // get and save fcm token
+        setTimeout(() => {
+          getAndSaveFcmToken(result.data.accessToken);
+        }, 1000);
+
+        switch (decoded.status) {
+          case "PENDING":
+          case "SUBMITTED":
+          case "REJECTED":
+            router.push("/become-agent/registration-status");
+            return;
+          case "APPROVED":
+            if (redirect) {
+              router.push(redirect);
               return;
-            case "APPROVED":
-              if (redirect) {
-                router.push(redirect);
-                return;
-              }
-              router.push("/agent/dashboard");
-              return;
-          }
+            }
+            router.push("/agent/dashboard");
+            return;
         }
-        toast.error("You are not a fleet manager", { id: toastId });
         return;
       }
-      toast.error(result.message, { id: toastId });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error?.message ? error?.message : error.response?.data?.message || "Login failed", {
-        id: toastId,
-      });
-      console.log("Error logging in:", error);
+      toast.error("You are not a fleet manager", { id: toastId });
+      return;
+    }
+
+    toast.error(result.message || "Login failed", { id: toastId });
+    console.log(result);
+
+    if (result.message === "LIMIT_EXCEEDED") {
+      setShowModal(true);
     }
   };
+
+  const onSubmit = async (data: LoginFormInputs) => {
+    login(data);
+  };
+
+  const clearSession = async () => {
+    await login({
+      email: form.getValues("email"),
+      password: form.getValues("password"),
+      forceLogin: true,
+    });
+  };
+
+  useEffect(() => {
+    if (sessionExpired) {
+      const timer = setTimeout(() => {
+        toast.error(
+          "Your session has expired as this device is no longer authorized.",
+          {
+            description: "Please log in again to continue.",
+            duration: 5000,
+          },
+        );
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-linear-to-tr from-[#FFE0F4] via-white to-[#FFD1E0] overflow-hidden">
@@ -202,6 +249,12 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
           </Link>
         </p>
       </div>
+
+      <ClearSessionModal
+        open={showModal}
+        onOpenChange={(open) => setShowModal(open)}
+        onRemove={clearSession}
+      />
 
       {/* Animation Keyframes */}
       <style jsx>{`

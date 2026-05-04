@@ -27,7 +27,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-type FormData = z.infer<typeof deliveryPartnerValidation>;
+type TFormData = z.infer<typeof deliveryPartnerValidation>;
 
 export function DeliveryPartnerForm({
   onSuccess,
@@ -36,7 +36,7 @@ export function DeliveryPartnerForm({
 }) {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-  const form = useForm<FormData>({
+  const form = useForm<TFormData>({
     resolver: zodResolver(deliveryPartnerValidation),
     defaultValues: {
       email: "",
@@ -44,29 +44,20 @@ export function DeliveryPartnerForm({
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: TFormData) => {
     const toastId = toast.loading("Creating Delivery Partner...");
 
-    try {
-      const result = await createDeliveryPartner(data as FormData);
-      
-      if (result.success) {
-        toast.success("Delivery Partner created successfully!", {
-          id: toastId,
-        });
-        form.reset();
+    const result = await createDeliveryPartner(data as TFormData);
 
-        onSuccess(result?.data?.email || "");
-      } else {
-        toast.error(result?.message, { id: toastId })
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "Delivery Partner creation failed",
-        { id: toastId }
-      );
-      console.log(error);
+    if (result.success) {
+      toast.success("Delivery Partner created successfully!", {
+        id: toastId,
+      });
+      form.reset();
+
+      onSuccess(result?.data?.email || "");
+    } else {
+      toast.error(result?.message, { id: toastId });
     }
   };
 

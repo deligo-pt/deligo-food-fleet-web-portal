@@ -1,4 +1,4 @@
-
+import { verifyTokens } from "@/utils/verifyTokens";
 import { cookies } from "next/headers";
 
 const backendUrl =
@@ -6,20 +6,23 @@ const backendUrl =
 
 async function serverFetchHelper(
   endPoint: string,
-  options: RequestInit
+  options: RequestInit,
 ): Promise<Response> {
   const { headers, ...rest } = options;
 
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
+  if (endPoint !== "/auth/refresh-token") {
+    await verifyTokens();
+  }
 
   return fetch(`${backendUrl}${endPoint}`, {
     credentials: "include",
     headers: {
       ...headers,
       Authorization: accessToken ? `Bearer ${accessToken}` : "",
-      cookie: cookieStore.toString()
+      cookie: cookieStore.toString(),
     },
     ...rest,
   });

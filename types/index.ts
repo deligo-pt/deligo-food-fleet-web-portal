@@ -1,3 +1,5 @@
+import { USER_ROLE, USER_STATUS } from "@/consts/user.const";
+
 export type TMeta = {
   page: number;
   limit: number;
@@ -15,11 +17,28 @@ export type TResponse<T> = {
 };
 
 export type TGeoJSONPoint = {
-  type: 'Point';
+  type: "Point";
   coordinates: [number, number];
   geoAccuracy?: number;
   heading?: number;
   speed?: number;
   isMocked?: boolean;
   lastLocationUpdate: Date;
+};
+
+export type TDeviceDetails = {
+  deviceId: string;
+  deviceType: string;
+  deviceName: string;
+  userAgent: string;
+};
+
+export type TJwtPayload = {
+  userId: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  role: keyof typeof USER_ROLE;
+  status: keyof typeof USER_STATUS;
 };
