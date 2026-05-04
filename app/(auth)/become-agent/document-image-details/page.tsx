@@ -14,19 +14,24 @@ export default async function UploadDocumentPage() {
     const result = await getFleetManagerInfo();
 
     if (result?.success) {
-      if (result?.success) {
-        const docs = result?.data?.documents || {};
-        (Object.keys(docs) as DocKey[]).forEach((key) => {
-          const url = docs[key];
-          if (url) {
-            savedPreviews[key] = {
-              file: null,
-              url: url || "",
-              isImage: /\.(jpg|jpeg|png|gif|webp)$/i.test(url),
-            };
-          }
-        });
-      }
+      const docs = result?.data?.documents || {};
+
+      (Object.keys(docs) as DocKey[]).forEach((key) => {
+        const urls = docs[key];
+
+        if (urls) {
+          const urlArray = Array.isArray(urls) ? urls : [urls];
+          const url = urlArray[0] || "";
+
+          savedPreviews[key] = {
+            file: null,
+            url,
+            isImage: /\.(jpg|jpeg|png|gif|webp)$/i.test(url),
+          };
+        } else {
+          savedPreviews[key] = null;
+        }
+      });
     }
   } catch (err) {
     console.log("Server fetch error:", err);
