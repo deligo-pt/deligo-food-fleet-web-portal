@@ -41,7 +41,7 @@ type LocationFormType = {
     country: string;
 };
 
-const GOOGLE_API_URL = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBHT9ARgpTJIEdvsiaD72Gf7SUUXz-Xqfg&libraries=places`;
+const GOOGLE_API_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_LOCATION_API_KEY!}&libraries=places`;
 
 const AddYourBusinessLocation = ({ profile }: Props) => {
     const { t } = useTranslation();
