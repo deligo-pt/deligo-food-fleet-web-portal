@@ -1,5 +1,6 @@
 import DeliveryPartnerPayouts from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerPayouts/DeliveryPartnerPayouts";
 import { getDeliveryPartnerPayouts, getDeliveryPartners } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { queryStringFormatter } from "@/utils/formatter";
 
 type IProps = {
@@ -14,7 +15,7 @@ const DeliveryPartnerPayoutsPage = async ({ searchParams }: IProps) => {
 
     return (
         <div>
-            <DeliveryPartnerPayouts partners={deliveryPartners?.data} payouts={payoutsData} />
+            <DeliveryPartnerPayouts partners={deliveryPartners?.data as TDeliveryPartner[]} payouts={payoutsData} />
         </div>
     );
 };

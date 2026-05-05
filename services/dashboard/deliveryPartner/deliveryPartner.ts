@@ -118,3 +118,9 @@ export const settlePartnerPayout = async (payoutId: string, formData: FormData) 
 
   return result;
 };
+
+export const getSinglePayout = async (payoutId: string) => {
+  return getSingleEntityData(
+    `/payouts/${payoutId}`,
+  );
+};

@@ -27,13 +27,21 @@ import { TDeliveryPartner } from '@/types/delivery-partner.type';
 import { useState } from 'react';
 import PayToPartnerModal from './PayToPartnerModal';
 import SettlePayoutModal from './SettlePayoutModal';
+import { useRouter } from 'next/navigation';
+import { IPayout } from '@/types/payout.type';
 
-const DeliveryPartnerPayouts = ({ partners, payouts }: { partners: TDeliveryPartner, payouts: any }) => {
+interface IProps {
+    partners: TDeliveryPartner[],
+    payouts: { data: IPayout[] }
+}
+
+const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [settleId, setSettleId] = useState<string | null>(null);
     const sortOptions = getSortOptions(t);
-    const filteredPayouts = payouts?.data?.filter((payout) => payout?.senderId?.role === 'FLEET_MANAGER') || [];
+    const filteredPayouts = payouts?.data?.filter((payout: IPayout) => payout?.senderId?.role === 'FLEET_MANAGER') || [];
+    const router = useRouter();
 
     return (
         <>
@@ -54,7 +62,7 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: { partners: TDeliveryPart
                     title={t("delivery_partners")}
                     desc={t("manage_your_delivery")}
                     isButton={true}
-                    onClick={() => setIsModalOpen(true)} // Open modal here
+                    onClick={() => setIsModalOpen(true)}
                     icon={<PlusCircleIcon className="mr-2 h-5 w-5" />}
                     button_title={"Pay to Partner"}
                 />
@@ -186,11 +194,15 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: { partners: TDeliveryPart
                                                 <MoreVertical className="h-4 w-4 text-slate-400" />
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuItem>View Details</DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => {
+                                                    router.push(`/agent/delivery-partner-payouts/${payout?.payoutId}`)
+                                                }}>
+                                                    View Details
+                                                </DropdownMenuItem>
                                                 {payout.status === "PROCESSING" && (
                                                     <DropdownMenuItem
                                                         className="text-[#DC3173] font-semibold"
-                                                        onClick={() => setSettleId(payout.payoutId)} // Using payoutId string
+                                                        onClick={() => setSettleId(payout?.payoutId)}
                                                     >
                                                         Settle Payout
                                                     </DropdownMenuItem>
