@@ -25,7 +25,7 @@ interface PayoutDetailsProps {
 }
 
 const PayoutDetails = ({ payout }: PayoutDetailsProps) => {
-    console.log(payout);
+
     const getStatusStyles = (status: string) => {
         switch (status) {
             case 'PAID': return "bg-green-100 text-green-700";
