@@ -68,3 +68,53 @@ export const submitForApproval = async (id: string) => {
 
   return result;
 };
+
+/**
+ * Payout related server actions
+ */
+export const initiatePartnerSettlement = async (targetUserId: string) => {
+  const result = await catchAsync(async () => {
+    return await serverFetch.post("/payouts/initiate-settlement", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ targetUserId }),
+    });
+  });
+
+
+  if (result.success) {
+    revalidateTag("payouts", {});
+    revalidateTag("delivery-partners", {});
+    revalidatePath("/agent/delivery-partner-payouts");
+  }
+
+  return result;
+};
+
+export const getDeliveryPartnerPayouts = async (queryString: string) => {
+  const result = await catchAsync(async () => {
+    return await serverFetch.get(`/payouts?${queryString}`, {
+      next: {
+        tags: ["payouts"],
+      },
+    });
+  });
+
+  return result;
+};
+
+export const settlePartnerPayout = async (payoutId: string, formData: FormData) => {
+  const result = await catchAsync(async () => {
+    return await serverFetch.post(`/payouts/finalize-settlement/${payoutId}`, {
+      body: formData,
+    });
+  });
+
+  if (result.success) {
+    revalidateTag("payouts", {});
+    revalidatePath("/agent/delivery-partner-payouts");
+  }
+
+  return result;
+};
