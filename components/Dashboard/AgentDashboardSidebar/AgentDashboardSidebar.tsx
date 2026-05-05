@@ -77,6 +77,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
           path: "/agent/rejected-delivery-partners",
         },
         {
+          name: "Delivery Partner Payouts",
+          path: "/agent/delivery-partner-payouts",
+        },
+        {
           name: t("delivery_partner_performance"),
           path: "/agent/delivery-partner-performance",
         },
@@ -244,11 +248,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
               {menu.path ? (
                 <Link
                   href={menu.path}
-                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${
-                    pathname === menu.path
+                  className={`flex items-center w-full justify-between p-2 rounded-lg transition-colors ${pathname === menu.path
                       ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
                       : "hover:bg-pink-100"
-                  }`}
+                    }`}
                 >
                   <div
                     className={`flex items-center gap-3 ${open ? "" : "justify-center w-full"}`}
@@ -298,11 +301,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                           <Link
                             key={sub.name}
                             href={sub.path}
-                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${
-                              pathname === sub.path
+                            className={`text-sm px-2 py-1 rounded-md transition-all duration-300 ${pathname === sub.path
                                 ? "bg-linear-to-r from-pink-200 to-pink-100 text-pink-700 font-semibold"
                                 : "text-gray-600 hover:text-pink-600 hover:bg-pink-50"
-                            }`}
+                              }`}
                           >
                             {sub.name}
                           </Link>
@@ -358,11 +360,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                     <Link
                       href={menu.path}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-2 py-2 ${
-                        pathname === menu.path
+                      className={`flex items-center gap-2 py-2 ${pathname === menu.path
                           ? "text-pink-700 font-semibold"
                           : "text-gray-800 hover:text-pink-600"
-                      }`}
+                        }`}
                     >
                       <div className="text-pink-600">{menu.icon}</div>
                       <span className="text-left">{menu.title}</span>
@@ -379,9 +380,8 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                         </div>
                         <ChevronDown
                           size={16}
-                          className={`transition-transform ${
-                            expanded[menu.id] ? "rotate-180" : ""
-                          }`}
+                          className={`transition-transform ${expanded[menu.id] ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
 
@@ -398,11 +398,10 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
                                 key={sub.name}
                                 href={sub.path}
                                 onClick={() => setMobileOpen(false)}
-                                className={`text-sm py-1 transition-all ${
-                                  pathname === sub.path
+                                className={`text-sm py-1 transition-all ${pathname === sub.path
                                     ? "text-pink-700 font-semibold"
                                     : "text-gray-600 hover:text-pink-600"
-                                }`}
+                                  }`}
                               >
                                 {sub.name}
                               </Link>
