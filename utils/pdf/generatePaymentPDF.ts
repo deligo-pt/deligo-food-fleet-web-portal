@@ -1,15 +1,17 @@
-import { PayoutData } from "@/types/payment.type";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { IPayout } from "@/types/payout.type";
 import { formatPrice } from "@/utils/formatPrice";
 import { removeUnderscore } from "@/utils/formatter";
 import { format } from "date-fns";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export const generatePaymentPDF = (payment: PayoutData) => {
+export const generatePaymentPDF = (payment: IPayout) => {
   const doc = new jsPDF("p", "mm", "a4");
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const marginX = 15;
+  const userName = `${payment.userId?.name?.firstName} ${payment.userId?.name?.lastName}`
 
   // header section
   const headerTop = 15;
@@ -63,7 +65,7 @@ export const generatePaymentPDF = (payment: PayoutData) => {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.text(
-    "Extrato de Pagamento do Gestor de Frota",
+    "Comprovativo de Pagamento do Gestor de Frota",
     pageWidth - marginX,
     headerTop + 5,
     {
@@ -73,6 +75,8 @@ export const generatePaymentPDF = (payment: PayoutData) => {
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
+
+  // Update: Date format changed to yyyy-MM-dd
   doc.text(
     `Gerado em: ${format(new Date(), "yyyy-MM-dd")}`,
     pageWidth - marginX,
@@ -98,14 +102,20 @@ export const generatePaymentPDF = (payment: PayoutData) => {
   doc.setFontSize(10);
 
   doc.text(
-    `Nome do Gestor de Frota: ${payment.userId?.name?.firstName} ${payment.userId?.name?.lastName}`,
+    `Nome do Gestor de Frota: ${userName}`,
     marginX,
     y,
   );
   y += 5;
-  doc.text(`ID de pagamento: ${payment.payoutId}`, marginX, y);
+  doc.text(
+    `NIF: ${payment.userId?.NIF}`,
+    marginX,
+    y,
+  );
   y += 5;
-  doc.text(`ID de referência do banco: ${payment.bankReferenceId}`, marginX, y);
+  doc.text(`N° de Fatura: ${payment.payoutId}`, marginX, y);
+  y += 5;
+  doc.text(`Referência Bancária: ${payment.bankReferenceId || "-"}`, marginX, y);
   y += 5;
   doc.text(`Montante total: €${formatPrice(payment.amount)}`, marginX, y);
 
@@ -128,15 +138,17 @@ export const generatePaymentPDF = (payment: PayoutData) => {
     y,
   );
   y += 5;
-  doc.text(
-    `Número de conta: ${payment.bankDetails?.accountNumber}`,
-    marginX,
-    y,
-  );
-  y += 5;
   doc.text(`IBAN: ${payment.bankDetails?.iban}`, marginX, y);
   y += 5;
   doc.text(`Código SWIFT: ${payment.bankDetails?.swiftCode}`, marginX, y);
+  y += 5;
+  if (payment?.bankDetails?.accountNumber) {
+    doc.text(
+      `Número de conta: ${payment.bankDetails?.accountNumber}`,
+      marginX,
+      y,
+    )
+  }
 
   // Payout Details
   y += 12;
@@ -146,16 +158,28 @@ export const generatePaymentPDF = (payment: PayoutData) => {
 
   y += 4;
 
+  // Prepare modified row values
+  const dateFormatted = format(new Date(payment.createdAt), "yyyy-MM-dd");
+
+  const paymentType = payment.paymentMethod === "BANK_TRANSFER"
+    ? "Transferência Bancária"
+    : removeUnderscore(payment.paymentMethod);
+
+  const description = `Pagamento relativo ao período ${format(new Date(payment.createdAt), "yyyy-MM-dd")} até ${format(new Date(payment.updatedAt), "yyyy-MM-dd")}`;
+
+  const statusLabel = payment.status === "PAID" ? "Pago" : payment.status;
+
   autoTable(doc, {
     startY: y,
-    head: [["Data", "Tipo de Pagamento", "Descrição", "Valor", "Estatuto"]],
+    // Update: Fifth column header changed to "Estado"
+    head: [["Data", "Tipo de Pagamento", "Descrição", "Valor", "Estado"]],
     body: [
       [
-        format(payment.createdAt, "dd/MM/yyyy"),
-        removeUnderscore(payment.paymentMethod),
-        payment.remarks || "-",
+        dateFormatted, // Update: Format yyyy-MM-dd
+        paymentType,   // Update: Translated to Transferência Bancária
+        description,   // Update: Pagamento relativo ao período...
         `€${formatPrice(payment.amount)}`,
-        payment.status,
+        statusLabel,   // Update: Translated to Pago
       ],
     ],
     styles: {
@@ -173,17 +197,15 @@ export const generatePaymentPDF = (payment: PayoutData) => {
     margin: { left: marginX, right: marginX },
   });
 
-  y += 25;
-  // doc.setDrawColor(220, 49, 115);
-  // doc.line(pageWidth - marginX - 400, y, pageWidth - marginX, y + 2);
+  // Footer / Final Amount
+  const finalY = (doc as any).lastAutoTable.finalY + 15;
 
-  // y += 4;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.text(
     `Valor Pago: €${formatPrice(payment.amount)}`,
     pageWidth - marginX,
-    y,
+    finalY,
     { align: "right" },
   );
 
@@ -193,15 +215,12 @@ export const generatePaymentPDF = (payment: PayoutData) => {
   doc.text(
     "Este é um extrato de pagamento automatizado para os Gestores de Frota da DeliGo Food.",
     pageWidth / 2,
-    240,
-    {
-      align: "center",
-    },
+    260,
+    { align: "center" },
   );
 
-  // footer
+  // page numbers
   const pageCount = doc.getNumberOfPages();
-
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8);
@@ -212,6 +231,6 @@ export const generatePaymentPDF = (payment: PayoutData) => {
   }
 
   doc.save(
-    `payment_statement_${format(new Date(), "yyyy-MM-dd_HH-mm-ss")}.pdf`,
+    `${format(new Date(), "yyyy-MM-dd_HH-mm-ss")} - ${payment?.userId?.NIF}_${userName} - ${payment?.amount}€.pdf`,
   );
 };

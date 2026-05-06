@@ -15,6 +15,7 @@ export interface PayoutUser {
     _id: string;
     userId: string;
     name: PayoutName;
+    NIF: string;
     profilePhoto: string;
     role: UserRole;
 }
@@ -22,6 +23,7 @@ export interface PayoutUser {
 export interface BankDetails {
     accountHolderName: string;
     bankName: string;
+    accountNumber: string;
     iban: string;
     swiftCode: string;
 }
