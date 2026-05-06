@@ -108,7 +108,7 @@ export const generatePaymentPDF = (payment: IPayout) => {
   );
   y += 5;
   doc.text(
-    `NIF: ${payment.userId?.nif || 8723495}`,
+    `NIF: ${payment.userId?.NIF}`,
     marginX,
     y,
   );
