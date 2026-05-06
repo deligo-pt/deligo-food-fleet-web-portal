@@ -231,6 +231,6 @@ export const generatePaymentPDF = (payment: IPayout) => {
   }
 
   doc.save(
-    `${format(new Date(), "yyyy-MM-dd_HH-mm-ss")} - ${payment?.userId?.nif || 8723495}_${userName} - ${payment?.amount}€.pdf`,
+    `${format(new Date(), "yyyy-MM-dd_HH-mm-ss")} - ${payment?.userId?.NIF}_${userName} - ${payment?.amount}€.pdf`,
   );
 };
