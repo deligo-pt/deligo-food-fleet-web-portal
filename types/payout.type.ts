@@ -22,6 +22,7 @@ export interface PayoutUser {
 export interface BankDetails {
     accountHolderName: string;
     bankName: string;
+    accountNumber: string;
     iban: string;
     swiftCode: string;
 }

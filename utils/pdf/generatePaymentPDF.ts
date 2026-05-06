@@ -1,11 +1,11 @@
-import { PayoutData } from "@/types/payment.type";
+import { IPayout } from "@/types/payout.type";
 import { formatPrice } from "@/utils/formatPrice";
 import { removeUnderscore } from "@/utils/formatter";
 import { format } from "date-fns";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export const generatePaymentPDF = (payment: PayoutData) => {
+export const generatePaymentPDF = (payment: IPayout) => {
   const doc = new jsPDF("p", "mm", "a4");
 
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -128,15 +128,17 @@ export const generatePaymentPDF = (payment: PayoutData) => {
     y,
   );
   y += 5;
-  doc.text(
-    `Número de conta: ${payment.bankDetails?.accountNumber}`,
-    marginX,
-    y,
-  );
-  y += 5;
   doc.text(`IBAN: ${payment.bankDetails?.iban}`, marginX, y);
   y += 5;
   doc.text(`Código SWIFT: ${payment.bankDetails?.swiftCode}`, marginX, y);
+  y += 5;
+  if (payment?.bankDetails?.accountNumber) {
+    doc.text(
+      `Número de conta: ${payment.bankDetails?.accountNumber}`,
+      marginX,
+      y,
+    )
+  }
 
   // Payout Details
   y += 12;
@@ -212,6 +214,6 @@ export const generatePaymentPDF = (payment: PayoutData) => {
   }
 
   doc.save(
-    `payment_statement_${format(new Date(), "yyyy-MM-dd_HH-mm-ss")}.pdf`,
+    `Payout_statement_${format(new Date(), "yyyy-MM-dd_HH-mm-ss")}.pdf`,
   );
 };

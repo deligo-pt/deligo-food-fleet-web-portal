@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { PayoutData } from "@/types/payment.type";
+import { IPayout } from "@/types/payout.type";
 import { formatDateTime } from "@/utils/formatter";
 import { generatePaymentPDF } from "@/utils/pdf/generatePaymentPDF";
 import { useRef } from "react";
@@ -13,7 +13,7 @@ import { useRef } from "react";
 interface Props {
   open: boolean;
   onClose: () => void;
-  payment: PayoutData;
+  payment: IPayout;
 }
 
 export function PaymentDetailsModal({ open, onClose, payment }: Props) {

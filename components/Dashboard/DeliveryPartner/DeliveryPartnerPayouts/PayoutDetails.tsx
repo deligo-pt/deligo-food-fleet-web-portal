@@ -1,4 +1,4 @@
-
+'use client'
 import {
     ArrowLeft,
     CreditCard,
@@ -19,6 +19,7 @@ import { formatDateTime } from '@/utils/formatter';
 import Link from 'next/link';
 import Image from 'next/image';
 import { IPayout } from '@/types/payout.type';
+import { generatePaymentPDF } from '@/utils/pdf/generatePaymentPDF';
 
 interface PayoutDetailsProps {
     payout: IPayout;
@@ -247,6 +248,14 @@ const PayoutDetails = ({ payout }: PayoutDetailsProps) => {
                             ))}
                         </CardContent>
                     </Card>
+
+                    {/* statement  button */}
+                    {payout?.status === "PAID" && <Button
+                        onClick={() => generatePaymentPDF(payout)}
+                        className="mt-4 md:mt-0 bg-[#DC3173] text-white px-4 py-2 rounded-md font-medium flex items-center shadow-md w-1/2 ml-auto"
+                    >
+                        Download Statement
+                    </Button>}
                 </div>
             </div>
         </div>

@@ -29,6 +29,7 @@ import PayToPartnerModal from './PayToPartnerModal';
 import SettlePayoutModal from './SettlePayoutModal';
 import { useRouter } from 'next/navigation';
 import { IPayout } from '@/types/payout.type';
+import { generatePaymentPDF } from '@/utils/pdf/generatePaymentPDF';
 
 interface IProps {
     partners: TDeliveryPartner[],
@@ -199,7 +200,14 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
                                                 }}>
                                                     View Details
                                                 </DropdownMenuItem>
-                                                {payout.status === "PROCESSING" && (
+                                                {payout.status === "PAID" ? (
+                                                    <DropdownMenuItem
+                                                        className="text-[#DC3173] font-semibold"
+                                                        onClick={() => generatePaymentPDF(payout)}
+                                                    >
+                                                        Download Statement
+                                                    </DropdownMenuItem>
+                                                ) : (
                                                     <DropdownMenuItem
                                                         className="text-[#DC3173] font-semibold"
                                                         onClick={() => setSettleId(payout?.payoutId)}
