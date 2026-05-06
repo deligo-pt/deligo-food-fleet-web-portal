@@ -11,6 +11,7 @@ export const generatePaymentPDF = (payment: IPayout) => {
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const marginX = 15;
+  const userName = `${payment.userId?.name?.firstName} ${payment.userId?.name?.lastName}`
 
   // header section
   const headerTop = 15;
@@ -64,7 +65,7 @@ export const generatePaymentPDF = (payment: IPayout) => {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.text(
-    "Extrato de Pagamento do Gestor de Frota",
+    "Comprovativo de Pagamento do Gestor de Frota",
     pageWidth - marginX,
     headerTop + 5,
     {
@@ -101,14 +102,20 @@ export const generatePaymentPDF = (payment: IPayout) => {
   doc.setFontSize(10);
 
   doc.text(
-    `Nome do Gestor de Frota: ${payment.userId?.name?.firstName} ${payment.userId?.name?.lastName}`,
+    `Nome do Gestor de Frota: ${userName}`,
     marginX,
     y,
   );
   y += 5;
-  doc.text(`ID de pagamento: ${payment.payoutId}`, marginX, y);
+  doc.text(
+    `NIF: ${payment.userId?.nif || 8723495}`,
+    marginX,
+    y,
+  );
   y += 5;
-  doc.text(`ID de referência do banco: ${payment.bankReferenceId || "-"}`, marginX, y);
+  doc.text(`N° de Fatura: ${payment.payoutId}`, marginX, y);
+  y += 5;
+  doc.text(`Referência Bancária: ${payment.bankReferenceId || "-"}`, marginX, y);
   y += 5;
   doc.text(`Montante total: €${formatPrice(payment.amount)}`, marginX, y);
 
@@ -224,6 +231,6 @@ export const generatePaymentPDF = (payment: IPayout) => {
   }
 
   doc.save(
-    `Payout_statement_${format(new Date(), "yyyy-MM-dd_HH-mm-ss")}.pdf`,
+    `${format(new Date(), "yyyy-MM-dd_HH-mm-ss")} - ${payment?.userId?.nif || 8723495}_${userName} - ${payment?.amount}€.pdf`,
   );
 };

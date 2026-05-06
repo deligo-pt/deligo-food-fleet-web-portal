@@ -15,6 +15,7 @@ export interface PayoutUser {
     _id: string;
     userId: string;
     name: PayoutName;
+    nif:string;
     profilePhoto: string;
     role: UserRole;
 }
