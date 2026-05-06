@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IPayout } from "@/types/payout.type";
 import { formatPrice } from "@/utils/formatPrice";
 import { removeUnderscore } from "@/utils/formatter";
@@ -73,6 +74,8 @@ export const generatePaymentPDF = (payment: IPayout) => {
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
+
+  // Update: Date format changed to yyyy-MM-dd
   doc.text(
     `Gerado em: ${format(new Date(), "yyyy-MM-dd")}`,
     pageWidth - marginX,
@@ -105,7 +108,7 @@ export const generatePaymentPDF = (payment: IPayout) => {
   y += 5;
   doc.text(`ID de pagamento: ${payment.payoutId}`, marginX, y);
   y += 5;
-  doc.text(`ID de referência do banco: ${payment.bankReferenceId}`, marginX, y);
+  doc.text(`ID de referência do banco: ${payment.bankReferenceId || "-"}`, marginX, y);
   y += 5;
   doc.text(`Montante total: €${formatPrice(payment.amount)}`, marginX, y);
 
@@ -148,16 +151,28 @@ export const generatePaymentPDF = (payment: IPayout) => {
 
   y += 4;
 
+  // Prepare modified row values
+  const dateFormatted = format(new Date(payment.createdAt), "yyyy-MM-dd");
+
+  const paymentType = payment.paymentMethod === "BANK_TRANSFER"
+    ? "Transferência Bancária"
+    : removeUnderscore(payment.paymentMethod);
+
+  const description = `Pagamento relativo ao período ${format(new Date(payment.createdAt), "yyyy-MM-dd")} até ${format(new Date(payment.updatedAt), "yyyy-MM-dd")}`;
+
+  const statusLabel = payment.status === "PAID" ? "Pago" : payment.status;
+
   autoTable(doc, {
     startY: y,
-    head: [["Data", "Tipo de Pagamento", "Descrição", "Valor", "Estatuto"]],
+    // Update: Fifth column header changed to "Estado"
+    head: [["Data", "Tipo de Pagamento", "Descrição", "Valor", "Estado"]],
     body: [
       [
-        format(payment.createdAt, "dd/MM/yyyy"),
-        removeUnderscore(payment.paymentMethod),
-        payment.remarks || "-",
+        dateFormatted, // Update: Format yyyy-MM-dd
+        paymentType,   // Update: Translated to Transferência Bancária
+        description,   // Update: Pagamento relativo ao período...
         `€${formatPrice(payment.amount)}`,
-        payment.status,
+        statusLabel,   // Update: Translated to Pago
       ],
     ],
     styles: {
@@ -175,17 +190,15 @@ export const generatePaymentPDF = (payment: IPayout) => {
     margin: { left: marginX, right: marginX },
   });
 
-  y += 25;
-  // doc.setDrawColor(220, 49, 115);
-  // doc.line(pageWidth - marginX - 400, y, pageWidth - marginX, y + 2);
+  // Footer / Final Amount
+  const finalY = (doc as any).lastAutoTable.finalY + 15;
 
-  // y += 4;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.text(
     `Valor Pago: €${formatPrice(payment.amount)}`,
     pageWidth - marginX,
-    y,
+    finalY,
     { align: "right" },
   );
 
@@ -195,15 +208,12 @@ export const generatePaymentPDF = (payment: IPayout) => {
   doc.text(
     "Este é um extrato de pagamento automatizado para os Gestores de Frota da DeliGo Food.",
     pageWidth / 2,
-    240,
-    {
-      align: "center",
-    },
+    260,
+    { align: "center" },
   );
 
-  // footer
+  // page numbers
   const pageCount = doc.getNumberOfPages();
-
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8);
