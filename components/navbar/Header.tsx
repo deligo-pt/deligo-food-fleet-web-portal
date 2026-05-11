@@ -6,7 +6,6 @@ import { logoutReq } from "@/services/auth/auth";
 import { useStore } from "@/store/store";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
-import { getFcmToken } from "@/utils/fcmToken";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,12 +36,7 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
   const logOut = async () => {
     const toastId = toast.loading("Logging out...");
 
-    const token = (await getFcmToken()) || "";
-
-    const result = await logoutReq({
-      email: fleetData?.email || "",
-      token,
-    });
+    const result = await logoutReq();
 
     if (result?.success) {
       toast.success(result?.message || "Logout successful!", {
@@ -67,9 +61,8 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
 
   return (
     <header
-      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${
-        isScrolled ? "shadow-md" : ""
-      } bg-white text-black`}
+      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${isScrolled ? "shadow-md" : ""
+        } bg-white text-black`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo Section */}
@@ -172,9 +165,8 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <span className="font-bold text-xl text-[#DC3173]">DeliGo</span>
