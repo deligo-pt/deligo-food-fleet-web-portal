@@ -7,7 +7,6 @@ import { useTranslation } from "@/hooks/use-translation";
 import { logoutReq } from "@/services/auth/auth";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
-import { getFcmToken } from "@/utils/fcmToken";
 import { motion } from "framer-motion";
 import {
   Award,
@@ -38,12 +37,7 @@ const RegistrationStatus = ({ profile }: Props) => {
   const logOut = async () => {
     const toastId = toast.loading("Logging out...");
 
-    const token = (await getFcmToken()) || "";
-
-    const result = await logoutReq({
-      email: profile?.data?.email || "",
-      token,
-    });
+    const result = await logoutReq();
 
     if (result?.success) {
       toast.success(result?.message || "Logout successful!", {
