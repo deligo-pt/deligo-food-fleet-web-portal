@@ -14,7 +14,6 @@ import { logoutReq } from "@/services/auth/auth";
 import { useStore } from "@/store/store";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
-import { getFcmToken } from "@/utils/fcmToken";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -44,12 +43,7 @@ export default function TopbarIcons({ agent }: IProps) {
   const logOut = async () => {
     const toastId = toast.loading("Logging out...");
 
-    const token = (await getFcmToken()) || "";
-
-    const result = await logoutReq({
-      email: agent?.email || "",
-      token,
-    });
+    const result = await logoutReq();
 
     if (result?.success) {
       toast.success(result?.message || "Logout successful!", {

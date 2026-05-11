@@ -54,11 +54,11 @@ export const verifyOtpReq = async (payload: {
   });
 };
 
-export const logoutReq = async (payload: { email: string; token: string }) => {
+export const logoutReq = async () => {
   const deviceId = (await cookies()).get(DEVICE_KEY)?.value || "";
   return catchAsync(async () => {
     return await serverFetch.post("/auth/logout", {
-      body: JSON.stringify({ ...payload, deviceId }),
+      body: JSON.stringify({ deviceId }),
       headers: {
         "Content-Type": "application/json",
       },
