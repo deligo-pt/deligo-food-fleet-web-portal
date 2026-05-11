@@ -1,6 +1,6 @@
 import { messaging } from "@/config/firebase";
-import { postData } from "@/utils/requests";
 import { getToken } from "firebase/messaging";
+import { getDeviceInfo } from "./getDeviceInfo";
 
 export async function getFcmToken(): Promise<string | null> {
   if (!messaging) return null;
@@ -17,25 +17,59 @@ export async function getFcmToken(): Promise<string | null> {
   });
 }
 
-export async function saveFcmToken(
+export async function updateFcmToken(
   accessToken: string,
   token: string,
 ): Promise<void> {
-  const payload = { token };
+  try {
+    const deviceInfo = await getDeviceInfo();
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  await postData("/auth/save-fcm-token", payload, {
-    headers: {
-      authorization: accessToken,
-    },
-  });
+    if (!baseUrl) {
+      throw new Error("API base URL is not defined");
+    }
+
+    const endpoint = `${baseUrl}/auth/update-fcm-token`;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        token,
+        deviceId: deviceInfo.deviceId,
+      }),
+    });
+
+    console.log("Response status:", response.status);
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP error ${response.status}`);
+    }
+
+  } catch (err) {
+    console.error("updateFcmToken failed:", err);
+    throw err;
+  }
 }
 
 export async function getAndSaveFcmToken(accessToken: string): Promise<void> {
   try {
     const token = await getFcmToken();
     if (!token) return;
-    await saveFcmToken(accessToken, token);
+
+    const savedToken = localStorage.getItem("deligo-fleet-fcm-token");
+
+    // Only hit the update API if the token is actually new
+    if (token !== savedToken) {
+      await updateFcmToken(accessToken, token);
+      localStorage.setItem("deligo-fleet-fcm-token", token);
+      console.log("FCM Token successfully updated in DB");
+    }
   } catch (fcmError) {
-    console.log(fcmError);
+    console.error("Failed to update FCM token:", fcmError);
   }
 }
