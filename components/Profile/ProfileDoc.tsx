@@ -7,60 +7,65 @@ interface IProps {
 }
 
 export default function ProfileDoc({ documents }: IProps) {
-  const docsArr = Object.keys(documents || {}).filter(
-    (key) => !!documents?.[key as keyof IDocs]
-  );
+  const docsArr = Object.keys(documents || {}) as (keyof IDocs)[];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-      {docsArr.map((doc, i) => (
-        <motion.div
-          key={i}
-          whileHover={{
-            x: 4,
-          }}
-        >
-          <p className="text-sm text-gray-500 mb-2">
-            {doc === "idProof" && "ID Proof"}
-            {doc === "businessLicenseDoc" && "Business License"}
-            {doc === "taxDoc" && "Tax Document"}
-            {doc === "storePhoto" && "Store Photo"}
-            {doc === "menuUpload" && "Menu / Brochure"}
-          </p>
-          {documents?.[doc as keyof IDocs]?.toLowerCase()?.endsWith(".pdf") ? (
-            <iframe
-              src={documents?.[doc as keyof IDocs] || ""}
-              className="w-full h-40 rounded-lg  border 
-              border-gray-200"
-              allow="fullscreen"
-            />
-          ) : (
-            <Image
-              src={documents?.[doc as keyof IDocs] || ""}
-              alt={doc || "Document"}
-              className="w-full h-40 object-cover rounded-lg border border-gray-200"
-              width={500}
-              height={500}
-              loading="eager"
-              priority
-            />
-          )}
-          <motion.a
-            href={documents?.[doc as keyof IDocs] || ""}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 text-[#DC3173] hover:bg-[#DC3173]/10 rounded-lg"
+    <div className="grid grid-cols-1 gap-4">
+      {docsArr.map((doc, i) => {
+        const files = documents?.[doc];
+
+        if (!files || files.length === 0) return null;
+
+        return (
+          <motion.div
+            key={i}
             whileHover={{
-              scale: 1.1,
-            }}
-            whileTap={{
-              scale: 0.95,
+              x: 4,
             }}
           >
-            View
-          </motion.a>
-        </motion.div>
-      ))}
+            <p className="text-sm text-gray-500 mb-2">
+              {doc === "idProofFront" && "ID Proof Front"}
+              {doc === "idProofBack" && "ID Proof Back"}
+              {doc === "businessLicense" && "Business License"}
+              {doc === "myPhoto" && "Fleet manager Photo"}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              {files.map((file, index) => {
+                const isPdf = file.toLowerCase().endsWith(".pdf");
+
+                return (
+                  <div key={index}>
+                    {isPdf ? (
+                      <iframe
+                        src={file}
+                        className="w-full h-40 rounded-lg border border-gray-200"
+                      />
+                    ) : (
+                      <Image
+                        src={file}
+                        alt={`${doc}-${index}`}
+                        width={500}
+                        height={500}
+                        className="w-full h-40 object-cover rounded-lg border border-gray-200"
+                      />
+                    )}
+
+                    <motion.a
+                      href={file}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 text-sm text-[#DC3173] hover:underline inline-block"
+                    >
+                      View Full File
+                    </motion.a>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )
+      })}
     </div>
   );
 }
