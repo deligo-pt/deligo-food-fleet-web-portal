@@ -2,12 +2,12 @@ export const dynamic = "force-dynamic";
 
 import UploadDocuments from "@/components/BecomeAgent/UploadDocuments";
 import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
-import { DocKey, FilePreview } from "@/types/documents.type";
+import { DocKey } from "@/types/documents.type";
 
 export default async function UploadDocumentPage() {
-  const savedPreviews: Record<DocKey, FilePreview | null> = {} as Record<
+  const savedPreviews: Record<DocKey, string[] | []> = {} as Record<
     DocKey,
-    FilePreview | null
+    string[] | []
   >;
 
   try {
@@ -19,17 +19,14 @@ export default async function UploadDocumentPage() {
       (Object.keys(docs) as DocKey[]).forEach((key) => {
         const urls = docs[key];
 
-        if (urls) {
-          const urlArray = Array.isArray(urls) ? urls : [urls];
-          const url = urlArray[0] || "";
+        if (Array.isArray(urls)) {
+          const cleanUrls = Array.isArray(urls)
+            ? urls.filter((url) => typeof url === "string" && url.trim() !== "")
+            : [];
 
-          savedPreviews[key] = {
-            file: null,
-            url,
-            isImage: /\.(jpg|jpeg|png|gif|webp)$/i.test(url),
-          };
+          savedPreviews[key] = cleanUrls.length > 0 ? cleanUrls : [];
         } else {
-          savedPreviews[key] = null;
+          savedPreviews[key] = [];
         }
       });
     }

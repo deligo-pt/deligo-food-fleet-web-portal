@@ -28,25 +28,19 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { deleteFleetDocumentReq, updateFleetDocumentsReq, uploadImagesReq } from "@/services/becomeAgent/becomeAgentManagement";
 
-type FilePreview = {
-  file: File | null;
-  url: string | null;
-  isImage: boolean;
-};
-
 export default function UploadDocuments({
   savedPreviews,
 }: {
-  savedPreviews: Record<DocKey, FilePreview | null>;
+  savedPreviews: Record<DocKey, string[]>;
 }) {
   const { t } = useTranslation();
   // store one preview per doc key
   const [previews, setPreviews] =
-    useState<Record<DocKey, FilePreview[] | null>>({
-      myPhoto: Array.isArray(savedPreviews.myPhoto) ? savedPreviews.myPhoto : null,
-      businessLicense: Array.isArray(savedPreviews.businessLicense) ? savedPreviews.businessLicense : null,
-      idProofFront: Array.isArray(savedPreviews.idProofFront) ? savedPreviews.idProofFront : null,
-      idProofBack: Array.isArray(savedPreviews.idProofBack) ? savedPreviews.idProofBack : null,
+    useState<Record<DocKey, string[]>>({
+      myPhoto: Array.isArray(savedPreviews.myPhoto) ? savedPreviews.myPhoto : [],
+      businessLicense: Array.isArray(savedPreviews.businessLicense) ? savedPreviews.businessLicense : [],
+      idProofFront: Array.isArray(savedPreviews.idProofFront) ? savedPreviews.idProofFront : [],
+      idProofBack: Array.isArray(savedPreviews.idProofBack) ? savedPreviews.idProofBack : [],
     });
 
   const DOCUMENTS: {
@@ -98,73 +92,78 @@ export default function UploadDocuments({
 
   // handle file selection (client-side only)
   const handleFileChange = async (key: DocKey, f?: File | null) => {
+    const toastId = toast.loading("Uploading file...");
     if (!f) return;
 
     if (inputsRef.current[key]) {
       inputsRef.current[key]!.value = "";
     }
 
-    const toastId = toast.loading("Uploading...");
+    const currentFiles = previews[key] || [];
 
-    if (previews[key]?.length === 3) {
+    if (currentFiles.length === 3) {
       toast.error("You can only upload a maximum of 3 documents", {
         id: toastId,
       });
       return;
     }
 
-    const isImage = f.type.startsWith("image/");
 
     try {
       const accessToken = getCookie("accessToken");
       const decoded = jwtDecode(accessToken || "") as { userId: string };
 
-      // upload file → get URL
       const uploadResult = await uploadImagesReq([f]);
 
-      if (uploadResult && uploadResult.success) {
-        const uploadedUrl = uploadResult.data?.[0];
-        // get existing URLs
-        const prevUrls =
-          previews[key]?.filter((p) => p.url).map((p) => p.url as string) || [];
-
-        console.log("upload", [...prevUrls, uploadedUrl])
-        // update fleet document with all URLs
-        const updateResult = await updateFleetDocumentsReq(decoded.userId, {
-          docImageTitle: key,
-          docImageUrls: [...prevUrls, uploadedUrl],
-        });
-
-        if (updateResult && updateResult.success) {
-          toast.success("File uploaded successfully!", { id: toastId });
-
-          setPreviews((p) => ({
-            ...p,
-            [key]: [
-              ...(p[key] || []),
-              { file: f, url: uploadedUrl, isImage },
-            ],
-          }));
-
-          return;
-        }
-
-        // rollback if update fails
-        await deleteFleetDocumentReq(decoded.userId, {
-          docImageTitle: key,
-          imageUrl: uploadedUrl,
-        });
-
-        toast.error(updateResult?.error?.message || "File upload failed", {
+      if (!uploadResult.success) {
+        toast.error(uploadResult.message || "File upload failed", {
           id: toastId,
         });
-
         return;
       }
 
-      toast.error(uploadResult?.error?.message || "File upload failed", {
-        id: toastId,
+      const newUrl = uploadResult.data?.[0];
+
+      if (!newUrl) {
+        toast.error("Upload failed: no file URL returned", {
+          id: toastId,
+        });
+        return;
+      }
+
+      const prevUrls = (currentFiles || []).filter(
+        (url): url is string => typeof url === "string" && url.trim() !== ""
+      );
+
+      const cleanUrls = [...prevUrls, newUrl].filter(
+        (url): url is string => typeof url === "string" && url.trim() !== ""
+      );
+
+      // update fleet document with all URLs
+      const updateResult = await updateFleetDocumentsReq(decoded.userId, {
+        docImageTitle: key,
+        docImageUrls: cleanUrls,
       });
+
+      if (!updateResult.success) {
+        await deleteFleetDocumentReq(decoded?.userId, {
+          docImageTitle: key,
+          imageUrl: newUrl,
+        });
+
+        toast.error(updateResult.message || "File upload failed", {
+          id: toastId,
+        });
+        return;
+      }
+
+      toast.success("File uploaded successfully!", { id: toastId });
+
+      setPreviews((p) => ({
+        ...p,
+        [key]: [...(p[key] || []), newUrl],
+      }));
+
     } catch (error: any) {
       toast.error(error?.message || "File upload failed", {
         id: toastId,
@@ -176,7 +175,7 @@ export default function UploadDocuments({
   const removeFile = (key: DocKey, index: number) => {
     setPreviews((p) => ({
       ...p,
-      [key]: p[key]?.filter((_, i) => i !== index) || null,
+      [key]: p[key]?.filter((_, i) => i !== index) || [],
     }));
   };
 
@@ -281,7 +280,7 @@ export default function UploadDocuments({
       Object.values(previews).forEach((previewArray) => {
         if (Array.isArray(previewArray)) {
           previewArray.forEach((p) => {
-            if (p && p.url) URL.revokeObjectURL(p.url);
+            if (p && p) URL.revokeObjectURL(p);
           });
         }
       });
@@ -361,8 +360,11 @@ export default function UploadDocuments({
           <CardContent className="bg-white p-8 space-y-6">
             <div className="grid grid-cols-1 gap-4">
               {DOCUMENTS.map((d, idx) => {
-                const preview = previews[d.key];
-                const isSelected = !!preview;
+                const previewFiles = previews[d.key];
+                const isSelected = Array.isArray(previewFiles) && previewFiles.length > 0;
+                const hasFiles = Array.isArray(previewFiles) && previewFiles.length > 0;
+
+
                 return (
                   <motion.div
                     key={d.key}
@@ -374,7 +376,7 @@ export default function UploadDocuments({
                       : "bg-white"
                       }`}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 w-full">
                       <div
                         className={`w-14 h-14 rounded-lg flex items-center justify-center ${isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
                           }`}
@@ -387,52 +389,55 @@ export default function UploadDocuments({
                       </div>
 
                       <div className="min-w-0">
-                        {/* ✅ LABEL RESTORED */}
                         <div className="text-sm font-semibold text-gray-800">
                           {d.label}
                         </div>
-
                         <div className="text-xs text-gray-500 mt-1 space-y-1">
-                          {preview?.map((f, i) => (
-                            <div key={i} className="flex items-center gap-2">
-                              {f.isImage && f.url ? (
-                                <Image
-                                  src={f.url}
-                                  alt={f.file?.name || getActualFileName(f.url || "")}
-                                  width={56}
-                                  height={40}
-                                  className="object-cover rounded-md border"
-                                  unoptimized
-                                />
-                              ) : (
-                                <File className="w-4 h-4 text-gray-500" />
-                              )}
+                          {
+                            hasFiles ? (previewFiles || [])?.map((url, i) => (
+                              <div className="flex items-center gap-2 w-full"
+                                key={i}>
+                                {/\.(jpg|jpeg|png|webp|gif|avif)$/i.test(url) ? (
+                                  <div className="flex items-center gap-2 border p-1 rounded-md">
+                                    <Image
+                                      src={url}
+                                      alt="document"
+                                      width={56}
+                                      height={40}
+                                      className="object-cover rounded-md border"
+                                      unoptimized
+                                    />
+                                    <div className="truncate hidden sm:block">
+                                      {(url && url.length > 30) ? getActualFileName(url)?.slice(0, 30) : getActualFileName(url)}
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="truncate">
+                                    {(url && url.length > 30) ? getActualFileName(url)?.slice(0, 30) : getActualFileName(url || "")}
+                                  </div>
+                                )}
 
-                              <div className="truncate">
-                                {f.file?.name || getActualFileName(f.url || "")}
+
+                                <button
+                                  onClick={() => window.open(url, "_blank")}
+                                  className="inline-flex items-center gap-1 p-2 rounded-lg text-xs font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
+                                >
+                                  <Eye className="w-3 h-3 text-[#DC3173]" />
+                                  <span className="hidden sm:block">View</span>
+                                </button>
+
+                                <button
+                                  onClick={() => removeFile(d.key, i)}
+                                  className="inline-flex items-center gap-1 p-2 rounded-lg text-xs font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
+                                >
+                                  <Trash2 className="w-3 h-3 text-[#DC3173]" />
+                                  <span className="hidden sm:block">{t("removeCTA")}</span>
+                                </button>
                               </div>
-
-                              <button
-                                onClick={() =>
-                                  f.url ? window.open(f.url, "_blank") : alert(f.file?.name)
-                                }
-                                className="inline-flex items-center gap-1 p-2 rounded-lg text-xs font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
-                              >
-                                <Eye className="w-3 h-3 text-[#DC3173]" />
-                                <span className="hidden sm:block">View</span>
-                              </button>
-
-                              <button
-                                onClick={() => removeFile(d.key, i)}
-                                className="inline-flex items-center gap-1 p-2 rounded-lg text-xs font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
-                              >
-                                <Trash2 className="w-3 h-3 text-[#DC3173]" />
-                                <span className="hidden sm:block">{t("removeCTA")}</span>
-                              </button>
-                            </div>
-                          ))}
-
-                          {!preview && <span>{t("noFileSelected")}</span>}
+                            )) : (
+                              <span>{t("noFileSelected")}</span>
+                            )
+                          }
                         </div>
                       </div>
                     </div>
@@ -454,20 +459,19 @@ export default function UploadDocuments({
                         }
                       />
 
-                      {preview ? (
-                        <>
-                          <button
-                            onClick={() => openPicker(d.key)}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
-                          >
-                            <UploadCloud className="w-4 h-4" />
-                            Add More
-                          </button>
-                        </>
-                      ) : (
+                      {isSelected ? (
                         <button
                           onClick={() => openPicker(d.key)}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition"
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition w-32"
+                        >
+                          <UploadCloud className="w-4 h-4" />
+                          Add More
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => openPicker(d.key)}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#DC3173] border border-[#DC3173]/20 hover:bg-[#DC3173]/5 transition w-32"
                         >
                           <UploadCloud className="w-4 h-4" />
                           {t("selectFileCTA")}

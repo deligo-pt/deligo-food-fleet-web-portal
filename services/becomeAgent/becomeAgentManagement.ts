@@ -95,7 +95,7 @@ export const updateFleetDocumentsReq = async (
     id: string,
     data: { docImageTitle: string; docImageUrls: string[] }
 ) => {
-
+    console.log("Updating fleet documents with data:", data);
     try {
         const res = await serverFetch.patch(`/fleet-managers/${id}/docImage`, {
             headers: {
@@ -103,7 +103,7 @@ export const updateFleetDocumentsReq = async (
             },
             body: JSON.stringify(data),
         });
-
+        console.log("Update fleet documents response:", res);
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({}));
             throw new Error(
