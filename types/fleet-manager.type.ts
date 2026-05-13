@@ -149,12 +149,12 @@ export type TFleetManager = {
 };
 
 export interface IDocs {
-  myPhoto?: string;
-  idProofFront?: string;
-  idProofBack?: string;
-  businessLicense?: string;
+  myPhoto?: string[];
+  idProofFront?: string[];
+  idProofBack?: string[];
+  businessLicense?: string[];
 }
 
 export type TFleetManagerImageDocuments = {
-  docImageTitle: "idProofFront" | "idProofBack" | "businessLicense";
+  docImageTitle: "myPhoto" | "idProofFront" | "idProofBack" | "businessLicense";
 };
