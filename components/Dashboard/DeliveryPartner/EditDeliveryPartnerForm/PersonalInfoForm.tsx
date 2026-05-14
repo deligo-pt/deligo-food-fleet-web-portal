@@ -85,7 +85,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
         dateOfBirth: new Date(values.dateOfBirth).toISOString(),
         nationality: values.nationality,
         gender: values.gender,
-        nifNumber: values.nifNumber,
+        NIF: values.nifNumber,
         passportNumber: values.passportNumber,
       },
       address: {
