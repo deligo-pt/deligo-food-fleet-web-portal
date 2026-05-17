@@ -1,6 +1,4 @@
-import parsePhoneNumberFromString, {
-  isValidPhoneNumber,
-} from "libphonenumber-js";
+import parsePhoneNumberFromString from "libphonenumber-js";
 import { z } from "zod";
 
 export const personalDetailsValidation = z
@@ -19,27 +17,14 @@ export const personalDetailsValidation = z
 
     email: z.email("Invalid email address").nonempty("Email is required"),
 
-    prefixPhoneNumber: z.string(),
-
-    phoneNumber: z.string().nonempty("Phone number is required"),
+    phoneNumber: z.string()
+      .min(10, "Phone number is required")
+      .refine((val) => {
+        try {
+          const phone = parsePhoneNumberFromString(val);
+          return phone?.isValid() ?? false;
+        } catch {
+          return false;
+        }
+      }, "Invalid phone number for the selected country")
   })
-  .refine(
-    (data) => {
-      const full = data.prefixPhoneNumber + data.phoneNumber;
-      const result = isValidPhoneNumber(full);
-
-      return result;
-    },
-    {
-      message: "Invalid phone number for the selected country",
-      path: ["phoneNumber"],
-    }
-  )
-  .transform((data) => {
-    const full = data.prefixPhoneNumber + data.phoneNumber;
-    const phone = parsePhoneNumberFromString(full);
-    return {
-      ...data,
-      phoneNumber: `+${phone?.countryCallingCode}${phone?.nationalNumber}`,
-    };
-  });

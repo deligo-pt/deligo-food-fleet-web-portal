@@ -152,12 +152,12 @@ export function PersonalInfoForm({ onNext }: IProps) {
     (() => getPartnerData())();
   }, []);
 
-  // useEffect(() => {
-  //   const currentPhone = form.getValues("phoneNumber");
-  //   if (!currentPhone) {
-  //     form.setValue("phoneNumber", "+351", { shouldValidate: true });
-  //   }
-  // }, [form]);
+  useEffect(() => {
+    const currentPhone = form.getValues("phoneNumber");
+    if (!currentPhone) {
+      form.setValue("phoneNumber", "+351", { shouldValidate: true });
+    }
+  }, [form]);
 
   return (
     <div>

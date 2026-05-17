@@ -17,8 +17,7 @@ import { TFleetManager } from "@/types/fleet-manager.type";
 import { personalDetailsValidation } from "@/validations/become-agent/personal-details.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
-import { ArrowLeftCircle, Mail, Phone, User } from "lucide-react";
+import { ArrowLeftCircle, Mail, PhoneIcon, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -29,7 +28,6 @@ type PersonalForm = {
   firstName: string;
   lastName: string;
   email: string;
-  prefixPhoneNumber: string;
   phoneNumber: string;
 };
 
@@ -49,25 +47,17 @@ const PersonalDetails = ({ profile }: Props) => {
       firstName: "",
       lastName: "",
       email: "",
-      prefixPhoneNumber: "",
       phoneNumber: "",
     },
   });
 
   useEffect(() => {
     if (!profile?.data?.name) return;
-    const phone = parsePhoneNumberFromString(
-      profile?.data?.contactNumber as string,
-    );
 
     form.setValue("firstName", profile?.data?.name.firstName || "");
     form.setValue("lastName", profile?.data?.name.lastName || "");
     form.setValue("email", profile?.data?.email || "");
-    form.setValue(
-      "prefixPhoneNumber",
-      phone?.countryCallingCode ? `+${phone?.countryCallingCode}` : "+351",
-    );
-    form.setValue("phoneNumber", phone?.nationalNumber || "");
+    form.setValue("phoneNumber", profile?.data?.contactNumber || "");
   }, [form, profile?.data]);
 
   const onSubmit = async (data: PersonalForm) => {
@@ -209,72 +199,59 @@ const PersonalDetails = ({ profile }: Props) => {
                 />
 
                 {/* Phone */}
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-3 top-0 flex items-center pointer-events-none h-9">
-                    <Phone className="text-gray-400 w-5 h-5" />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="prefixPhoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="absolute left-9 z-10">
-                            <PhoneInput
-                              {...field}
-                              defaultCountry="pt"
-                              countrySelectorStyleProps={{
-                                buttonStyle: {
-                                  border: "none",
-                                  height: "36px",
-                                  backgroundColor: "transparent",
-                                },
-                              }}
-                              inputStyle={{
-                                marginTop: "1px",
-                                border: "none",
-                                height: "34px",
-                                width: "48px",
-                                borderRadius: "0px",
-                                backgroundColor: "#ccc",
-                                zIndex: "-99",
-                                position: "relative",
-                              }}
-                              inputProps={{
-                                placeholder: "Phone Number",
-                                disabled: true,
-                              }}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="tel"
-                            className="pl-32 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl w-full"
-                            {...field}
-                            onChange={(e) => {
-                              const onlyDigits = e.target.value.replace(
-                                /\D/g,
-                                "",
-                              );
-                              field.onChange(onlyDigits);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                        <PhoneIcon className="w-5 h-5 text-[#DC3173]" />
+                        <span className="ml-2">{t("phone_number")}</span>
+                      </div>
+
+                      <FormControl>
+                        <PhoneInput
+                          defaultCountry="pt"
+                          value={field.value || ""}
+                          onChange={(phone) => {
+                            field.onChange(phone);
+                          }}
+                          forceDialCode={true}
+                          disableDialCodePrefill={false}
+
+                          className="w-full flex"
+
+                          inputStyle={{
+                            width: "100%",
+                            height: "40px",
+                            fontSize: "14px",
+                            color: "#374151",
+                            borderRadius: "0.5rem",
+                            border: "1px solid #D1D5DB",
+                            outline: "none",
+                            paddingLeft: "52px",
+                          }}
+                          countrySelectorStyleProps={{
+                            buttonStyle: {
+                              position: "absolute",
+                              left: "1px",
+                              top: "-1px",
+                              bottom: "1px",
+                              border: "none",
+                              backgroundColor: "transparent",
+                              height: "44px",
+                              padding: "0 12px",
+                              borderTopLeftRadius: "0.5rem",
+                              borderBottomLeftRadius: "0.5rem",
+                            },
+                          }}
+                          inputClassName="focus-visible:ring-2 focus-visible:ring-[#D1D5DB] focus-visible:border-[#D1D5DB]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Submit Button */}
                 <motion.div
