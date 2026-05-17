@@ -1,6 +1,4 @@
-import parsePhoneNumberFromString, {
-  isValidPhoneNumber,
-} from "libphonenumber-js";
+import parsePhoneNumberFromString from "libphonenumber-js";
 import z from "zod";
 
 const optionalString = z
@@ -69,8 +67,15 @@ export const personalInfoValidation = z
   })
   .refine(
     (data) => {
-      const full = data.prefixPhoneNumber + data.phoneNumber;
-      return isValidPhoneNumber(full);
+      try {
+        const fullPhone = `${data.prefixPhoneNumber}${data.phoneNumber}`;
+
+        const phone = parsePhoneNumberFromString(fullPhone);
+
+        return phone?.isValid() ?? false;
+      } catch {
+        return false;
+      }
     },
     {
       message: "Invalid phone number for the selected country",

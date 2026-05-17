@@ -54,10 +54,11 @@ export function PersonalInfoForm({ onNext }: IProps) {
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(personalInfoValidation),
+    mode: "onChange",
     defaultValues: {
       firstName: "",
       lastName: "",
-      prefixPhoneNumber: "",
+      prefixPhoneNumber: "+351",
       phoneNumber: "",
       dateOfBirth: "",
       nationality: "",
@@ -155,7 +156,15 @@ export function PersonalInfoForm({ onNext }: IProps) {
 
   useEffect(() => {
     (() => getPartnerData())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const prefixPhoneNumber = form.getValues("prefixPhoneNumber");
+    if (!prefixPhoneNumber) {
+      form.setValue("prefixPhoneNumber", "+351", {
+        shouldValidate: true,
+      });
+    }
   }, []);
 
   return (
@@ -241,8 +250,17 @@ export function PersonalInfoForm({ onNext }: IProps) {
                     <FormControl>
                       <div className="absolute left-2 z-10">
                         <PhoneInput
-                          {...field}
+                          value={field.value || "+351"}
                           defaultCountry="pt"
+                          disableDialCodePrefill={false}
+                          forceDialCode
+                          onChange={(value, meta) => {
+                            const dialCode = `+${meta.country.dialCode}`;
+
+                            field.onChange(dialCode);
+
+                            form.trigger("phoneNumber");
+                          }}
                           countrySelectorStyleProps={{
                             buttonStyle: {
                               border: "none",
@@ -261,8 +279,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                             position: "relative",
                           }}
                           inputProps={{
-                            placeholder: "Phone Number",
-                            disabled: true,
+                            readOnly: true,
                           }}
                         />
                       </div>
@@ -284,6 +301,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                         onChange={(e) => {
                           const onlyDigits = e.target.value.replace(/\D/g, "");
                           field.onChange(onlyDigits);
+                          form.trigger("phoneNumber");
                         }}
                       />
                     </FormControl>
