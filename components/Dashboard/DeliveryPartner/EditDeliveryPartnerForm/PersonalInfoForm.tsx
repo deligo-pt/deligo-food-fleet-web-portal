@@ -26,7 +26,6 @@ import {
 import { personalInfoValidation } from "@/validations/edit-delivery-partner/personal-info.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import parsePhoneNumberFromString from "libphonenumber-js";
 import {
   ArrowRightIcon,
   CalendarIcon,
@@ -58,7 +57,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
     defaultValues: {
       firstName: "",
       lastName: "",
-      prefixPhoneNumber: "+351",
+      // prefixPhoneNumber: "+351",
       phoneNumber: "",
       dateOfBirth: "",
       nationality: "",
@@ -123,15 +122,10 @@ export function PersonalInfoForm({ onNext }: IProps) {
       const partner = await getDeliveryPartnerDetails(id as string);
 
       if (partner._id) {
-        const phone = parsePhoneNumberFromString(partner?.contactNumber || "");
 
         form.setValue("firstName", partner?.name?.firstName || "");
         form.setValue("lastName", partner?.name?.lastName || "");
-        form.setValue(
-          "prefixPhoneNumber",
-          (phone?.countryCallingCode && `+${phone?.countryCallingCode}`) || "",
-        );
-        form.setValue("phoneNumber", phone?.nationalNumber || "");
+        form.setValue("phoneNumber", partner?.contactNumber || "");
         form.setValue(
           "dateOfBirth",
           (partner?.personalInfo?.dateOfBirth as unknown as string) || "",
@@ -158,14 +152,12 @@ export function PersonalInfoForm({ onNext }: IProps) {
     (() => getPartnerData())();
   }, []);
 
-  useEffect(() => {
-    const prefixPhoneNumber = form.getValues("prefixPhoneNumber");
-    if (!prefixPhoneNumber) {
-      form.setValue("prefixPhoneNumber", "+351", {
-        shouldValidate: true,
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   const currentPhone = form.getValues("phoneNumber");
+  //   if (!currentPhone) {
+  //     form.setValue("phoneNumber", "+351", { shouldValidate: true });
+  //   }
+  // }, [form]);
 
   return (
     <div>
@@ -237,79 +229,59 @@ export function PersonalInfoForm({ onNext }: IProps) {
               )}
             />
 
-            <div className="relative">
-              <div className="flex items-center text-sm font-medium text-gray-700 mb-3">
-                <PhoneIcon className="w-5 h-5 text-[#DC3173]" />
-                <span className="ml-2">{t("phone_number")}</span>
-              </div>
-              <FormField
-                control={form.control}
-                name="prefixPhoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="absolute left-2 z-10">
-                        <PhoneInput
-                          value={field.value || "+351"}
-                          defaultCountry="pt"
-                          disableDialCodePrefill={false}
-                          forceDialCode
-                          onChange={(value, meta) => {
-                            const dialCode = `+${meta.country.dialCode}`;
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                    <PhoneIcon className="w-5 h-5 text-[#DC3173]" />
+                    <span className="ml-2">{t("phone_number")}</span>
+                  </div>
 
-                            field.onChange(dialCode);
+                  <FormControl>
+                    <PhoneInput
+                      defaultCountry="pt"
+                      value={field.value || ""}
+                      onChange={(phone) => {
+                        field.onChange(phone);
+                      }}
+                      forceDialCode={true}
+                      disableDialCodePrefill={false}
 
-                            form.trigger("phoneNumber");
-                          }}
-                          countrySelectorStyleProps={{
-                            buttonStyle: {
-                              border: "none",
-                              height: "36px",
-                              backgroundColor: "transparent",
-                            },
-                          }}
-                          inputStyle={{
-                            marginTop: "1px",
-                            border: "none",
-                            height: "34px",
-                            width: "48px",
-                            borderRadius: "0px",
-                            backgroundColor: "#ccc",
-                            zIndex: "-99",
-                            position: "relative",
-                          }}
-                          inputProps={{
-                            readOnly: true,
-                          }}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="tel"
-                        className="pl-26! w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
-                        {...field}
-                        onChange={(e) => {
-                          const onlyDigits = e.target.value.replace(/\D/g, "");
-                          field.onChange(onlyDigits);
-                          form.trigger("phoneNumber");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                      className="w-full flex"
+
+                      inputStyle={{
+                        width: "100%",
+                        height: "40px",
+                        fontSize: "14px",
+                        color: "#374151",
+                        borderRadius: "0.5rem",
+                        border: "1px solid #D1D5DB",
+                        outline: "none",
+                        paddingLeft: "52px",
+                      }}
+                      countrySelectorStyleProps={{
+                        buttonStyle: {
+                          position: "absolute",
+                          left: "1px",
+                          top: "-1px",
+                          bottom: "1px",
+                          border: "none",
+                          backgroundColor: "transparent",
+                          height: "44px",
+                          padding: "0 12px",
+                          borderTopLeftRadius: "0.5rem",
+                          borderBottomLeftRadius: "0.5rem",
+                        },
+                      }}
+                      inputClassName="focus-visible:ring-2 focus-visible:ring-[#D1D5DB] focus-visible:border-[#D1D5DB]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
@@ -364,7 +336,7 @@ export function PersonalInfoForm({ onNext }: IProps) {
                       <SelectContent>
                         <SelectItem value="MALE">{t("male")}</SelectItem>
                         <SelectItem value="FEMALE">{t("female")}</SelectItem>
-                        <SelectItem value="other">{t("other")}</SelectItem>
+                        <SelectItem value="OTHER">{t("other")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
