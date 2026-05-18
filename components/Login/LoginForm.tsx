@@ -64,6 +64,10 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
       deviceDetails,
     });
 
+    if (result.message === "LIMIT_EXCEEDED") {
+      setShowModal(true);
+    }
+
     if (result?.success) {
       setShowModal(false);
 
@@ -106,9 +110,6 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
     toast.error(result.message || "Login failed", { id: toastId });
     console.log(result);
 
-    if (result.message === "LIMIT_EXCEEDED") {
-      setShowModal(true);
-    }
   };
 
   const onSubmit = async (data: LoginFormInputs) => {
