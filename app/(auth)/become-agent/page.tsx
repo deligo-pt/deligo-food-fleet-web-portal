@@ -238,8 +238,8 @@ export default function BecomAgentPage() {
                     type="submit"
                     disabled={!isFormFilled}
                     className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${isFormFilled
-                        ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
                       }`}
                   >
                     {t("confirm_continue")}
