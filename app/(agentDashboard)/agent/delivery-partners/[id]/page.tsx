@@ -10,7 +10,7 @@ export default async function DeliveryPartnerDetailsPage({
   const partnerData = await getDeliveryPartnerDetails(id);
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <DeliveryPartnerDetails partner={partnerData} />
     </div>
   );

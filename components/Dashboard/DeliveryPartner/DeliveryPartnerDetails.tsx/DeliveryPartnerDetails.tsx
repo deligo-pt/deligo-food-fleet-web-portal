@@ -16,6 +16,7 @@ import {
   CalendarClock,
   Car,
   CreditCard,
+  Edit,
   FileText,
   Gavel,
   Mail,
@@ -56,7 +57,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="flex flex-row justify-between items-center mb-4">
         <Button
           onClick={() => router.push("/agent/delivery-partners")}
           variant="link"
@@ -64,6 +65,13 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
         >
           <ArrowLeftCircle /> {t("go_back")}
         </Button>
+        {partner?.status === 'PENDING' && <Button
+          onClick={() => router.push(`/agent/delivery-partners/edit/${partner?.userId}`)}
+          variant="link"
+          className="inline-flex items-center text-sm gap-2 text-white bg-[#DC3173] px-4 py-2 cursor-pointer"
+        >
+          <Edit /> Update Information
+        </Button>}
       </div>
       <motion.div
         initial={{

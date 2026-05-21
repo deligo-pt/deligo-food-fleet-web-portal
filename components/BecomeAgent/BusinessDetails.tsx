@@ -26,7 +26,6 @@ type BusinessForm = {
   businessName: string;
   businessLicenseNumber: string;
   NIF: string;
-  totalBranches: number;
 };
 
 interface Props {
@@ -45,7 +44,6 @@ const BusinessDetails = ({ profile }: Props) => {
       businessName: "",
       businessLicenseNumber: "",
       NIF: "",
-      totalBranches: 1,
     },
   });
 
@@ -62,11 +60,7 @@ const BusinessDetails = ({ profile }: Props) => {
     );
     form.setValue(
       "NIF",
-      profile?.data?.businessDetails?.businessLicenseNumber || "",
-    );
-    form.setValue(
-      "totalBranches",
-      profile?.data?.businessDetails?.totalBranches as number,
+      profile?.data?.businessDetails?.NIF || "",
     );
   }, [form, profile]);
 
@@ -78,7 +72,6 @@ const BusinessDetails = ({ profile }: Props) => {
         businessName: data.businessName,
         businessLicenseNumber: data.businessLicenseNumber.toUpperCase(),
         NIF: data.NIF,
-        totalBranches: Number(data.totalBranches),
       },
     };
 
@@ -210,7 +203,7 @@ const BusinessDetails = ({ profile }: Props) => {
                   />
 
                   {/* Total branches */}
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="totalBranches"
                     render={({ field }) => (
@@ -239,7 +232,7 @@ const BusinessDetails = ({ profile }: Props) => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </div>
               </div>
 
