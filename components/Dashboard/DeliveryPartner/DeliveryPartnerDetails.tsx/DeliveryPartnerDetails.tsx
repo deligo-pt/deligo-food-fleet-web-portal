@@ -65,12 +65,12 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
         >
           <ArrowLeftCircle /> {t("go_back")}
         </Button>
-        {partner?.status === 'PENDING' && <Button
+        {(partner?.status === 'PENDING' || partner?.status === "REJECTED") && <Button
           onClick={() => router.push(`/agent/delivery-partners/edit/${partner?.userId}`)}
           variant="link"
           className="inline-flex items-center text-sm gap-2 text-white bg-[#DC3173] px-4 py-2 cursor-pointer"
         >
-          <Edit /> Update Information
+          <Edit /> {partner?.status === "PENDING" ? "Update Information" : "Re-Submit"}
         </Button>}
       </div>
       <motion.div

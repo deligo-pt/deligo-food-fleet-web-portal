@@ -63,6 +63,7 @@ export const submitForApproval = async (id: string) => {
 
   if (result.success) {
     revalidatePath("/agent/delivery-partners");
+    revalidatePath(`/agent/delivery-partners/${id}`)
     revalidateTag("delivery-partners", {});
   }
 
