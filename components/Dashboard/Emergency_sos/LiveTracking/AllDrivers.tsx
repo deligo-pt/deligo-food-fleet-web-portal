@@ -79,11 +79,7 @@ const AllDrivers = ({
       {deliveryPartners?.data?.length > 0 ? (
         <motion.div
           layout
-          className={
-            deliveryPartners?.data?.length > 6
-              ? "overflow-y-scroll h-auto space-y-3"
-              : "space-y-3"
-          }
+          className="overflow-y-auto pr-1 space-y-3 custom-scrollbar max-h-[65vh]"
         >
           <AnimatePresence>
             {deliveryPartners?.data?.map((partner: TDeliveryPartner) => (

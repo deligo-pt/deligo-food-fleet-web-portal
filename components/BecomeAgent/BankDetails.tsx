@@ -49,7 +49,6 @@ const BankDetails = ({ profile }: Props) => {
     defaultValues: {
       bankName: "",
       accountHolderName: "",
-      accountNumber: "",
       iban: "",
       swiftCode: "",
     },
@@ -63,10 +62,6 @@ const BankDetails = ({ profile }: Props) => {
       "accountHolderName",
       profile?.data?.bankDetails.accountHolderName || "",
     );
-    form.setValue(
-      "accountNumber",
-      profile?.data?.bankDetails.accountNumber || "",
-    );
     form.setValue("iban", profile?.data?.bankDetails.iban || "");
     form.setValue("swiftCode", profile?.data?.bankDetails.swiftCode || "");
   }, [profile?.data, form]);
@@ -78,7 +73,6 @@ const BankDetails = ({ profile }: Props) => {
       bankDetails: {
         bankName: data.bankName,
         accountHolderName: data.accountHolderName,
-        accountNumber: data.accountNumber,
         iban: data.iban.toUpperCase(),
         swiftCode: data.swiftCode.toUpperCase(),
       },
@@ -156,22 +150,6 @@ const BankDetails = ({ profile }: Props) => {
                       <FormItem>
                         <FormLabel>
                           <User /> {t("accountHolder")}
-                        </FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="accountNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          <CreditCard /> Account Number
                         </FormLabel>
                         <FormControl>
                           <Input {...field} />
