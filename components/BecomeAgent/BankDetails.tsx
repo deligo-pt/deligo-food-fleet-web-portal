@@ -133,7 +133,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <CreditCard /> {t("bankName")}
+                          <CreditCard className="text-[#DC3173]" /> {t("bankName")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} />
@@ -149,7 +149,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <User /> {t("accountHolder")}
+                          <User className="text-[#DC3173]"  /> {t("accountHolder")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} />
@@ -165,7 +165,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <FileText /> {t("iban")}
+                          <FileText className="text-[#DC3173]"  /> {t("iban")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} className="uppercase" />
@@ -181,7 +181,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <Globe /> {t("swift_bic")}
+                          <Globe className="text-[#DC3173]"  /> {t("swift_bic")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} className="uppercase" />

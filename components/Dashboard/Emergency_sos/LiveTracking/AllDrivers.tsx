@@ -6,6 +6,7 @@ import { TMeta } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUp, RefreshCcw, Search, Star } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -82,43 +83,71 @@ const AllDrivers = ({
           className="overflow-y-auto pr-1 space-y-3 custom-scrollbar max-h-[65vh]"
         >
           <AnimatePresence>
-            {deliveryPartners?.data?.map((partner: TDeliveryPartner) => (
-              <div
-                key={partner?._id}
-                className="flex flex-wrap items-center justify-between gap-2 border rounded-xl p-4 hover:bg-gray-50 transition"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-600">
-                    {(
-                      (partner?.name?.firstName?.[0] || "") +
-                      (partner?.name?.lastName?.[0] || "")
-                    ).toUpperCase()}
-                  </div>
+            {deliveryPartners?.data?.map((partner: TDeliveryPartner) => {
+              const fullName = partner?.name
+                ? `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""
+                  }`.trim()
+                : "No Name";
 
-                  <div>
-                    <p className="font-semibold text-gray-900">
-                      {partner?.name?.firstName} {partner?.name?.lastName}
-                    </p>
-                    <div className="flex items-center gap-1 text-sm text-gray-500">
-                      <Star className="h-4 w-4 text-yellow-500 mr-1" />
-                      {partner?.rating?.average
-                        ? partner?.rating?.average
-                        : "Unrated"}
+              return (
+                <div
+                  key={partner?._id}
+                  className="flex flex-wrap items-center justify-between gap-2 border rounded-xl p-4 hover:bg-gray-50 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border-2 border-[#DC3173]">
+                      {partner?.profilePhoto ? (
+                        <Image
+                          src={partner?.profilePhoto}
+                          alt={fullName}
+                          className="h-full w-full object-cover"
+                          width={500}
+                          height={500}
+                        />
+                      ) : partner?.documents?.myPhoto ? (
+                        <Image
+                          src={partner?.documents?.myPhoto}
+                          alt={fullName}
+                          className="h-full w-full object-cover"
+                          width={500}
+                          height={500}
+                        />
+                      ) : (
+                        <span className="text-2xl font-bold text-[#DC3173]">
+                          {fullName
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .toUpperCase() || "N/A"}
+                        </span>
+                      )}
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-gray-900">
+                        {partner?.name?.firstName} {partner?.name?.lastName}
+                      </p>
+                      <div className="flex items-center gap-1 text-sm text-gray-500">
+                        <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                        {partner?.rating?.average
+                          ? partner?.rating?.average
+                          : "Unrated"}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <button
-                  onClick={() => handleViewLocation(partner)}
-                  className={`flex items-center gap-2 ${selectedPartner?._id === partner?._id ? "bg-gray-200 text-black hover:bg-gray-400" : "bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"} px-4 py-2 rounded-lg text-sm font-medium`}
-                >
-                  <ArrowUp className="w-4 h-4" />
-                  {selectedPartner?._id === partner?._id
-                    ? "Selected"
-                    : "View Location"}
-                </button>
-              </div>
-            ))}
+                  <button
+                    onClick={() => handleViewLocation(partner)}
+                    className={`flex items-center gap-2 ${selectedPartner?._id === partner?._id ? "bg-gray-200 text-black hover:bg-gray-400" : "bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"} px-4 py-2 rounded-lg text-sm font-medium`}
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                    {selectedPartner?._id === partner?._id
+                      ? "Selected"
+                      : "View Location"}
+                  </button>
+                </div>
+              )
+            })}
           </AnimatePresence>
         </motion.div>
       ) : (

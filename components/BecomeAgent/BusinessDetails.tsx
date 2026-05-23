@@ -7,6 +7,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -137,18 +138,19 @@ const BusinessDetails = ({ profile }: Props) => {
                     name="businessName"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="relative">
-                          <FormControl>
-                            <div className="relative">
-                              <Building2 className="absolute left-3 top-3.5 text-[#DC3173]" />
-                              <Input
-                                placeholder="Business Name"
-                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
-                                {...field}
-                              />
-                            </div>
-                          </FormControl>
-                        </div>
+                        <FormLabel className="block text-sm font-medium text-gray-700">
+                          <div className="flex items-center">
+                            <Building2 className="text-[#DC3173] w-5 h-5" />
+                            <span className="ml-2">{t("business_name")}</span>
+                          </div>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Business Name"
+                            className="pl-4 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -160,18 +162,19 @@ const BusinessDetails = ({ profile }: Props) => {
                     name="businessLicenseNumber"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="relative">
-                          <FormControl>
-                            <div className="relative">
-                              <FileCheck2 className="absolute left-3 top-3.5 text-[#DC3173]" />
-                              <Input
-                                placeholder="License Number"
-                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 uppercase"
-                                {...field}
-                              />
-                            </div>
-                          </FormControl>
-                        </div>
+                        <FormLabel className="block text-sm font-medium text-gray-700">
+                          <div className="flex items-center">
+                            <FileCheck2 className="text-[#DC3173] w-5 h-5" />
+                            <span className="ml-2">{t("license_number")}</span>
+                          </div>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="License Number"
+                            className="pl-4 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60 uppercase"
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -184,19 +187,21 @@ const BusinessDetails = ({ profile }: Props) => {
                     control={form.control}
                     name="NIF"
                     render={({ field }) => (
+
                       <FormItem>
-                        <div className="relative">
-                          <FormControl>
-                            <div className="relative">
-                              <Building2 className="absolute left-3 top-3.5 text-[#DC3173]" />
-                              <Input
-                                placeholder="NIF"
-                                className="pl-10 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
-                                {...field}
-                              />
-                            </div>
-                          </FormControl>
-                        </div>
+                        <FormLabel className="block text-sm font-medium text-gray-700">
+                          <div className="flex items-center">
+                            <Building2 className="text-[#DC3173] w-5 h-5" />
+                            <span className="ml-2">{t("nif_number")}</span>
+                          </div>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="NIF"
+                            className="pl-4 h-12 border-gray-300 focus-visible:ring-2 focus-visible:ring-[#DC3173]/60"
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}

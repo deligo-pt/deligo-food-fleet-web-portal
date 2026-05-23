@@ -40,7 +40,7 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
 
   const accountAge = Math.floor(
     (new Date().getTime() - new Date(agent.createdAt).getTime()) /
-      (1000 * 60 * 60 * 24),
+    (1000 * 60 * 60 * 24),
   );
 
   return (
