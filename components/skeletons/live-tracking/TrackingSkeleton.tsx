@@ -3,7 +3,7 @@ import { SkeletonBase } from "../common/SkeletonBase";
 
 export const TrackingSkeleton = () => (
     <div className="flex flex-col h-full space-y-4">
-        <div className="h-32 w-full bg-pink-500 rounded-xl animate-pulse" />
+        <div className="h-32 w-full bg-[#DC3173] rounded-xl animate-pulse" />
 
         <div className="flex flex-col lg:flex-row gap-6 h-[600px]">
             {/* Sidebar List */}
