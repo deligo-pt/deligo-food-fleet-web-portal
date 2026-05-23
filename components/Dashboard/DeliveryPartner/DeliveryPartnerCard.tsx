@@ -80,13 +80,21 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
                   width={500}
                   height={500}
                 />
+              ) : partner?.documents?.myPhoto ? (
+                <Image
+                  src={partner?.documents?.myPhoto}
+                  alt={fullName}
+                  className="h-full w-full object-cover"
+                  width={500}
+                  height={500}
+                />
               ) : (
                 <span className="text-2xl font-bold text-[#DC3173]">
                   {fullName
                     .split(" ")
                     .map((n) => n[0])
                     .join("")
-                    .toUpperCase()}
+                    .toUpperCase() || "USER"}
                 </span>
               )}
             </div>
@@ -151,6 +159,6 @@ export default function DeliveryPartnerCard({ partner }: IProps) {
           </Button>
         </CardFooter>
       </Card>
-    </motion.div>
+    </motion.div >
   );
 }

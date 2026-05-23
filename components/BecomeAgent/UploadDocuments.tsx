@@ -70,6 +70,10 @@ export default function UploadDocuments({
       },
     ];
 
+  const isFormValid = DOCUMENTS.every(
+    (d) => (previews[d.key]?.length || 0) > 0
+  );
+
   // file input refs to trigger the browser picker
   const inputsRef = useRef<Record<string, HTMLInputElement | null>>({});
 
@@ -488,7 +492,7 @@ export default function UploadDocuments({
             </div>
             <div className="pt-4">
               <Button
-                disabled={!DOCUMENTS.every((d) => !!previews[d.key])}
+                disabled={!isFormValid}
                 onClick={handleContinue}
                 className="bg-[#DC3173] hover:bg-[#b72a63] text-white px-6 py-3 rounded-xl shadow-lg"
               >

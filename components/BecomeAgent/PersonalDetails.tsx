@@ -133,18 +133,19 @@ const PersonalDetails = ({ profile }: Props) => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="relative">
-                        <FormLabel className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                          <User className="text-gray-400 w-5 h-5" />
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="First Name"
-                            className="pl-10 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
-                            {...field}
-                          />
-                        </FormControl>
-                      </div>
+                      <FormLabel className="block text-sm font-medium text-gray-700">
+                        <div className="flex items-center">
+                          <User className="w-5 h-5 text-[#DC3173]" />
+                          <span className="ml-2">{t("first_name")}</span>
+                        </div>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="First Name"
+                          className="pl-4 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -156,18 +157,19 @@ const PersonalDetails = ({ profile }: Props) => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="relative">
-                        <FormLabel className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                          <User className="text-gray-400 w-5 h-5" />
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Last Name"
-                            className="pl-10 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
-                            {...field}
-                          />
-                        </FormControl>
-                      </div>
+                      <FormLabel className="block text-sm font-medium text-gray-700">
+                        <div className="flex items-center">
+                          <User className="w-5 h-5 text-[#DC3173]" />
+                          <span className="ml-2">{t("last_name")}</span>
+                        </div>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Last Name"
+                          className="pl-4 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -179,20 +181,21 @@ const PersonalDetails = ({ profile }: Props) => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="relative">
-                        <FormLabel className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                          <Mail className="text-gray-400 w-5 h-5" />
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="Email Address"
-                            className="pl-10 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
-                            {...field}
-                            disabled
-                          />
-                        </FormControl>
-                      </div>
+                      <FormLabel className="block text-sm font-medium text-gray-700">
+                        <div className="flex items-center">
+                          <Mail className="text-[#DC3173] w-5 h-5" />
+                          <span className="ml-2">{t("email")}</span>
+                        </div>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Email Address"
+                          className="pl-4 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
+                          {...field}
+                          disabled
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
