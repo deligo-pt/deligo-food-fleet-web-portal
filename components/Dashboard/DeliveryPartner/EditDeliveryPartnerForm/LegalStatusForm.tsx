@@ -18,10 +18,7 @@ import {
 import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
 import { legalStatusValidation } from "@/validations/edit-delivery-partner/legal-status.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -39,6 +36,7 @@ import z from "zod";
 
 interface IProps {
   onNext: () => void;
+  partner: TDeliveryPartner;
 }
 
 type FormData = z.infer<typeof legalStatusValidation>;
@@ -50,7 +48,7 @@ const permitTypes = [
   "Other",
 ];
 
-export function LegalStatusForm({ onNext }: IProps) {
+export function LegalStatusForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
@@ -96,38 +94,32 @@ export function LegalStatusForm({ onNext }: IProps) {
     );
   };
 
-  const getPartnerData = async () => {
-    const accessToken = getCookie("accessToken");
-
-    try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken || "" },
-      })) as unknown as TResponse<TDeliveryPartner>;
-
-      if (result.success) {
-        form.setValue(
-          "residencePermitType",
-          result?.data?.legalStatus?.residencePermitType || "",
-        );
-        form.setValue(
-          "residencePermitNumber",
-          result?.data?.legalStatus?.residencePermitNumber || "",
-        );
-        form.setValue(
-          "residencePermitExpiry",
-          (result?.data?.legalStatus
-            ?.residencePermitExpiry as unknown as string) || "",
-        );
-      }
-    } catch (error) {
-      console.log("Error fetching delivery partner data:", error);
-    }
-  };
-
   useEffect(() => {
-    (() => getPartnerData())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const getPartnerData = async () => {
+      try {
+        if (partner?._id) {
+          form.setValue(
+            "residencePermitType",
+            partner?.legalStatus?.residencePermitType?.trim() || "",
+          );
+          form.setValue(
+            "residencePermitNumber",
+            partner?.legalStatus?.residencePermitNumber || "",
+          );
+          form.setValue(
+            "residencePermitExpiry",
+            (partner?.legalStatus
+              ?.residencePermitExpiry as unknown as string) || "",
+          );
+        }
+      } catch (error) {
+        console.log("Error fetching delivery partner data:", error);
+      }
+    };
+
+    getPartnerData();
+
+  }, [partner, form]);
 
   return (
     <div>

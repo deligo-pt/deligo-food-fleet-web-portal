@@ -19,10 +19,8 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
-import {
-  getDeliveryPartnerDetails,
-  updatePartnerInformation,
-} from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
+import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { personalInfoValidation } from "@/validations/edit-delivery-partner/personal-info.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -46,9 +44,10 @@ type FormData = z.infer<typeof personalInfoValidation>;
 
 interface IProps {
   onNext: () => void;
+  partner: TDeliveryPartner
 }
 
-export function PersonalInfoForm({ onNext }: IProps) {
+export function PersonalInfoForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
@@ -117,40 +116,38 @@ export function PersonalInfoForm({ onNext }: IProps) {
     );
   };
 
-  const getPartnerData = async () => {
-    try {
-      const partner = await getDeliveryPartnerDetails(id as string);
-
-      if (partner._id) {
-
-        form.setValue("firstName", partner?.name?.firstName || "");
-        form.setValue("lastName", partner?.name?.lastName || "");
-        form.setValue("phoneNumber", partner?.contactNumber || "");
-        form.setValue(
-          "dateOfBirth",
-          (partner?.personalInfo?.dateOfBirth as unknown as string) || "",
-        );
-        form.setValue("nationality", partner?.personalInfo?.nationality || "");
-        form.setValue("gender", partner?.personalInfo?.gender || "MALE");
-        form.setValue("nifNumber", partner?.personalInfo?.NIF || "");
-        form.setValue(
-          "passportNumber",
-          partner?.personalInfo?.passportNumber || "",
-        );
-        form.setValue("street", partner?.address?.street || "");
-        form.setValue("city", partner?.address?.city || "");
-        form.setValue("postalCode", partner?.address?.postalCode || "");
-        form.setValue("state", partner?.address?.state || "");
-        form.setValue("country", partner?.address?.country || "");
-      }
-    } catch (error) {
-      console.log("Error fetching delivery partner data:", error);
-    }
-  };
-
   useEffect(() => {
-    (() => getPartnerData())();
-  }, []);
+    const getPartnerData = async () => {
+      try {
+        if (partner?._id) {
+
+          form.setValue("firstName", partner?.name?.firstName || "");
+          form.setValue("lastName", partner?.name?.lastName || "");
+          form.setValue("phoneNumber", partner?.contactNumber || "");
+          form.setValue(
+            "dateOfBirth",
+            (partner?.personalInfo?.dateOfBirth as unknown as string) || "",
+          );
+          form.setValue("nationality", partner?.personalInfo?.nationality || "");
+          form.setValue("gender", partner?.personalInfo?.gender || "MALE");
+          form.setValue("nifNumber", partner?.personalInfo?.NIF || "");
+          form.setValue(
+            "passportNumber",
+            partner?.personalInfo?.passportNumber || "",
+          );
+          form.setValue("street", partner?.address?.street || "");
+          form.setValue("city", partner?.address?.city || "");
+          form.setValue("postalCode", partner?.address?.postalCode || "");
+          form.setValue("state", partner?.address?.state || "");
+          form.setValue("country", partner?.address?.country || "");
+        }
+      } catch (error) {
+        console.log("Error fetching delivery partner data:", error);
+      }
+    };
+
+    getPartnerData();
+  }, [partner, form]);
 
   useEffect(() => {
     const currentPhone = form.getValues("phoneNumber");

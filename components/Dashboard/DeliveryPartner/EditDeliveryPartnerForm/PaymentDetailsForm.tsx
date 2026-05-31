@@ -9,10 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
 import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
 import { paymentDetailsValidation } from "@/validations/edit-delivery-partner/payment-details.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -30,11 +27,12 @@ import { z } from "zod";
 
 interface IProps {
   onNext: () => void;
+  partner: TDeliveryPartner;
 }
 
 type FormData = z.infer<typeof paymentDetailsValidation>;
 
-export function PaymentDetailsForm({ onNext }: IProps) {
+export function PaymentDetailsForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
@@ -80,32 +78,25 @@ export function PaymentDetailsForm({ onNext }: IProps) {
     );
   };
 
-  const getPartnerData = async () => {
-    const accessToken = getCookie("accessToken");
-
-    try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken || "" },
-      })) as unknown as TResponse<TDeliveryPartner>;
-
-      if (result.success) {
-        form.setValue("iban", result?.data?.bankDetails?.iban || "");
-        form.setValue("bankName", result?.data?.bankDetails?.bankName || "");
-        form.setValue("swiftCode", result?.data?.bankDetails?.swiftCode || "");
-        form.setValue(
-          "accountHolderName",
-          result?.data?.bankDetails?.accountHolderName || "",
-        );
-      }
-    } catch (error) {
-      console.log("Error fetching delivery partner data:", error);
-    }
-  };
-
   useEffect(() => {
-    (() => getPartnerData())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const getPartnerData = async () => {
+      try {
+        if (partner?._id) {
+          form.setValue("iban", partner?.bankDetails?.iban || "");
+          form.setValue("bankName", partner?.bankDetails?.bankName || "");
+          form.setValue("swiftCode", partner?.bankDetails?.swiftCode || "");
+          form.setValue(
+            "accountHolderName",
+            partner?.bankDetails?.accountHolderName || "",
+          );
+        }
+      } catch (error) {
+        console.log("Error fetching delivery partner data:", error);
+      }
+    };
+
+    getPartnerData();
+  }, [partner, form]);
 
   return (
     <div>

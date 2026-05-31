@@ -19,10 +19,7 @@ import {
 import { useTranslation } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
 import { equipmentValidation } from "@/validations/edit-delivery-partner/equipment.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -46,9 +43,10 @@ type FormData = z.infer<typeof equipmentValidation>;
 
 interface IProps {
   onNext: () => void;
+  partner: TDeliveryPartner;
 }
 
-export function EquipmentForm({ onNext }: IProps) {
+export function EquipmentForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
   const id = useParams()?.id;
   const [zone, setZone] = useState("");
@@ -137,53 +135,37 @@ export function EquipmentForm({ onNext }: IProps) {
     );
   };
 
-  const getPartnerData = async () => {
-    const accessToken = getCookie("accessToken");
-
-    try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken || "" },
-      })) as unknown as TResponse<TDeliveryPartner>;
-
-      if (result.success) {
-        form.setValue(
-          "preferredZones",
-          result?.data?.workPreferences?.preferredZones || [],
-        );
-        form.setValue(
-          "preferredHours",
-          result?.data?.workPreferences?.preferredHours || [],
-        );
-        form.setValue(
-          "isothermalBag",
-          result?.data?.workPreferences?.hasEquipment?.isothermalBag || false,
-        );
-        form.setValue(
-          "helmet",
-          result?.data?.workPreferences?.hasEquipment?.helmet || false,
-        );
-        form.setValue(
-          "powerBank",
-          result?.data?.workPreferences?.hasEquipment?.powerBank || false,
-        );
-        form.setValue(
-          "workedWithOtherPlatform",
-          result?.data?.workPreferences?.workedWithOtherPlatform || false,
-        );
-        form.setValue(
-          "otherPlatformName",
-          result?.data?.workPreferences?.otherPlatformName || "",
-        );
-      }
-    } catch (error) {
-      console.log("Error fetching delivery partner data:", error);
-    }
-  };
-
   useEffect(() => {
-    (() => getPartnerData())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!partner?._id) return;
+
+    form.reset({
+      preferredZones:
+        partner?.workPreferences?.preferredZones || [],
+
+      preferredHours:
+        partner?.workPreferences?.preferredHours || [],
+
+      isothermalBag:
+        partner?.workPreferences?.hasEquipment
+          ?.isothermalBag || false,
+
+      helmet:
+        partner?.workPreferences?.hasEquipment
+          ?.helmet || false,
+
+      powerBank:
+        partner?.workPreferences?.hasEquipment
+          ?.powerBank || false,
+
+      workedWithOtherPlatform:
+        partner?.workPreferences
+          ?.workedWithOtherPlatform || false,
+
+      otherPlatformName:
+        partner?.workPreferences
+          ?.otherPlatformName || "",
+    });
+  }, [partner]);
 
   return (
     <div>

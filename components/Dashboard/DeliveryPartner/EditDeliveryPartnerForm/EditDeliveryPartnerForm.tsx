@@ -8,6 +8,7 @@ import { PaymentDetailsForm } from "@/components/Dashboard/DeliveryPartner/EditD
 import { PersonalInfoForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/PersonalInfoForm";
 import { VehicleInfoForm } from "@/components/Dashboard/DeliveryPartner/EditDeliveryPartnerForm/VehicleInfoForm";
 import { useTranslation } from "@/hooks/use-translation";
+import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BuildingIcon,
@@ -22,8 +23,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+interface IProps {
+  partnerDetails: TDeliveryPartner;
+}
 
-export function EditDeliveryPartnerForm() {
+export function EditDeliveryPartnerForm({ partnerDetails }: IProps) {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -82,19 +86,19 @@ export function EditDeliveryPartnerForm() {
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return <PersonalInfoForm onNext={handleNext} />;
+        return <PersonalInfoForm onNext={handleNext} partner={partnerDetails} />;
       case 1:
-        return <LegalStatusForm onNext={handleNext} />;
+        return <LegalStatusForm onNext={handleNext} partner={partnerDetails} />;
       case 2:
-        return <PaymentDetailsForm onNext={handleNext} />;
+        return <PaymentDetailsForm onNext={handleNext} partner={partnerDetails} />;
       case 3:
-        return <VehicleInfoForm onNext={handleNext} />;
+        return <VehicleInfoForm onNext={handleNext} partner={partnerDetails} />;
       case 4:
-        return <BackgroundCheckForm onNext={handleNext} />;
+        return <BackgroundCheckForm onNext={handleNext} partner={partnerDetails} />;
       case 5:
-        return <EquipmentForm onNext={handleNext} />;
+        return <EquipmentForm onNext={handleNext} partner={partnerDetails} />;
       case 6:
-        return <Documents />;
+        return <Documents partner={partnerDetails} />;
       default:
         return null;
     }

@@ -75,10 +75,9 @@ export type TDeliveryPartner = {
   currentSessionLocation: TGeoJSONPoint;
   personalInfo?: {
     dateOfBirth?: Date;
-    gender?: "MALE" | "FEMALE" | "OTHER";
+    gender?: 'MALE' | 'FEMALE' | 'OTHER';
     nationality?: string;
     NIF?: string;
-    nifNumber?: string;
     citizenCardNumber?: string;
     passportNumber?: string;
     idExpiryDate?: Date;
@@ -107,7 +106,7 @@ export type TDeliveryPartner = {
   // 4) Vehicle Information
   // -------------------------------------------------
   vehicleInfo?: {
-    vehicleType?: "BICYCLE" | "E-BIKE" | "SCOOTER" | "MOTORBIKE" | "CAR";
+    vehicleType?: 'BICYCLE' | 'E-BIKE' | 'SCOOTER' | 'MOTORBIKE' | 'CAR';
     brand?: string;
     model?: string;
     licensePlate?: string;
