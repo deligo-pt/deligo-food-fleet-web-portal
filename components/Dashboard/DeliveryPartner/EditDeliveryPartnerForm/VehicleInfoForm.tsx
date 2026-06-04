@@ -11,10 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "@/hooks/use-translation";
 import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
 import { vehicleInfoValidation } from "@/validations/edit-delivery-partner/vehicle-info.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -34,11 +31,12 @@ import { z } from "zod";
 
 interface IProps {
   onNext: () => void;
+  partner: TDeliveryPartner;
 }
 
 type FormData = z.infer<typeof vehicleInfoValidation>;
 
-export function VehicleInfoForm({ onNext }: IProps) {
+export function VehicleInfoForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm<FormData>({
@@ -67,22 +65,22 @@ export function VehicleInfoForm({ onNext }: IProps) {
       vehicleInfo:
         values.vehicleType === "BICYCLE" || values.vehicleType === "E-BIKE"
           ? {
-              vehicleType: values.vehicleType,
-              brand: values.brand,
-              model: values.model,
-            }
+            vehicleType: values.vehicleType,
+            brand: values.brand,
+            model: values.model,
+          }
           : {
-              vehicleType: values.vehicleType,
-              brand: values.brand,
-              model: values.model,
-              licensePlate: values.licensePlate,
-              drivingLicenseNumber: values.drivingLicenseNumber,
-              drivingLicenseExpiry: new Date(
-                values.drivingLicenseExpiry,
-              ).toISOString(),
-              insurancePolicyNumber: values.insurancePolicyNumber,
-              insuranceExpiry: new Date(values.insuranceExpiry).toISOString(),
-            },
+            vehicleType: values.vehicleType,
+            brand: values.brand,
+            model: values.model,
+            licensePlate: values.licensePlate,
+            drivingLicenseNumber: values.drivingLicenseNumber,
+            drivingLicenseExpiry: new Date(
+              values.drivingLicenseExpiry,
+            ).toISOString(),
+            insurancePolicyNumber: values.insurancePolicyNumber,
+            insuranceExpiry: new Date(values.insuranceExpiry).toISOString(),
+          },
     };
 
     const result = await updatePartnerInformation(id as string, payload);
@@ -137,53 +135,47 @@ export function VehicleInfoForm({ onNext }: IProps) {
     },
   ];
 
-  const getPartnerData = async () => {
-    const accessToken = getCookie("accessToken");
-
-    try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken || "" },
-      })) as unknown as TResponse<TDeliveryPartner>;
-
-      if (result.success) {
-        form.setValue(
-          "vehicleType",
-          result?.data?.vehicleInfo?.vehicleType || "MOTORBIKE",
-        );
-        form.setValue("brand", result?.data?.vehicleInfo?.brand || "");
-        form.setValue("model", result?.data?.vehicleInfo?.model || "");
-        form.setValue(
-          "licensePlate",
-          result?.data?.vehicleInfo?.licensePlate || "",
-        );
-        form.setValue(
-          "drivingLicenseNumber",
-          result?.data?.vehicleInfo?.drivingLicenseNumber || "",
-        );
-        form.setValue(
-          "drivingLicenseExpiry",
-          (result?.data?.vehicleInfo
-            ?.drivingLicenseExpiry as unknown as string) || "",
-        );
-        form.setValue(
-          "insurancePolicyNumber",
-          result?.data?.vehicleInfo?.insurancePolicyNumber || "",
-        );
-        form.setValue(
-          "insuranceExpiry",
-          (result?.data?.vehicleInfo?.insuranceExpiry as unknown as string) ||
-            "",
-        );
-      }
-    } catch (error) {
-      console.log("Error fetching delivery partner data:", error);
-    }
-  };
-
   useEffect(() => {
-    (() => getPartnerData())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const getPartnerData = async () => {
+      try {
+        if (partner?._id) {
+          form.setValue(
+            "vehicleType",
+            partner?.vehicleInfo?.vehicleType || "MOTORBIKE",
+          );
+          form.setValue("brand", partner?.vehicleInfo?.brand || "");
+          form.setValue("model", partner?.vehicleInfo?.model || "");
+          form.setValue(
+            "licensePlate",
+            partner?.vehicleInfo?.licensePlate || "",
+          );
+          form.setValue(
+            "drivingLicenseNumber",
+            partner?.vehicleInfo?.drivingLicenseNumber || "",
+          );
+          form.setValue(
+            "drivingLicenseExpiry",
+            (partner?.vehicleInfo
+              ?.drivingLicenseExpiry as unknown as string) || "",
+          );
+          form.setValue(
+            "insurancePolicyNumber",
+            partner?.vehicleInfo?.insurancePolicyNumber || "",
+          );
+          form.setValue(
+            "insuranceExpiry",
+            (partner?.vehicleInfo?.insuranceExpiry as unknown as string) ||
+            "",
+          );
+        }
+      } catch (error) {
+        console.log("Error fetching delivery partner data:", error);
+      }
+    };
+
+    getPartnerData();
+
+  }, [partner, form]);
 
   return (
     <div>
@@ -226,11 +218,10 @@ export function VehicleInfoForm({ onNext }: IProps) {
                         <Label
                           key={option.id}
                           htmlFor={option.id}
-                          className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${
-                            watchVehicleType === option.value
-                              ? "bg-[#DC3173]/10 border-[#DC3173]"
-                              : "bg-white border-gray-200 hover:border-[#DC3173]/50"
-                          }`}
+                          className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${watchVehicleType === option.value
+                            ? "bg-[#DC3173]/10 border-[#DC3173]"
+                            : "bg-white border-gray-200 hover:border-[#DC3173]/50"
+                            }`}
                           onClick={() => field.onChange(option.value)}
                         >
                           <Input
@@ -242,20 +233,18 @@ export function VehicleInfoForm({ onNext }: IProps) {
                             className="hidden"
                           />
                           <div
-                            className={`rounded-full p-3 mb-2 ${
-                              watchVehicleType === option.value
-                                ? "bg-[#DC3173] text-white"
-                                : "bg-gray-100 text-gray-500"
-                            }`}
+                            className={`rounded-full p-3 mb-2 ${watchVehicleType === option.value
+                              ? "bg-[#DC3173] text-white"
+                              : "bg-gray-100 text-gray-500"
+                              }`}
                           >
                             {option.icon}
                           </div>
                           <span
-                            className={`font-medium ${
-                              watchVehicleType === option.value
-                                ? "text-[#DC3173]"
-                                : "text-gray-700"
-                            }`}
+                            className={`font-medium ${watchVehicleType === option.value
+                              ? "text-[#DC3173]"
+                              : "text-gray-700"
+                              }`}
                           >
                             {option.label}
                           </span>
@@ -330,141 +319,141 @@ export function VehicleInfoForm({ onNext }: IProps) {
                   {(watchVehicleType === "CAR" ||
                     watchVehicleType === "SCOOTER" ||
                     watchVehicleType === "MOTORBIKE") && (
-                    <>
-                      <FormField
-                        control={form.control}
-                        name="licensePlate"
-                        render={({ field }) => (
-                          <FormItem className="content-start">
-                            <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
-                              <div className="flex items-center">
-                                <TruckIcon className="w-5 h-5 text-[#DC3173]" />
-                                <span className="ml-2">
-                                  {t("license_plate")}
-                                </span>
-                              </div>
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                placeholder=""
-                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <>
+                        <FormField
+                          control={form.control}
+                          name="licensePlate"
+                          render={({ field }) => (
+                            <FormItem className="content-start">
+                              <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                                <div className="flex items-center">
+                                  <TruckIcon className="w-5 h-5 text-[#DC3173]" />
+                                  <span className="ml-2">
+                                    {t("license_plate")}
+                                  </span>
+                                </div>
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder=""
+                                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                      <FormField
-                        control={form.control}
-                        name="drivingLicenseNumber"
-                        render={({ field }) => (
-                          <FormItem className="content-start">
-                            <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
-                              <div className="flex items-center">
-                                <TruckIcon className="w-5 h-5 text-[#DC3173]" />
-                                <span className="ml-2">
-                                  {t("driving_license_number")}
-                                </span>
-                              </div>
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                placeholder=""
-                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                        <FormField
+                          control={form.control}
+                          name="drivingLicenseNumber"
+                          render={({ field }) => (
+                            <FormItem className="content-start">
+                              <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                                <div className="flex items-center">
+                                  <TruckIcon className="w-5 h-5 text-[#DC3173]" />
+                                  <span className="ml-2">
+                                    {t("driving_license_number")}
+                                  </span>
+                                </div>
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder=""
+                                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                      <FormField
-                        control={form.control}
-                        name="drivingLicenseExpiry"
-                        render={({ field, fieldState }) => (
-                          <FormItem className="content-start">
-                            <FormLabel
-                              htmlFor="drivingLicenseExpiry"
-                              className="block text-sm font-medium text-gray-700 mb-1"
-                            >
-                              <div className="flex items-center">
-                                <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                                <span className="ml-2">
-                                  {t("driving_license_expiry")}
-                                </span>
-                              </div>
-                            </FormLabel>
-                            <FormControl>
-                              <DatePicker
-                                inputId="drivingLicenseExpiry"
-                                onChange={field.onChange}
-                                value={field.value || ""}
-                                isInvalid={fieldState.invalid}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                        <FormField
+                          control={form.control}
+                          name="drivingLicenseExpiry"
+                          render={({ field, fieldState }) => (
+                            <FormItem className="content-start">
+                              <FormLabel
+                                htmlFor="drivingLicenseExpiry"
+                                className="block text-sm font-medium text-gray-700 mb-1"
+                              >
+                                <div className="flex items-center">
+                                  <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
+                                  <span className="ml-2">
+                                    {t("driving_license_expiry")}
+                                  </span>
+                                </div>
+                              </FormLabel>
+                              <FormControl>
+                                <DatePicker
+                                  inputId="drivingLicenseExpiry"
+                                  onChange={field.onChange}
+                                  value={field.value || ""}
+                                  isInvalid={fieldState.invalid}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                      <FormField
-                        control={form.control}
-                        name="insurancePolicyNumber"
-                        render={({ field }) => (
-                          <FormItem className="content-start">
-                            <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
-                              <div className="flex items-center">
-                                <TruckIcon className="w-5 h-5 text-[#DC3173]" />
-                                <span className="ml-2">
-                                  {t("insurance_policy_number")}
-                                </span>
-                              </div>
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                placeholder=""
-                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                        <FormField
+                          control={form.control}
+                          name="insurancePolicyNumber"
+                          render={({ field }) => (
+                            <FormItem className="content-start">
+                              <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
+                                <div className="flex items-center">
+                                  <TruckIcon className="w-5 h-5 text-[#DC3173]" />
+                                  <span className="ml-2">
+                                    {t("insurance_policy_number")}
+                                  </span>
+                                </div>
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder=""
+                                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                      <FormField
-                        control={form.control}
-                        name="insuranceExpiry"
-                        render={({ field, fieldState }) => (
-                          <FormItem className="content-start">
-                            <FormLabel
-                              htmlFor="insuranceExpiry"
-                              className="block text-sm font-medium text-gray-700 mb-1"
-                            >
-                              <div className="flex items-center">
-                                <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                                <span className="ml-2">
-                                  {t("insurance_expiry")}
-                                </span>
-                              </div>
-                            </FormLabel>
-                            <FormControl>
-                              <DatePicker
-                                inputId="insuranceExpiry"
-                                onChange={field.onChange}
-                                value={field.value}
-                                isInvalid={fieldState.invalid}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </>
-                  )}
+                        <FormField
+                          control={form.control}
+                          name="insuranceExpiry"
+                          render={({ field, fieldState }) => (
+                            <FormItem className="content-start">
+                              <FormLabel
+                                htmlFor="insuranceExpiry"
+                                className="block text-sm font-medium text-gray-700 mb-1"
+                              >
+                                <div className="flex items-center">
+                                  <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
+                                  <span className="ml-2">
+                                    {t("insurance_expiry")}
+                                  </span>
+                                </div>
+                              </FormLabel>
+                              <FormControl>
+                                <DatePicker
+                                  inputId="insuranceExpiry"
+                                  onChange={field.onChange}
+                                  value={field.value}
+                                  isInvalid={fieldState.invalid}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </>
+                    )}
                 </div>
               </motion.div>
             )}

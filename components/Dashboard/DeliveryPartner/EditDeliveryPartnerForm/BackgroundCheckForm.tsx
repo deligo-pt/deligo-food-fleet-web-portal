@@ -10,10 +10,7 @@ import {
 } from "@/components/ui/form";
 import { useTranslation } from "@/hooks/use-translation";
 import { updatePartnerInformation } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
 import { backgroundCheckValidation } from "@/validations/edit-delivery-partner/background-check.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -28,9 +25,10 @@ type FormData = z.infer<typeof backgroundCheckValidation>;
 
 interface IProps {
   onNext: () => void;
+  partner: TDeliveryPartner;
 }
 
-export function BackgroundCheckForm({ onNext }: IProps) {
+export function BackgroundCheckForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
   const id = useParams()?.id;
   const form = useForm({
@@ -87,45 +85,30 @@ export function BackgroundCheckForm({ onNext }: IProps) {
     );
   };
 
-  const getPartnerData = async () => {
-    const accessToken = getCookie("accessToken");
-
-    try {
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken || "" },
-      })) as unknown as TResponse<TDeliveryPartner>;
-
-      if (result.success) {
-        form.setValue(
-          "haveCriminalRecordCertificate",
-          result?.data?.criminalRecord?.certificate ? true : false,
-        );
-        form.setValue(
-          "issueDate",
-          (result?.data?.criminalRecord?.issueDate as unknown as string) || "",
-        );
-        form.setValue(
-          "expiryDate",
-          (result?.data?.criminalRecord?.expiryDate as unknown as string) || "",
-        );
+  useEffect(() => {
+    const getPartnerData = async () => {
+      try {
+        if (partner?._id) {
+          form.setValue(
+            "haveCriminalRecordCertificate",
+            partner?.criminalRecord?.certificate || false,
+          );
+          form.setValue(
+            "issueDate",
+            (partner?.criminalRecord?.issueDate as unknown as string) || "",
+          );
+          form.setValue(
+            "expiryDate",
+            (partner?.criminalRecord?.expiryDate as unknown as string) || "",
+          );
+        }
+      } catch (error) {
+        console.log("Error fetching delivery partner data:", error);
       }
-    } catch (error) {
-      console.log("Error fetching delivery partner data:", error);
-    }
-  };
+    };
 
-  useEffect(() => {
-    if (!hasCertificate) {
-      form.setValue("issueDate", "");
-      form.setValue("expiryDate", "");
-      form.clearErrors(["issueDate", "expiryDate"]);
-    }
-  }, [hasCertificate, form]);
-
-  useEffect(() => {
-    (() => getPartnerData())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getPartnerData();
+  }, [partner]);
 
   return (
     <div>

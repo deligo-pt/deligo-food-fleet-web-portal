@@ -11,14 +11,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-
 import { CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { submitForApproval } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { TResponse } from "@/types";
-import { TDeliveryPartner } from "@/types/delivery-partner.type";
-import { getCookie } from "@/utils/cookies";
-import { fetchData } from "@/utils/requests";
+import { TDeliveryPartner } from "@/types/delivery-partner.type";;
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -55,7 +51,7 @@ const REQUIRED_DOCS: DocKey[] = [
   "criminalRecordCertificate",
 ];
 
-export default function Documents() {
+export default function Documents({ partner }: { partner: TDeliveryPartner }) {
   const { t } = useTranslation();
   const { id } = useParams();
 
@@ -78,52 +74,52 @@ export default function Documents() {
     label: string;
     prefersImagePreview: boolean;
   }[] = [
-    {
-      key: "myPhoto",
-      label: t("myPhoto"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "idProofFront",
-      label: t("id_proof_front"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "idProofBack",
-      label: t("id_proof_back"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "drivingLicenseFront",
-      label: t("driving_license_front"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "drivingLicenseBack",
-      label: t("driving_license_back"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "vehicleRegistration",
-      label: t("vehicle_registration"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "criminalRecordCertificate",
-      label: t("criminal_record_certification"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "activity",
-      label: t("activity"),
-      prefersImagePreview: true,
-    },
-    {
-      key: "insurancePolicy",
-      label: t("insurance_policy"),
-      prefersImagePreview: true,
-    },
-  ];
+      {
+        key: "myPhoto",
+        label: t("myPhoto"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "idProofFront",
+        label: t("id_proof_front"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "idProofBack",
+        label: t("id_proof_back"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "drivingLicenseFront",
+        label: t("driving_license_front"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "drivingLicenseBack",
+        label: t("driving_license_back"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "vehicleRegistration",
+        label: t("vehicle_registration"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "criminalRecordCertificate",
+        label: t("criminal_record_certification"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "activity",
+        label: t("activity"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "insurancePolicy",
+        label: t("insurance_policy"),
+        prefersImagePreview: true,
+      },
+    ];
 
   const isFormValid = REQUIRED_DOCS.every((key) => previews[key] !== null);
 
@@ -206,46 +202,6 @@ export default function Documents() {
     }
   };
 
-  const fetchExistingDocs = async () => {
-    try {
-      const accessToken = getCookie("accessToken");
-
-      const result = (await fetchData(`/delivery-partners/${id}`, {
-        headers: { authorization: accessToken || "" },
-      })) as TResponse<TDeliveryPartner>;
-
-      if (result?.success) {
-        const docs = result?.data?.documents || {};
-
-        const newPreviews: Record<DocKey, FilePreview | null> = {
-          myPhoto: null,
-          idProofFront: null,
-          idProofBack: null,
-          drivingLicenseFront: null,
-          drivingLicenseBack: null,
-          vehicleRegistration: null,
-          criminalRecordCertificate: null,
-          activity: null,
-          insurancePolicy: null,
-        };
-
-        (Object.keys(docs) as DocKey[]).forEach((key) => {
-          const url = (docs as Record<DocKey, string>)[key] as string;
-          if (url) {
-            newPreviews[key] = {
-              file: null,
-              url: url || "",
-              isImage: /\.(jpg|jpeg|png|gif|webp)$/i.test(url),
-            };
-          }
-        });
-        setPreviews(newPreviews);
-      }
-    } catch (error) {
-      console.log("Failed to fetch existing docs", error);
-    }
-  };
-
   useEffect(() => {
     return () => {
       Object.values(previews).forEach((p) => {
@@ -256,9 +212,42 @@ export default function Documents() {
   }, []);
 
   useEffect(() => {
-    (() => fetchExistingDocs())();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchExistingDocs = async () => {
+      try {
+        if (partner?.documents) {
+          const docs = partner?.documents || {};
+
+          const newPreviews: Record<DocKey, FilePreview | null> = {
+            myPhoto: null,
+            idProofFront: null,
+            idProofBack: null,
+            drivingLicenseFront: null,
+            drivingLicenseBack: null,
+            vehicleRegistration: null,
+            criminalRecordCertificate: null,
+            activity: null,
+            insurancePolicy: null,
+          };
+
+          (Object.keys(docs) as DocKey[]).forEach((key) => {
+            const url = (docs as Record<DocKey, string>)[key] as string;
+            if (url) {
+              newPreviews[key] = {
+                file: null,
+                url: url || "",
+                isImage: /\.(jpg|jpeg|png|gif|webp)$/i.test(url),
+              };
+            }
+          });
+          setPreviews(newPreviews);
+        }
+      } catch (error) {
+        console.log("Failed to fetch existing docs", error);
+      }
+    };
+
+    fetchExistingDocs();
+  }, [partner]);
 
   const completeReg = async () => {
     const toastId = toast.loading("Uploading...");
@@ -325,15 +314,13 @@ export default function Documents() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06 }}
-              className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${
-                isSelected ? "border-[#DC3173]/30 bg-[#FFF7FB]" : "bg-white"
-              }`}
+              className={`flex items-center justify-between p-4 border rounded-xl shadow-sm hover:shadow-md transition-all ${isSelected ? "border-[#DC3173]/30 bg-[#FFF7FB]" : "bg-white"
+                }`}
             >
               <div className="flex items-center gap-4">
                 <div
-                  className={`w-14 h-14 rounded-lg flex items-center justify-center ${
-                    isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
-                  }`}
+                  className={`w-14 h-14 rounded-lg flex items-center justify-center ${isSelected ? "bg-[#DC3173]/10" : "bg-gray-50"
+                    }`}
                 >
                   {d.prefersImagePreview ? (
                     <ImageIcon className="w-6 h-6 text-[#DC3173]" />
@@ -349,8 +336,8 @@ export default function Documents() {
                   <div className="text-xs text-gray-500 mt-1">
                     {preview ? (
                       d.prefersImagePreview &&
-                      preview.isImage &&
-                      preview.url ? (
+                        preview.isImage &&
+                        preview.url ? (
                         <div className="flex items-center gap-2">
                           <Image
                             src={preview.url}
@@ -444,11 +431,10 @@ export default function Documents() {
           disabled={!isFormValid}
           onClick={completeReg}
           className={`mt-8 w-full py-3 px-6 rounded-lg font-medium text-lg flex items-center justify-center transition-colors duration-300
-    ${
-      isFormValid
-        ? "bg-[#DC3173] text-white hover:bg-[#c21c5e]"
-        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-    }
+    ${isFormValid
+              ? "bg-[#DC3173] text-white hover:bg-[#c21c5e]"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }
   `}
         >
           {t("complete_submit")}
