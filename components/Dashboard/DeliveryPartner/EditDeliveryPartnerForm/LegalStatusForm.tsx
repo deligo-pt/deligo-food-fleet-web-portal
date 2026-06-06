@@ -157,7 +157,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                     </div>
                   </FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value || partner?.legalStatus?.residencePermitType || ""}>
                       <SelectTrigger
                         className={cn(
                           "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",

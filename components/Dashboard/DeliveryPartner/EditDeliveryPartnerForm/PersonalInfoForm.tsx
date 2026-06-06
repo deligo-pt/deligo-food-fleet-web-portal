@@ -1,6 +1,20 @@
 "use client";
 
 import { DatePicker } from "@/components/DatePicker/DatePicker";
+import { countries } from 'countries-list';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Form,
   FormControl,
@@ -32,13 +46,15 @@ import {
   MapPinIcon,
   PhoneIcon,
   UserIcon,
+  Check, ChevronsUpDown
 } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Button } from "@/components/ui/button";
 
 type FormData = z.infer<typeof personalInfoValidation>;
 
@@ -49,6 +65,7 @@ interface IProps {
 
 export function PersonalInfoForm({ onNext, partner }: IProps) {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(personalInfoValidation),
@@ -70,6 +87,14 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
       country: "",
     },
   });
+
+  // Create an optimized, sorted list outside the component so it doesn't recalculate on every render
+  const countryOptions = Object.entries(countries)
+    .map(([code, country]) => ({
+      value: country.name,
+      label: country.name,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
@@ -117,6 +142,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
   };
 
   useEffect(() => {
+
     const getPartnerData = async () => {
       try {
         if (partner?._id) {
@@ -147,7 +173,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
     };
 
     getPartnerData();
-  }, [partner, form]);
+  }, [partner]);
 
   useEffect(() => {
     const currentPhone = form.getValues("phoneNumber");
@@ -508,89 +534,69 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
               control={form.control}
               name="country"
               render={({ field }) => (
-                <FormItem className="content-start">
+                <FormItem className="content-start flex flex-col">
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <FlagIcon className="w-5 h-5 text-[#DC3173]" />
                       <span className="ml-2">{t("country")}</span>
                     </div>
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder=""
-                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
-                    />
-                  </FormControl>
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open}
+                          className={cn(
+                            "w-full p-3 h-9 justify-between font-normal border rounded-lg outline-none transition-all border-gray-300 bg-white hover:bg-white text-left",
+                            !field.value && "text-muted-foreground",
+                            open && "ring-2 ring-[#DC3173] border-[#DC3173]"
+                          )}
+                        >
+                          {field.value
+                            ? countryOptions.find((country) => country.value.toLowerCase() === field.value.toLowerCase())?.label
+                            : t("Select country...") || "Select country..."}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 text-gray-500" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-(--radix-popover-trigger-width) p-0" align="start">
+                      <Command>
+                        <CommandInput placeholder={`${t("Search country")}...`} className="h-9" />
+                        <CommandList>
+                          <CommandEmpty>{t("No country found.") || "No country found."}</CommandEmpty>
+                          <CommandGroup className="max-h-[250px] overflow-y-auto">
+                            {countryOptions.map((country) => (
+                              <CommandItem
+                                value={country.label}
+                                key={country.value}
+                                onSelect={() => {
+                                  form.setValue("country", country.value, { shouldValidate: true });
+                                  setOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4 text-[#DC3173]",
+                                    country.value.toLowerCase() === field.value?.toLowerCase()
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {country.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* {formFields.map((field) => (
-            <div
-              key={field.name}
-              className={
-                field.type === 'textarea' || field.type === 'file'
-                  ? 'col-span-1 md:col-span-2'
-                  : ''
-              }
-            >
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-                htmlFor={field.name}
-              >
-                <div className="flex items-center">
-                  {field.icon}
-                  <span className="ml-2">{field.label}</span>
-                  {field.required && (
-                    <span className="text-[#DC3173] ml-1">*</span>
-                  )}
-                </div>
-              </label>
-              {field.type === 'file' ? (
-                <div className="flex items-center justify-center w-full">
-                  <label
-                    htmlFor={field.name}
-                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 border-gray-300 hover:border-[#DC3173]"
-                  >
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg
-                        className="w-8 h-8 mb-4 text-gray-500"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 20 16"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                        />
-                      </svg>
-                      <p className="mb-2 text-sm text-gray-500">
-                        <span className="font-semibold">Click to upload</span>{' '}
-                        or drag and drop
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Upload front and back of your ID
-                      </p>
-                    </div>
-                    <input
-                      id={field.name}
-                      type="file"
-                      accept={field.accept}
-                      multiple={field.multiple}
-                      className="hidden"
-                      {...register(field.name)}
-                    />
-                  </label>
-                </div>
-              ) : ""}
-            </div>
-          ))} */}
           </div>
           <motion.button
             whileHover={{

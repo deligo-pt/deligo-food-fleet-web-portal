@@ -24,7 +24,7 @@ export const getPartnerPerformanceAnalytics = async (queryString?: string) => {
 };
 
 export const getDeliveryPartnerDetails = async (id?: string) => {
-  return getSingleEntityData<TDeliveryPartner>(`/delivery-partners/${id}`);
+  return getSingleEntityData<TDeliveryPartner>(`/delivery-partners/${id}`, "delivery-partners");
 };
 
 export const createDeliveryPartner = async (payload: any) => {
@@ -46,7 +46,7 @@ export const createDeliveryPartner = async (payload: any) => {
 };
 
 export const updatePartnerInformation = async (id: string, payload: any) => {
-  return catchAsync(async () => {
+  const result = await catchAsync(async () => {
     return await serverFetch.patch(`/delivery-partners/${id}`, {
       headers: {
         "Content-Type": "application/json",
@@ -54,6 +54,13 @@ export const updatePartnerInformation = async (id: string, payload: any) => {
       body: JSON.stringify(payload),
     });
   });
+
+  if (result.success) {
+    revalidateTag("delivery-partners", {});
+    revalidatePath("/agent/delivery-partners");
+  };
+
+  return result;
 };
 
 export const submitForApproval = async (id: string) => {
