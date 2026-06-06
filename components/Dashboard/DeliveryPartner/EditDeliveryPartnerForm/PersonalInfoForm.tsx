@@ -142,7 +142,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
   };
 
   useEffect(() => {
-    console.log("inside useeffect", partner);
+
     const getPartnerData = async () => {
       try {
         if (partner?._id) {

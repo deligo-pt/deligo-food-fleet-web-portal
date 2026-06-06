@@ -47,7 +47,7 @@ export default function DeliveryPartners({ partnersResult }: IProps) {
       ],
     },
   ];
-  console.log("partner result", partnersResult);
+
   return (
     <div>
       <motion.div
