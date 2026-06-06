@@ -182,7 +182,7 @@ export function BackgroundCheckForm({ onNext, partner }: IProps) {
                         id="haveCriminalRecordCertificate"
                         checked={!!field.value}
                         onCheckedChange={(checked) => field.onChange(checked)}
-                        className="h-4 w-4 text-[#DC3173] focus:ring-[#DC3173] border-gray-300 rounded data-[state=checked]:bg-[#DC3173] data-[state=checked]:border-[#DC3173]"
+                        className="h-5 w-5 text-[#DC3173] focus:ring-[#DC3173] border-gray-300 rounded data-[state=checked]:bg-[#DC3173] data-[state=checked]:border-[#DC3173]"
                       />
                       {t("criminal_record_certificate")}
                     </FormLabel>

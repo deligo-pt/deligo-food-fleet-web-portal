@@ -41,6 +41,8 @@ export default function UploadDocuments({
       businessLicense: Array.isArray(savedPreviews.businessLicense) ? savedPreviews.businessLicense : [],
       idProofFront: Array.isArray(savedPreviews.idProofFront) ? savedPreviews.idProofFront : [],
       idProofBack: Array.isArray(savedPreviews.idProofBack) ? savedPreviews.idProofBack : [],
+      proofOfAddress: Array.isArray(savedPreviews.proofOfAddress) ? savedPreviews.proofOfAddress : [],
+      activityDocument: Array.isArray(savedPreviews.activityDocument) ? savedPreviews.activityDocument : [],
     });
 
   const DOCUMENTS: {
@@ -66,6 +68,16 @@ export default function UploadDocuments({
       {
         key: "idProofBack",
         label: t("documentsLabel3"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "proofOfAddress",
+        label: t("proof_of_address"),
+        prefersImagePreview: true,
+      },
+      {
+        key: "activityDocument",
+        label: t("activity_document"),
         prefersImagePreview: true,
       },
     ];
@@ -105,12 +117,25 @@ export default function UploadDocuments({
 
     const currentFiles = previews[key] || [];
 
-    if (currentFiles.length === 3) {
-      toast.error("You can only upload a maximum of 3 documents", {
+    if (key === "proofOfAddress" && currentFiles.length >= 1) {
+      toast.error("You can only upload one proof of address document", {
         id: toastId,
       });
       return;
+    } else if (key === 'activityDocument' && currentFiles.length >= 1) {
+      toast.error("You can only upload one activity document", {
+        id: toastId,
+      });
+      return;
+    } else {
+      if (currentFiles.length === 3) {
+        toast.error("You can only upload a maximum of 3 documents", {
+          id: toastId,
+        });
+        return;
+      }
     }
+
 
 
     try {
