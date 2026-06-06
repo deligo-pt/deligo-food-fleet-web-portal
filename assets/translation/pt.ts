@@ -512,7 +512,8 @@ export const pt = {
     documentsLabel1: "Licença Comercial",
     documentsLabel2: "Documento de Identificação (Frente)",
     documentsLabel3: "Documento de Identificação (Verso)",
-
+    proof_of_address: "Comprovante de Morada",
+    activity_document: "Documento de Atividade",
     viewCTA: "Ver",
     removeCTA: "Remover",
     selectFileCTA: "Selecionar ficheiro",

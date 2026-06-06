@@ -394,6 +394,8 @@ export const en = {
     documentsLabel1: "Business License",
     documentsLabel2: "ID Proof (Front)",
     documentsLabel3: "ID Proof (Back)",
+    proof_of_address: "Proof of Address",
+    activity_document: "Activity Document",
     viewCTA: "View",
     removeCTA: "Remove",
     selectFileCTA: "Select file",
