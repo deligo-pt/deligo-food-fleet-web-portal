@@ -132,14 +132,15 @@ export default function BecomAgentPage() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="relative">
-                        <FormLabel className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                          <Mail className="text-gray-400 w-5 h-5" />
+                        <FormLabel className="flex items-center pointer-events-none mb-2 mx-1">
+                          <Mail className="text-[#DC3173] w-5 h-5" />
+                          <span>{t("email")}</span>
                         </FormLabel>
                         <FormControl>
                           <Input
                             type="email"
                             placeholder="Enter your email"
-                            className="pl-12 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
+                            className="py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] transition-all duration-300 rounded-xl"
                             {...field}
                           />
                         </FormControl>
@@ -156,15 +157,16 @@ export default function BecomAgentPage() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="relative">
-                        <FormLabel className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                          <Lock className="text-gray-400 w-5 h-5" />
+                        <FormLabel className="flex items-center pointer-events-none mb-2 mx-1]">
+                          <Lock className="text-[#DC3173] w-5 h-5" />
+                          <span>{t("password")}</span>
                         </FormLabel>
                         <FormControl>
                           <div>
                             <Input
                               type={showPassword ? "text" : "password"}
                               placeholder="Enter your password"
-                              className="pl-12 pr-12 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] rounded-xl transition-all duration-300"
+                              className="pr-12 py-3 text-base focus-visible:ring-2 focus-visible:ring-[#DC3173] focus:border-[#DC3173] rounded-xl transition-all duration-300"
                               {...field}
                             />
                             <button

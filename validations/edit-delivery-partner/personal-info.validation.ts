@@ -71,6 +71,5 @@ export const personalInfoValidation = z
 
     country: z
       .string()
-      .min(2, "Country must be at least 2 characters")
-      .max(50, "Country must be at most 50 characters"),
+      .min(2, "Select a country")
   })

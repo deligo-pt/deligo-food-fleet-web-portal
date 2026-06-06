@@ -28,11 +28,12 @@ export const getAllEntityData = async <T>(
   };
 };
 
-export const getSingleEntityData = async <T>(endpoint: string): Promise<T> => {
+export const getSingleEntityData = async <T>(endpoint: string, tags?: string): Promise<T> => {
   const result = await catchAsync(async () => {
     return await serverFetch.get(endpoint, {
       next: {
         revalidate: 30,
+        tags: [tags || endpoint],
       },
     });
   });
