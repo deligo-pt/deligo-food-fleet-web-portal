@@ -51,12 +51,16 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
     },
   });
 
+  const { formState: { isSubmitting },
+  } = form;
+
   const login = async (payload: {
     email: string;
     password: string;
     forceLogin?: boolean;
   }) => {
     const toastId = toast.loading("Logging in...");
+
     const deviceDetails = await getDeviceInfo();
 
     const result = await loginReq({
@@ -66,6 +70,8 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
 
     if (result.message === "LIMIT_EXCEEDED") {
       setShowModal(true);
+      toast.dismiss(toastId);
+      return;
     }
 
     if (result?.success) {
