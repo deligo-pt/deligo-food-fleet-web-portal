@@ -82,6 +82,18 @@ export default function UploadDocuments({
       },
     ];
 
+  const uploadLimits: Partial<Record<DocKey, number>> = {
+    myPhoto: 1,
+    proofOfAddress: 1,
+    activityDocument: 1,
+
+    // these can have up to 3 files
+    businessLicense: 3,
+    idProofFront: 3,
+    idProofBack: 3,
+  };
+  const DEFAULT_LIMIT = 3;
+
   const isFormValid = DOCUMENTS.every(
     (d) => (previews[d.key]?.length || 0) > 0
   );
@@ -117,26 +129,18 @@ export default function UploadDocuments({
 
     const currentFiles = previews[key] || [];
 
-    if (key === "proofOfAddress" && currentFiles.length >= 1) {
-      toast.error("You can only upload one proof of address document", {
-        id: toastId,
-      });
+    const limit = uploadLimits[key] ?? DEFAULT_LIMIT;
+
+    if (currentFiles.length >= limit) {
+      toast.error(
+        limit === 1
+          ? `You can only upload one ${key} document`
+          : `You can only upload a maximum of ${limit} documents`,
+        { id: toastId }
+      );
+
       return;
-    } else if (key === 'activityDocument' && currentFiles.length >= 1) {
-      toast.error("You can only upload one activity document", {
-        id: toastId,
-      });
-      return;
-    } else {
-      if (currentFiles.length === 3) {
-        toast.error("You can only upload a maximum of 3 documents", {
-          id: toastId,
-        });
-        return;
-      }
     }
-
-
 
     try {
       const accessToken = getCookie("accessToken");
