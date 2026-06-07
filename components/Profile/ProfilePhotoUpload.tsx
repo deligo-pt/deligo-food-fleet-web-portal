@@ -1,76 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { uploadProfilePhoto } from "@/services/dashboard/profile/uploadProfilePhoto";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  CameraIcon,
-  CheckCircleIcon,
-  EditIcon,
-  LoaderIcon,
-  UploadIcon,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
-import { toast } from "sonner";
+import { User } from "lucide-react";
 
 interface IProps {
   currentPhoto?: string;
 }
 
 export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [isChanged, setIsChanged] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState(currentPhoto);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
-
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageFile(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-
-    setIsUploading(true);
-    setUploadSuccess(false);
-    setTimeout(() => {
-      setIsUploading(false);
-      setUploadSuccess(true);
-      // onPhotoChange( as string);
-      setTimeout(() => {
-        setUploadSuccess(false);
-        setIsChanged(true);
-      }, 2000);
-    }, 1500);
-  };
-
-  const uploadFile = async () => {
-    const toastId = toast.loading("Uploading file...");
-
-    try {
-      const result = await uploadProfilePhoto(imageFile as File);
-
-      if (result.success) {
-        toast.success("File uploaded successfully", { id: toastId });
-        router.refresh();
-      } else {
-        toast.error(result?.message || "Upload failed", { id: toastId });
-      }
-    } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "File upload failed",
-        { id: toastId }
-      );
-    }
-  };
-
 
   return (
     <div className="relative z-999">
@@ -85,10 +22,10 @@ export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
         }}
       >
         <AnimatePresence mode="wait">
-          {previewUrl ? (
+          {currentPhoto ? (
             <motion.img
-              key={previewUrl}
-              src={previewUrl}
+              key={currentPhoto}
+              src={currentPhoto}
               alt="Profile"
               className="w-full h-full object-cover"
               initial={{
@@ -120,13 +57,13 @@ export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
                 opacity: 0,
               }}
             >
-              <CameraIcon className="w-12 h-12 text-white" />
+              <User className="w-12 h-12 text-white" />
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Upload overlay */}
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {isUploading && (
             <motion.div
               className="absolute inset-0 bg-black/60 flex items-center justify-center"
@@ -143,10 +80,10 @@ export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
               <LoaderIcon className="w-8 h-8 text-white animate-spin" />
             </motion.div>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
 
         {/* Success overlay */}
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {uploadSuccess && (
             <motion.div
               className="absolute inset-0 bg-[#DC3173]/90 flex items-center justify-center"
@@ -166,48 +103,8 @@ export default function ProfilePhotoUpload({ currentPhoto }: IProps) {
               <CheckCircleIcon className="w-12 h-12 text-white" />
             </motion.div>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
       </motion.div>
-
-      {/* Upload button */}
-      {isChanged ? (
-        <motion.button
-          onClick={uploadFile}
-          className="bg-[#DC3173] px-4 py-2 rounded-md flex items-center justify-center gap-1 shadow-lg cursor-pointer mx-auto mt-4! text-white text-sm"
-          whileHover={{
-            scale: 1.1,
-          }}
-          whileTap={{
-            scale: 0.95,
-          }}
-        // disabled={isUploading}
-        >
-          <span>Upload</span>
-          <UploadIcon className="w-4 h-4" />
-        </motion.button>
-      ) : (
-        <motion.button
-          onClick={() => fileInputRef.current?.click()}
-          className="absolute bottom-0 right-0 w-10 h-10 bg-[#DC3173] rounded-full flex items-center justify-center shadow-lg border-4 border-white cursor-pointer"
-          whileHover={{
-            scale: 1.1,
-          }}
-          whileTap={{
-            scale: 0.95,
-          }}
-          disabled={isUploading}
-        >
-          <EditIcon className="w-4 h-4 text-white" />
-        </motion.button>
-      )}
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileSelect}
-        className="hidden"
-      />
     </div>
   );
 }
