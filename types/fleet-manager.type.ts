@@ -1,4 +1,5 @@
 import { USER_STATUS } from "@/consts/user.const";
+import { IDocs } from "./documents.type";
 
 export type TFleetManager = {
   // ---------------------------------------------
@@ -148,13 +149,6 @@ export type TFleetManager = {
   updatedAt: Date;
 };
 
-export interface IDocs {
-  myPhoto?: string[];
-  idProofFront?: string[];
-  idProofBack?: string[];
-  businessLicense?: string[];
-}
-
-export type TFleetManagerImageDocuments = {
-  docImageTitle: "myPhoto" | "idProofFront" | "idProofBack" | "businessLicense";
-};
+// export type TFleetManagerImageDocuments = {
+//   docImageTitle: "myPhoto" | "idProofFront" | "idProofBack" | "businessLicense";
+// };

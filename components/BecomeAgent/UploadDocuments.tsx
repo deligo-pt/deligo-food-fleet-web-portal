@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
-import { DocKey } from "@/types/documents.type";
+import { DocKey, IDocs } from "@/types/documents.type";
 import { getCookie } from "@/utils/cookies";
 import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
@@ -28,15 +28,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { deleteFleetDocumentReq, updateFleetDocumentsReq, uploadImagesReq } from "@/services/becomeAgent/becomeAgentManagement";
 
+
 export default function UploadDocuments({
   savedPreviews,
 }: {
-  savedPreviews: Record<DocKey, string[]>;
+  savedPreviews: IDocs;
 }) {
   const { t } = useTranslation();
   // store one preview per doc key
   const [previews, setPreviews] =
-    useState<Record<DocKey, string[]>>({
+    useState<IDocs>({
       myPhoto: Array.isArray(savedPreviews.myPhoto) ? savedPreviews.myPhoto : [],
       businessLicense: Array.isArray(savedPreviews.businessLicense) ? savedPreviews.businessLicense : [],
       idProofFront: Array.isArray(savedPreviews.idProofFront) ? savedPreviews.idProofFront : [],

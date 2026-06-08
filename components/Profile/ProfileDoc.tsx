@@ -1,4 +1,4 @@
-import { IDocs } from "@/types/fleet-manager.type";
+import { IDocs } from "@/types/documents.type";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -24,10 +24,12 @@ export default function ProfileDoc({ documents }: IProps) {
             }}
           >
             <p className="text-sm text-gray-500 mb-2">
+              {doc === "myPhoto" && "Fleet manager Photo"}
               {doc === "idProofFront" && "ID Proof Front"}
               {doc === "idProofBack" && "ID Proof Back"}
               {doc === "businessLicense" && "Business License"}
-              {doc === "myPhoto" && "Fleet manager Photo"}
+              {doc === "proofOfAddress" && "Proof of Address"}
+              {doc === "activityDocument" && "Activity Document"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
