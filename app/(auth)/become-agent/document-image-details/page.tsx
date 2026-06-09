@@ -2,13 +2,10 @@ export const dynamic = "force-dynamic";
 
 import UploadDocuments from "@/components/BecomeAgent/UploadDocuments";
 import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
-import { DocKey } from "@/types/documents.type";
+import { DocKey, IDocs } from "@/types/documents.type";
 
 export default async function UploadDocumentPage() {
-  const savedPreviews: Record<DocKey, string[] | []> = {} as Record<
-    DocKey,
-    string[] | []
-  >;
+  const savedPreviews: IDocs = {} as IDocs;
 
   try {
     const result = await getFleetManagerInfo();

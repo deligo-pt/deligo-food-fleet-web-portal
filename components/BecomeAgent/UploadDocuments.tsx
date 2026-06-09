@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
-import { DocKey } from "@/types/documents.type";
+import { DocKey, IDocs } from "@/types/documents.type";
 import { getCookie } from "@/utils/cookies";
 import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
@@ -28,15 +28,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { deleteFleetDocumentReq, updateFleetDocumentsReq, uploadImagesReq } from "@/services/becomeAgent/becomeAgentManagement";
 
+
 export default function UploadDocuments({
   savedPreviews,
 }: {
-  savedPreviews: Record<DocKey, string[]>;
+  savedPreviews: IDocs;
 }) {
   const { t } = useTranslation();
   // store one preview per doc key
   const [previews, setPreviews] =
-    useState<Record<DocKey, string[]>>({
+    useState<IDocs>({
       myPhoto: Array.isArray(savedPreviews.myPhoto) ? savedPreviews.myPhoto : [],
       businessLicense: Array.isArray(savedPreviews.businessLicense) ? savedPreviews.businessLicense : [],
       idProofFront: Array.isArray(savedPreviews.idProofFront) ? savedPreviews.idProofFront : [],
@@ -82,6 +83,18 @@ export default function UploadDocuments({
       },
     ];
 
+  const uploadLimits: Partial<Record<DocKey, number>> = {
+    myPhoto: 1,
+    proofOfAddress: 1,
+    activityDocument: 1,
+
+    // these can have up to 3 files
+    businessLicense: 3,
+    idProofFront: 3,
+    idProofBack: 3,
+  };
+  const DEFAULT_LIMIT = 3;
+
   const isFormValid = DOCUMENTS.every(
     (d) => (previews[d.key]?.length || 0) > 0
   );
@@ -117,26 +130,18 @@ export default function UploadDocuments({
 
     const currentFiles = previews[key] || [];
 
-    if (key === "proofOfAddress" && currentFiles.length >= 1) {
-      toast.error("You can only upload one proof of address document", {
-        id: toastId,
-      });
+    const limit = uploadLimits[key] ?? DEFAULT_LIMIT;
+
+    if (currentFiles.length >= limit) {
+      toast.error(
+        limit === 1
+          ? `You can only upload one ${key} document`
+          : `You can only upload a maximum of ${limit} documents`,
+        { id: toastId }
+      );
+
       return;
-    } else if (key === 'activityDocument' && currentFiles.length >= 1) {
-      toast.error("You can only upload one activity document", {
-        id: toastId,
-      });
-      return;
-    } else {
-      if (currentFiles.length === 3) {
-        toast.error("You can only upload a maximum of 3 documents", {
-          id: toastId,
-        });
-        return;
-      }
     }
-
-
 
     try {
       const accessToken = getCookie("accessToken");

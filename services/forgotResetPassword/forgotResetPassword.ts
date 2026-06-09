@@ -4,12 +4,12 @@ import { serverFetch } from "@/lib/serverFetch";
 
 
 export const forgotPasswordReq = async (data: { email: string }) => {
-  const res = (await serverFetch.post("auth/forgot-password", {
+  const res = await serverFetch.post("/auth/forgot-password", {
     headers: {
       'content-type': 'application/json'
     },
     body: JSON.stringify(data),
-  }));
+  });
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
@@ -26,12 +26,12 @@ export const resetPasswordReq = async (data: {
   newPassword: string;
   token: string;
 }) => {
-  const res = (await serverFetch.post("auth/reset-password", {
+  const res = await serverFetch.post("/auth/reset-password", {
     headers: {
       'content-type': 'application/json'
     },
     body: JSON.stringify(data),
-  }));
+  });
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));

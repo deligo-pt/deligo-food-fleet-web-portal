@@ -1,94 +1,96 @@
-import { DEVICE_KEY } from "@/consts/device.const";
 import { USER_ROLE, USER_STATUS } from "@/consts/user.const";
-import { getFleetManagerInfo } from "@/utils/getFleetManagerInfo";
-import { verifyTokens } from "@/utils/verifyTokens";
 import { NextRequest, NextResponse } from "next/server";
+import { jwtDecode } from "jwt-decode";
+import type { TJwtPayload } from "./types";
 
-const AUTH_PATHS = ["/login", "/become-agent"];
+const PUBLIC_AUTH_PATHS = ["/login", "/become-agent", "/become-agent/verify-otp"];
+const PROTECTED_REGISTRATION_PATHS = [
+  "/become-agent/personal-details",
+  "/become-agent/business-details",
+  "/become-agent/business-location",
+  "/become-agent/bank-details",
+  "/become-agent/document-image-details",
+  "/become-agent/registration-status",
+];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // === SKIP FOR SERVER ACTIONS & API ROUTES ===
+  if (
+    req.headers.get("next-action") ||
+    req.headers.get("content-type")?.includes("text/x-component") ||
+    req.method === "POST"
+  ) {
+    return NextResponse.next();
+  }
+
+  const accessToken = req.cookies.get("accessToken")?.value;
   const loginUrl = new URL("/login", req.url);
   loginUrl.searchParams.set("redirect", pathname);
 
-  const tokenWasRefreshed = await verifyTokens();
+  // === No Token Logic ===
+  if (!accessToken) {
+    // Allow public auth pages
+    if (PUBLIC_AUTH_PATHS.some(path => pathname === path || pathname.startsWith(path))) {
+      return NextResponse.next();
+    }
 
-  if (tokenWasRefreshed) {
-    return NextResponse.redirect(new URL(pathname, req.url));
-  }
-
-  const fleetManagerResult = await getFleetManagerInfo();
-
-  if (fleetManagerResult) {
-    const fleetManagerInfo = fleetManagerResult?.fleetManager;
-
-    if (fleetManagerInfo.role === USER_ROLE.FLEET_MANAGER) {
-      if (
-        AUTH_PATHS.some(
-          (path) => pathname === path || pathname.startsWith(`${path}`),
-        )
-      ) {
-        const currentDeviceId = req.cookies.get(DEVICE_KEY)?.value || "";
-        const isValidSession = fleetManagerInfo?.loginDevices?.some(
-          (device) => currentDeviceId === device.deviceId,
-        );
-
-        if (!isValidSession) {
-          req.cookies.delete("accessToken");
-          req.cookies.delete("refreshToken");
-          if (pathname !== "/login") {
-            loginUrl.searchParams.set("sessionExpired", "true");
-            return NextResponse.redirect(loginUrl);
-          } else {
-            return NextResponse.next();
-          }
-        }
-
-        if (
-          pathname === "/login" ||
-          pathname === "/become-agent" ||
-          pathname === "/become-agent/verify-otp"
-        ) {
-          if (fleetManagerInfo.status === USER_STATUS.APPROVED) {
-            return NextResponse.redirect(new URL("/agent/dashboard", req.url));
-          }
-          return NextResponse.redirect(
-            new URL("/become-agent/registration-status", req.url),
-          );
-        } else if (
-          pathname === "/become-agent/personal-details" ||
-          pathname === "/become-agent/business-details" ||
-          pathname === "/become-agent/business-location" ||
-          pathname === "/become-agent/bank-details" ||
-          pathname === "/become-agent/document-image-details"
-        ) {
-          if (
-            fleetManagerInfo.status === USER_STATUS.APPROVED ||
-            fleetManagerInfo.status === USER_STATUS.SUBMITTED
-          ) {
-            return NextResponse.redirect(
-              new URL("/become-agent/registration-status", req.url),
-            );
-          }
-        }
-      }
-    } else {
-      req.cookies.delete("accessToken");
-      req.cookies.delete("refreshToken");
+    // Redirect protected routes to login
+    if (pathname.startsWith("/agent") || PROTECTED_REGISTRATION_PATHS.some(p => pathname.startsWith(p))) {
       return NextResponse.redirect(loginUrl);
     }
-  } else {
-    if (
-      pathname === "/become-agent/personal-details" ||
-      pathname === "/become-agent/business-details" ||
-      pathname === "/become-agent/business-location" ||
-      pathname === "/become-agent/bank-details" ||
-      pathname === "/become-agent/document-image-details" ||
-      pathname === "/become-agent/registration-status" ||
-      pathname.startsWith("/agent")
-    ) {
-      return NextResponse.redirect(loginUrl);
+
+    return NextResponse.next();
+  }
+
+  // === Has Token → Decode ===
+  let decoded: TJwtPayload | null = null;
+  try {
+    decoded = jwtDecode<TJwtPayload>(accessToken);
+  } catch (error) {
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete("accessToken");
+    response.cookies.delete("refreshToken");
+    return response;
+  }
+
+  const { role, status } = decoded;
+
+  if (role !== USER_ROLE.FLEET_MANAGER) {
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete("accessToken");
+    response.cookies.delete("refreshToken");
+    return response;
+  }
+
+  // === Redirect Logic for Logged-in Users ===
+  if (PUBLIC_AUTH_PATHS.includes(pathname)) {
+    if (status === USER_STATUS.APPROVED) {
+      return NextResponse.redirect(new URL("/agent/dashboard", req.url));
+    }
+    // if (pathname !== "/become-agent/verify-otp") {
+    //   return NextResponse.redirect(new URL("/become-agent/registration-status", req.url));
+    // }
+  }
+
+  // Block incomplete users from agent dashboard
+  if (pathname.startsWith("/agent") && status !== USER_STATUS.APPROVED) {
+    return NextResponse.redirect(new URL("/become-agent/registration-status", req.url));
+  }
+
+  // Allow protected registration paths only if status is valid
+  if (PROTECTED_REGISTRATION_PATHS.some(p => pathname.startsWith(p))) {
+    if (status === USER_STATUS.APPROVED) {
+      return NextResponse.redirect(new URL("/agent/dashboard", req.url));
+    } else if (status === USER_STATUS.PENDING) {
+      return NextResponse.next();
+    } else {
+      if (pathname === "/become-agent/registration-status") {
+        return NextResponse.next();
+      } else {
+        return NextResponse.redirect(new URL("/become-agent/registration-status", req.url));
+      }
     }
   }
 
@@ -96,5 +98,9 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/become-agent/:path*", "/agent/:path*"],
+  matcher: [
+    "/login",
+    "/become-agent/:path*",
+    "/agent/:path*",
+  ],
 };
