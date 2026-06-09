@@ -39,8 +39,9 @@ export function BackgroundCheckForm({ onNext, partner }: IProps) {
       expiryDate: "",
     },
   });
+  const { formState: { isSubmitting }, watch } = form;
 
-  const hasCertificate = form.watch("haveCriminalRecordCertificate");
+  const hasCertificate = watch("haveCriminalRecordCertificate");
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
@@ -260,6 +261,7 @@ export function BackgroundCheckForm({ onNext, partner }: IProps) {
               scale: 0.98,
             }}
             type="submit"
+            disabled={isSubmitting}
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
             {t("continue_to_equipment")}

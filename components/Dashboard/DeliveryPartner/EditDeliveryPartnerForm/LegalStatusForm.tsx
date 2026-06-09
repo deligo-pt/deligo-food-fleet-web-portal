@@ -59,6 +59,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
       residencePermitExpiry: "",
     },
   });
+  const { formState: { isSubmitting } } = form;
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
@@ -240,6 +241,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
               scale: 0.98,
             }}
             type="submit"
+            disabled={isSubmitting}
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
             {t("continue_to_payment_details")}
