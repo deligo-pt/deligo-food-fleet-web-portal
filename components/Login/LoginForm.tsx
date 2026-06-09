@@ -51,8 +51,7 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
     },
   });
 
-  const { formState: { isSubmitting },
-  } = form;
+  const { formState: { isSubmitting } } = form;
 
   const login = async (payload: {
     email: string;
