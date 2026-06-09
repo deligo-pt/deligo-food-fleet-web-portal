@@ -1,7 +1,6 @@
 import { USER_ROLE, USER_STATUS } from "@/consts/user.const";
 import { NextRequest, NextResponse } from "next/server";
 import { jwtDecode } from "jwt-decode";
-import { verifyTokens } from "@/utils/verifyTokens";
 import type { TJwtPayload } from "./types";
 
 const PUBLIC_AUTH_PATHS = ["/login", "/become-agent", "/become-agent/verify-otp"];
@@ -26,17 +25,9 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
+  const accessToken = req.cookies.get("accessToken")?.value;
   const loginUrl = new URL("/login", req.url);
   loginUrl.searchParams.set("redirect", pathname);
-
-  // Run token verification/refresh (only when needed)
-  const tokenWasRefreshed = await verifyTokens();
-
-  if (tokenWasRefreshed) {
-    return NextResponse.redirect(new URL(pathname, req.url));
-  }
-
-  const accessToken = req.cookies.get("accessToken")?.value;
 
   // === No Token Logic ===
   if (!accessToken) {
