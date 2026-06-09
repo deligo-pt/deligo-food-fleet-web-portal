@@ -66,6 +66,8 @@ const AddYourBusinessLocation = ({ profile }: Props) => {
     },
   });
 
+  const { formState: { isSubmitting } } = form;
+
   const formFields = [
     {
       label: t("street"),
@@ -306,9 +308,10 @@ const AddYourBusinessLocation = ({ profile }: Props) => {
 
           <motion.button
             type="submit"
+            disabled={isSubmitting}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white rounded-xl"
+            className={`flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white rounded-xl ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           >
             <Save className="w-5 h-5" /> {t("saveLocationNext")}
           </motion.button>

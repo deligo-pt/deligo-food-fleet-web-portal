@@ -51,6 +51,8 @@ const PersonalDetails = ({ profile }: Props) => {
     },
   });
 
+  const { formState: { isSubmitting } } = form;
+
   useEffect(() => {
     if (!profile?.data?.name) return;
 
@@ -263,7 +265,8 @@ const PersonalDetails = ({ profile }: Props) => {
                 >
                   <Button
                     type="submit"
-                    className="w-full font-semibold py-3 rounded-xl bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white shadow-lg shadow-pink-200 hover:brightness-110 transition-all duration-300"
+                    disabled={isSubmitting}
+                    className={`w-full font-semibold py-3 rounded-xl bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white shadow-lg shadow-pink-200 hover:brightness-110 transition-all duration-300 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
                   >
                     {t("saveContinue")}
                   </Button>

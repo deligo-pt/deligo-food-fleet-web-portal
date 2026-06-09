@@ -48,6 +48,8 @@ const BusinessDetails = ({ profile }: Props) => {
     },
   });
 
+  const { formState: { isSubmitting } } = form;
+
   useEffect(() => {
     if (!profile?.data?.businessDetails) return;
 
@@ -248,7 +250,8 @@ const BusinessDetails = ({ profile }: Props) => {
               >
                 <Button
                   type="submit"
-                  className="w-full h-12 bg-[#DC3173] hover:bg-[#b12b61] text-white text-lg font-semibold shadow-md hover:shadow-lg transition-all"
+                  disabled={isSubmitting}
+                  className={`w-full h-12 bg-[#DC3173] hover:bg-[#b12b61] text-white text-lg font-semibold shadow-md hover:shadow-lg transition-all ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
                 >
                   {t("saveContinue")}
                 </Button>
