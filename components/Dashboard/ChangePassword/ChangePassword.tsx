@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -46,36 +47,47 @@ export default function ChangePassword() {
     },
   });
   const router = useRouter();
+  const { formState: { isSubmitting } } = form;
 
   const onSubmit = async (data: ChangePasswordData) => {
+    if (isSubmitting) return;
+
     const toastId = toast.loading("Updating Password...");
 
-    const changePasswordData = {
-      oldPassword: data.oldPassword,
-      newPassword: data.newPassword,
-    };
+    try {
+      const result = await changePasswordReq({
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      }) as TResponse<null>;
 
-    const result = (await changePasswordReq(
-      changePasswordData,
-    )) as TResponse<null>;
+      if (result.success) {
+        toast.success(
+          result.message || "Password Updated Successfully!",
+          { id: toastId }
+        );
 
-    if (result.success) {
-      toast.success(result.message || "Password Updated Successfully!", {
-        id: toastId,
-      });
-      form.reset();
+        form.reset();
 
-      removeCookie("accessToken");
-      removeCookie("refreshToken");
+        removeCookie("accessToken");
+        removeCookie("refreshToken");
 
-      setTimeout(() => {
-        router.push("/login");
-      }, 500);
+        setTimeout(() => {
+          router.push("/login");
+        }, 500);
 
-      return;
+        return;
+      }
+
+      toast.error(
+        result.message || "Failed to update password",
+        { id: toastId }
+      );
+    } catch (error: any) {
+      toast.error(
+        error?.message || "Failed to update password",
+        { id: toastId }
+      );
     }
-
-    toast.error(result.message || "Failed to update password", { id: toastId });
   };
 
   return (
@@ -87,7 +99,7 @@ export default function ChangePassword() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="max-w-[600px] mx-auto space-y-10"
+          className="max-w-150 mx-auto space-y-10"
         >
           {/* FORM */}
           <Card
@@ -204,9 +216,11 @@ export default function ChangePassword() {
               {/* BUTTON */}
               <>
                 <Button
+                  type="submit"
+                  disabled={isSubmitting}
                   className="h-12 px-6 text-white rounded-xl w-full"
                   style={{ background: PRIMARY }}
-                  // onClick={updatePassword}
+                // onClick={updatePassword}
                 >
                   Update Password
                 </Button>
