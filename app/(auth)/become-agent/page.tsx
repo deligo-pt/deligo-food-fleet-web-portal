@@ -50,7 +50,10 @@ export default function BecomAgentPage() {
   const onSubmit = async (data: FormValues) => {
     const toastId = toast.loading("Registering...");
 
-    const result = await registerFleetAndSendOTPReq(data);
+    const result = await registerFleetAndSendOTPReq({
+      ...data,
+      role: "FLEET_MANAGER",
+    });
 
     if (result.success) {
       toast.success(result.message || "OTP sent to your email successfully!", {

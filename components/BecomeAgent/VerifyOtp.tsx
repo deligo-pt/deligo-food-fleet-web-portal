@@ -69,6 +69,7 @@ export default function VerifyOtp({ email }: { email: string }) {
     const deviceDetails = await getDeviceInfo();
     const payload = {
       email,
+      role: "FLEET_MANAGER",
       otp: finalOtp,
       deviceDetails,
     };
@@ -101,7 +102,7 @@ export default function VerifyOtp({ email }: { email: string }) {
     const toastId = toast.loading("Resending OTP...");
     setIsSubmitting(true);
 
-    const result = await resendOtpReq({ email });
+    const result = await resendOtpReq({ email, role: "FLEET_MANAGER", });
 
     if (result.success) {
       setTimer(300);
