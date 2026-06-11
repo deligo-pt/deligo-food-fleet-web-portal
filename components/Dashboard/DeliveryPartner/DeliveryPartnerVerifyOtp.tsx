@@ -64,6 +64,7 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
       const result = await verifyOtpReq({
         email,
         otp: finalOtp,
+        role: "DELIVERY_PARTNER",
       });
 
       if (result.success) {
@@ -87,7 +88,7 @@ export default function DeliveryPartnerVerifyOtp({ email }: { email: string }) {
     const toastId = toast.loading("Resending OTP...");
     setIsSubmitting(true);
 
-    const result = await resendOtpReq({ email });
+    const result = await resendOtpReq({ email, role: "DELIVERY_PARTNER", });
 
     if (result.success) {
       setTimer(300);
