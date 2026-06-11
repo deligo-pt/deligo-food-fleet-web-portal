@@ -3,7 +3,7 @@
 import { serverFetch } from "@/lib/serverFetch";
 
 
-export const forgotPasswordReq = async (data: { email: string }) => {
+export const forgotPasswordReq = async (data: { email: string; role: string; }) => {
   const res = await serverFetch.post("/auth/forgot-password", {
     headers: {
       'content-type': 'application/json'
@@ -24,6 +24,7 @@ export const forgotPasswordReq = async (data: { email: string }) => {
 export const resetPasswordReq = async (data: {
   email: string;
   newPassword: string;
+  role: string;
   token: string;
 }) => {
   const res = await serverFetch.post("/auth/reset-password", {

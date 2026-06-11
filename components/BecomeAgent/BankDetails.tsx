@@ -54,6 +54,8 @@ const BankDetails = ({ profile }: Props) => {
     },
   });
 
+  const { formState: { isSubmitting } } = form;
+
   useEffect(() => {
     if (!profile?.data?.bankDetails) return;
 
@@ -103,13 +105,15 @@ const BankDetails = ({ profile }: Props) => {
     >
       <div className="max-w-3xl mx-auto">
         <Card className="rounded-2xl shadow-2xl border">
-          <Button
-            onClick={() => router.push("/become-agent/business-location")}
-            variant="link"
-            className="flex items-center gap-2 text-[#DC3173]"
-          >
-            <ArrowLeftCircle /> {t("go_back")}
-          </Button>
+          <div>
+            <Button
+              onClick={() => router.push("/become-agent/business-location")}
+              variant="link"
+              className="flex items-center gap-2 text-[#DC3173]"
+            >
+              <ArrowLeftCircle /> {t("go_back")}
+            </Button>
+          </div>
 
           <CardHeader className="bg-linear-to-r from-[#DC3173] to-pink-600 text-white">
             <div className="flex items-center gap-4">
@@ -149,7 +153,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <User className="text-[#DC3173]"  /> {t("accountHolder")}
+                          <User className="text-[#DC3173]" /> {t("accountHolder")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} />
@@ -165,7 +169,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <FileText className="text-[#DC3173]"  /> {t("iban")}
+                          <FileText className="text-[#DC3173]" /> {t("iban")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} className="uppercase" />
@@ -181,7 +185,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <Globe className="text-[#DC3173]"  /> {t("swift_bic")}
+                          <Globe className="text-[#DC3173]" /> {t("swift_bic")}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} className="uppercase" />
@@ -194,9 +198,10 @@ const BankDetails = ({ profile }: Props) => {
 
                 <motion.button
                   type="submit"
+                  disabled={isSubmitting}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="flex gap-1 px-4 bg-[#DC3173] text-white py-3 rounded-xl"
+                  className={`flex gap-1 px-4 bg-[#DC3173] text-white py-3 rounded-xl ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
                 >
                   <Save /> {t("saveContinue")}
                 </motion.button>

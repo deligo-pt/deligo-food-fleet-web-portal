@@ -4,58 +4,64 @@ import { getToken } from "firebase/messaging";
 import { getDeviceInfo } from "./getDeviceInfo";
 import { cleanupFirebaseDatabases } from "./firebaseDBCleanup";
 
-// let isCleaning = false;
+let isCleaning = false;
 
 export async function getFcmToken(): Promise<string | null> {
-  if (!messaging) return null;
-  if (!("serviceWorker" in navigator)) return null;
+  if (!messaging || !("serviceWorker" in navigator)) return null;
 
   try {
     const permission = await Notification.requestPermission();
-    if (permission !== "granted") return null;
+    if (permission !== "granted") {
+      console.log("Notification permission not granted");
+      return null;
+    }
 
-    // Important: Let Firebase handle service worker registration automatically
-    const token = await getToken(messaging, {
+    // Add timeout to prevent infinite hang
+    const tokenPromise = getToken(messaging, {
       vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY!,
-      // Do NOT pass serviceWorkerRegistration unless you have a custom SW
     });
 
-    return token;
+    const token = await Promise.race([
+      tokenPromise,
+      new Promise<null>((_, reject) =>
+        setTimeout(() => reject(new Error("getToken timeout")), 6000)
+      )
+    ]);
+
+    return token || null;
   } catch (error: any) {
     console.warn("FCM getToken failed:", error);
 
-    const isVersionError =
-      error.name === "VersionError" ||
-      error.message?.toLowerCase().includes("version") ||
-      error.message?.includes("less than the existing version");
+    const isVersionError = error.name === "VersionError" ||
+      error.message?.toLowerCase().includes("version");
 
-    // if (isVersionError && !isCleaning) {
-    //   isCleaning = true;
-    //   console.log("[FCM] Version conflict detected. Cleaning IndexedDB...");
+    if (isVersionError && !isCleaning) {
+      isCleaning = true;
+      console.warn("[FCM] Version conflict detected. Running cleanup...");
 
-    //   cleanupFirebaseDatabases();
+      try {
+        await cleanupFirebaseDatabases();
+        await new Promise((r) => setTimeout(r, 1500)); // longer delay
 
-    //   // Wait a bit for deletion to complete
-    //   await new Promise((resolve) => setTimeout(resolve, 800));
+        // Retry with timeout
+        const retryToken = await Promise.race([
+          getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY! }),
+          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Retry timeout")), 8000))
+        ]);
 
-    //   try {
-    //     // Retry once
-    //     const retryToken = await getToken(messaging, {
-    //       vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY!,
-    //     });
-    //     console.log("[FCM] Retry successful");
-    //     isCleaning = false;
-    //     return retryToken;
-    //   } catch (retryErr) {
-    //     console.error("[FCM] Retry also failed:", retryErr);
-    //   }
-    //   isCleaning = false;
-    // }
+        console.log("[FCM] Recovery successful");
+        isCleaning = false;
+        return retryToken || null;
+      } catch (retryErr) {
+        console.error("[FCM] Cleanup + retry failed:", retryErr);
+      } finally {
+        isCleaning = false;
+      }
+    }
 
     return null;
   }
 }
-
 
 export async function updateFcmToken(
   accessToken: string,

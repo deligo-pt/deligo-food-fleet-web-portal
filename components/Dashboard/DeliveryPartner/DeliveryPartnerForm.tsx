@@ -44,6 +44,8 @@ export function DeliveryPartnerForm({
     },
   });
 
+  const { formState: { isSubmitting } } = form;
+
   const onSubmit = async (data: TFormData) => {
     const toastId = toast.loading("Creating Delivery Partner...");
 
@@ -182,6 +184,7 @@ export function DeliveryPartnerForm({
               >
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="bg-[#DC3173] hover:bg-[#DC3173]/90"
                 >
                   {t("register_partner")}

@@ -69,7 +69,7 @@ const PayToPartnerModal = ({ isOpen, onClose, partners }: PayToPartnerModalProps
                         <Table>
                             <TableHeader className="bg-slate-50">
                                 <TableRow>
-                                    <TableHead className="min-w-[200px]">Partner</TableHead>
+                                    <TableHead className="min-w-50">Partner</TableHead>
                                     <TableHead>Phone</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead className="text-right">Action</TableHead>

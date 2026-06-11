@@ -64,7 +64,7 @@ const SettlePayoutModal = ({ isOpen, onClose, payoutId }: SettleProps) => {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-106.25">
                 <DialogHeader>
                     <DialogTitle className="text-[#DC3173]">Finalize Settlement</DialogTitle>
                 </DialogHeader>

@@ -54,7 +54,7 @@ const REQUIRED_DOCS: DocKey[] = [
 export default function Documents({ partner }: { partner: TDeliveryPartner }) {
   const { t } = useTranslation();
   const { id } = useParams();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [previews, setPreviews] = useState<Record<DocKey, FilePreview | null>>({
     myPhoto: null,
     idProofFront: null,
@@ -251,6 +251,7 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
 
   const completeReg = async () => {
     const toastId = toast.loading("Uploading...");
+    setIsSubmitting(true);
 
     const result = await submitForApproval(id as string);
 
@@ -263,6 +264,7 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
       return;
     }
     toast.error(result.message || "Request failed", { id: toastId });
+    setIsSubmitting(false);
   };
 
   function getActualFileName(url: string): string {
@@ -428,7 +430,7 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
           whileHover={{ scale: isFormValid ? 1.02 : 1 }}
           whileTap={{ scale: isFormValid ? 0.98 : 1 }}
           type="button"
-          disabled={!isFormValid}
+          disabled={!isFormValid || isSubmitting}
           onClick={completeReg}
           className={`mt-8 w-full py-3 px-6 rounded-lg font-medium text-lg flex items-center justify-center transition-colors duration-300
     ${isFormValid

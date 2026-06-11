@@ -87,6 +87,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
       country: "",
     },
   });
+  const { formState: { isSubmitting } } = form;
 
   // Create an optimized, sorted list outside the component so it doesn't recalculate on every render
   const countryOptions = Object.entries(countries)
@@ -606,6 +607,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
               scale: 0.98,
             }}
             type="submit"
+            disabled={isSubmitting}
             className="mt-8 w-full bg-[#DC3173] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#c21c5e] transition-colors duration-300 flex items-center justify-center"
           >
             {t("continue_to_legal_status")}

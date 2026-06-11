@@ -8,11 +8,12 @@ export const changePasswordReq = async (payload: {
   newPassword: string;
 }) => {
   return catchAsync(async () => {
-    return await serverFetch.post("/auth/change-password", {
+    const result = await serverFetch.post("/auth/change-password", {
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(payload),
     });
+    return result;
   });
 };

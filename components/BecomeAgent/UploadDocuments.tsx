@@ -35,6 +35,7 @@ export default function UploadDocuments({
   savedPreviews: IDocs;
 }) {
   const { t } = useTranslation();
+  const [isSubmititng, setIsSubmitting] = useState(false);
   // store one preview per doc key
   const [previews, setPreviews] =
     useState<IDocs>({
@@ -325,6 +326,8 @@ export default function UploadDocuments({
   // Continue button handler: stop confetti and close modal (later you can trigger API)
   const handleContinue = async () => {
     const toastId = toast.loading("Submitting...");
+    setIsSubmitting(true);
+
     try {
       const accessToken = getCookie("accessToken");
       const decoded = jwtDecode(accessToken || "") as { userId: string };
@@ -348,6 +351,8 @@ export default function UploadDocuments({
         { id: toastId },
       );
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -522,7 +527,7 @@ export default function UploadDocuments({
             </div>
             <div className="pt-4">
               <Button
-                disabled={!isFormValid}
+                disabled={!isFormValid || isSubmititng}
                 onClick={handleContinue}
                 className="bg-[#DC3173] hover:bg-[#b72a63] text-white px-6 py-3 rounded-xl shadow-lg"
               >

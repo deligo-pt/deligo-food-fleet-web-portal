@@ -6,12 +6,13 @@ import { catchAsync } from "@/utils/catchAsync";
 export const registerFleetAndSendOTPReq = async (payload: {
     email: string;
     password: string;
+    role: string;
     terms?: boolean;
 }) => {
     delete payload.terms;
 
     return catchAsync(async () => {
-        return await serverFetch.post("/auth/register/create-fleet-manager", {
+        return await serverFetch.post("/auth/register", {
             headers: {
                 "Content-Type": "application/json",
             },

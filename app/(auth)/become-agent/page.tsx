@@ -34,6 +34,8 @@ type FormValues = {
 
 export default function BecomAgentPage() {
   const { t } = useTranslation();
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(becomeAgentValidation),
     defaultValues: {
@@ -42,13 +44,16 @@ export default function BecomAgentPage() {
       terms: false,
     },
   });
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+
+  const { formState: { isSubmitting } } = form;
 
   const onSubmit = async (data: FormValues) => {
     const toastId = toast.loading("Registering...");
 
-    const result = await registerFleetAndSendOTPReq(data);
+    const result = await registerFleetAndSendOTPReq({
+      ...data,
+      role: "FLEET_MANAGER",
+    });
 
     if (result.success) {
       toast.success(result.message || "OTP sent to your email successfully!", {
@@ -172,7 +177,7 @@ export default function BecomAgentPage() {
                             <button
                               type="button"
                               onClick={() => setShowPassword(!showPassword)}
-                              className="absolute inset-y-0 right-4 flex items-center text-gray-400 hover:text-[#DC3173] transition"
+                              className="absolute inset-y-0 top-4 right-4 flex items-center text-gray-400 hover:text-[#DC3173] transition"
                             >
                               {showPassword ? (
                                 <EyeOff className="w-5 h-5" />
@@ -238,13 +243,13 @@ export default function BecomAgentPage() {
                 >
                   <Button
                     type="submit"
-                    disabled={!isFormFilled}
-                    className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${isFormFilled
+                    disabled={!isFormFilled || isSubmitting}
+                    className={`w-full font-semibold py-3 rounded-xl shadow-xl transition-all duration-300 ${isFormFilled || isSubmitting
                       ? "bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white hover:shadow-pink-200 hover:brightness-110"
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                       }`}
                   >
-                    {t("confirm_continue")}
+                    {isSubmitting ? "Registering in..." : t("confirm_continue")}
                   </Button>
                 </motion.div>
 

@@ -51,8 +51,7 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
     },
   });
 
-  const { formState: { isSubmitting },
-  } = form;
+  const { formState: { isSubmitting } } = form;
 
   const login = async (payload: {
     email: string;
@@ -119,7 +118,7 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
   };
 
   const onSubmit = async (data: LoginFormInputs) => {
-    login(data);
+    await login(data);
   };
 
   const clearSession = async () => {
@@ -228,9 +227,11 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full py-3 flex items-center justify-center gap-2 rounded-full bg-[#DC3173] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              disabled={isSubmitting}
+              className={`w-full py-3 flex items-center justify-center gap-2 rounded-full bg-[#DC3173] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
             >
-              {t("login")} <Send className="w-4 h-4" />
+              {isSubmitting ? "Logging in..." : t("login")}
+              {!isSubmitting && <Send className="w-4 h-4" />}
             </button>
           </form>
         </Form>
@@ -259,6 +260,7 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
 
       <ClearSessionModal
         open={showModal}
+        isSubmitting={isSubmitting}
         onOpenChange={(open) => setShowModal(open)}
         onRemove={clearSession}
       />

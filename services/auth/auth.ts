@@ -28,7 +28,7 @@ export const loginReq = async (payload: {
   });
 };
 
-export const resendOtpReq = async (payload: { email: string }) => {
+export const resendOtpReq = async (payload: { email: string; role: string; }) => {
   return catchAsync(async () => {
     return await serverFetch.post("/auth/resend-otp", {
       body: JSON.stringify(payload),
@@ -42,6 +42,7 @@ export const resendOtpReq = async (payload: { email: string }) => {
 export const verifyOtpReq = async (payload: {
   email: string;
   otp: string;
+  role: string;
   deviceDetails?: TDeviceDetails;
 }) => {
   return catchAsync(async () => {
