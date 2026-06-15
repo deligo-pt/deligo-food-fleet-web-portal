@@ -12,6 +12,8 @@ type TDeviceDetails = {
   userAgent: string;
 };
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
+
 export const loginReq = async (payload: {
   email: string;
   password: string;
@@ -56,13 +58,32 @@ export const verifyOtpReq = async (payload: {
 };
 
 export const logoutReq = async () => {
-  const deviceId = (await cookies()).get(DEVICE_KEY)?.value || "";
+  const cookieStore = await cookies();
+  const deviceId = cookieStore.get(DEVICE_KEY)?.value || "";
+
+  const cookieStr = cookieStore.toString();
+  const accessToken = cookieStore.get("accessToken")?.value || "";
+
   return catchAsync(async () => {
-    return await serverFetch.post("/auth/logout", {
-      body: JSON.stringify({ deviceId }),
+    const response = await fetch(`${BASE_URL}/auth/logout`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(accessToken && { authorization: `Bearer ${accessToken}` }),
+        ...(cookieStr && { cookie: cookieStr }),
       },
+      body: JSON.stringify({
+        deviceId
+      }
+      ),
     });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result?.message || "Logout failed!");
+    }
+
+    return result;
   });
 };

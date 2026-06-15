@@ -55,9 +55,29 @@ export default function TopbarIcons({ agent }: IProps) {
       router.push("/login");
       return;
     }
+    if (result?.message === "NEXT_REDIRECT") {
+      toast.success("Logout successful!", {
+        id: toastId,
+      });
+
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
+      router.push("/login");
+      return;
+    }
+
+    if (result?.success === false) {
+      toast.success("Logout successful!", {
+        id: toastId,
+      });
+
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
+      router.push("/login");
+      return;
+    }
 
     toast.error(result?.message || "Logout failed", { id: toastId });
-    console.log(result);
   };
 
   return (
@@ -70,7 +90,7 @@ export default function TopbarIcons({ agent }: IProps) {
             setLang(value);
           }}
         >
-          <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+          <SelectTrigger className="w-17.5 hover:border hover:border-[#DC3173]">
             <SelectValue placeholder="Language" />
           </SelectTrigger>
           <SelectContent>
@@ -129,9 +149,8 @@ export default function TopbarIcons({ agent }: IProps) {
           )}
           <ChevronDown
             size={16}
-            className={`text-gray-700 hidden sm:inline transition-transform ${
-              profileOpen ? "rotate-180" : ""
-            }`}
+            className={`text-gray-700 hidden sm:inline transition-transform ${profileOpen ? "rotate-180" : ""
+              }`}
           />
         </button>
 
