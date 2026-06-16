@@ -14,7 +14,7 @@ const PROTECTED_REGISTRATION_PATHS = [
 ];
 
 export async function proxy(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  const { pathname, searchParams } = req.nextUrl;
 
   // === SKIP FOR SERVER ACTIONS & API ROUTES ===
   if (
@@ -23,6 +23,14 @@ export async function proxy(req: NextRequest) {
     req.method === "POST"
   ) {
     return NextResponse.next();
+  }
+
+  // Handle the explicit clear session flag safely in Middleware
+  if (pathname === "/login" && searchParams.get("clearSession") === "true") {
+    const response = NextResponse.redirect(new URL("/login", req.url));
+    response.cookies.delete("accessToken");
+    response.cookies.delete("refreshToken");
+    return response;
   }
 
   const accessToken = req.cookies.get("accessToken")?.value;

@@ -1306,6 +1306,22 @@ export const pt = {
     support_team_available: "A nossa equipa de suporte está disponível 7 dias por semana para ajudar com a sua conta de vendedor.",
     contact_support: "Contactar suporte",
 
+    // delivery partner emergency alerts
+    real_time_monitoring_delivery_partner: "Monitorização em tempo real dos acionamentos de SOS dos estafetas",
+    partner_name: "Nome do Parceiro",
+    emergency_type: "Tipo de Emergência",
+    time_triggered: "Hora do Acionamento",
+    no_alerts_found: "Nenhum alerta encontrado",
+    alert_details: "Detalhes do Alerta",
+    triggered_by: "Acionado Por",
+    location: "Localização",
+    load_map: "Carregar Mapa",
+    click_to_view_location: "Clique para ver a localização",
+    latitude: "Latitude",
+    longitude: "Longitude",
+    partner_notes: "Notas do Parceiro",
+    incident_description: "Descrição do Incidente",
+
     // report incident/accident
     get_clear_overview_data: "Obtenha uma visão clara dos dados e insights dos relatórios.",
     report_incident: "Reportar Incidente",
@@ -1318,6 +1334,9 @@ export const pt = {
     reset: "Repor",
     send_sos: "Enviar SOS",
     sending_sos: "A enviar SOS...",
+
+    // live tracking
+    tracking_drivers_live_location_and_where_they_are: "Acompanhamento da localização em tempo real dos motoristas e onde eles realmente estão",
 
     // profile
     verified: "Verificado",

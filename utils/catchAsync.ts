@@ -1,3 +1,5 @@
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+
 export const catchAsync = async (
   fn: () => Promise<Response>,
   customSuccessMsg?: string,
@@ -21,6 +23,10 @@ export const catchAsync = async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error.message);
+
+    if (isRedirectError(error)) {
+      throw error;
+    }
 
     return {
       success: false,

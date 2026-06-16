@@ -61,7 +61,7 @@ export default function SosDetailsModal({
                                 {!loadMap ? (
                                     <button
                                         onClick={() => setLoadMap(true)}
-                                        className="w-full h-[220px] bg-gray-100 flex flex-col items-center justify-center text-gray-600 hover:bg-gray-200 transition"
+                                        className="w-full h-55 bg-gray-100 flex flex-col items-center justify-center text-gray-600 hover:bg-gray-200 transition"
                                     >
                                         <MapPin size={28} className="mb-2 text-pink-600" />
                                         <span className="font-medium">{t("load_map")}</span>

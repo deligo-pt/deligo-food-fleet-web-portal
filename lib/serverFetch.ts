@@ -1,32 +1,62 @@
-import { verifyTokens } from "@/utils/verifyTokens";
 import { cookies } from "next/headers";
+import { getNewAccessToken } from "@/utils/getNewAccessToken";
+import { redirect } from "next/navigation";
 
 const backendUrl =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "http://localhost:5000/api/v1";
 
+// CREATE HEADERS
+async function createHeaders(
+  headers?: HeadersInit
+) {
+
+  const cookieStore = await cookies();
+
+  const cookieStr = cookieStore.toString();
+
+  const accessToken =
+    cookieStore.get("accessToken")?.value || "";
+
+  return {
+    ...headers,
+
+    Authorization: accessToken
+      ? `Bearer ${accessToken}`
+      : "",
+
+    ...(cookieStr && {
+      cookie: cookieStr,
+    }),
+  };
+}
+
+// MAIN FETCH HELPER
 async function serverFetchHelper(
   endPoint: string,
-  options: RequestInit,
+  options: RequestInit = {},
 ): Promise<Response> {
   const { headers, ...rest } = options;
 
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+  // FIRST REQUEST
+  const response = await fetch(
+    `${backendUrl}${endPoint}`,
+    {
+      credentials: "include",
+      headers: await createHeaders(headers),
+      ...rest,
+    }
+  );
 
-  if (endPoint !== "/auth/refresh-token") {
-    await verifyTokens();
+
+  if (response.status === 401) {
+    console.log("Unauthorized! Redirecting to login...");
+    redirect("/login?clearSession=true");
   }
 
-  return fetch(`${backendUrl}${endPoint}`, {
-    credentials: "include",
-    headers: {
-      ...headers,
-      Authorization: accessToken ? `Bearer ${accessToken}` : "",
-      cookie: cookieStore.toString(),
-    },
-    ...rest,
-  });
+  return response;
 }
+
 
 export const serverFetch = {
   get: (endPoint: string, options: RequestInit = {}) =>
