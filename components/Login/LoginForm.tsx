@@ -42,6 +42,7 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
 
   const [showModal, setShowModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [removeSubmitting, setRemoveSubmitting] = useState(false);
 
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginValidation),
@@ -122,11 +123,13 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
   };
 
   const clearSession = async () => {
+    setRemoveSubmitting(true);
     await login({
       email: form.getValues("email"),
       password: form.getValues("password"),
       forceLogin: true,
     });
+    setRemoveSubmitting(false);
   };
 
   useEffect(() => {
@@ -260,7 +263,7 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
 
       <ClearSessionModal
         open={showModal}
-        isSubmitting={isSubmitting}
+        isSubmitting={removeSubmitting}
         onOpenChange={(open) => setShowModal(open)}
         onRemove={clearSession}
       />

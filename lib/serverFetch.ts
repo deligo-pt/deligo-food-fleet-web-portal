@@ -45,7 +45,6 @@ async function serverFetchHelper(
       credentials: "include",
       headers: await createHeaders(headers),
       ...rest,
-      cache: "no-store",
     }
   );
 

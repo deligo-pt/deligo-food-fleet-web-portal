@@ -78,12 +78,6 @@ export const logoutReq = async () => {
       ),
     });
 
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result?.message || "Logout failed!");
-    }
-
-    return result;
+    return response;
   });
 };
