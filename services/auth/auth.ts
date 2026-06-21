@@ -21,11 +21,12 @@ export const loginReq = async (payload: {
   deviceDetails: TDeviceDetails;
 }) => {
   return catchAsync(async () => {
-    return await serverFetch.post("/auth/login", {
-      body: JSON.stringify(payload),
+    return await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(payload),
     });
   });
 };
