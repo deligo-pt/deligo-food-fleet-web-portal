@@ -1,9 +1,9 @@
 "use server";
 
-import { serverFetch } from "@/lib/serverFetch";
-import { catchAsync } from "@/utils/catchAsync";
 import { verifyJWT } from "@/utils/verifyJWT";
 import { cookies } from "next/headers";
+
+const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
 
 export const getNewAccessToken = async () => {
   const cookieStore = await cookies();
@@ -11,23 +11,31 @@ export const getNewAccessToken = async () => {
 
   const decoded = await verifyJWT(refreshToken, true);
 
-  if (decoded?.success && decoded?.data?.role === "FLEET_MANAGER") {
-    const result = await catchAsync(async () => {
-      return await serverFetch.post("/auth/refresh-token");
-    });
-
-    if (result?.success) {
-      cookieStore.set({
-        name: "accessToken",
-        value: result?.data?.accessToken,
-        maxAge: 60 * 60 * 24 * 7,
-      });
-
-      return result?.data;
-    }
-
+  if (!decoded?.success || decoded?.data?.role !== "FLEET_MANAGER") {
     return null;
   }
 
-  return null;
+  try {
+    const response = await fetch(
+      `${backendUrl}/auth/refresh-token`,
+      {
+        method: "POST",
+        headers: {
+          cookie: `refreshToken=${refreshToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const result = await response.json();
+
+    return {
+      accessToken: result?.data?.accessToken,
+    };
+  } catch {
+    return null;
+  }
 };
