@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import ClearSessionModal from "@/components/Login/ClearSessionModal";
@@ -61,62 +62,62 @@ export default function LoginForm({ redirect, sessionExpired }: IProps) {
   }) => {
     const toastId = toast.loading("Logging in...");
 
-    const deviceDetails = await getDeviceInfo();
+    try {
+      const deviceDetails = await getDeviceInfo();
 
-    const result = await loginReq({
-      ...payload,
-      deviceDetails,
-    });
+      const result = await loginReq({ ...payload, deviceDetails });
 
-    if (result.message === "LIMIT_EXCEEDED") {
-      setShowModal(true);
-      toast.dismiss(toastId);
-      return;
-    }
+      if (result?.success) {
+        setShowModal(false);
 
-    if (result?.success) {
-      setShowModal(false);
+        const decoded = jwtDecode(result.data.accessToken) as {
+          role: string;
+          status: string;
+        };
+        if (decoded.role === USER_ROLE.FLEET_MANAGER) {
+          setCookie("accessToken", result.data.accessToken, 7);
+          setCookie("refreshToken", result.data.refreshToken, 365);
+          toast.success(result?.message || "Login successful!", {
+            id: toastId,
+          });
 
-      const decoded = jwtDecode(result.data.accessToken) as {
-        role: string;
-        status: string;
-      };
-      if (decoded.role === USER_ROLE.FLEET_MANAGER) {
-        setCookie("accessToken", result.data.accessToken, 7);
-        setCookie("refreshToken", result.data.refreshToken, 365);
-        toast.success(result?.message || "Login successful!", {
-          id: toastId,
-        });
+          // get and save fcm token
+          setTimeout(() => {
+            getAndSaveFcmToken(result.data.accessToken);
+          }, 1000);
 
-        // get and save fcm token
-        setTimeout(() => {
-          getAndSaveFcmToken(result.data.accessToken);
-        }, 1000);
-
-        switch (decoded.status) {
-          case "PENDING":
-          case "SUBMITTED":
-          case "REJECTED":
-            router.push("/become-agent/registration-status");
-            return;
-          case "APPROVED":
-            if (redirect) {
-              router.push(redirect);
+          switch (decoded.status) {
+            case "PENDING":
+            case "SUBMITTED":
+            case "REJECTED":
+              router.push("/become-agent/registration-status");
               return;
-            }
-            router.push("/agent/dashboard");
-            return;
+            case "APPROVED":
+              if (redirect) {
+                router.push(redirect);
+                return;
+              }
+              router.push("/agent/dashboard");
+              return;
+          }
+          return;
         }
+        toast.error("You are not a fleet manager", { id: toastId });
+        return;
+      } else {
+        if (result?.err?.statusCode === 403 && result?.err?.errorKey === "LIMIT_EXCEEDED") {
+          toast.error("Device limit exceeded. Click remove and continue login or try again later", { id: toastId });
+          setShowModal(true);
+          return;
+        }
+        toast.error(result?.message || "Login Failed", { id: toastId });
         return;
       }
-      toast.error("You are not a fleet manager", { id: toastId });
-      return;
+    } catch (err: any) {
+      console.log("login err :", err);
+      toast.error(err.message || err?.response?.message || "Login failed", { id: toastId });
     }
-
-    toast.error(result.message || "Login failed", { id: toastId });
-    console.log(result);
-
-  };
+  }
 
   const onSubmit = async (data: LoginFormInputs) => {
     await login(data);
