@@ -4,11 +4,11 @@ import { getFleetManagerInfo } from '@/services/getFleetManagerInfo/getFleetMana
 
 
 const RegistrationStatusPage = async () => {
-  const profileData = await getFleetManagerInfo();
+  const {data} = await getFleetManagerInfo();
 
   return (
     <div>
-      <RegistrationStatus profile={profileData?.data} />
+      <RegistrationStatus profile={data?.existingFleetManager} />
     </div>
   );
 };

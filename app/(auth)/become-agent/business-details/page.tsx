@@ -3,11 +3,11 @@ import { getFleetManagerInfo } from "@/services/getFleetManagerInfo/getFleetMana
 
 
 const BusinessDetailsPage = async () => {
-  const profileData = await getFleetManagerInfo();
+  const {data} = await getFleetManagerInfo();
 
   return (
     <div>
-      <BusinessDetails profile={profileData?.data} />
+      <BusinessDetails profile={data?.existingFleetManager} />
     </div>
   );
 };
