@@ -2,6 +2,7 @@ import SonnerToaster from "@/components/SonnerToaster/SonnerToaster";
 import type { Metadata } from "next";
 import "react-international-phone/style.css";
 import "./globals.css";
+import { GoogleMapsProvider } from "@/store/googleProvider";
 
 export const metadata: Metadata = {
   title: "DeliGo Fleet Manager Portal | Manage Drivers & Operations",
@@ -17,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        {children}
-        <SonnerToaster />
+        <GoogleMapsProvider>
+          {children}
+          <SonnerToaster />
+        </GoogleMapsProvider>
       </body>
     </html>
   );

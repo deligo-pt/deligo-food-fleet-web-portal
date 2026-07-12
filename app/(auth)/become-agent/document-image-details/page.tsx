@@ -11,7 +11,7 @@ export default async function UploadDocumentPage() {
     const result = await getFleetManagerInfo();
 
     if (result?.success) {
-      const docs = result?.data?.documents || {};
+      const docs = result?.data?.existingFleetManager?.documents || {};
 
       (Object.keys(docs) as DocKey[]).forEach((key) => {
         const urls = docs[key];

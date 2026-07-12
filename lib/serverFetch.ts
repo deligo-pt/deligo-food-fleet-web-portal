@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import { getNewAccessToken } from "@/utils/getNewAccessToken";
 import { redirect } from "next/navigation";
 
 const backendUrl =

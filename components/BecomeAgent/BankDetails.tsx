@@ -25,18 +25,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
 import { updateFleetInformation } from "@/services/becomeAgent/becomeAgentManagement";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { bankDetailsValidation } from "@/validations/become-agent/bank-details.validation";
 import z from "zod";
+import { cn } from "@/lib/utils";
+import { bankNames } from "@/consts/bankName.const";
 
 type TBankForm = z.infer<typeof bankDetailsValidation>;
 
 interface Props {
   profile: {
-    data: TFleetManager;
+    existingFleetManager: TFleetManager;
   };
 }
 
@@ -57,16 +66,16 @@ const BankDetails = ({ profile }: Props) => {
   const { formState: { isSubmitting } } = form;
 
   useEffect(() => {
-    if (!profile?.data?.bankDetails) return;
+    if (!profile?.existingFleetManager?.bankDetails) return;
 
-    form.setValue("bankName", profile?.data?.bankDetails.bankName || "");
+    form.setValue("bankName", profile?.existingFleetManager?.bankDetails.bankName || "");
     form.setValue(
       "accountHolderName",
-      profile?.data?.bankDetails.accountHolderName || "",
+      profile?.existingFleetManager?.bankDetails.accountHolderName || "",
     );
-    form.setValue("iban", profile?.data?.bankDetails.iban || "");
-    form.setValue("swiftCode", profile?.data?.bankDetails.swiftCode || "");
-  }, [profile?.data, form]);
+    form.setValue("iban", profile?.existingFleetManager?.bankDetails.iban || "");
+    form.setValue("swiftCode", profile?.existingFleetManager?.bankDetails.swiftCode || "");
+  }, [profile?.existingFleetManager, form]);
 
   const onSubmit = async (data: TBankForm) => {
     const toastId = toast.loading("Updating bank details...");
@@ -81,7 +90,7 @@ const BankDetails = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.data?.userId as string,
+      profile?.existingFleetManager?.userId as string,
       payload,
     );
 
@@ -134,12 +143,31 @@ const BankDetails = ({ profile }: Props) => {
                   <FormField
                     control={form.control}
                     name="bankName"
-                    render={({ field }) => (
+                    render={({ field, fieldState }) => (
                       <FormItem>
                         <FormLabel>
                           <CreditCard className="text-[#DC3173]" /> {t("bankName")}
                         </FormLabel>
                         <FormControl>
+                          <Select onValueChange={field.onChange} value={field.value || profile?.existingFleetManager?.bankDetails?.bankName || ""}>
+                            <SelectTrigger
+                              className={cn(
+                                "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
+                                fieldState.invalid
+                                  ? "border-red-500"
+                                  : "border-gray-300",
+                              )}
+                            >
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {bankNames.map((value) => (
+                                <SelectItem key={value} value={value}>
+                                  {value}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                           <Input {...field} />
                         </FormControl>
                         <FormMessage />

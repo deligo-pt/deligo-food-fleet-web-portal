@@ -14,21 +14,23 @@ type TDeviceDetails = {
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
 
-export const loginReq = async (payload: {
+export const loginReq = async (data: {
   email: string;
   password: string;
   forceLogin?: boolean;
   deviceDetails: TDeviceDetails;
 }) => {
-  return catchAsync(async () => {
-    return await fetch(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+  const response = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   });
+
+  const result = await response.json();
+
+  return result;
 };
 
 export const resendOtpReq = async (payload: { email: string; role: string; }) => {

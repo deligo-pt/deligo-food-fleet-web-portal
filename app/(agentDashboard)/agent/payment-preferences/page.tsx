@@ -3,11 +3,11 @@ import { getFleetManagerInfo } from '@/services/getFleetManagerInfo/getFleetMana
 
 
 const PaymentPreferencesPage = async () => {
-  const fleetInfo = await getFleetManagerInfo();
+  const { data } = await getFleetManagerInfo();
 
   return (
     <div>
-      <PaymentPreferences bankDetails={fleetInfo?.data?.bankDetails} />
+      <PaymentPreferences bankDetails={data?.existingFleetManager?.bankDetails} />
     </div>
   );
 };

@@ -33,7 +33,7 @@ type PersonalForm = {
 
 interface Props {
   profile: {
-    data: TFleetManager;
+    existingFleetManager: TFleetManager;
   };
 }
 
@@ -54,13 +54,13 @@ const PersonalDetails = ({ profile }: Props) => {
   const { formState: { isSubmitting } } = form;
 
   useEffect(() => {
-    if (!profile?.data?.name) return;
+    if (!profile?.existingFleetManager?.name) return;
 
-    form.setValue("firstName", profile?.data?.name.firstName || "");
-    form.setValue("lastName", profile?.data?.name.lastName || "");
-    form.setValue("email", profile?.data?.email || "");
-    form.setValue("phoneNumber", profile?.data?.contactNumber || "");
-  }, [form, profile?.data]);
+    form.setValue("firstName", profile?.existingFleetManager?.name.firstName || "");
+    form.setValue("lastName", profile?.existingFleetManager?.name.lastName || "");
+    form.setValue("email", profile?.existingFleetManager?.email || "");
+    form.setValue("phoneNumber", profile?.existingFleetManager?.contactNumber || "");
+  }, [form, profile?.existingFleetManager]);
 
   const onSubmit = async (data: PersonalForm) => {
     const toastId = toast.loading("Updating personal details...");
@@ -71,7 +71,7 @@ const PersonalDetails = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.data?.userId as string,
+      profile?.existingFleetManager?.userId as string,
       personalDetails,
     );
 
