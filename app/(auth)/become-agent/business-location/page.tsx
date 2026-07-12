@@ -8,7 +8,7 @@ const BusinessLocationPage = async () => {
 
   return (
     <div>
-      <BusinessLocation profile={profileData} />
+      <BusinessLocation profile={profileData?.data} />
     </div>
   );
 };
