@@ -38,7 +38,7 @@ interface Props {
 const PersonalDetails = ({ profile }: Props) => {
   const { t } = useTranslation();
   const router = useRouter();
-  console.log("profile", profile);
+
   const form = useForm<PersonalForm>({
     resolver: zodResolver(personalDetailsValidation),
     defaultValues: {
