@@ -98,6 +98,24 @@ export default function VerifyOtp({ email }: { email: string }) {
     setIsSubmitting(false);
   };
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim();
+
+    if (/^\d+$/.test(pastedData)) {
+      const codeDigits = pastedData.slice(0, 4).split("");
+
+      const newOtp = [...otp];
+      for (let i = 0; i < 4; i++) {
+        newOtp[i] = codeDigits[i] || "";
+      }
+      setOtp(newOtp);
+
+      const targetIndex = Math.min(codeDigits.length, 3);
+      inputRefs.current[targetIndex]?.focus();
+    }
+  };
+
   const resendOtp = async () => {
     const toastId = toast.loading("Resending OTP...");
     setIsSubmitting(true);
@@ -159,6 +177,7 @@ export default function VerifyOtp({ email }: { email: string }) {
                       value={digit}
                       onChange={(e) => handleChange(e.target.value, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
+                      onPaste={handlePaste}
                       ref={(el) => {
                         inputRefs.current[index] = el;
                       }}

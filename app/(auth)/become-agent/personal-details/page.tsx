@@ -8,7 +8,7 @@ const PersonalDetailsPage = async () => {
 
   return (
     <div>
-      <PersonalDetails profile={profileData} />
+      <PersonalDetails profile={profileData?.data} />
     </div>
   );
 };

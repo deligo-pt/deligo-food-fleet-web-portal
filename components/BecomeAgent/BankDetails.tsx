@@ -36,7 +36,7 @@ type TBankForm = z.infer<typeof bankDetailsValidation>;
 
 interface Props {
   profile: {
-    data: TFleetManager;
+    existingFleetManager: TFleetManager;
   };
 }
 
@@ -57,16 +57,16 @@ const BankDetails = ({ profile }: Props) => {
   const { formState: { isSubmitting } } = form;
 
   useEffect(() => {
-    if (!profile?.data?.bankDetails) return;
+    if (!profile?.existingFleetManager?.bankDetails) return;
 
-    form.setValue("bankName", profile?.data?.bankDetails.bankName || "");
+    form.setValue("bankName", profile?.existingFleetManager?.bankDetails.bankName || "");
     form.setValue(
       "accountHolderName",
-      profile?.data?.bankDetails.accountHolderName || "",
+      profile?.existingFleetManager?.bankDetails.accountHolderName || "",
     );
-    form.setValue("iban", profile?.data?.bankDetails.iban || "");
-    form.setValue("swiftCode", profile?.data?.bankDetails.swiftCode || "");
-  }, [profile?.data, form]);
+    form.setValue("iban", profile?.existingFleetManager?.bankDetails.iban || "");
+    form.setValue("swiftCode", profile?.existingFleetManager?.bankDetails.swiftCode || "");
+  }, [profile?.existingFleetManager, form]);
 
   const onSubmit = async (data: TBankForm) => {
     const toastId = toast.loading("Updating bank details...");
@@ -81,7 +81,7 @@ const BankDetails = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.data?.userId as string,
+      profile?.existingFleetManager?.userId as string,
       payload,
     );
 

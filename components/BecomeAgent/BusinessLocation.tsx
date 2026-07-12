@@ -24,13 +24,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-declare global {
-  interface Window {
-    google: any;
-  }
-}
 interface Props {
-  profile: TFleetManager;
+  profile: {
+    existingFleetManager: TFleetManager;
+  };
 }
 type LocationFormType = {
   street: string;
@@ -97,8 +94,8 @@ const BusinessLocation = ({ profile }: Props) => {
   const defaultLocation = { lat: 38.7223, lng: -9.1393 };
 
   const [position, setPosition] = useState({
-    lat: profile?.businessLocation?.latitude ?? defaultLocation.lat,
-    lng: profile?.businessLocation?.longitude ?? defaultLocation.lng,
+    lat: profile?.existingFleetManager?.businessLocation?.latitude ?? defaultLocation.lat,
+    lng: profile?.existingFleetManager?.businessLocation?.longitude ?? defaultLocation.lng,
   });
 
   const fillAddressFields = useCallback(
@@ -109,7 +106,6 @@ const BusinessLocation = ({ profile }: Props) => {
       const address: Partial<LocationFormType> = {};
 
       components.forEach((component) => {
-        console.log("component", component);
         const types = component.types;
 
         if (types.includes("street_number")) {
@@ -156,7 +152,7 @@ const BusinessLocation = ({ profile }: Props) => {
         {
           location: { lat, lng },
         },
-        (results : any, status : string) => {
+        (results: any, status: string) => {
           if (
             status === "OK" &&
             results &&
@@ -206,16 +202,17 @@ const BusinessLocation = ({ profile }: Props) => {
   }, [places, map, fillAddressFields, setLocationCoordinates, form]);
 
   useEffect(() => {
-    if (!profile?.businessLocation) return;
+    if (!profile?.existingFleetManager?.businessLocation) return;
 
-    const latitude = profile?.businessLocation.latitude || 0;
-    const longitude = profile?.businessLocation.longitude || 0;
+    const latitude = profile?.existingFleetManager?.businessLocation.latitude || 0;
+    const longitude = profile?.existingFleetManager?.businessLocation.longitude || 0;
 
     form.reset({
-      street: profile?.businessLocation.street || "",
-      city: profile?.businessLocation.city || "",
-      postalCode: profile?.businessLocation.postalCode || "",
-      country: profile?.businessLocation.country || "",
+      street: profile?.existingFleetManager?.businessLocation.street || "",
+      state: profile?.existingFleetManager?.businessLocation.state || "",
+      city: profile?.existingFleetManager?.businessLocation.city || "",
+      postalCode: profile?.existingFleetManager?.businessLocation.postalCode || "",
+      country: profile?.existingFleetManager?.businessLocation.country || "",
       latitude,
       longitude,
     });
@@ -254,7 +251,7 @@ const BusinessLocation = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.userId as string,
+      profile?.existingFleetManager?.userId as string,
       payload,
     );
 
@@ -281,7 +278,7 @@ const BusinessLocation = ({ profile }: Props) => {
         variant="link"
         className="inline-flex items-center gap-2 text-[#DC3173] absolute top-0.5 px-0! cursor-pointer"
       >
-        <ArrowLeftCircle /> {t("goBack")}
+        <ArrowLeftCircle /> {t("go_back")}
       </Button>
 
       <Form {...form}>

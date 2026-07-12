@@ -8,7 +8,7 @@ const RegistrationStatusPage = async () => {
 
   return (
     <div>
-      <RegistrationStatus profile={profileData} />
+      <RegistrationStatus profile={profileData?.data} />
     </div>
   );
 };
