@@ -25,10 +25,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface Props {
-  profile: {
-    existingFleetManager: TFleetManager;
-  };
+  profile: TFleetManager
 }
+
 type LocationFormType = {
   street: string;
   state?: string;
@@ -94,8 +93,8 @@ const BusinessLocation = ({ profile }: Props) => {
   const defaultLocation = { lat: 38.7223, lng: -9.1393 };
 
   const [position, setPosition] = useState({
-    lat: profile?.existingFleetManager?.businessLocation?.latitude ?? defaultLocation.lat,
-    lng: profile?.existingFleetManager?.businessLocation?.longitude ?? defaultLocation.lng,
+    lat: profile?.businessLocation?.latitude ?? defaultLocation.lat,
+    lng: profile?.businessLocation?.longitude ?? defaultLocation.lng,
   });
 
   const fillAddressFields = useCallback(
@@ -202,17 +201,17 @@ const BusinessLocation = ({ profile }: Props) => {
   }, [places, map, fillAddressFields, setLocationCoordinates, form]);
 
   useEffect(() => {
-    if (!profile?.existingFleetManager?.businessLocation) return;
+    if (!profile?.businessLocation) return;
 
-    const latitude = profile?.existingFleetManager?.businessLocation.latitude || 0;
-    const longitude = profile?.existingFleetManager?.businessLocation.longitude || 0;
+    const latitude = profile?.businessLocation.latitude || 0;
+    const longitude = profile?.businessLocation.longitude || 0;
 
     form.reset({
-      street: profile?.existingFleetManager?.businessLocation.street || "",
-      state: profile?.existingFleetManager?.businessLocation.state || "",
-      city: profile?.existingFleetManager?.businessLocation.city || "",
-      postalCode: profile?.existingFleetManager?.businessLocation.postalCode || "",
-      country: profile?.existingFleetManager?.businessLocation.country || "",
+      street: profile?.businessLocation.street || "",
+      state: profile?.businessLocation.state || "",
+      city: profile?.businessLocation.city || "",
+      postalCode: profile?.businessLocation.postalCode || "",
+      country: profile?.businessLocation.country || "",
       latitude,
       longitude,
     });
@@ -251,7 +250,7 @@ const BusinessLocation = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.existingFleetManager?.userId as string,
+      profile?.userId as string,
       payload,
     );
 

@@ -30,10 +30,9 @@ type BusinessForm = {
 };
 
 interface Props {
-  profile: {
-    existingFleetManager: TFleetManager;
-  };
+  profile: TFleetManager
 }
+
 
 const BusinessDetails = ({ profile }: Props) => {
   const { t } = useTranslation();
@@ -51,19 +50,19 @@ const BusinessDetails = ({ profile }: Props) => {
   const { formState: { isSubmitting } } = form;
 
   useEffect(() => {
-    if (!profile?.existingFleetManager?.businessDetails) return;
+    if (!profile?.businessDetails) return;
 
     form.setValue(
       "businessName",
-      profile?.existingFleetManager?.businessDetails?.businessName || "",
+      profile?.businessDetails?.businessName || "",
     );
     form.setValue(
       "businessLicenseNumber",
-      profile?.existingFleetManager?.businessDetails?.businessLicenseNumber || "",
+      profile?.businessDetails?.businessLicenseNumber || "",
     );
     form.setValue(
       "NIF",
-      profile?.existingFleetManager?.businessDetails?.NIF || "",
+      profile?.businessDetails?.NIF || "",
     );
   }, [form, profile]);
 
@@ -79,7 +78,7 @@ const BusinessDetails = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.existingFleetManager?.userId as string,
+      profile?.userId as string,
       businessDetails,
     );
 

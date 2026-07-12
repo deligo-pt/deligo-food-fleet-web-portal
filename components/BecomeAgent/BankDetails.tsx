@@ -44,10 +44,9 @@ import { bankNames } from "@/consts/bankName.const";
 type TBankForm = z.infer<typeof bankDetailsValidation>;
 
 interface Props {
-  profile: {
-    existingFleetManager: TFleetManager;
-  };
+  profile: TFleetManager
 }
+
 
 const BankDetails = ({ profile }: Props) => {
   const { t } = useTranslation();
@@ -66,16 +65,16 @@ const BankDetails = ({ profile }: Props) => {
   const { formState: { isSubmitting } } = form;
 
   useEffect(() => {
-    if (!profile?.existingFleetManager?.bankDetails) return;
+    if (!profile?.bankDetails) return;
 
-    form.setValue("bankName", profile?.existingFleetManager?.bankDetails.bankName || "");
+    form.setValue("bankName", profile?.bankDetails.bankName || "");
     form.setValue(
       "accountHolderName",
-      profile?.existingFleetManager?.bankDetails.accountHolderName || "",
+      profile?.bankDetails.accountHolderName || "",
     );
-    form.setValue("iban", profile?.existingFleetManager?.bankDetails.iban || "");
-    form.setValue("swiftCode", profile?.existingFleetManager?.bankDetails.swiftCode || "");
-  }, [profile?.existingFleetManager, form]);
+    form.setValue("iban", profile?.bankDetails.iban || "");
+    form.setValue("swiftCode", profile?.bankDetails.swiftCode || "");
+  }, [profile, form]);
 
   const onSubmit = async (data: TBankForm) => {
     const toastId = toast.loading("Updating bank details...");
@@ -90,7 +89,7 @@ const BankDetails = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.existingFleetManager?.userId as string,
+      profile?.userId as string,
       payload,
     );
 
@@ -149,7 +148,7 @@ const BankDetails = ({ profile }: Props) => {
                           <CreditCard className="text-[#DC3173]" /> {t("bankName")}
                         </FormLabel>
                         <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value || profile?.existingFleetManager?.bankDetails?.bankName || ""}>
+                          <Select onValueChange={field.onChange} value={field.value || profile?.bankDetails?.bankName || ""}>
                             <SelectTrigger
                               className={cn(
                                 "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
