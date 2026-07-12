@@ -32,15 +32,13 @@ type PersonalForm = {
 };
 
 interface Props {
-  profile: {
-    existingFleetManager: TFleetManager;
-  };
+  profile: TFleetManager
 }
 
 const PersonalDetails = ({ profile }: Props) => {
   const { t } = useTranslation();
   const router = useRouter();
-
+  console.log("profile", profile);
   const form = useForm<PersonalForm>({
     resolver: zodResolver(personalDetailsValidation),
     defaultValues: {
@@ -54,13 +52,13 @@ const PersonalDetails = ({ profile }: Props) => {
   const { formState: { isSubmitting } } = form;
 
   useEffect(() => {
-    if (!profile?.existingFleetManager?.name) return;
+    if (!profile?.name) return;
 
-    form.setValue("firstName", profile?.existingFleetManager?.name.firstName || "");
-    form.setValue("lastName", profile?.existingFleetManager?.name.lastName || "");
-    form.setValue("email", profile?.existingFleetManager?.email || "");
-    form.setValue("phoneNumber", profile?.existingFleetManager?.contactNumber || "");
-  }, [form, profile?.existingFleetManager]);
+    form.setValue("firstName", profile?.name.firstName || "");
+    form.setValue("lastName", profile?.name.lastName || "");
+    form.setValue("email", profile?.email || "");
+    form.setValue("phoneNumber", profile?.contactNumber || "");
+  }, [form, profile]);
 
   const onSubmit = async (data: PersonalForm) => {
     const toastId = toast.loading("Updating personal details...");
@@ -71,7 +69,7 @@ const PersonalDetails = ({ profile }: Props) => {
     };
 
     const result = await updateFleetInformation(
-      profile?.existingFleetManager?.userId as string,
+      profile?.userId as string,
       personalDetails,
     );
 

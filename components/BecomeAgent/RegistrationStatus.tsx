@@ -23,16 +23,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 interface Props {
-  profile: {
-    existingFleetManager: TFleetManager;
-  };
+  profile: TFleetManager
 }
+
 
 const RegistrationStatus = ({ profile }: Props) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const [status] = useState(profile?.existingFleetManager?.status || "");
-  const [remarks] = useState((profile?.existingFleetManager?.remarks as string) || "");
+  const [status] = useState(profile?.status || "");
+  const [remarks] = useState((profile?.remarks as string) || "");
 
   const logOut = async () => {
     const toastId = toast.loading("Logging out...");
