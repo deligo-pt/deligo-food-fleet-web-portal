@@ -55,7 +55,7 @@ const BankDetails = ({ profile }: Props) => {
   const form = useForm<TBankForm>({
     resolver: zodResolver(bankDetailsValidation),
     defaultValues: {
-      bankName: "",
+      bankName: profile?.bankDetails?.bankName || "",
       accountHolderName: "",
       iban: "",
       swiftCode: "",
@@ -148,7 +148,7 @@ const BankDetails = ({ profile }: Props) => {
                           <CreditCard className="text-[#DC3173]" /> {t("bankName")}
                         </FormLabel>
                         <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value || profile?.bankDetails?.bankName || ""}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <SelectTrigger
                               className={cn(
                                 "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
@@ -157,7 +157,7 @@ const BankDetails = ({ profile }: Props) => {
                                   : "border-gray-300",
                               )}
                             >
-                              <SelectValue placeholder="Select" />
+                              <SelectValue placeholder={t("select_bank_name")} />
                             </SelectTrigger>
                             <SelectContent>
                               {bankNames.map((value) => (
@@ -167,7 +167,6 @@ const BankDetails = ({ profile }: Props) => {
                               ))}
                             </SelectContent>
                           </Select>
-                          <Input {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

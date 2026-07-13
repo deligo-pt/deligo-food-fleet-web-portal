@@ -484,6 +484,7 @@ export const pt = {
     bankDetailsDesc:
         "Adicione os seus dados bancários para podermos efetuar pagamentos. Os seus dados são encriptados e armazenados com segurança.",
     bankName: "Nome do Banco",
+    select_bank_name: "Selecionar Nome do Banco",
     accountHolder: "Titular da Conta",
     iban: "IBAN",
     swift_bic: "SWIFT / BIC",

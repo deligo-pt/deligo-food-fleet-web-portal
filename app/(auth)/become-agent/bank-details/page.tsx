@@ -3,7 +3,7 @@ import { getFleetManagerInfo } from '@/services/getFleetManagerInfo/getFleetMana
 
 
 const BankDetailsPage = async () => {
-  const {data} = await getFleetManagerInfo();
+  const { data } = await getFleetManagerInfo();
 
   return (
     <div>
