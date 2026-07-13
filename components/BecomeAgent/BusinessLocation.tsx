@@ -34,8 +34,8 @@ type LocationFormType = {
   city: string;
   postalCode: string;
   country: string;
-  latitude?: number;
-  longitude?: number;
+  latitude: number;
+  longitude: number;
 };
 
 
@@ -56,6 +56,8 @@ const BusinessLocation = ({ profile }: Props) => {
       city: "",
       postalCode: "",
       country: "",
+      latitude: 0,
+      longitude: 0,
     },
   });
 
@@ -273,7 +275,7 @@ const BusinessLocation = ({ profile }: Props) => {
       transition={{ duration: 0.5 }}
     >
       <Button
-        onClick={() => router.push("/become-vendor/business-details")}
+        onClick={() => router.push("/become-agent/business-details")}
         variant="link"
         className="inline-flex items-center gap-2 text-[#DC3173] absolute top-0.5 px-0! cursor-pointer"
       >
@@ -305,10 +307,10 @@ const BusinessLocation = ({ profile }: Props) => {
           {/* MAP */}
           <div className="w-full h-80 rounded-xl shadow-md border overflow-hidden">
             <Map
-              center={position}
-              zoom={14}
+              defaultCenter={position}
+              defaultZoom={14}
               gestureHandling="greedy"
-              disableDefaultUI
+              disableDefaultUI={false}
               onClick={(event) => {
                 if (!event.detail?.latLng) return;
 

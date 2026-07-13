@@ -48,7 +48,7 @@ export function PaymentDetailsForm({ onNext, partner }: IProps) {
     resolver: zodResolver(paymentDetailsValidation),
     defaultValues: {
       iban: "",
-      bankName: "",
+      bankName: partner?.bankDetails?.bankName || "",
       swiftCode: "",
       accountHolderName: "",
     },
@@ -144,7 +144,7 @@ export function PaymentDetailsForm({ onNext, partner }: IProps) {
                     </div>
                   </FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value || partner?.bankDetails?.bankName || ""}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger
                         className={cn(
                           "w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all",
@@ -153,7 +153,7 @@ export function PaymentDetailsForm({ onNext, partner }: IProps) {
                             : "border-gray-300",
                         )}
                       >
-                        <SelectValue placeholder="Select" />
+                        <SelectValue placeholder={t("select_bank_name")} />
                       </SelectTrigger>
                       <SelectContent>
                         {bankNames.map((value) => (
