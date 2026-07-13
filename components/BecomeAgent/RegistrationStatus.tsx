@@ -48,9 +48,29 @@ const RegistrationStatus = ({ profile }: Props) => {
       router.push("/login");
       return;
     }
+    if (result?.message === "NEXT_REDIRECT") {
+      toast.success("Logout successful!", {
+        id: toastId,
+      });
+
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
+      router.push("/login");
+      return;
+    }
+
+    if (result?.success === false) {
+      toast.success("Logout successful!", {
+        id: toastId,
+      });
+
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
+      router.push("/login");
+      return;
+    }
 
     toast.error(result?.message || "Logout failed", { id: toastId });
-    console.log(result);
   };
 
   return (

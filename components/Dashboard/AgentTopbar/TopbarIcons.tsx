@@ -44,7 +44,6 @@ export default function TopbarIcons({ agent }: IProps) {
     const toastId = toast.loading("Logging out...");
 
     const result = await logoutReq();
-    console.log("logut res", result);
 
     if (result?.success) {
       toast.success(result?.message || "Logout successful!", {
