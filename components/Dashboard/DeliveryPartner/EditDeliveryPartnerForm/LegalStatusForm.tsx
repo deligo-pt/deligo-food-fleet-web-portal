@@ -45,6 +45,7 @@ const permitTypes = [
   "Temporary Residence",
   "Permanent Residence",
   "EU Citizen",
+  "Passport",
   "Other",
 ];
 
