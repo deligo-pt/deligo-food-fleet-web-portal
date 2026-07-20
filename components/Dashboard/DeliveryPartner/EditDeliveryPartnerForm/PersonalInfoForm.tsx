@@ -69,12 +69,13 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(personalInfoValidation),
-    mode: "onChange",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       firstName: "",
       lastName: "",
       // prefixPhoneNumber: "+351",
-      phoneNumber: "",
+      phoneNumber: "+351",
       dateOfBirth: "",
       nationality: "",
       gender: "MALE",
@@ -121,6 +122,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
         country: values.country,
       },
     };
+
     const result = await updatePartnerInformation(id as string, payload);
 
     if (result.success) {
@@ -176,12 +178,9 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
     getPartnerData();
   }, [partner]);
 
-  useEffect(() => {
-    const currentPhone = form.getValues("phoneNumber");
-    if (!currentPhone) {
-      form.setValue("phoneNumber", "+351", { shouldValidate: true });
-    }
-  }, [form]);
+  const today = new Date();
+  // yesterday.setDate(yesterday.getDate() - 1);
+  // yesterday.setHours(0, 0, 0, 0);
 
   return (
     <div>
@@ -327,6 +326,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                       onChange={field.onChange}
                       value={field.value}
                       isInvalid={fieldState.invalid}
+                      maxDate={today}
                     />
                   </FormControl>
                   <FormMessage />

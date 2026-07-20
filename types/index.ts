@@ -18,7 +18,7 @@ export type TResponse<T> = {
 
 export type TGeoJSONPoint = {
   type: "Point";
-  coordinates: [number, number];
+  coordinates: [number, number]; // [longitude, latitude]
   geoAccuracy?: number;
   heading?: number;
   speed?: number;

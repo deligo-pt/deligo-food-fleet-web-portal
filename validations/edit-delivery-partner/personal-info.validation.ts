@@ -22,16 +22,33 @@ export const personalInfoValidation = z
 
     // prefixPhoneNumber: z.string(),
 
-    phoneNumber: z.string()
-      .min(10, "Phone number is required")
-      .refine((val) => {
-        try {
-          const phone = parsePhoneNumberFromString(val);
-          return phone?.isValid() ?? false;
-        } catch {
-          return false;
+    phoneNumber: z.string().superRefine((value, ctx) => {
+      const phone = value.trim();
+
+      if (!phone || phone === "+351") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Phone number is required",
+        });
+        return;
+      }
+
+      try {
+        const parsed = parsePhoneNumberFromString(phone);
+
+        if (!parsed?.isValid()) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Invalid phone number for the selected country",
+          });
         }
-      }, "Invalid phone number for the selected country"),
+      } catch {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid phone number for the selected country",
+        });
+      }
+    }),
 
     dateOfBirth: z
       .string()
