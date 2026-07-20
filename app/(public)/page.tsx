@@ -2,7 +2,7 @@ import AgentHeroBackground from '@/components/banner/Banner';
 import UniqueBenefitsSection from '@/components/Benefits/benefits';
 import CTASectionUnique from '@/components/CTASection/CTASection';
 import FAQSection from '@/components/faq/faq';
-import FloatingTestimonialCarousel from '@/components/Testimonials/Testimonials';
+// import FloatingTestimonialCarousel from '@/components/Testimonials/Testimonials';
 import HowItWorks from '@/components/Works/works';
 
 
@@ -12,7 +12,7 @@ const PublicHomePage = () => {
             <AgentHeroBackground />
             <HowItWorks />
             <UniqueBenefitsSection />
-            <FloatingTestimonialCarousel />
+            {/* <FloatingTestimonialCarousel /> */}
             <FAQSection />
             <CTASectionUnique />
         </div>
