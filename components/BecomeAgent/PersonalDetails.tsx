@@ -136,7 +136,7 @@ const PersonalDetails = ({ profile }: Props) => {
                       <FormLabel className="block text-sm font-medium text-gray-700">
                         <div className="flex items-center">
                           <User className="w-5 h-5 text-[#DC3173]" />
-                          <span className="ml-2">{t("first_name")}</span>
+                          <span className="ml-2">{t("first_name")}<span className="ml-1 text-red-600">*</span></span>
                         </div>
                       </FormLabel>
                       <FormControl>
@@ -160,7 +160,7 @@ const PersonalDetails = ({ profile }: Props) => {
                       <FormLabel className="block text-sm font-medium text-gray-700">
                         <div className="flex items-center">
                           <User className="w-5 h-5 text-[#DC3173]" />
-                          <span className="ml-2">{t("last_name")}</span>
+                          <span className="ml-2">{t("last_name")}<span className="ml-1 text-red-600">*</span></span>
                         </div>
                       </FormLabel>
                       <FormControl>
@@ -184,7 +184,7 @@ const PersonalDetails = ({ profile }: Props) => {
                       <FormLabel className="block text-sm font-medium text-gray-700">
                         <div className="flex items-center">
                           <Mail className="text-[#DC3173] w-5 h-5" />
-                          <span className="ml-2">{t("email")}</span>
+                          <span className="ml-2">{t("email")}<span className="ml-1 text-red-600">*</span></span>
                         </div>
                       </FormLabel>
                       <FormControl>
@@ -209,7 +209,7 @@ const PersonalDetails = ({ profile }: Props) => {
                     <FormItem>
                       <div className="flex items-center text-sm font-medium text-gray-700 mb-1">
                         <PhoneIcon className="w-5 h-5 text-[#DC3173]" />
-                        <span className="ml-2">{t("phone_number")}</span>
+                        <span className="ml-2">{t("phone_number")}<span className="ml-1 text-red-600">*</span></span>
                       </div>
 
                       <FormControl>

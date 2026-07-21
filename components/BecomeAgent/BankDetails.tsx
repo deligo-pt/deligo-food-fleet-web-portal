@@ -145,7 +145,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field, fieldState }) => (
                       <FormItem>
                         <FormLabel>
-                          <CreditCard className="text-[#DC3173]" /> {t("bankName")}
+                          <CreditCard className="text-[#DC3173]" /> {t("bankName")}<span className="ml-1 text-red-600">*</span>
                         </FormLabel>
                         <FormControl>
                           <Select onValueChange={field.onChange} value={field.value}>
@@ -179,7 +179,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <User className="text-[#DC3173]" /> {t("accountHolder")}
+                          <User className="text-[#DC3173]" /> {t("accountHolder")}<span className="ml-1 text-red-600">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input {...field} />
@@ -195,7 +195,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <FileText className="text-[#DC3173]" /> {t("iban")}
+                          <FileText className="text-[#DC3173]" /> {t("iban")}<span className="ml-1 text-red-600">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input {...field} className="uppercase" />
@@ -211,7 +211,7 @@ const BankDetails = ({ profile }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          <Globe className="text-[#DC3173]" /> {t("swift_bic")}
+                          <Globe className="text-[#DC3173]" /> {t("swift_bic")}<span className="ml-1 text-red-600">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input {...field} className="uppercase" />

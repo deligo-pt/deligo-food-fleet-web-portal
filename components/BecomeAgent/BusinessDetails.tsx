@@ -142,7 +142,7 @@ const BusinessDetails = ({ profile }: Props) => {
                         <FormLabel className="block text-sm font-medium text-gray-700">
                           <div className="flex items-center">
                             <Building2 className="text-[#DC3173] w-5 h-5" />
-                            <span className="ml-2">{t("business_name")}</span>
+                            <span className="ml-2">{t("business_name")}<span className="ml-1 text-red-600">*</span></span>
                           </div>
                         </FormLabel>
                         <FormControl>
@@ -166,7 +166,7 @@ const BusinessDetails = ({ profile }: Props) => {
                         <FormLabel className="block text-sm font-medium text-gray-700">
                           <div className="flex items-center">
                             <FileCheck2 className="text-[#DC3173] w-5 h-5" />
-                            <span className="ml-2">{t("license_number")}</span>
+                            <span className="ml-2">{t("license_number")}<span className="ml-1 text-red-600">*</span></span>
                           </div>
                         </FormLabel>
                         <FormControl>
@@ -193,7 +193,7 @@ const BusinessDetails = ({ profile }: Props) => {
                         <FormLabel className="block text-sm font-medium text-gray-700">
                           <div className="flex items-center">
                             <Building2 className="text-[#DC3173] w-5 h-5" />
-                            <span className="ml-2">{t("nif_number")}</span>
+                            <span className="ml-2">{t("nif_number")}<span className="ml-1 text-red-600">*</span></span>
                           </div>
                         </FormLabel>
                         <FormControl>

@@ -67,25 +67,30 @@ const BusinessLocation = ({ profile }: Props) => {
     {
       label: t("street"),
       name: "street",
+      isOptional: false
     },
     {
       label: t("state_optional"),
       name: "state",
+      isOptional: true
     },
     {
       label: t("city"),
       name: "city",
+      isOptional: false
     },
     {
       label: t("postalCode"),
       name: "postalCode",
+      isOptional: false
     },
     {
       label: t("country"),
       name: "country",
+      isOptional: false
     },
-    { label: "Latitude", name: "latitude" },
-    { label: "Longitude", name: "longitude" },
+    { label: "Latitude", name: "latitude", isOptional: true },
+    { label: "Longitude", name: "longitude", isOptional: true },
   ];
   const map = useMap();
   const places = useMapsLibrary("places");
@@ -342,7 +347,7 @@ const BusinessLocation = ({ profile }: Props) => {
                 name={field.name as keyof LocationFormType}
                 render={({ field: formField }) => (
                   <FormItem>
-                    <FormLabel>{field.label}</FormLabel>
+                    <FormLabel>{field.label} {!field?.isOptional && <span className="ml-1 text-red-600">*</span>}</FormLabel>
                     <FormControl>
                       <Input
                         {...formField}
