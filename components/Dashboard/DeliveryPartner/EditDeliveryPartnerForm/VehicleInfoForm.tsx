@@ -178,6 +178,8 @@ export function VehicleInfoForm({ onNext, partner }: IProps) {
 
   }, [partner, form]);
 
+  const today = new Date();
+
   return (
     <div>
       <motion.div
@@ -393,6 +395,7 @@ export function VehicleInfoForm({ onNext, partner }: IProps) {
                                   onChange={field.onChange}
                                   value={field.value || ""}
                                   isInvalid={fieldState.invalid}
+                                  minDate={today}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -447,6 +450,7 @@ export function VehicleInfoForm({ onNext, partner }: IProps) {
                                   onChange={field.onChange}
                                   value={field.value}
                                   isInvalid={fieldState.invalid}
+                                  minDate={today}
                                 />
                               </FormControl>
                               <FormMessage />

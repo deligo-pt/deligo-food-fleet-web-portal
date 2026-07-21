@@ -111,6 +111,8 @@ export function BackgroundCheckForm({ onNext, partner }: IProps) {
     getPartnerData();
   }, [partner]);
 
+  const today = new Date();
+
   return (
     <div>
       <motion.div
@@ -216,6 +218,7 @@ export function BackgroundCheckForm({ onNext, partner }: IProps) {
                       value={field.value as string}
                       isInvalid={fieldState.invalid}
                       disabled={!hasCertificate}
+                      maxDate={today}
                     />
                   </FormControl>
                   <FormMessage />
@@ -246,6 +249,7 @@ export function BackgroundCheckForm({ onNext, partner }: IProps) {
                       value={field.value as string}
                       isInvalid={fieldState.invalid}
                       disabled={!hasCertificate}
+                      minDate={today}
                     />
                   </FormControl>
                   <FormMessage />
