@@ -862,6 +862,7 @@ export const pt = {
     criminal_record_certification: "Certificado de Registo Criminal",
     activity: "Atividade (opcional)",
     insurance_policy: "Apólice de Seguro (opcional)",
+    iban_proof: "Comprovante do IBAN",
     select_file: "Selecionar ficheiro",
     complete_submit: "Concluir e submeter",
 
@@ -877,6 +878,9 @@ export const pt = {
     account_holder: "Titular da Conta",
     swift_code: "Código SWIFT",
     residence_permit_number: "Número da Autorização de Residência",
+    passport_number: "Número do Passaporte",
+    residence_permit_expiry: "Validade da Autorização de Residência",
+    passport_expiry: "Validade do Passaporte",
     permit_expiry_date: "Data de Validade da Autorização",
     provided: "Fornecido",
     not_provided: "Não Fornecido",

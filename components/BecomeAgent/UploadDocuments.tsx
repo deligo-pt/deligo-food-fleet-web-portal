@@ -45,6 +45,7 @@ export default function UploadDocuments({
       idProofBack: Array.isArray(savedPreviews.idProofBack) ? savedPreviews.idProofBack : [],
       proofOfAddress: Array.isArray(savedPreviews.proofOfAddress) ? savedPreviews.proofOfAddress : [],
       activityDocument: Array.isArray(savedPreviews.activityDocument) ? savedPreviews.activityDocument : [],
+      ibanProof: Array.isArray(savedPreviews.ibanProof) ? savedPreviews.ibanProof : [],
     });
 
   const DOCUMENTS: {
@@ -82,12 +83,18 @@ export default function UploadDocuments({
         label: t("activity_document"),
         prefersImagePreview: true,
       },
+      {
+        key: "ibanProof",
+        label: t("iban_proof"),
+        prefersImagePreview: true,
+      },
     ];
 
   const uploadLimits: Partial<Record<DocKey, number>> = {
     myPhoto: 1,
     proofOfAddress: 1,
     activityDocument: 1,
+    ibanProof: 1,
 
     // these can have up to 3 files
     businessLicense: 3,
@@ -429,7 +436,7 @@ export default function UploadDocuments({
 
                       <div className="min-w-0">
                         <div className="text-sm font-semibold text-gray-800">
-                          {d.label}
+                          {d.label}<span className="ml-1 text-red-600">*</span>
                         </div>
                         <div className="text-xs text-gray-500 mt-1 space-y-1">
                           {

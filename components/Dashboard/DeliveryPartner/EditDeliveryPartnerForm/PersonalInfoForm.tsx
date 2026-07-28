@@ -69,12 +69,13 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
   const id = useParams()?.id;
   const form = useForm<FormData>({
     resolver: zodResolver(personalInfoValidation),
-    mode: "onChange",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       firstName: "",
       lastName: "",
       // prefixPhoneNumber: "+351",
-      phoneNumber: "",
+      phoneNumber: "+351",
       dateOfBirth: "",
       nationality: "",
       gender: "MALE",
@@ -121,6 +122,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
         country: values.country,
       },
     };
+
     const result = await updatePartnerInformation(id as string, payload);
 
     if (result.success) {
@@ -176,12 +178,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
     getPartnerData();
   }, [partner]);
 
-  useEffect(() => {
-    const currentPhone = form.getValues("phoneNumber");
-    if (!currentPhone) {
-      form.setValue("phoneNumber", "+351", { shouldValidate: true });
-    }
-  }, [form]);
+  const today = new Date();
 
   return (
     <div>
@@ -215,7 +212,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("first_name")}</span>
+                      <span className="ml-2">{t("first_name")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -238,7 +235,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("last_name")}</span>
+                      <span className="ml-2">{t("last_name")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -260,7 +257,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                 <FormItem>
                   <div className="flex items-center text-sm font-medium text-gray-700 mb-1">
                     <PhoneIcon className="w-5 h-5 text-[#DC3173]" />
-                    <span className="ml-2">{t("phone_number")}</span>
+                    <span className="ml-2">{t("phone_number")}<span className="text-red-600 ml-1">*</span></span>
                   </div>
 
                   <FormControl>
@@ -318,7 +315,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("date_of_birth")}</span>
+                      <span className="ml-2">{t("date_of_birth")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -327,6 +324,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                       onChange={field.onChange}
                       value={field.value}
                       isInvalid={fieldState.invalid}
+                      maxDate={today}
                     />
                   </FormControl>
                   <FormMessage />
@@ -342,7 +340,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <UserIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("gender")}</span>
+                      <span className="ml-2">{t("gender")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -377,7 +375,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <FlagIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("nationality")}</span>
+                      <span className="ml-2">{t("nationality")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -400,7 +398,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("nif_number")}</span>
+                      <span className="ml-2">{t("nif_number")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -447,7 +445,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("street")}</span>
+                      <span className="ml-2">{t("street")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -470,7 +468,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("city")}</span>
+                      <span className="ml-2">{t("city")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -493,7 +491,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <MapPinIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("postal_code")}</span>
+                      <span className="ml-2">{t("postal_code")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -539,7 +537,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <FlagIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("country")}</span>
+                      <span className="ml-2">{t("country")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <Popover open={open} onOpenChange={setOpen}>

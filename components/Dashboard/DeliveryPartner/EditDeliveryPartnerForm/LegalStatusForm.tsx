@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -61,6 +61,12 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
     },
   });
   const { formState: { isSubmitting } } = form;
+
+  const [residencePermitType] = useWatch({
+    control: form.control,
+    name: ["residencePermitType"],
+  });
+
 
   const onSubmit = async (values: FormData) => {
     const toastId = toast.loading("Updating Delivery Partner details...");
@@ -123,6 +129,8 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
 
   }, [partner, form]);
 
+  const today = new Date();
+
   return (
     <div>
       <motion.div
@@ -155,7 +163,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <BuildingIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("residence_permit_type")}</span>
+                      <span className="ml-2">{t("residence_permit_type")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -192,13 +200,13 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                   <FormLabel className="block text-sm font-medium text-gray-700 mb-1">
                     <div className="flex items-center">
                       <IdCardIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("trc_number")}</span>
+                      <span className="ml-2">{residencePermitType === "Passport" ? t("passport_number") : t("residence_permit_number")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Residence Permit Number"
+                      placeholder={residencePermitType === "Passport" ? t("passport_number") : t("residence_permit_number")}
                       className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#DC3173] focus:border-[#DC3173] outline-none transition-all border-gray-300"
                     />
                   </FormControl>
@@ -218,7 +226,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{t("trc_expiration_date")}</span>
+                      <span className="ml-2">{residencePermitType === "Passport" ? t("passport_expiry") : t("residence_permit_expiry")}<span className="text-red-600 ml-1">*</span></span>
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -227,6 +235,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                       onChange={field.onChange}
                       value={field.value}
                       isInvalid={fieldState.invalid}
+                      minDate={today}
                     />
                   </FormControl>
                   <FormMessage />

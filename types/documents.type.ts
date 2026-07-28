@@ -1,4 +1,4 @@
-export type DocKey = "myPhoto" | "businessLicense" | "idProofFront" | "idProofBack" | "proofOfAddress" | "activityDocument";
+export type DocKey = "myPhoto" | "businessLicense" | "idProofFront" | "idProofBack" | "proofOfAddress" | "activityDocument" | "ibanProof";
 
 export interface IDocs {
   myPhoto?: string[];
@@ -7,6 +7,7 @@ export interface IDocs {
   businessLicense?: string[];
   proofOfAddress?: string[];
   activityDocument?: string[];
+  ibanProof?: string[];
 }
 
 export type FilePreview = {
