@@ -705,6 +705,7 @@ export const en = {
     criminal_record_certification: "Criminal Record Certificate",
     activity: "Activity (optional)",
     insurance_policy: "Insurance Policy (optional)",
+    iban_proof: "IBAN Proof",
     select_file: "Select file",
     complete_submit: "Complete & Submit",
 

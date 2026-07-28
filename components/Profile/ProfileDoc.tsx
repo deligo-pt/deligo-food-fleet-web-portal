@@ -30,6 +30,7 @@ export default function ProfileDoc({ documents }: IProps) {
               {doc === "businessLicense" && "Business License"}
               {doc === "proofOfAddress" && "Proof of Address"}
               {doc === "activityDocument" && "Activity Document"}
+              {doc === "ibanProof" && "IBAN Proof"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

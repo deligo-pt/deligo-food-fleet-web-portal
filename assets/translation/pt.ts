@@ -862,6 +862,7 @@ export const pt = {
     criminal_record_certification: "Certificado de Registo Criminal",
     activity: "Atividade (opcional)",
     insurance_policy: "Apólice de Seguro (opcional)",
+    iban_proof: "Comprovante do IBAN",
     select_file: "Selecionar ficheiro",
     complete_submit: "Concluir e submeter",
 
