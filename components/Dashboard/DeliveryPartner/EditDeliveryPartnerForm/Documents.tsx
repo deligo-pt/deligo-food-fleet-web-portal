@@ -44,7 +44,7 @@ const OPTIONAL_DOCS: DocKey[] = [
   "vehicleRegistration",
 ];
 
-const REQUIRED_DOCS: DocKey[] = [
+const BASE_REQUIRED_DOCS: DocKey[] = [
   "myPhoto",
   "idProofFront",
   "idProofBack",
@@ -120,6 +120,32 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
         prefersImagePreview: true,
       },
     ];
+
+  // Get vehicle type from partner
+  const vehicleType = partner?.vehicleInfo?.vehicleType;
+
+  // Dynamically build required docs based on vehicle type
+  const getRequiredDocs = (): DocKey[] => {
+    const base = [...BASE_REQUIRED_DOCS];
+
+    if (vehicleType === "MOTORBIKE" || vehicleType === "CAR") {
+      return [
+        ...base,
+        "drivingLicenseFront",
+        "drivingLicenseBack",
+        "vehicleRegistration",
+      ];
+    }
+
+    if (vehicleType === "SCOOTER") {
+      return [...base, "vehicleRegistration"];
+    }
+
+    // BICYCLE | E-BIKE | undefined → only base required docs
+    return base;
+  };
+
+  const REQUIRED_DOCS = getRequiredDocs();
 
   const isFormValid = REQUIRED_DOCS.every((key) => previews[key] !== null);
 
@@ -333,7 +359,8 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
 
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-gray-800">
-                    {d.label} {REQUIRED_DOCS.includes(d.key) && (
+                    {d.label}{" "}
+                    {REQUIRED_DOCS.includes(d.key) && (
                       <span className="ml-1 text-red-600">*</span>
                     )}
                   </div>
@@ -435,11 +462,11 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
           disabled={!isFormValid || isSubmitting}
           onClick={completeReg}
           className={`mt-8 w-full py-3 px-6 rounded-lg font-medium text-lg flex items-center justify-center transition-colors duration-300
-    ${isFormValid
+      ${isFormValid
               ? "bg-[#DC3173] text-white hover:bg-[#c21c5e]"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }
-  `}
+    `}
         >
           {t("complete_submit")}
           <CheckIcon className="w-5 h-5 ml-1" />
