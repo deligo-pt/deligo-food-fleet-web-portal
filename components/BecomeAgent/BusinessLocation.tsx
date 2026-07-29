@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface Props {
-  profile: TFleetManager
+  profile: TFleetManager;
 }
 
 type LocationFormType = {
@@ -38,6 +38,7 @@ type LocationFormType = {
   longitude: number;
 };
 
+const defaultLocation = { lat: 38.7223, lng: -9.1393 };
 
 const BusinessLocation = ({ profile }: Props) => {
   const { t } = useTranslation();
@@ -61,48 +62,31 @@ const BusinessLocation = ({ profile }: Props) => {
     },
   });
 
-  const { formState: { isSubmitting } } = form;
+  const {
+    formState: { isSubmitting },
+  } = form;
 
   const formFields = [
-    {
-      label: t("street"),
-      name: "street",
-      isOptional: false
-    },
-    {
-      label: t("state_optional"),
-      name: "state",
-      isOptional: true
-    },
-    {
-      label: t("city"),
-      name: "city",
-      isOptional: false
-    },
-    {
-      label: t("postalCode"),
-      name: "postalCode",
-      isOptional: false
-    },
-    {
-      label: t("country"),
-      name: "country",
-      isOptional: false
-    },
+    { label: t("street"), name: "street", isOptional: false },
+    { label: t("state_optional"), name: "state", isOptional: true },
+    { label: t("city"), name: "city", isOptional: false },
+    { label: t("postalCode"), name: "postalCode", isOptional: false },
+    { label: t("country"), name: "country", isOptional: false },
     { label: "Latitude", name: "latitude", isOptional: true },
     { label: "Longitude", name: "longitude", isOptional: true },
   ];
+
   const map = useMap();
   const places = useMapsLibrary("places");
-
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const defaultLocation = { lat: 38.7223, lng: -9.1393 };
 
   const [position, setPosition] = useState({
     lat: profile?.businessLocation?.latitude ?? defaultLocation.lat,
     lng: profile?.businessLocation?.longitude ?? defaultLocation.lng,
   });
+
+  // Always start as false — only becomes true after map click or search selection
+  const [isLocationSelected, setIsLocationSelected] = useState(false);
 
   const fillAddressFields = useCallback(
     (components: google.maps.GeocoderAddressComponent[]) => {
@@ -117,19 +101,15 @@ const BusinessLocation = ({ profile }: Props) => {
         if (types.includes("street_number")) {
           streetNumber = component.long_name;
         }
-
         if (types.includes("route")) {
           route = component.long_name;
         }
-
         if (types.includes("locality")) {
           address.city = component.long_name;
         }
-
         if (types.includes("postal_code")) {
           address.postalCode = component.long_name;
         }
-
         if (types.includes("country")) {
           address.country = component.long_name;
         }
@@ -144,10 +124,9 @@ const BusinessLocation = ({ profile }: Props) => {
         });
       });
     },
-    [form],
+    [form]
   );
 
-  // Reverse geocode (for map drag/select)
   const reverseGeocode = useCallback(
     (lat: number, lng: number) => {
       if (!window.google?.maps) return;
@@ -155,21 +134,15 @@ const BusinessLocation = ({ profile }: Props) => {
       const geocoder = new window.google.maps.Geocoder();
 
       geocoder.geocode(
-        {
-          location: { lat, lng },
-        },
+        { location: { lat, lng } },
         (results: any, status: string) => {
-          if (
-            status === "OK" &&
-            results &&
-            results.length > 0
-          ) {
+          if (status === "OK" && results && results.length > 0) {
             fillAddressFields(results[0].address_components);
           }
-        },
+        }
       );
     },
-    [fillAddressFields],
+    [fillAddressFields]
   );
 
   // SEARCH + INIT AUTOCOMPLETE
@@ -191,52 +164,51 @@ const BusinessLocation = ({ profile }: Props) => {
       const newPos = { lat, lng };
 
       setPosition(newPos);
-
       map?.panTo(newPos);
       map?.setZoom(16);
-      setLocationCoordinates({ latitude: lat, longitude: lng });
 
+      setLocationCoordinates({ latitude: lat, longitude: lng });
       form.setValue("latitude", lat);
       form.setValue("longitude", lng);
 
       fillAddressFields(place.address_components || []);
 
+      // Enable address fields only after selection
+      setIsLocationSelected(true);
+
       if (inputRef.current) {
         inputRef.current.value = "";
       }
     });
-  }, [places, map, fillAddressFields, setLocationCoordinates, form]);
+  }, [places, map, fillAddressFields, form]);
+
 
   useEffect(() => {
     if (!profile?.businessLocation) return;
 
-    const latitude = profile?.businessLocation.latitude || 0;
-    const longitude = profile?.businessLocation.longitude || 0;
+    const latitude = profile.businessLocation.latitude || 0;
+    const longitude = profile.businessLocation.longitude || 0;
 
     form.reset({
-      street: profile?.businessLocation.street || "",
-      state: profile?.businessLocation.state || "",
-      city: profile?.businessLocation.city || "",
-      postalCode: profile?.businessLocation.postalCode || "",
-      country: profile?.businessLocation.country || "",
+      street: profile.businessLocation.street || "",
+      state: profile.businessLocation.state || "",
+      city: profile.businessLocation.city || "",
+      postalCode: profile.businessLocation.postalCode || "",
+      country: profile.businessLocation.country || "",
       latitude,
       longitude,
     });
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLocationCoordinates({
-      latitude,
-      longitude,
-    });
+    setLocationCoordinates({ latitude, longitude });
   }, [profile, form]);
 
-  /** --- Submit Handler --- */
   const handleSave = async (data: LocationFormType) => {
     const toastId = toast.loading("Updating...");
 
     if (
-      locationCoordinates?.latitude === 0 ||
-      locationCoordinates?.longitude === 0
+      locationCoordinates.latitude === 0 ||
+      locationCoordinates.longitude === 0
     ) {
       toast.error("Please search your area and select in map!", {
         id: toastId,
@@ -258,7 +230,7 @@ const BusinessLocation = ({ profile }: Props) => {
 
     const result = await updateFleetInformation(
       profile?.userId as string,
-      payload,
+      payload
     );
 
     if (!result.success) {
@@ -288,11 +260,7 @@ const BusinessLocation = ({ profile }: Props) => {
       </Button>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSave)}
-          className="space-y-6"
-        >
-
+        <form onSubmit={form.handleSubmit(handleSave)} className="space-y-6">
           {/* SEARCH */}
           <div className="relative">
             <Search className="absolute left-3 top-3.5 text-gray-500 w-5 h-5" />
@@ -301,9 +269,7 @@ const BusinessLocation = ({ profile }: Props) => {
               type="text"
               placeholder="Search address here..."
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                }
+                if (e.key === "Enter") e.preventDefault();
               }}
               className="pl-10 py-3 rounded-xl border w-full focus:ring-2 focus:ring-blue-500 outline-none"
             />
@@ -323,45 +289,57 @@ const BusinessLocation = ({ profile }: Props) => {
                 const lng = event.detail.latLng.lng;
 
                 setPosition({ lat, lng });
-
-                setLocationCoordinates({
-                  latitude: lat,
-                  longitude: lng,
-                });
+                setLocationCoordinates({ latitude: lat, longitude: lng });
 
                 form.setValue("latitude", lat);
                 form.setValue("longitude", lng);
 
                 reverseGeocode(lat, lng);
+
+                // Enable address fields only after map click
+                setIsLocationSelected(true);
               }}
             >
               <Marker position={position} />
             </Map>
           </div>
 
+          {/* FORM FIELDS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {formFields.map((field) => (
-              <FormField
-                key={field.name}
-                control={form.control as any}
-                name={field.name as keyof LocationFormType}
-                render={({ field: formField }) => (
-                  <FormItem>
-                    <FormLabel>{field.label} {!field?.isOptional && <span className="ml-1 text-red-600">*</span>}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...formField}
-                        readOnly={
-                          field.name === "latitude" ||
-                          field.name === "longitude"
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+            {formFields.map((field) => {
+              const isLatOrLng =
+                field.name === "latitude" || field.name === "longitude";
+
+              // Disabled until user selects a location
+              // Lat / Lng always disabled
+              const isDisabled = isLatOrLng || !isLocationSelected;
+
+              return (
+                <FormField
+                  key={field.name}
+                  control={form.control}
+                  name={field.name as keyof LocationFormType}
+                  render={({ field: formField }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {field.label}
+                        {!field.isOptional && (
+                          <span className="ml-1 text-red-600">*</span>
+                        )}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...formField}
+                          disabled={isDisabled}
+                          readOnly={isLatOrLng}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              );
+            })}
           </div>
 
           <motion.button
@@ -369,7 +347,8 @@ const BusinessLocation = ({ profile }: Props) => {
             disabled={isSubmitting}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white rounded-xl ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
+            className={`flex items-center justify-center gap-2 px-6 py-3 bg-[#DC3173] text-white rounded-xl ${isSubmitting ? "cursor-not-allowed opacity-70" : ""
+              }`}
           >
             <Save className="w-5 h-5" /> {t("saveLocationNext")}
           </motion.button>
