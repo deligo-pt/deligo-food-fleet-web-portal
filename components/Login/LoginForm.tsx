@@ -17,7 +17,7 @@ import { loginReq } from "@/services/auth/auth";
 import { setCookie } from "@/utils/cookies";
 import { getAndSaveFcmToken } from "@/utils/fcmToken";
 import { getDeviceInfo } from "@/utils/getDeviceInfo";
-import { loginValidation } from "@/validations/auth/auth.validation";
+import { loginValidation } from "@/validations/Auth/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { Eye, EyeOff, Lock, Mail, Send } from "lucide-react";
