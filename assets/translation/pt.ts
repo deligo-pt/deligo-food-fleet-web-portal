@@ -575,6 +575,7 @@ export const pt = {
     goToHome: "Ir para Início",
     applicationApproved:
         "Aguarde a aprovação da sua candidatura.",
+    application_has_been_approved: "Sua solicitação foi aprovada. Por favor, saia e entre novamente para acessar seu painel.",
 
     loginAgain: "Iniciar Sessão Novamente",
     loginAgainDesc:
