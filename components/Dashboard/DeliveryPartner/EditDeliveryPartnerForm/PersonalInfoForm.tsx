@@ -412,7 +412,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="passportNumber"
               render={({ field }) => (
@@ -435,7 +435,7 @@ export function PersonalInfoForm({ onNext, partner }: IProps) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}

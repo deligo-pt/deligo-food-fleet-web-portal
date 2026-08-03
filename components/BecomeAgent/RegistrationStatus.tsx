@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 
 interface Props {
   profile: TFleetManager
@@ -34,14 +33,9 @@ const RegistrationStatus = ({ profile }: Props) => {
   const [remarks] = useState((profile?.remarks as string) || "");
 
   const logOut = async () => {
-    const toastId = toast.loading("Logging out...");
-
     const result = await logoutReq();
 
     if (result?.success) {
-      toast.success(result?.message || "Logout successful!", {
-        id: toastId,
-      });
 
       removeCookie("accessToken");
       removeCookie("refreshToken");
@@ -49,9 +43,6 @@ const RegistrationStatus = ({ profile }: Props) => {
       return;
     }
     if (result?.message === "NEXT_REDIRECT") {
-      toast.success("Logout successful!", {
-        id: toastId,
-      });
 
       removeCookie("accessToken");
       removeCookie("refreshToken");
@@ -60,9 +51,6 @@ const RegistrationStatus = ({ profile }: Props) => {
     }
 
     if (result?.success === false) {
-      toast.success("Logout successful!", {
-        id: toastId,
-      });
 
       removeCookie("accessToken");
       removeCookie("refreshToken");
@@ -70,7 +58,6 @@ const RegistrationStatus = ({ profile }: Props) => {
       return;
     }
 
-    toast.error(result?.message || "Logout failed", { id: toastId });
   };
 
   return (
@@ -251,7 +238,7 @@ const RegistrationStatus = ({ profile }: Props) => {
                     className="px-8 py-3 border-destructive text-destructive hover:text-white hover:bg-destructive rounded-xl text-lg font-medium shadow-lg transition-all duration-300 ml-2"
                     onClick={logOut}
                   >
-                    {t("logout")}
+                    {t("login")}
                   </Button>
 
                   <p className="text-xs text-gray-500 mt-3">
@@ -272,7 +259,7 @@ const RegistrationStatus = ({ profile }: Props) => {
                     className="px-8 py-3 border-destructive text-destructive hover:text-white hover:bg-destructive rounded-xl text-lg font-medium shadow-lg transition-all duration-300 ml-2"
                     onClick={logOut}
                   >
-                    {t("logout")}
+                    {t("login")}
                   </Button>
 
                   <p className="text-xs text-gray-500 mt-3">
@@ -293,7 +280,7 @@ const RegistrationStatus = ({ profile }: Props) => {
                     className="px-8 py-3 border-destructive text-destructive hover:text-white hover:bg-destructive rounded-xl text-lg font-medium shadow-lg transition-all duration-300 ml-2"
                     onClick={logOut}
                   >
-                    {t("logout")}
+                    {t("login")}
                   </Button>
 
                   <p className="text-xs text-gray-500 mt-3">
@@ -316,7 +303,7 @@ const RegistrationStatus = ({ profile }: Props) => {
                     className="px-8 py-3 border-destructive text-destructive hover:text-white hover:bg-destructive rounded-xl text-lg font-medium shadow-lg transition-all duration-300 ml-2"
                     onClick={logOut}
                   >
-                    {t("logout")}
+                    {t("login")}
                   </Button>
 
                   <p className="text-xs text-gray-500 mt-3">
