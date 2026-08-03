@@ -434,6 +434,7 @@ export const en = {
     applicationStatus: "You can check your application status anytime here.",
     goToHome: "Go to Home",
     applicationApproved: "Wait for your application to be approved.",
+    application_has_been_approved: "Your application has been approved. Please logout and login again to visit your dashboard.",
     loginAgain: "Login Again",
     loginAgainDesc: "To get access to your dashboard you need to login again.",
     submitDetailsAgain: "Submit Details Again",
