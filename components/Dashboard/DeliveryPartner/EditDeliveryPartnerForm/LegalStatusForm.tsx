@@ -75,9 +75,9 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
       legalStatus: {
         residencePermitType: values.residencePermitType,
         residencePermitNumber: values.residencePermitNumber,
-        residencePermitExpiry: new Date(
-          values.residencePermitExpiry,
-        ).toISOString(),
+        residencePermitExpiry: values.residencePermitExpiry
+          ? new Date(values.residencePermitExpiry).toISOString()
+          : undefined,
       },
     };
 
@@ -233,7 +233,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                     <DatePicker
                       inputId="residencePermitExpiry"
                       onChange={field.onChange}
-                      value={field.value}
+                      value={field.value || ""}
                       isInvalid={fieldState.invalid}
                       minDate={today}
                     />

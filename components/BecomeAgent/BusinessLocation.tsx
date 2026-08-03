@@ -69,11 +69,11 @@ const BusinessLocation = ({ profile }: Props) => {
   const formFields = [
     { label: t("street"), name: "street", isOptional: false },
     { label: t("state_optional"), name: "state", isOptional: true },
-    { label: t("city"), name: "city", isOptional: false },
     { label: t("postalCode"), name: "postalCode", isOptional: false },
+    { label: t("city"), name: "city", isOptional: false },
     { label: t("country"), name: "country", isOptional: false },
-    { label: "Latitude", name: "latitude", isOptional: true },
-    { label: "Longitude", name: "longitude", isOptional: true },
+    // { label: t("latitude"), name: "latitude", isOptional: true },
+    // { label: t("longitude"), name: "longitude", isOptional: true },
   ];
 
   const map = useMap();
@@ -324,7 +324,7 @@ const BusinessLocation = ({ profile }: Props) => {
                       <FormLabel>
                         {field.label}
                         {!field.isOptional && (
-                          <span className="ml-1 text-red-600">*</span>
+                          <span className="text-red-600">*</span>
                         )}
                       </FormLabel>
                       <FormControl>
@@ -340,6 +340,44 @@ const BusinessLocation = ({ profile }: Props) => {
                 />
               );
             })}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <FormField
+              key={"latitude"}
+              control={form.control}
+              name="latitude"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t("latitude")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field}
+                      disabled={true}
+                      readOnly={true} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              key={"longitude"}
+              control={form.control}
+              name="longitude"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t("longitude")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field}
+                      disabled={true}
+                      readOnly={true} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <motion.button
