@@ -177,7 +177,7 @@ export default function BecomAgentPage() {
                             <button
                               type="button"
                               onClick={() => setShowPassword(!showPassword)}
-                              className="absolute inset-y-0 top-4 right-4 flex items-center text-gray-400 hover:text-[#DC3173] transition"
+                              className="absolute inset-y-0 top-7 right-4 flex items-center text-gray-400 hover:text-[#DC3173] transition"
                             >
                               {showPassword ? (
                                 <EyeOff className="w-5 h-5" />
