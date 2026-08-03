@@ -69,8 +69,8 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           !partner?.isEmailVerified ? (
             <Button
               onClick={() => router.push(`/agent/add-delivery-partner`)}
-              variant="outline"
-              className="inline-flex items-center text-sm gap-2 text-[#DC3173] px-0! py-0 h-4 cursor-pointer"
+              variant="link"
+              className="inline-flex items-center text-sm gap-2 text-white bg-[#DC3173] px-4 py-2 cursor-pointer"
             >
               <Edit /> {t("verify")}
             </Button>
