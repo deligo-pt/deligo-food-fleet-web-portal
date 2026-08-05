@@ -226,7 +226,7 @@ export function LegalStatusForm({ onNext, partner }: IProps) {
                   >
                     <div className="flex items-center">
                       <CalendarIcon className="w-5 h-5 text-[#DC3173]" />
-                      <span className="ml-2">{residencePermitType === "Passport" ? t("passport_expiry") : t("residence_permit_expiry")}
+                      <span className="ml-2">{residencePermitType === "Passport" ? t("passport_expiry") : t("residence_permit_expiry")} </span>
                     </div>
                   </FormLabel>
                   <FormControl>
