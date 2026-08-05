@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import { TResponse } from "@/types";
-import { DocKey, IDocs } from "@/types/documents.type";
+import { DocKey, FLEET_REQUIRED_DOCS, IDocs } from "@/types/documents.type";
 import { getCookie } from "@/utils/cookies";
 import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
@@ -103,8 +103,8 @@ export default function UploadDocuments({
   };
   const DEFAULT_LIMIT = 3;
 
-  const isFormValid = DOCUMENTS.every(
-    (d) => (previews[d.key]?.length || 0) > 0
+  const isFormValid = FLEET_REQUIRED_DOCS.every(
+    (key) => previews[key] !== null && (previews[key]?.length ?? 0) > 0
   );
 
   // file input refs to trigger the browser picker
