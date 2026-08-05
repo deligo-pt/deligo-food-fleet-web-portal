@@ -15,3 +15,16 @@ export type FilePreview = {
   url: string | null;
   isImage: boolean;
 };
+
+export const FLEET_REQUIRED_DOCS: DocKey[] = [
+  "businessLicense",
+  "proofOfAddress",
+  "activityDocument",
+  "ibanProof"
+];
+
+const FLEET_OPTIONAL_DOCS: DocKey[] = [
+  "myPhoto",
+  "idProofFront",
+  "idProofBack",
+]
