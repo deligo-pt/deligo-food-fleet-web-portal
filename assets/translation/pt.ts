@@ -532,6 +532,7 @@ export const pt = {
     personalDetails: "Dados Pessoais",
     personalDetailsDesc:
         "Vamos começar com as suas informações básicas",
+    view_full_file: "Visualizar Arquivo Completo",
 
     // registration-status
     registration_pending: "Registo Pendente",
@@ -1306,6 +1307,27 @@ export const pt = {
     deligo_support: "Suporte Deligo",
     active_now: "Ativo agora",
     send: "Enviar",
+    chat_directly_with_support_experts: "Converse diretamente com nossos especialistas de suporte através de um chamado",
+    inquiry: "Dúvida",
+    no_message_content_available: "Nenhum conteúdo de mensagem disponível.",
+    view_conversation: "Visualizar Conversa",
+    our_team_typically_responds_within: "Nossa equipe normalmente responde em até",
+    hours_2_4: "2 a 4 horas",
+    no_active_support_tickets: "Nenhum Chamado de Suporte Ativo",
+    you_dont_have_any_open_requests: "Você não possui solicitações abertas. Se estiver enfrentando um problema, crie um chamado e nós cuidaremos disso!",
+    create_your_first_ticket: "Criar seu primeiro chamado",
+    // --> create new ticket
+    create_new_ticket: "Criar Novo Chamado",
+    category: "Categoria",
+    select_category: "Selecione a categoria",
+    message: "Mensagem",
+    please_provide_details_your_issue: "Por favor, forneça os detalhes do seu problema ou dúvida aqui...",
+    submit_ticket: "Enviar Chamado",
+    // --> support chat sheet
+    admin_is_typing: "O administrador está digitando",
+    // --> support chat input
+    this_ticket_is_closed: "Este chamado está fechado. Por favor, abra um novo chamado para obter mais assistência.",
+    type_a_message: "Digite uma mensagem...",
 
 
     // report-issue
@@ -1325,6 +1347,9 @@ export const pt = {
     need_immediate_support: "Precisa de apoio imediato?",
     contact_support_team: "Contacte a nossa equipa de suporte via chat ao vivo ou email para assistência mais rápida.",
     open_live_chat: "Abrir chat ao vivo",
+    choose_issue_type: "Escolha o tipo de problema",
+    enter_your_email_address: "Digite seu endereço de e-mail",
+    write_a_detailed_description_of_problem: "Escreva uma descrição detalhada do problema…",
 
 
     // help-center
@@ -1375,12 +1400,18 @@ export const pt = {
     what_going_wrong: "O que está a correr mal?",
     describe_issue_here: "Descreva aqui o problema...",
     issue_tags: "Etiquetas do Problema",
+    add_an_issue_tag: "Adicionar uma tag de problema",
     reset: "Repor",
     send_sos: "Enviar SOS",
     sending_sos: "A enviar SOS...",
 
     // live tracking
     tracking_drivers_live_location_and_where_they_are: "Acompanhamento da localização em tempo real dos motoristas e onde eles realmente estão",
+    all_drivers: "Todos os Motoristas",
+    search_driver: "Buscar motorista",
+    unrated: "Sem avaliação",
+    selected: "Selecionado",
+    view_location: "Visualizar Localização",
 
     // profile
     verified: "Verificado",

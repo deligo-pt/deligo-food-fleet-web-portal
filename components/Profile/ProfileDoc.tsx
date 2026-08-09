@@ -1,3 +1,4 @@
+import { useTranslation } from "@/hooks/use-translation";
 import { IDocs } from "@/types/documents.type";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -7,6 +8,7 @@ interface IProps {
 }
 
 export default function ProfileDoc({ documents }: IProps) {
+  const { t } = useTranslation();
   const docsArr = Object.keys(documents || {}) as (keyof IDocs)[];
 
   return (
@@ -24,13 +26,13 @@ export default function ProfileDoc({ documents }: IProps) {
             }}
           >
             <p className="text-sm text-gray-500 mb-2">
-              {doc === "myPhoto" && "Fleet manager Photo"}
-              {doc === "idProofFront" && "ID Proof Front"}
-              {doc === "idProofBack" && "ID Proof Back"}
-              {doc === "businessLicense" && "Business License"}
-              {doc === "proofOfAddress" && "Proof of Address"}
-              {doc === "activityDocument" && "Activity Document"}
-              {doc === "ibanProof" && "IBAN Proof"}
+              {doc === "myPhoto" && t("myPhoto")}
+              {doc === "idProofFront" && t("documentsLabel2")}
+              {doc === "idProofBack" && t("documentsLabel3")}
+              {doc === "businessLicense" && t("documentsLabel1")}
+              {doc === "proofOfAddress" && t("proof_of_address")}
+              {doc === "activityDocument" && t("activity_document")}
+              {doc === "ibanProof" && t("iban_proof")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -60,7 +62,7 @@ export default function ProfileDoc({ documents }: IProps) {
                       rel="noopener noreferrer"
                       className="mt-2 text-sm text-[#DC3173] hover:underline inline-block"
                     >
-                      View Full File
+                      {t("view_full_file")}
                     </motion.a>
                   </div>
                 );

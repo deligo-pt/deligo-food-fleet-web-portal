@@ -7,6 +7,7 @@ import TitleHeader from "@/components/TitleHeader/TitleHeader";
 import { Button } from "@/components/ui/button";
 import { USER_ROLE } from "@/consts/user.const";
 import { useTopbarMessageIconSocket } from "@/hooks/use-chat-socket";
+import { useTranslation } from "@/hooks/use-translation";
 import { TSupportMessage, TSupportTicket } from "@/types/support.type";
 import { getCookie } from "@/utils/cookies";
 import { removeUnderscore } from "@/utils/formatter";
@@ -20,6 +21,7 @@ interface IProps {
 }
 
 export default function SupportTickets({ ticket }: IProps) {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChatSheetOpen, setIsChatSheetOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(
@@ -41,15 +43,15 @@ export default function SupportTickets({ ticket }: IProps) {
     ticketId: ticket.ticketId,
     token: accessToken as string,
     onMessage: (msg) => newMessageHandler(msg),
-    onError: () => {},
+    onError: () => { },
   });
 
   return (
     <div>
       {/* Header */}
       <TitleHeader
-        title="Chat With Support"
-        subtitle="Chat directly with our support experts with support ticket"
+        title={t("chat_with_support")}
+        subtitle={t("chat_directly_with_support_experts")}
       />
 
       <div>
@@ -93,12 +95,12 @@ export default function SupportTickets({ ticket }: IProps) {
                       </span>
                     </div>
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                      {removeUnderscore(ticket.category)} Inquiry
+                      {removeUnderscore(ticket.category)} {t("inquiry")}
                     </h2>
                     <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
                       <p className="text-gray-600 leading-relaxed italic">
                         &quot;
-                        {ticket.lastMessage || "No message content available."}
+                        {ticket.lastMessage || t("no_message_content_available")}
                         &quot;
                       </p>
                     </div>
@@ -108,7 +110,7 @@ export default function SupportTickets({ ticket }: IProps) {
                     onClick={() => setIsChatSheetOpen(true)}
                     className="flex items-center justify-center gap-2 bg-[#DC3173] hover:bg-[#DC3173]/90 font-semibold transition-all hover:shadow-lg active:scale-95 cursor-pointer"
                   >
-                    View Conversation
+                    {t("view_conversation")}
                     <ChevronRight size={20} />
                   </Button>
                 </div>
@@ -116,8 +118,8 @@ export default function SupportTickets({ ticket }: IProps) {
 
               <div className="bg-gray-50 border-t border-gray-100 px-8 py-4 flex items-center justify-between">
                 <p className="text-sm text-gray-500">
-                  Our team typically responds within{" "}
-                  <span className="font-semibold text-gray-700">2-4 hours</span>
+                  {t("our_team_typically_responds_within")}{" "}
+                  <span className="font-semibold text-gray-700">{t("hours_2_4")}</span>
                   .
                 </p>
               </div>
@@ -132,18 +134,16 @@ export default function SupportTickets({ ticket }: IProps) {
                 <MessageSquare size={48} />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                No Active Support Tickets
+                {t("no_active_support_tickets")}
               </h3>
               <p className="text-gray-500 max-w-md mx-auto mb-8 px-4">
-                You don&lsquo;t have any open requests. If you&lsquo;re
-                experiencing an issue, create a ticket and we&lsquo;ll get right
-                on it!
+                {t("you_dont_have_any_open_requests")}
               </p>
               <Button
                 onClick={() => setIsModalOpen(true)}
                 className="bg-[#DC3173] hover:bg-[#DC3173]/90 cursor-pointer"
               >
-                Create your first ticket
+                {t("create_your_first_ticket")}
               </Button>
             </motion.div>
           )}

@@ -409,6 +409,7 @@ export const en = {
     // personal details
     personalDetails: "Personal Details",
     personalDetailsDesc: "Let’s start with your basic information",
+    view_full_file: "View Full File",
     // registration-status
     registration_pending: "Registration Pending",
     registration_completed: "Registration Completed",
@@ -1144,6 +1145,27 @@ export const en = {
     deligo_support: "Deligo Support",
     active_now: "Active now",
     send: "Send",
+    chat_directly_with_support_experts: "Chat directly with our support experts with support ticket",
+    inquiry: "Inquiry",
+    no_message_content_available: "No message content available.",
+    view_conversation: "View Conversation",
+    our_team_typically_responds_within: "Our team typically responds within",
+    hours_2_4: "2-4 hours",
+    no_active_support_tickets: "No Active Support Tickets",
+    you_dont_have_any_open_requests: "You don't have any open requests. If you're experiencing an issue, create a ticket and we'll get right on it!",
+    create_your_first_ticket: "Create your first ticket",
+    // --> create new ticket
+    create_new_ticket: "Create New Ticket",
+    category: "Category",
+    select_category: "Select category",
+    message: "Message",
+    please_provide_details_your_issue: "Please provide the details of your issue or inquiry here...",
+    submit_ticket: "Submit Ticket",
+    // --> support chat sheet
+    admin_is_typing: "Admin is typing",
+    // --> support chat input
+    this_ticket_is_closed: "This ticket is closed. Please open a new ticket for further assistance.",
+    type_a_message: "Type a message...",
 
 
     // report-issue
@@ -1163,7 +1185,9 @@ export const en = {
     need_immediate_support: "Need Immediate Support?",
     contact_support_team: "Contact our support team via live chat or email for faster assistance.",
     open_live_chat: "Open Live Chat",
-
+    choose_issue_type: "Choose issue type",
+    enter_your_email_address: "Enter your email address",
+    write_a_detailed_description_of_problem: "Write a detailed description of the problem…",
 
     // help-center
     find_answers_guides_support: "Find answers, guides and support for your Deligo vendor account.",
@@ -1213,12 +1237,18 @@ export const en = {
     what_going_wrong: "What’s going wrong?",
     describe_issue_here: "Describe your issue here...",
     issue_tags: "Issue Tags",
+    add_an_issue_tag: "Add an issue tag",
     reset: "Reset",
     send_sos: "Send SOS",
     sending_sos: "Sending SOS....",
 
     // live tracking
     tracking_drivers_live_location_and_where_they_are: "Tracking driver's live location and where they are actually",
+    all_drivers: "All Drivers",
+    search_driver: "Search driver",
+    unrated: "Unrated",
+    selected: "Selected",
+    view_location: "View Location",
 
     // profile
     verified: "Verified",
