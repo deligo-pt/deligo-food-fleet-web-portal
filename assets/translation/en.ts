@@ -534,7 +534,10 @@ export const en = {
     live_delivery_partner_tracking: "Live Delivery Partner Tracking",
 
 
+    // searcing
+    searching: "Searching...",
     // sorting
+    sort_by: "Sort By",
     newest_first: "Newest First",
     oldest_first: "Oldest First",
     name_a_z: "Name (A-Z)",
@@ -707,10 +710,13 @@ export const en = {
     activity: "Activity (optional)",
     insurance_policy: "Insurance Policy (optional)",
     iban_proof: "IBAN Proof",
+    no_documents_uploaded: "No documents uploaded",
     select_file: "Select file",
     complete_submit: "Complete & Submit",
 
     // delivery-partner details
+    update_information: "Update Information",
+    re_submit: "Re-Submit",
     personal_details: "Personal Details",
     full_name: "Full Name",
     contact_number: "Contact Number",

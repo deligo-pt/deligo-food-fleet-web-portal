@@ -86,13 +86,13 @@ export default function AllFilters({ sortOptions, filterOptions }: IProps) {
       className="mb-1"
     >
       <div className="flex flex-col lg:flex-row gap-4 items-start md:items-center justify-between">
-        <SearchFilter paramName="searchTerm" placeholder="Searching..." />
+        <SearchFilter paramName="searchTerm" placeholder={t("searching")} />
         <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
           <div className="w-full lg:w-48">
             <SelectFilter
               paramName="sortBy"
               options={sortOptions}
-              placeholder="Sort By"
+              placeholder={t("sort_by")}
             />
           </div>
           {filterOptions && (

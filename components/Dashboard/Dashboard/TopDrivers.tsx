@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/hooks/use-translation";
-import { IDeliveryPartnerCard} from "@/types/delivery-partner.type";
+import { IDeliveryPartnerCard } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import { StarIcon } from "lucide-react";
 
@@ -37,7 +37,7 @@ const TopDrivers = ({ deliveryPartners }: { deliveryPartners: IDeliveryPartnerCa
           >
             <div className="p-2">
               <div className="flex flex-row justify-between items-center">
-                <h4 className="font-medium">{partner?.name?.firstName}{" "}{partner?.name?.lastName}</h4>
+                <h4 className="font-medium">{partner?.name || "N/A"}</h4>
                 <Badge>{partner?.personalInfo?.gender || "Male"}</Badge>
               </div>
               <div className="flex justify-between items-center mt-2">

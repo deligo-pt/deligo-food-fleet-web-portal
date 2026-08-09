@@ -689,7 +689,10 @@ export const pt = {
     live_delivery_partner_tracking: "Monitorização em Tempo Real dos Parceiros de Entrega",
 
 
+    // searcing
+    searching: "Buscando...",
     // sorting
+    sort_by: "Ordenar por",
     newest_first: "Mais recentes primeiro",
     oldest_first: "Mais antigos primeiro",
     name_a_z: "Nome (A–Z)",
@@ -864,10 +867,13 @@ export const pt = {
     activity: "Atividade (opcional)",
     insurance_policy: "Apólice de Seguro (opcional)",
     iban_proof: "Comprovante do IBAN",
+    no_documents_uploaded: "Nenhum documento enviado",
     select_file: "Selecionar ficheiro",
     complete_submit: "Concluir e submeter",
 
     // delivery-partner details
+    update_information: "Atualizar Informações",
+    re_submit: "Reenviar",
     personal_details: "Dados Pessoais",
     full_name: "Nome Completo",
     contact_number: "Número de Contacto",
