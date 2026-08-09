@@ -927,6 +927,27 @@ export const pt = {
     // rejected partners 
     admin_has_rejected_these_partners: "O administrador rejeitou estes parceiros com o respetivo motivo",
 
+    // delivery partner payouts
+    manage_all_delivery_partner_payouts_history: "Gerencie todo o histórico de pagamentos dos entregadores por aqui",
+    pay_to_partner: "Pagar ao Entregador",
+    method: "Método",
+    created_at: "Criado em",
+    no_payouts_found: "Nenhum pagamento encontrado",
+    download_statement: "Baixar Extrato",
+    settle_payout: "Liquidar Pagamento",
+    // ---> payout table
+    select_partner_for_payout: "Selecionar Entregador para Pagamento",
+    choose_delivery_partner_to_initiate_payment: "Escolha um entregador para iniciar o processo de pagamento.",
+    initiate_payment: "Iniciar Pagamento",
+    no_partners_available: "Nenhum entregador disponível.",
+    // --> settle payout
+    finalize_settlement: "Finalizar Liquidação",
+    bank_reference_id: "ID de Referência Bancária",
+    remarks_optional: "Observações (Opcional)",
+    add_any_notes_here: "Adicione qualquer observação aqui...",
+    payout_proof_screenshot_receipt: "Comprovante de Pagamento (Captura de tela/Comprovante)",
+    click_or_drag_image_to_upload: "Clique ou arraste a imagem para enviar",
+    complete_settlement: "Concluir Liquidação",
 
     // delivery partner performance
     sortable_filterable_exportable: "Visão geral ordenável, filtrável e exportável.",

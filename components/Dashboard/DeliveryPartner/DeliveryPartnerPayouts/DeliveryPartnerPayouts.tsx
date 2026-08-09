@@ -60,12 +60,12 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
                 }}
             >
                 <DashboardPageHeader
-                    title={t("delivery_partners")}
-                    desc={t("manage_your_delivery")}
+                    title={t("delivery_partner_payouts")}
+                    desc={t("manage_all_delivery_partner_payouts_history")}
                     isButton={true}
                     onClick={() => setIsModalOpen(true)}
                     icon={<PlusCircleIcon className="mr-2 h-5 w-5" />}
-                    button_title={"Pay to Partner"}
+                    button_title={t("pay_to_partner")}
                 />
             </motion.div>
 
@@ -89,41 +89,41 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
                             <TableHead>
                                 <div className="text-[#DC3173] flex gap-2 items-center">
                                     <Truck className="w-4" />
-                                    Delivery Partner
+                                    {t("delivery_partner")}
                                 </div>
                             </TableHead>
                             <TableHead>
                                 <div className="text-[#DC3173] flex gap-2 items-center">
                                     <FileText className="w-4" />
-                                    Payout ID
+                                    {t("payout_id")}
                                 </div>
                             </TableHead>
                             <TableHead>
                                 <div className="text-[#DC3173] flex gap-2 items-center">
                                     <Euro className="w-4" />
-                                    Amount
+                                    {t("amount")}
                                 </div>
                             </TableHead>
                             <TableHead>
                                 <div className="text-[#DC3173] flex gap-2 items-center">
                                     <PlusCircleIcon className="w-4" />
-                                    Method
+                                    {t("method")}
                                 </div>
                             </TableHead>
                             <TableHead>
                                 <div className="text-[#DC3173] flex gap-2 items-center">
                                     <CalendarCheck className="w-4" />
-                                    Created At
+                                    {t("created_at")}
                                 </div>
                             </TableHead>
                             <TableHead>
                                 <div className="text-[#DC3173] flex gap-2 items-center">
                                     <Cog className="w-4" />
-                                    Status
+                                    {t("status")}
                                 </div>
                             </TableHead>
                             <TableHead className="text-right text-[#DC3173]">
-                                Actions
+                                {t("actions")}
                             </TableHead>
                         </TableRow>
                     </TableHeader>
@@ -134,7 +134,7 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
                                     className="text-[#DC3173] text-lg text-center"
                                     colSpan={7}
                                 >
-                                    No payouts found
+                                    {t("no_payouts_found")}
                                 </TableCell>
                             </TableRow>
                         ) : (
@@ -198,21 +198,21 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
                                                 <DropdownMenuItem onClick={() => {
                                                     router.push(`/agent/delivery-partner-payouts/${payout?.payoutId}`)
                                                 }}>
-                                                    View Details
+                                                    {t("view_details")}
                                                 </DropdownMenuItem>
                                                 {payout.status === "PAID" ? (
                                                     <DropdownMenuItem
                                                         className="text-[#DC3173] font-semibold"
                                                         onClick={() => generatePaymentPDF(payout)}
                                                     >
-                                                        Download Statement
+                                                        {t("download_statement")}
                                                     </DropdownMenuItem>
                                                 ) : (
                                                     <DropdownMenuItem
                                                         className="text-[#DC3173] font-semibold"
                                                         onClick={() => setSettleId(payout?.payoutId)}
                                                     >
-                                                        Settle Payout
+                                                        {t("settle_payout")}
                                                     </DropdownMenuItem>
                                                 )}
                                             </DropdownMenuContent>
