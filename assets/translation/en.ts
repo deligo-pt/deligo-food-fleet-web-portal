@@ -507,7 +507,6 @@ export const en = {
     commission_settings: "Commission Settings",
     payment_preferences: "Payment Preferences",
     change_password: "Change Password",
-    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
     notification_preferences: "Notification Preferences",
     // -> 
     team_management: "Team Management",
@@ -784,7 +783,7 @@ export const en = {
     finalize_settlement: "Finalize Settlement",
     bank_reference_id: "Bank Reference ID",
     remarks_optional: "Remarks (Optional)",
-    add_any_notes_here:"Add any notes here...",
+    add_any_notes_here: "Add any notes here...",
     payout_proof_screenshot_receipt: "Payout Proof (Screenshot/Receipt)",
     click_or_drag_image_to_upload: "Click or drag image to upload",
     complete_settlement: "Complete Settlement",
@@ -887,7 +886,9 @@ export const en = {
     overview_fleet_financial: "Overview of your fleet’s financial performance",
     revenue_trend: "Revenue Trend",
     payout_distribution: "Payout Distribution",
-
+    monthly_earnings: "Monthly Earnings",
+    weekly_earnings: "Weekly Earnings",
+    no_earnings_to_show: "No earnings to show",
 
 
     // delivery partners payouts
@@ -1047,6 +1048,15 @@ export const en = {
     stripe_connect_id: "Stripe Connect ID",
     save_preferences: "Save Preferences",
 
+    // change password
+    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
+    current_password: "Current Password",
+    enter_current_password: "Enter current password",
+    new_password: "New Password",
+    enter_new_password: "Enter new password",
+    confirm_password: "Confirm Password",
+    re_enter_new_password: "Re-enter new password",
+    update_password: "Update Password",
 
     // notification preferences
     configure_which_alerts_updates: "Configure which alerts and updates you want to receive",

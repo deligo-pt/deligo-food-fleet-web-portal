@@ -658,7 +658,6 @@ export const pt = {
     commission_settings: "Definições de Comissão",
     payment_preferences: "Preferências de Pagamento",
     change_password: "Alterar Palavra-passe",
-    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
     notification_preferences: "Preferências de Notificação",
 
     // ->
@@ -1042,6 +1041,9 @@ export const pt = {
     overview_fleet_financial: "Visão geral do desempenho financeiro da sua frota",
     revenue_trend: "Tendência de receitas",
     payout_distribution: "Distribuição de pagamentos",
+    monthly_earnings: "Ganhos Mensais",
+    weekly_earnings: "Ganhos Semanais",
+    no_earnings_to_show: "Nenhum ganho para exibir",
 
     // delivery partners payouts
     partner_payouts: "Pagamentos aos parceiros",
@@ -1203,6 +1205,15 @@ export const pt = {
     stripe_connect_id: "ID do Stripe Connect",
     save_preferences: "Guardar preferências",
 
+    // change password
+    update_your_account_password_securely: "Atualize a senha da sua conta de forma segura para proteger seu painel de gestão de frota",
+    current_password: "Senha Atual",
+    enter_current_password: "Digite a senha atual",
+    new_password: "Nova Senha",
+    enter_new_password: "Digite a nova senha",
+    confirm_password: "Confirmar Senha",
+    re_enter_new_password: "Digite a nova senha novamente",
+    update_password: "Atualizar Senha",
 
     // notification preferences
     configure_which_alerts_updates: "Configure quais alertas e atualizações deseja receber",
