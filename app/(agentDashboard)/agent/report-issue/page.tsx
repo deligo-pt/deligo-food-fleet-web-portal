@@ -45,7 +45,7 @@ export default function ReportIssuePage() {
 
   return (
     <div className="min-h-screen p-6 md:p-10" style={{ background: BG }}>
-      <div className="max-w-[900px] mx-auto space-y-10">
+      <div className="max-w-225 mx-auto space-y-10">
         {/* HEADER */}
         <div className="flex justify-between items-center">
           <div>
@@ -84,7 +84,7 @@ export default function ReportIssuePage() {
               <label className="font-semibold text-gray-700">{t("issue_type")}</label>
               <Select onValueChange={setIssueType}>
                 <SelectTrigger className="h-12 rounded-xl bg-white border">
-                  <SelectValue placeholder="Choose issue type" />
+                  <SelectValue placeholder={t("choose_issue_type")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="order">{t("order_issue")}</SelectItem>
@@ -105,7 +105,7 @@ export default function ReportIssuePage() {
             <div className="space-y-2">
               <label className="font-semibold text-gray-700">{t("your_email")}</label>
               <Input
-                placeholder="Enter your email address"
+                placeholder={t("enter_your_email_address")}
                 className="h-12 rounded-xl"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -118,8 +118,8 @@ export default function ReportIssuePage() {
                 {t("describe_the_issue")}
               </label>
               <Textarea
-                placeholder="Write a detailed description of the problem…"
-                className="min-h-[140px] rounded-xl"
+                placeholder={t("write_a_detailed_description_of_problem")}
+                className="min-h-35 rounded-xl"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -162,7 +162,7 @@ export default function ReportIssuePage() {
           <CardContent className="p-6 flex flex-col items-center gap-3 text-center">
             <Headphones size={40} className="text-pink-600" />
             <h2 className="font-bold text-xl">{t("need_immediate_support")}</h2>
-            <p className="text-sm text-gray-600 max-w-[400px]">
+            <p className="text-sm text-gray-600 max-w-100">
               {t("contact_support_team")}
             </p>
             <Link href="/agent/live-chat">

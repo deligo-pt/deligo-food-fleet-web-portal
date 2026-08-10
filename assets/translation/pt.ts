@@ -532,6 +532,7 @@ export const pt = {
     personalDetails: "Dados Pessoais",
     personalDetailsDesc:
         "Vamos começar com as suas informações básicas",
+    view_full_file: "Visualizar Arquivo Completo",
 
     // registration-status
     registration_pending: "Registo Pendente",
@@ -658,7 +659,6 @@ export const pt = {
     commission_settings: "Definições de Comissão",
     payment_preferences: "Preferências de Pagamento",
     change_password: "Alterar Palavra-passe",
-    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
     notification_preferences: "Preferências de Notificação",
 
     // ->
@@ -689,7 +689,10 @@ export const pt = {
     live_delivery_partner_tracking: "Monitorização em Tempo Real dos Parceiros de Entrega",
 
 
+    // searcing
+    searching: "Buscando...",
     // sorting
+    sort_by: "Ordenar por",
     newest_first: "Mais recentes primeiro",
     oldest_first: "Mais antigos primeiro",
     name_a_z: "Nome (A–Z)",
@@ -864,10 +867,13 @@ export const pt = {
     activity: "Atividade (opcional)",
     insurance_policy: "Apólice de Seguro (opcional)",
     iban_proof: "Comprovante do IBAN",
+    no_documents_uploaded: "Nenhum documento enviado",
     select_file: "Selecionar ficheiro",
     complete_submit: "Concluir e submeter",
 
     // delivery-partner details
+    update_information: "Atualizar Informações",
+    re_submit: "Reenviar",
     personal_details: "Dados Pessoais",
     full_name: "Nome Completo",
     contact_number: "Número de Contacto",
@@ -921,6 +927,27 @@ export const pt = {
     // rejected partners 
     admin_has_rejected_these_partners: "O administrador rejeitou estes parceiros com o respetivo motivo",
 
+    // delivery partner payouts
+    manage_all_delivery_partner_payouts_history: "Gerencie todo o histórico de pagamentos dos entregadores por aqui",
+    pay_to_partner: "Pagar ao Entregador",
+    method: "Método",
+    created_at: "Criado em",
+    no_payouts_found: "Nenhum pagamento encontrado",
+    download_statement: "Baixar Extrato",
+    settle_payout: "Liquidar Pagamento",
+    // ---> payout table
+    select_partner_for_payout: "Selecionar Entregador para Pagamento",
+    choose_delivery_partner_to_initiate_payment: "Escolha um entregador para iniciar o processo de pagamento.",
+    initiate_payment: "Iniciar Pagamento",
+    no_partners_available: "Nenhum entregador disponível.",
+    // --> settle payout
+    finalize_settlement: "Finalizar Liquidação",
+    bank_reference_id: "ID de Referência Bancária",
+    remarks_optional: "Observações (Opcional)",
+    add_any_notes_here: "Adicione qualquer observação aqui...",
+    payout_proof_screenshot_receipt: "Comprovante de Pagamento (Captura de tela/Comprovante)",
+    click_or_drag_image_to_upload: "Clique ou arraste a imagem para enviar",
+    complete_settlement: "Concluir Liquidação",
 
     // delivery partner performance
     sortable_filterable_exportable: "Visão geral ordenável, filtrável e exportável.",
@@ -1015,6 +1042,9 @@ export const pt = {
     overview_fleet_financial: "Visão geral do desempenho financeiro da sua frota",
     revenue_trend: "Tendência de receitas",
     payout_distribution: "Distribuição de pagamentos",
+    monthly_earnings: "Ganhos Mensais",
+    weekly_earnings: "Ganhos Semanais",
+    no_earnings_to_show: "Nenhum ganho para exibir",
 
     // delivery partners payouts
     partner_payouts: "Pagamentos aos parceiros",
@@ -1176,6 +1206,15 @@ export const pt = {
     stripe_connect_id: "ID do Stripe Connect",
     save_preferences: "Guardar preferências",
 
+    // change password
+    update_your_account_password_securely: "Atualize a senha da sua conta de forma segura para proteger seu painel de gestão de frota",
+    current_password: "Senha Atual",
+    enter_current_password: "Digite a senha atual",
+    new_password: "Nova Senha",
+    enter_new_password: "Digite a nova senha",
+    confirm_password: "Confirmar Senha",
+    re_enter_new_password: "Digite a nova senha novamente",
+    update_password: "Atualizar Senha",
 
     // notification preferences
     configure_which_alerts_updates: "Configure quais alertas e atualizações deseja receber",
@@ -1268,6 +1307,27 @@ export const pt = {
     deligo_support: "Suporte Deligo",
     active_now: "Ativo agora",
     send: "Enviar",
+    chat_directly_with_support_experts: "Converse diretamente com nossos especialistas de suporte através de um chamado",
+    inquiry: "Dúvida",
+    no_message_content_available: "Nenhum conteúdo de mensagem disponível.",
+    view_conversation: "Visualizar Conversa",
+    our_team_typically_responds_within: "Nossa equipe normalmente responde em até",
+    hours_2_4: "2 a 4 horas",
+    no_active_support_tickets: "Nenhum Chamado de Suporte Ativo",
+    you_dont_have_any_open_requests: "Você não possui solicitações abertas. Se estiver enfrentando um problema, crie um chamado e nós cuidaremos disso!",
+    create_your_first_ticket: "Criar seu primeiro chamado",
+    // --> create new ticket
+    create_new_ticket: "Criar Novo Chamado",
+    category: "Categoria",
+    select_category: "Selecione a categoria",
+    message: "Mensagem",
+    please_provide_details_your_issue: "Por favor, forneça os detalhes do seu problema ou dúvida aqui...",
+    submit_ticket: "Enviar Chamado",
+    // --> support chat sheet
+    admin_is_typing: "O administrador está digitando",
+    // --> support chat input
+    this_ticket_is_closed: "Este chamado está fechado. Por favor, abra um novo chamado para obter mais assistência.",
+    type_a_message: "Digite uma mensagem...",
 
 
     // report-issue
@@ -1287,6 +1347,9 @@ export const pt = {
     need_immediate_support: "Precisa de apoio imediato?",
     contact_support_team: "Contacte a nossa equipa de suporte via chat ao vivo ou email para assistência mais rápida.",
     open_live_chat: "Abrir chat ao vivo",
+    choose_issue_type: "Escolha o tipo de problema",
+    enter_your_email_address: "Digite seu endereço de e-mail",
+    write_a_detailed_description_of_problem: "Escreva uma descrição detalhada do problema…",
 
 
     // help-center
@@ -1337,12 +1400,18 @@ export const pt = {
     what_going_wrong: "O que está a correr mal?",
     describe_issue_here: "Descreva aqui o problema...",
     issue_tags: "Etiquetas do Problema",
+    add_an_issue_tag: "Adicionar uma tag de problema",
     reset: "Repor",
     send_sos: "Enviar SOS",
     sending_sos: "A enviar SOS...",
 
     // live tracking
     tracking_drivers_live_location_and_where_they_are: "Acompanhamento da localização em tempo real dos motoristas e onde eles realmente estão",
+    all_drivers: "Todos os Motoristas",
+    search_driver: "Buscar motorista",
+    unrated: "Sem avaliação",
+    selected: "Selecionado",
+    view_location: "Visualizar Localização",
 
     // profile
     verified: "Verificado",

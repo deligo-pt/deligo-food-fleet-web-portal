@@ -77,7 +77,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
           path: "/agent/rejected-delivery-partners",
         },
         {
-          name: "Delivery Partner Payouts",
+          name: t("delivery_partner_payouts"),
           path: "/agent/delivery-partner-payouts",
         },
         {

@@ -21,6 +21,7 @@ import { Loader2, Truck } from 'lucide-react';
 import { TDeliveryPartner } from '@/types/delivery-partner.type';
 import { toast } from 'sonner';
 import { initiatePartnerSettlement } from '@/services/dashboard/deliveryPartner/deliveryPartner';
+import { useTranslation } from '@/hooks/use-translation';
 
 interface PayToPartnerModalProps {
     isOpen: boolean;
@@ -29,6 +30,7 @@ interface PayToPartnerModalProps {
 }
 
 const PayToPartnerModal = ({ isOpen, onClose, partners }: PayToPartnerModalProps) => {
+    const { t } = useTranslation();
     const [loadingId, setLoadingId] = useState<string | null>(null);
 
     const handleInitialPayment = async (partnerId: string) => {
@@ -52,27 +54,27 @@ const PayToPartnerModal = ({ isOpen, onClose, partners }: PayToPartnerModalProps
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col p-0">
+            <DialogContent className=" w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[75vw] xl:w-[70vw] max-w-4xl! max-h-[90vh] p-0 overflow-hidden">
                 <DialogHeader className="p-6 pb-0">
                     <DialogTitle className="text-2xl font-bold flex items-center gap-2">
                         <Truck className="text-[#DC3173]" />
-                        Select Partner for Payout
+                        {t("select_partner_for_payout")}
                     </DialogTitle>
                     <DialogDescription>
-                        Choose a delivery partner to initiate their payment process.
+                        {t("choose_delivery_partner_to_initiate_payment")}
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="flex-1 overflow-auto p-6">
                     {/* Horizontal scroll enabled via overflow-x-auto */}
                     <div className="rounded-md border overflow-x-auto">
-                        <Table>
+                        <Table className='lg:min-w-150'>
                             <TableHeader className="bg-slate-50">
                                 <TableRow>
-                                    <TableHead className="min-w-50">Partner</TableHead>
-                                    <TableHead>Phone</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Action</TableHead>
+                                    <TableHead className="min-w-50">{t("partner")}</TableHead>
+                                    <TableHead>{t("phone")}</TableHead>
+                                    <TableHead>{t("status")}</TableHead>
+                                    <TableHead className="text-right">{t("actions")}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -111,7 +113,7 @@ const PayToPartnerModal = ({ isOpen, onClose, partners }: PayToPartnerModalProps
                                                     {loadingId === partner._id ? (
                                                         <Loader2 className="h-4 w-4 animate-spin" />
                                                     ) : (
-                                                        "Initiate Payment"
+                                                        t("initiate_payment")
                                                     )}
                                                 </Button>
                                             </TableCell>
@@ -120,7 +122,7 @@ const PayToPartnerModal = ({ isOpen, onClose, partners }: PayToPartnerModalProps
                                 ) : (
                                     <TableRow>
                                         <TableCell colSpan={4} className="text-center py-10 text-slate-500">
-                                            No partners available.
+                                            {t("no_partners_available")}
                                         </TableCell>
                                     </TableRow>
                                 )}

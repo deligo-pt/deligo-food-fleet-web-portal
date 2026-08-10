@@ -79,7 +79,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             variant="link"
             className="inline-flex items-center text-sm gap-2 text-white bg-[#DC3173] px-4 py-2 cursor-pointer"
           >
-            <Edit /> {partner?.status === "PENDING" ? "Update Information" : "Re-Submit"}
+            <Edit /> {partner?.status === "PENDING" ? t("update_information") : (t("re_submit"))}
           </Button>
         }
       </div>
@@ -372,92 +372,119 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
           </div>
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title={t("documents")} icon={<FileText />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
-            {partner.documents?.idProofFront && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">{t("id_proof_front")}</div>
-                <ImagePreview
-                  url={partner.documents?.idProofFront}
-                  alt="ID Prrof"
-                />
+          {(() => {
+            const documents = partner.documents;
+
+            const hasDocuments = Boolean(
+              documents?.idProofFront ||
+              documents?.idProofBack ||
+              documents?.drivingLicenseFront ||
+              documents?.drivingLicenseBack ||
+              documents?.vehicleRegistration ||
+              documents?.criminalRecordCertificate ||
+              documents?.activity ||
+              documents?.insurancePolicy
+            );
+
+            if (!hasDocuments) {
+              return (
+                <p className="text-gray-500 italic text-center">
+                  {t("no_documents_uploaded")}
+                </p>
+              );
+            }
+
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
+                {documents?.idProofFront && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("id_proof_front")}
+                    </div>
+                    <ImagePreview url={documents.idProofFront} alt="ID Proof Front" />
+                  </div>
+                )}
+
+                {documents?.idProofBack && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("id_proof_back")}
+                    </div>
+                    <ImagePreview url={documents.idProofBack} alt="ID Proof Back" />
+                  </div>
+                )}
+
+                {documents?.drivingLicenseFront && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("driving_license_front")}
+                    </div>
+                    <ImagePreview
+                      url={documents.drivingLicenseFront}
+                      alt="Driving License Front"
+                    />
+                  </div>
+                )}
+
+                {documents?.drivingLicenseBack && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("driving_license_back")}
+                    </div>
+                    <ImagePreview
+                      url={documents.drivingLicenseBack}
+                      alt="Driving License Back"
+                    />
+                  </div>
+                )}
+
+                {documents?.vehicleRegistration && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("vehicle_registration")}
+                    </div>
+                    <ImagePreview
+                      url={documents.vehicleRegistration}
+                      alt="Vehicle Registration"
+                    />
+                  </div>
+                )}
+
+                {documents?.criminalRecordCertificate && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("criminal_record_certification")}
+                    </div>
+                    <ImagePreview
+                      url={documents.criminalRecordCertificate}
+                      alt="Criminal Record"
+                    />
+                  </div>
+                )}
+
+                {documents?.activity && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("activity")}
+                    </div>
+                    <ImagePreview url={documents.activity} alt="Activity" />
+                  </div>
+                )}
+
+                {documents?.insurancePolicy && (
+                  <div>
+                    <div className="mb-2 text-gray-500 text-sm">
+                      {t("insurance_policy")}
+                    </div>
+                    <ImagePreview
+                      url={documents.insurancePolicy}
+                      alt="Insurance Policy"
+                    />
+                  </div>
+                )}
               </div>
-            )}
-            {partner.documents?.idProofBack && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">{t("id_proof_back")}</div>
-                <ImagePreview
-                  url={partner.documents?.idProofBack}
-                  alt="ID Prrof"
-                />
-              </div>
-            )}
-            {partner.documents?.drivingLicenseFront && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("driving_license_front")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.drivingLicenseFront}
-                  alt="Driving License"
-                />
-              </div>
-            )}
-            {partner.documents?.drivingLicenseBack && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("driving_license_back")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.drivingLicenseBack}
-                  alt="Driving License"
-                />
-              </div>
-            )}
-            {partner.documents?.vehicleRegistration && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("vehicle_registration")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.vehicleRegistration}
-                  alt="Vehicle Registration"
-                />
-              </div>
-            )}
-            {partner.documents?.criminalRecordCertificate && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("criminal_record_certificate")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.criminalRecordCertificate}
-                  alt="Criminal Record"
-                />
-              </div>
-            )}
-            {partner.documents?.activity && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("criminal_record_certificate")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.activity}
-                  alt="Criminal Record"
-                />
-              </div>
-            )}
-            {partner.documents?.insurancePolicy && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("criminal_record_certificate")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.insurancePolicy}
-                  alt="Criminal Record"
-                />
-              </div>
-            )}
-          </div>
+            );
+          })()}
         </DeliveryPartnerSection>
         <DeliveryPartnerSection title={t("operational_data")} icon={<Package />}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

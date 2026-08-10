@@ -114,13 +114,13 @@ export default function ChangePassword() {
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormLabel className="font-semibold text-gray-700">
-                      Current Password
+                      {t("current_password")}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           type={showOld ? "text" : "password"}
-                          placeholder="Enter current password"
+                          placeholder={t("enter_current_password")}
                           className={cn(
                             "h-12 rounded-xl pr-10",
                             fieldState.invalid ? "border-destructive" : "",
@@ -148,13 +148,13 @@ export default function ChangePassword() {
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormLabel className="font-semibold text-gray-700">
-                      New Password
+                      {t("")}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           type={showNew ? "text" : "password"}
-                          placeholder="Enter new password"
+                          placeholder={t("enter_new_password")}
                           className={cn(
                             "h-12 rounded-xl pr-10",
                             fieldState.invalid ? "border-destructive" : "",
@@ -182,13 +182,13 @@ export default function ChangePassword() {
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormLabel className="font-semibold text-gray-700">
-                      Confirm Password
+                      {t("confirm_password")}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           type={showConfirm ? "text" : "password"}
-                          placeholder="Re-enter new password"
+                          placeholder={t("re_enter_new_password")}
                           className={cn(
                             "h-12 rounded-xl pr-10",
                             fieldState.invalid ? "border-destructive" : "",
@@ -222,7 +222,7 @@ export default function ChangePassword() {
                   style={{ background: PRIMARY }}
                 // onClick={updatePassword}
                 >
-                  Update Password
+                  {t("update_password")}
                 </Button>
               </>
             </CardContent>
