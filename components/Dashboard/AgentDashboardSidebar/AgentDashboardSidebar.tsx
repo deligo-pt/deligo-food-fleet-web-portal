@@ -136,7 +136,7 @@ export default function Sidebar({ open, setOpen, agent }: IProps) {
       icon: <MessageSquare size={18} />,
       items: [
         { name: t("chat_with_support"), path: "/agent/chat-support" },
-        { name: t("report_an_issue"), path: "/agent/report-issue" },
+        // { name: t("report_an_issue"), path: "/agent/report-issue" },
       ],
     },
 
