@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "DeliGo Fleet Manager Portal | Manage Drivers & Operations",
   description:
     "DeliGo Fleet Manager Portal enables delivery fleet partners to manage Drivers,  track performance, monitor payouts, and streamline delivery operations from a powerful dashboard.",
+  other: {
+    google: "notranslate",
+  },
 };
 
 export default function RootLayout({
@@ -16,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" translate="no">
+    <html lang="en" translate="no" className="notranslate">
       <body className={`antialiased`}>
         <GoogleMapsProvider>
           {children}
