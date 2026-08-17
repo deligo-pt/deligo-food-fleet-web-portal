@@ -458,6 +458,8 @@ export const en = {
     linkedin: "LinkedIn",
     youtube: "YouTube",
     quick_links: "Quick Links",
+    get_app: "Get App",
+    enjoy_full_experience: "Enjoy the full experience on your mobile device",
     terms_of_service: "Terms of Service",
     privacy_policy: "Privacy Policy",
     cookies: "Cookies",

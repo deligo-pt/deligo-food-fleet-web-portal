@@ -606,6 +606,8 @@ export const pt = {
     linkedin: "LinkedIn",
     youtube: "YouTube",
     quick_links: "Links Rápidos",
+    get_app: "Baixar Aplicativo",
+    enjoy_full_experience: "Aproveite a experiência completa no seu dispositivo móvel",
     terms_of_service: "Termos de Serviço",
     privacy_policy: "Política de Privacidade",
     cookies: "Cookies",
