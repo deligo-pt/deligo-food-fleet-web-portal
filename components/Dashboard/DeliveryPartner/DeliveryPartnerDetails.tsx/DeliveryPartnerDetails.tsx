@@ -1,6 +1,5 @@
 "use client";
 
-import ImagePreview from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerImagePreview";
 import InfoRow from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerInfoRow";
 import DeliveryPartnerSection from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerSection";
 import DeliveryPartnerStatusBadge from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerDetails.tsx/DeliveryPartnerStatusBadge";
@@ -17,7 +16,6 @@ import {
   Car,
   CreditCard,
   Edit,
-  FileText,
   Gavel,
   Mail,
   MapPin,
@@ -29,6 +27,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { PartnerDetailsDoc } from "./PartnerDetailsDoc";
 
 interface IProps {
   partner: TDeliveryPartner;
@@ -371,94 +370,9 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
           </div>
         </DeliveryPartnerSection>
-        <DeliveryPartnerSection title={t("documents")} icon={<FileText />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 lg:gap-6">
-            {partner.documents?.idProofFront && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">{t("id_proof_front")}</div>
-                <ImagePreview
-                  url={partner.documents?.idProofFront}
-                  alt="ID Prrof"
-                />
-              </div>
-            )}
-            {partner.documents?.idProofBack && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">{t("id_proof_back")}</div>
-                <ImagePreview
-                  url={partner.documents?.idProofBack}
-                  alt="ID Prrof"
-                />
-              </div>
-            )}
-            {partner.documents?.drivingLicenseFront && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("driving_license_front")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.drivingLicenseFront}
-                  alt="Driving License"
-                />
-              </div>
-            )}
-            {partner.documents?.drivingLicenseBack && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("driving_license_back")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.drivingLicenseBack}
-                  alt="Driving License"
-                />
-              </div>
-            )}
-            {partner.documents?.vehicleRegistration && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("vehicle_registration")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.vehicleRegistration}
-                  alt="Vehicle Registration"
-                />
-              </div>
-            )}
-            {partner.documents?.criminalRecordCertificate && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("criminal_record_certificate")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.criminalRecordCertificate}
-                  alt="Criminal Record"
-                />
-              </div>
-            )}
-            {partner.documents?.activity && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("criminal_record_certificate")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.activity}
-                  alt="Criminal Record"
-                />
-              </div>
-            )}
-            {partner.documents?.insurancePolicy && (
-              <div>
-                <div className="mb-2 text-gray-500 text-sm">
-                  {t("criminal_record_certificate")}
-                </div>
-                <ImagePreview
-                  url={partner.documents.insurancePolicy}
-                  alt="Criminal Record"
-                />
-              </div>
-            )}
-          </div>
-        </DeliveryPartnerSection>
+        {/* documents */}
+        <PartnerDetailsDoc partner={partner} />
+
         <DeliveryPartnerSection title={t("operational_data")} icon={<Package />}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="bg-white p-4 rounded-lg shadow-sm text-center">
