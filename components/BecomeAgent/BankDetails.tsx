@@ -6,7 +6,6 @@ import {
   ArrowLeftCircle,
   CreditCard,
   FileText,
-  Globe,
   Save,
   User,
 } from "lucide-react";
@@ -25,21 +24,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/use-translation";
 import { updateFleetInformation } from "@/services/becomeAgent/becomeAgentManagement";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { bankDetailsValidation } from "@/validations/become-agent/bank-details.validation";
 import z from "zod";
-import { cn } from "@/lib/utils";
-import { bankNames } from "@/consts/bankName.const";
 
 type TBankForm = z.infer<typeof bankDetailsValidation>;
 
@@ -55,10 +45,10 @@ const BankDetails = ({ profile }: Props) => {
   const form = useForm<TBankForm>({
     resolver: zodResolver(bankDetailsValidation),
     defaultValues: {
-      bankName: profile?.bankDetails?.bankName || "",
+      // bankName: profile?.bankDetails?.bankName || "",
       accountHolderName: "",
       iban: "",
-      swiftCode: "",
+      // swiftCode: "",
     },
   });
 
@@ -67,13 +57,13 @@ const BankDetails = ({ profile }: Props) => {
   useEffect(() => {
     if (!profile?.bankDetails) return;
 
-    form.setValue("bankName", profile?.bankDetails.bankName || "");
+    // form.setValue("bankName", profile?.bankDetails.bankName || "");
     form.setValue(
       "accountHolderName",
       profile?.bankDetails.accountHolderName || "",
     );
     form.setValue("iban", profile?.bankDetails.iban || "");
-    form.setValue("swiftCode", profile?.bankDetails.swiftCode || "");
+    // form.setValue("swiftCode", profile?.bankDetails.swiftCode || "");
   }, [profile, form]);
 
   const onSubmit = async (data: TBankForm) => {
@@ -81,10 +71,10 @@ const BankDetails = ({ profile }: Props) => {
 
     const payload = {
       bankDetails: {
-        bankName: data.bankName,
+        // bankName: data.bankName,
         accountHolderName: data.accountHolderName,
         iban: data.iban.toUpperCase(),
-        swiftCode: data.swiftCode.toUpperCase(),
+        // swiftCode: data.swiftCode.toUpperCase(),
       },
     };
 
@@ -139,7 +129,7 @@ const BankDetails = ({ profile }: Props) => {
                 className="space-y-6"
               >
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="bankName"
                     render={({ field, fieldState }) => (
@@ -171,7 +161,7 @@ const BankDetails = ({ profile }: Props) => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   <FormField
                     control={form.control}
@@ -205,7 +195,7 @@ const BankDetails = ({ profile }: Props) => {
                     )}
                   />
 
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="swiftCode"
                     render={({ field }) => (
@@ -219,7 +209,7 @@ const BankDetails = ({ profile }: Props) => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </div>
 
                 <motion.button

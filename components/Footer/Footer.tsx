@@ -47,22 +47,66 @@ export default function FooterUltra() {
 
         {/* Social Media */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">{t("follow_us")}</h4>
-          <div className="flex gap-4 mt-2">
-            {socialLinks.map(({ Icon, href, name }, idx) => (
-              <a
-                key={idx}
-                href={href}
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 mb-4">{t("follow_us")}</h4>
+            <div className="flex gap-4 mt-2">
+              {socialLinks.map(({ Icon, href, name }, idx) => (
+                <a
+                  key={idx}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  className="text-gray-600 hover:text-[#DC3173] transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
+                >
+                  <Icon className="w-6 h-6" />
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="mt-5">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              {t("get_app")}
+            </h3>
+            <p>{t("enjoy_full_experience")}</p>
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+
+              {/* App Store Button */}
+              <Link
+                href="https://apps.apple.com/pt/app/deligo-fleet-manager/id6775438701?l=en-GB"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={name}
-                className="text-gray-600 hover:text-[#DC3173] transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
+                className="inline-block transition-transform hover:scale-105 active:scale-95"
               >
-                <Icon className="w-6 h-6" />
-              </a>
-            ))}
-          </div>
+                <Image
+                  src="/app_store.jpeg"
+                  alt="Download on App Store"
+                  width={135}
+                  height={40}
+                  className="h-10 w-auto rounded-md object-contain"
+                  priority={false}
+                />
+              </Link>
 
+              {/* Google Play Button */}
+              <Link
+                href="https://play.google.com/store/apps/details?id=com.deligo.fleetmanager"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block transition-transform hover:scale-105 active:scale-95"
+              >
+                <Image
+                  src="/google_play.jpeg"
+                  alt="Get it on Google Play"
+                  width={135}
+                  height={40}
+                  className="h-10 w-auto rounded-md object-contain"
+                  priority={false}
+                />
+              </Link>
+
+            </div>
+          </div>
         </div>
 
         {/* Quick Links */}
