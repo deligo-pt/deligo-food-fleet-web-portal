@@ -90,11 +90,11 @@ export type TFleetManager = {
   // Bank & Payment Information
   // ---------------------------------------------
   bankDetails?: {
-    bankName: string;
+    bankName?: string;
     accountHolderName: string;
     accountNumber?: string;
     iban: string;
-    swiftCode: string;
+    swiftCode?: string;
   };
 
   // ---------------------------------------------
