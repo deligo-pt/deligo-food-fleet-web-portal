@@ -287,6 +287,7 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
         { id: toastId },
       );
       router.push("/agent/delivery-partners");
+      setIsSubmitting(false);
       return;
     }
     toast.error(result.message || "Request failed", { id: toastId });

@@ -97,10 +97,18 @@ export function VehicleInfoForm({ onNext, partner }: IProps) {
       return;
     }
 
-    toast.error(
-      result?.message || "Failed to update Delivery Partner details.",
-      { id: toastId },
-    );
+    if (result?.data?.errorSources) {
+      result?.data?.errorSources?.map((err: { path: string, message: string }) => (
+        toast.error(err?.message, { id: toastId })
+      ));
+      return;
+    } else {
+      toast.error(
+        result?.message || "Failed to update Delivery Partner details.",
+        { id: toastId },
+      );
+    }
+    console.log(result);
   };
 
   const vehicleOptions = [
