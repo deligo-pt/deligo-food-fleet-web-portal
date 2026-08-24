@@ -233,15 +233,25 @@ const BusinessLocation = ({ profile }: Props) => {
       payload
     );
 
-    if (!result.success) {
-      toast.error(result.message || "Update failed", { id: toastId });
+    if (result?.success) {
+      toast.success(result.message || "Business location updated!", {
+        id: toastId,
+      });
+      router.push("/become-agent/bank-details");
       return;
     }
 
-    toast.success(result.message || "Business location updated!", {
-      id: toastId,
-    });
-    router.push("/become-agent/bank-details");
+    if (result?.data?.errorSources) {
+      result?.data?.errorSources?.map((err: { path: string, message: string }) => (
+        toast.error(err?.message, { id: toastId })
+      ));
+      return;
+    } else {
+      toast.error(result.message || "Business location update failed", {
+        id: toastId,
+      });
+    }
+    console.log(result);
   };
 
   return (

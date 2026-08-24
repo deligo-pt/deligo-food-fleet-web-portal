@@ -91,7 +91,17 @@ const BankDetails = ({ profile }: Props) => {
       return;
     }
 
-    toast.error(result?.message || "Update failed", { id: toastId });
+    if (result?.data?.errorSources) {
+      result?.data?.errorSources?.map((err: { path: string, message: string }) => (
+        toast.error(err?.message, { id: toastId })
+      ));
+      return;
+    } else {
+      toast.error(result.message || "Bank details update failed", {
+        id: toastId,
+      });
+    }
+    console.log(result);
   };
 
   return (
