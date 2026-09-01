@@ -21,44 +21,6 @@ import {
     YAxis,
 } from "recharts";
 
-const data = [
-    {
-        name: "Mon",
-        earnings: 4000,
-        payouts: 2400,
-    },
-    {
-        name: "Tue",
-        earnings: 3000,
-        payouts: 1398,
-    },
-    {
-        name: "Wed",
-        earnings: 2000,
-        payouts: 9800,
-    },
-    {
-        name: "Thu",
-        earnings: 2780,
-        payouts: 3908,
-    },
-    {
-        name: "Fri",
-        earnings: 1890,
-        payouts: 4800,
-    },
-    {
-        name: "Sat",
-        earnings: 2390,
-        payouts: 3800,
-    },
-    {
-        name: "Sun",
-        earnings: 3490,
-        payouts: 4300,
-    },
-];
-
 const EarningsOverview = ({ earnings }: { earnings: any }) => {
     const { t } = useTranslation();
 
@@ -103,21 +65,21 @@ const EarningsOverview = ({ earnings }: { earnings: any }) => {
                         Icon={Euro}
                         color="text-green-600"
                         bgColor="bg-green-100"
-                        title="Total Earnings"
+                        title={t("total_earnings")}
                         value={earnings?.overview?.totalRevenue?.toFixed(2) || "€0.00"}
                     />
                     <FleetEarningsCard
                         Icon={TrendingUp}
                         color="text-[#DC3173]"
                         bgColor="bg-[#DC3173]/10"
-                        title="Monthly Earnings"
+                        title={t("monthly_earnings")}
                         value={earnings?.overview?.monthlyEarnings?.toFixed(2) || "€0.00"}
                     />
                     <FleetEarningsCard
                         Icon={Users}
                         color="text-blue-600"
                         bgColor="bg-blue-100"
-                        title="Weekly Earnings"
+                        title={t("weekly_earnings")}
                         value={earnings?.overview?.weeklyEarnings?.toFixed(2) || "€0.00"}
                     />
                 </motion.div>
@@ -144,9 +106,13 @@ const EarningsOverview = ({ earnings }: { earnings: any }) => {
                             <CardTitle>{t("revenue_trend")}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="h-[300px] w-full">
+                            {earnings?.graph?.length === 0 ? (
+                                <p className="text-center italic text-gray-500">
+                                    {t("no_earnings_to_show")}
+                                </p>
+                            ) : <div className="h-75 w-full">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <AreaChart data={data}>
+                                    <AreaChart data={earnings?.graph || []}>
                                         <defs>
                                             <linearGradient
                                                 id="colorEarnings"
@@ -208,12 +174,12 @@ const EarningsOverview = ({ earnings }: { earnings: any }) => {
                                         />
                                     </AreaChart>
                                 </ResponsiveContainer>
-                            </div>
+                            </div>}
                         </CardContent>
-                    </Card>
-                </motion.div>
-            </div>
-        </div>
+                    </Card >
+                </motion.div >
+            </div >
+        </div >
     );
 };
 

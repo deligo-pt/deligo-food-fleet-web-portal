@@ -8,6 +8,8 @@ import {
   CreditCard,
   FileText,
   CheckCircle2,
+  PenBoxIcon,
+  FormInputIcon,
 } from "lucide-react";
 
 export default function StepperFlow() {
@@ -40,6 +42,18 @@ export default function StepperFlow() {
     },
     {
       id: 5,
+      title: t("agreement"),
+      subtitle: t("fleet_agreement"),
+      icon: <PenBoxIcon className="w-5 h-5" />,
+    },
+    {
+      id: 6,
+      title: t("agreement_sign"),
+      subtitle: t("agreement_details"),
+      icon: <FormInputIcon className="w-5 h-5" />,
+    },
+    {
+      id: 7,
       title: t("complete"),
       subtitle: t("finish_setup"),
       icon: <CheckCircle2 className="w-5 h-5" />,
@@ -67,16 +81,16 @@ export default function StepperFlow() {
       <div className="hidden md:block">
         <div className="relative mx-auto max-w-5xl px-6">
           {/* Line */}
-          <div className="absolute top-1/2 left-0 right-0 h-[3px] -translate-y-1/2 bg-linear-to-r from-[#DC3173]/70 to-[#a72b5c]/70 rounded-full" />
+          <div className="absolute top-1/2 left-0 right-0 h-0.75 -translate-y-1/2 bg-linear-to-r from-[#DC3173]/70 to-[#a72b5c]/70 rounded-full" />
 
-          <ol className="relative flex justify-between items-center flex-wrap gap-y-8">
+          <ol className="relative flex justify-between items-center gap-y-8">
             {steps.map((s, i) => (
               <motion.li
                 key={s.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="flex flex-col items-center text-center w-[18%] min-w-[120px]"
+                className="flex flex-col items-center text-center w-[18%] min-w-30"
               >
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 3 }}
@@ -103,7 +117,7 @@ export default function StepperFlow() {
               key={s.id}
               whileHover={{ scale: 1.05 }}
               transition={{ delay: i * 0.05 }}
-              className="min-w-[95px] shrink-0 flex flex-col items-center bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white py-4 px-3 rounded-2xl shadow-md shadow-[#DC3173]/30"
+              className="min-w-23.75 shrink-0 flex flex-col items-center bg-linear-to-r from-[#DC3173] to-[#a72b5c] text-white py-4 px-3 rounded-2xl shadow-md shadow-[#DC3173]/30"
             >
               <div className="flex items-center justify-center w-10 h-10 mb-2 bg-white/10 rounded-full">
                 <CheckCircle2 className="w-5 h-5" />

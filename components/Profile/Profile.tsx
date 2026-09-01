@@ -6,6 +6,7 @@ import ProfilePhotoUpload from "@/components/Profile/ProfilePhotoUpload";
 import { ProfileSection } from "@/components/Profile/ProfileSection";
 import { USER_STATUS } from "@/consts/user.const";
 import { useTranslation } from "@/hooks/use-translation";
+import { IAgreementsResponse } from "@/types/agreement.type";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { motion } from "framer-motion";
 import {
@@ -24,8 +25,9 @@ import {
   ShieldCheckIcon,
   UserIcon,
 } from "lucide-react";
+import AgreementHistory from "./AgreementHistory";
 
-export default function Profile({ agent }: { agent: TFleetManager }) {
+export default function Profile({ agent, agreementsData }: { agent: TFleetManager, agreementsData: IAgreementsResponse }) {
   const { t } = useTranslation();
   const getStatusColor = (status: keyof typeof USER_STATUS) => {
     const colors = {
@@ -280,6 +282,11 @@ export default function Profile({ agent }: { agent: TFleetManager }) {
               />
             </div>
           </ProfileSection>
+
+          {/* Agreements Section */}
+          <div className="lg:col-span-2">
+            <AgreementHistory agreementsData={agreementsData} />
+          </div>
         </div>
       </div>
     </div>

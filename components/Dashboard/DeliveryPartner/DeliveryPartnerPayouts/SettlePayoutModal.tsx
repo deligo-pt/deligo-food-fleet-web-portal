@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from 'sonner';
 import { Loader2, UploadCloud } from 'lucide-react';
 import { settlePartnerPayout } from '@/services/dashboard/deliveryPartner/deliveryPartner';
+import { useTranslation } from '@/hooks/use-translation';
 
 interface SettleProps {
     isOpen: boolean;
@@ -16,6 +17,7 @@ interface SettleProps {
 }
 
 const SettlePayoutModal = ({ isOpen, onClose, payoutId }: SettleProps) => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState<File | null>(null);
 
@@ -66,21 +68,21 @@ const SettlePayoutModal = ({ isOpen, onClose, payoutId }: SettleProps) => {
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-106.25">
                 <DialogHeader>
-                    <DialogTitle className="text-[#DC3173]">Finalize Settlement</DialogTitle>
+                    <DialogTitle className="text-[#DC3173]">{t("finalize_settlement")}</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 pt-4">
                     <div className="space-y-2">
-                        <Label htmlFor="bankReferenceId">Bank Reference ID</Label>
+                        <Label htmlFor="bankReferenceId">{t("bank_reference_id")}</Label>
                         <Input id="bankReferenceId" name="bankReferenceId" placeholder="Ref: 123456789" required />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="remarks">Remarks (Optional)</Label>
-                        <Textarea id="remarks" name="remarks" placeholder="Add any notes here..." />
+                        <Label htmlFor="remarks">{t("remarks_optional")}</Label>
+                        <Textarea id="remarks" name="remarks" placeholder={t("add_any_notes_here")} />
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Payout Proof (Screenshot/Receipt)</Label>
+                        <Label>{t("payout_proof_screenshot_receipt")}</Label>
                         <div className="border-2 border-dashed border-slate-200 rounded-lg p-4 text-center hover:bg-slate-50 transition-colors relative">
                             <input
                                 type="file"
@@ -90,14 +92,14 @@ const SettlePayoutModal = ({ isOpen, onClose, payoutId }: SettleProps) => {
                             />
                             <UploadCloud className="mx-auto h-8 w-8 text-slate-400" />
                             <p className="text-xs text-slate-500 mt-2">
-                                {file ? file.name : "Click or drag image to upload"}
+                                {file ? file.name : t("click_or_drag_image_to_upload")}
                             </p>
                         </div>
                     </div>
 
                     <Button type="submit" className="w-full bg-[#DC3173] hover:bg-[#DC3173]/90" disabled={loading}>
                         {loading ? <Loader2 className="animate-spin mr-2" /> : null}
-                        Complete Settlement
+                        {t("complete_settlement")}
                     </Button>
                 </form>
             </DialogContent>

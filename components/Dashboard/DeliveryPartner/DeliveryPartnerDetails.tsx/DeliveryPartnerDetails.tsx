@@ -78,7 +78,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             variant="link"
             className="inline-flex items-center text-sm gap-2 text-white bg-[#DC3173] px-4 py-2 cursor-pointer"
           >
-            <Edit /> {partner?.status === "PENDING" ? "Update Information" : "Re-Submit"}
+            <Edit /> {partner?.status === "PENDING" ? t("update_information") : (t("re_submit"))}
           </Button>
         }
       </div>

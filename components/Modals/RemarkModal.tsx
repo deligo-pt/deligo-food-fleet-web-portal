@@ -119,7 +119,7 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-106.25">
           <DialogTitle className="text-[#DC3173]">{t("sos_emergency_alert")}</DialogTitle>
           <DialogHeader>
             <DialogDescription>
@@ -186,7 +186,7 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
                           }}
                         >
                           <SelectTrigger className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm h-10">
-                            <SelectValue placeholder="Add an issue tag" />
+                            <SelectValue placeholder={t("add_an_issue_tag")} />
                           </SelectTrigger>
                           <SelectContent>
                             {SOS_ISSUE_TAGS.map((tag) => (
@@ -215,7 +215,7 @@ const RemarkModal = ({ open, onOpenChange, isSubmitting, setIsSubmitting }: IPro
               className="bg-[#DC3173] hover:bg-[#DC3173]/90"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Sending SOS..." : "Send SOS"}
+              {isSubmitting ? t("sending_sos") : t("send_sos")}
             </Button>
           </DialogFooter>
         </DialogContent>

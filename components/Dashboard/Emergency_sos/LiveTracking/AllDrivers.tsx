@@ -46,7 +46,7 @@ const AllDrivers = ({
   return (
     <div className="bg-white p-2 md:p-3 xl:p-5 rounded-xl h-screen w-full space-y-5">
       <div className="flex flex-row justify-between items-center">
-        <h1 className="text-lg font-semibold">All Drivers</h1>
+        <h1 className="text-lg font-semibold">{t("all_drivers")}</h1>
         <Button
           variant="ghost"
           className="hover:bg-pink-600 hover:text-white"
@@ -57,7 +57,7 @@ const AllDrivers = ({
       </div>
       <SearchFilter
         paramName="searchTerm"
-        placeholder="Search driver"
+        placeholder={t("search_driver")}
         className="w-full"
       />
       <Separator />
@@ -85,7 +85,7 @@ const AllDrivers = ({
           <AnimatePresence>
             {deliveryPartners?.data?.map((partner: TDeliveryPartner) => {
               const fullName = partner?.name
-                ? `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""
+                ? `${partner?.name?.firstName || "N/A"} ${partner?.name?.lastName || ""
                   }`.trim()
                 : "No Name";
 
@@ -125,13 +125,13 @@ const AllDrivers = ({
 
                     <div>
                       <p className="font-semibold text-gray-900">
-                        {partner?.name?.firstName} {partner?.name?.lastName}
+                        {partner?.name?.firstName || "N/A"} {partner?.name?.lastName}
                       </p>
                       <div className="flex items-center gap-1 text-sm text-gray-500">
                         <Star className="h-4 w-4 text-yellow-500 mr-1" />
                         {partner?.rating?.average
                           ? partner?.rating?.average
-                          : "Unrated"}
+                          : t("unrated")}
                       </div>
                     </div>
                   </div>
@@ -142,8 +142,8 @@ const AllDrivers = ({
                   >
                     <ArrowUp className="w-4 h-4" />
                     {selectedPartner?._id === partner?._id
-                      ? "Selected"
-                      : "View Location"}
+                      ? t("selected")
+                      : t("view_location")}
                   </button>
                 </div>
               )

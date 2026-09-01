@@ -1,6 +1,17 @@
 
 
 export const en = {
+    // error page
+    something_went_wrong: "Something Went Wrong",
+    looks_like_our_app_ran_into: "Looks like our app ran into an unexpected issue",
+    we_are_working_hard_to_get_things: "We’re working hard to get things working again!",
+    retry: "Retry",
+    back_to_home: "Back to Home",
+
+    // not found
+    page_not_found: "Page Not Found",
+    oops_it_looks_like_your_are_stumbled_upon: "Oops! It looks like you&lsquo;ve stumbled upon a dead end 🗺️. The page you&lsquo;re searching for seems to have been misplaced or moved to a different location.",
+
     // nav section
     home: "Home",
     aboutUs: "About Us",
@@ -364,6 +375,10 @@ export const en = {
     company_info: "Company Info",
     payment_setup: "Payment Setup",
     upload_files: "Upload Files",
+    agreement: "Agreement",
+    fleet_agreement: "Fleet Agreement",
+    agreement_sign: "Agreement Sign",
+    agreement_details: "Agreement Details",
     finish_setup: "Finish Setup",
 
     // register -> bank-details
@@ -409,6 +424,30 @@ export const en = {
     // personal details
     personalDetails: "Personal Details",
     personalDetailsDesc: "Let’s start with your basic information",
+    view_full_file: "View Full File",
+    // create agreement
+    create_fleet_agreement: "Crate Fleet Agreement",
+    select_your_signatory_type: "Select your signatory type for the agreement",
+    signatoryType: "Signatory Type",
+    selectSignatoryType: "Select Signatory Type",
+    self: "Self",
+    authorized_representative: "Authorized Representative",
+    partyRepresentativeName: "Party Representative Name",
+    partyRepresentativeNamePH: "e.g. Jane Doe",
+    // agreement viewer
+    agreement_pdf: "Agreement PDF",
+    completed_continue: "Completed - Continue",
+    signature_method: "Signature Method",
+    select_method: "Select method",
+    draw_signature: "Draw Signature",
+    upload_signature: "Upload Signature",
+    party_signature: "Party Signature",
+    clear_signature: "Clear Signature",
+    submit_agreement: "Submit Agreement",
+    by_clicking_submit_agreement_you_legally: "By clicking 'Submit Agreement', you legally acknowledge and accept all terms and conditions outlined in this service provision contract.",
+    uploaded_successfully: "Uploaded successfully",
+    uploading: "Uploading...",
+    click_to_upload: "Click to upload",
     // registration-status
     registration_pending: "Registration Pending",
     registration_completed: "Registration Completed",
@@ -509,7 +548,6 @@ export const en = {
     commission_settings: "Commission Settings",
     payment_preferences: "Payment Preferences",
     change_password: "Change Password",
-    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
     notification_preferences: "Notification Preferences",
     // -> 
     team_management: "Team Management",
@@ -536,7 +574,10 @@ export const en = {
     live_delivery_partner_tracking: "Live Delivery Partner Tracking",
 
 
+    // searcing
+    searching: "Searching...",
     // sorting
+    sort_by: "Sort By",
     newest_first: "Newest First",
     oldest_first: "Oldest First",
     name_a_z: "Name (A-Z)",
@@ -709,10 +750,13 @@ export const en = {
     activity: "Activity (optional)",
     insurance_policy: "Insurance Policy (optional)",
     iban_proof: "IBAN Proof",
+    no_documents_uploaded: "No documents uploaded",
     select_file: "Select file",
     complete_submit: "Complete & Submit",
 
     // delivery-partner details
+    update_information: "Update Information",
+    re_submit: "Re-Submit",
     personal_details: "Personal Details",
     full_name: "Full Name",
     contact_number: "Contact Number",
@@ -763,6 +807,27 @@ export const en = {
     // rejected partners 
     admin_has_rejected_these_partners: "Admin has rejected these partners with reason",
 
+    // delivery partner payouts
+    manage_all_delivery_partner_payouts_history: "Manage all delivery partner payouts history from here",
+    pay_to_partner: "Pay to Partner",
+    method: "Method",
+    created_at: "Created At",
+    no_payouts_found: "No payouts found",
+    download_statement: "Download Statement",
+    settle_payout: "Settle Payout",
+    // ---> payout table
+    select_partner_for_payout: "Select Partner for Payout",
+    choose_delivery_partner_to_initiate_payment: "Choose a delivery partner to initiate their payment process.",
+    initiate_payment: "Initiate Payment",
+    no_partners_available: "No partners available.",
+    // --> settle payout
+    finalize_settlement: "Finalize Settlement",
+    bank_reference_id: "Bank Reference ID",
+    remarks_optional: "Remarks (Optional)",
+    add_any_notes_here: "Add any notes here...",
+    payout_proof_screenshot_receipt: "Payout Proof (Screenshot/Receipt)",
+    click_or_drag_image_to_upload: "Click or drag image to upload",
+    complete_settlement: "Complete Settlement",
 
     // delivery partner performance
     sortable_filterable_exportable: "Sortable, filterable, exportable overview.",
@@ -862,7 +927,9 @@ export const en = {
     overview_fleet_financial: "Overview of your fleet’s financial performance",
     revenue_trend: "Revenue Trend",
     payout_distribution: "Payout Distribution",
-
+    monthly_earnings: "Monthly Earnings",
+    weekly_earnings: "Weekly Earnings",
+    no_earnings_to_show: "No earnings to show",
 
 
     // delivery partners payouts
@@ -1022,6 +1089,15 @@ export const en = {
     stripe_connect_id: "Stripe Connect ID",
     save_preferences: "Save Preferences",
 
+    // change password
+    update_your_account_password_securely: "Update your account password securely to protect your fleet management dashboard",
+    current_password: "Current Password",
+    enter_current_password: "Enter current password",
+    new_password: "New Password",
+    enter_new_password: "Enter new password",
+    confirm_password: "Confirm Password",
+    re_enter_new_password: "Re-enter new password",
+    update_password: "Update Password",
 
     // notification preferences
     configure_which_alerts_updates: "Configure which alerts and updates you want to receive",
@@ -1109,6 +1185,27 @@ export const en = {
     deligo_support: "Deligo Support",
     active_now: "Active now",
     send: "Send",
+    chat_directly_with_support_experts: "Chat directly with our support experts with support ticket",
+    inquiry: "Inquiry",
+    no_message_content_available: "No message content available.",
+    view_conversation: "View Conversation",
+    our_team_typically_responds_within: "Our team typically responds within",
+    hours_2_4: "2-4 hours",
+    no_active_support_tickets: "No Active Support Tickets",
+    you_dont_have_any_open_requests: "You don't have any open requests. If you're experiencing an issue, create a ticket and we'll get right on it!",
+    create_your_first_ticket: "Create your first ticket",
+    // --> create new ticket
+    create_new_ticket: "Create New Ticket",
+    category: "Category",
+    select_category: "Select category",
+    message: "Message",
+    please_provide_details_your_issue: "Please provide the details of your issue or inquiry here...",
+    submit_ticket: "Submit Ticket",
+    // --> support chat sheet
+    admin_is_typing: "Admin is typing",
+    // --> support chat input
+    this_ticket_is_closed: "This ticket is closed. Please open a new ticket for further assistance.",
+    type_a_message: "Type a message...",
 
 
     // report-issue
@@ -1128,7 +1225,9 @@ export const en = {
     need_immediate_support: "Need Immediate Support?",
     contact_support_team: "Contact our support team via live chat or email for faster assistance.",
     open_live_chat: "Open Live Chat",
-
+    choose_issue_type: "Choose issue type",
+    enter_your_email_address: "Enter your email address",
+    write_a_detailed_description_of_problem: "Write a detailed description of the problem…",
 
     // help-center
     find_answers_guides_support: "Find answers, guides and support for your Deligo vendor account.",
@@ -1178,12 +1277,18 @@ export const en = {
     what_going_wrong: "What’s going wrong?",
     describe_issue_here: "Describe your issue here...",
     issue_tags: "Issue Tags",
+    add_an_issue_tag: "Add an issue tag",
     reset: "Reset",
     send_sos: "Send SOS",
     sending_sos: "Sending SOS....",
 
     // live tracking
     tracking_drivers_live_location_and_where_they_are: "Tracking driver's live location and where they are actually",
+    all_drivers: "All Drivers",
+    search_driver: "Search driver",
+    unrated: "Unrated",
+    selected: "Selected",
+    view_location: "View Location",
 
     // profile
     verified: "Verified",
@@ -1196,6 +1301,14 @@ export const en = {
     street_address: "Street Address",
     account_activity: "Account Activity",
     two_factor_auth: "Two-Factor Auth",
+    signed: "Signed",
+    party_signed: "Party Signed",
+    agreement_history: "Agreement History",
+    no_agreements_found: "No agreements found.",
+    signed_at: "Party Signed At",
+    deligo_signed_at: "Deligo Signed At",
+    view_draft: "Draft PDF",
+    signed_pdf: "Signed Document",
 
 
 

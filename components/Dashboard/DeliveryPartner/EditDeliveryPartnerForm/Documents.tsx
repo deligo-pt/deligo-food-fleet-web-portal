@@ -42,13 +42,13 @@ const OPTIONAL_DOCS: DocKey[] = [
   "drivingLicenseFront",
   "drivingLicenseBack",
   "vehicleRegistration",
+  "criminalRecordCertificate",
 ];
 
 const BASE_REQUIRED_DOCS: DocKey[] = [
   "myPhoto",
   "idProofFront",
   "idProofBack",
-  "criminalRecordCertificate",
 ];
 
 export default function Documents({ partner }: { partner: TDeliveryPartner }) {
@@ -287,6 +287,7 @@ export default function Documents({ partner }: { partner: TDeliveryPartner }) {
         { id: toastId },
       );
       router.push("/agent/delivery-partners");
+      setIsSubmitting(false);
       return;
     }
     toast.error(result.message || "Request failed", { id: toastId });

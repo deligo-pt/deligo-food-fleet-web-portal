@@ -95,7 +95,7 @@ const PaymentHistory = ({ payments }: IProps) => {
             <div className="flex flex-row gap-2 justify-between items-start">
                 <AllFilters sortOptions={sortOptions} filterOptions={filterOptions} />
                 <Button onClick={() => setExportOpen(true)} className="bg-[#DC3173]">
-                    Export
+                    {t("export")}
                 </Button>
             </div>
 

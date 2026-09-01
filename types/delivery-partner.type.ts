@@ -224,10 +224,7 @@ export type TDeliveryPartnersQueryParams = {
 export interface IDeliveryPartnerCard {
   _id: string;
 
-  name: {
-    firstName: string;
-    lastName: string;
-  };
+  name: string;
 
   personalInfo: {
     gender: "MALE" | "FEMALE" | "OTHER";

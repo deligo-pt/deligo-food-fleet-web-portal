@@ -9,7 +9,7 @@ import { removeCookie } from "@/utils/cookies";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -29,6 +29,8 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
   const router = useRouter();
   const { lang, setLang } = useStore();
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   // Handle scroll effect for sticky navbar shadow
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,15 +55,45 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
     console.log(result);
   };
 
+  // Close mobile menu automatically on window resize to desktop (>= 768px)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+  useEffect(() => {
+    const urlLang = searchParams.get("lang");
+    if (urlLang === "en" || urlLang === "pt") {
+      setLang(urlLang);
+    }
+  }, [searchParams, setLang]);
+
+  const handleLangChange = (value: "en" | "pt") => {
+    setLang(value);
+    document.cookie = `lang=${value}; path=/`;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("lang", value);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   return (
     <header
-      className={`fixed w-full top-0 z-50 border-b border-gray-800  transition-shadow ${isScrolled ? "shadow-md" : ""
+      className={`fixed w-full top-0 z-50 border-b border-gray-800 transition-shadow ${isScrolled ? "shadow-md" : ""
         } bg-white text-black`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
@@ -92,13 +124,13 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
         <div className="hidden md:flex items-center gap-6">
           <Link
             href="/"
-            className="text-black  hover:text-[#DC3173] transition-colors flex items-center gap-1"
+            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
             {t("home")}
           </Link>
           <Link
             href="/about-us"
-            className="text-black  hover:text-[#DC3173] transition-colors flex items-center gap-1"
+            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
           >
             {t("aboutUs")}
           </Link>
@@ -112,11 +144,9 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
           {/* Language & Dark Mode */}
           <Select
             value={lang}
-            onValueChange={(value: "en" | "pt") => {
-              setLang(value);
-            }}
+            onValueChange={(value: "en" | "pt") => handleLangChange(value)}
           >
-            <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
+            <SelectTrigger className="w-17.5 hover:border hover:border-[#DC3173]">
               <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
@@ -157,90 +187,101 @@ const Header: React.FC<NavbarProps> = ({ fleetData }) => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(true)}
-          className="md:hidden p-2 rounded-md hover:bg-white  transition-colors"
+          className="md:hidden p-2 rounded-md hover:bg-white transition-colors"
         >
-          <Menu className="w-6 h-6 text-black " />
+          <Menu className="w-6 h-6 text-black" />
         </button>
       </nav>
 
-      {/* Mobile Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-      >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <span className="font-bold text-xl text-[#DC3173]">DeliGo</span>
-          <button
+      {/* Mobile Backdrop & Drawer Wrapper */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Blur Overlay Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 rounded-md   transition-colors"
-          >
-            <X className="w-6 h-6 text-black" />
-          </button>
-        </div>
-        <div className="flex flex-col mt-4 gap-4 px-6">
-          <Link
-            href="/"
-            className="text-black  hover:text-[#DC3173] transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {t("home")}
-          </Link>
-          {fleetData?.email && (
-            <Link
-              href="/agent/dashboard"
-              className="text-black  hover:text-[#DC3173] transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {t("dashboard")}
-            </Link>
-          )}
-          <Link
-            href="/about"
-            className="text-black  hover:text-[#DC3173] transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {t("aboutUs")}
-          </Link>
-          <Link
-            href="/blog"
-            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
-          >
-            {t("blog")}
-          </Link>
-          <Link
-            href="/contact-us"
-            className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
-          >
-            {t("contactUs")}
-          </Link>
+          />
 
-          {/* Language & Dark Mode */}
-          <Select
-            value={lang}
-            onValueChange={(value: "en" | "pt") => {
-              setLang(value);
-            }}
+          {/* Mobile Drawer */}
+          <div
+            className={`fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform transition-transform duration-300 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+              }`}
           >
-            <SelectTrigger className="w-[70px] hover:border hover:border-[#DC3173]">
-              <SelectValue placeholder="Language" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en">EN</SelectItem>
-              <SelectItem value="pt">PT</SelectItem>
-            </SelectContent>
-          </Select>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <span className="font-bold text-xl text-[#DC3173]">DeliGo</span>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded-md transition-colors"
+              >
+                <X className="w-6 h-6 text-black" />
+              </button>
+            </div>
+            <div className="flex flex-col mt-4 gap-4 px-6">
+              <Link
+                href="/"
+                className="text-black hover:text-[#DC3173] transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("home")}
+              </Link>
+              {fleetData?.email && (
+                <Link
+                  href="/agent/dashboard"
+                  className="text-black hover:text-[#DC3173] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t("dashboard")}
+                </Link>
+              )}
+              <Link
+                href="/about"
+                className="text-black hover:text-[#DC3173] transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("aboutUs")}
+              </Link>
+              <Link
+                href="/blog"
+                className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("blog")}
+              </Link>
+              <Link
+                href="/contact-us"
+                className="text-black hover:text-[#DC3173] transition-colors flex items-center gap-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("contactUs")}
+              </Link>
 
-          {!fleetData?.email && (
-            <Link
-              href="/login"
-              className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {t("login")} / {t("signUp")}
-            </Link>
-          )}
+              {/* Language Switcher */}
+              <Select
+                value={lang}
+                onValueChange={(value: "en" | "pt") => handleLangChange(value)}
+              >
+                <SelectTrigger className="w-17.5 hover:border hover:border-[#DC3173]">
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">EN</SelectItem>
+                  <SelectItem value="pt">PT</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {!fleetData?.email && (
+                <Link
+                  href="/login"
+                  className="px-4 py-2 bg-[#DC3173] text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold text-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t("login")} / {t("signUp")}
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
