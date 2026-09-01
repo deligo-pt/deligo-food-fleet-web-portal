@@ -1301,6 +1301,14 @@ export const en = {
     street_address: "Street Address",
     account_activity: "Account Activity",
     two_factor_auth: "Two-Factor Auth",
+    signed: "Signed",
+    party_signed: "Party Signed",
+    agreement_history: "Agreement History",
+    no_agreements_found: "No agreements found.",
+    signed_at: "Party Signed At",
+    deligo_signed_at: "Deligo Signed At",
+    view_draft: "Draft PDF",
+    signed_pdf: "Signed Document",
 
 
 

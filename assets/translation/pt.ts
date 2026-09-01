@@ -1465,5 +1465,13 @@ export const pt = {
     street_address: "Morada",
     account_activity: "Atividade da conta",
     two_factor_auth: "Autenticação de dois fatores",
+    signed: "Assinado",
+    party_signed: "Assinado pela Parte",
+    agreement_history: "Histórico de Acordos",
+    no_agreements_found: "Nenhum acordo encontrado.",
+    signed_at: "Assinado pela Parte Em",
+    deligo_signed_at: "Assinado pela Deligo Em",
+    view_draft: "Rascunho em PDF",
+    signed_pdf: "Documento Assinado",
 
 };
