@@ -487,6 +487,10 @@ export const pt = {
     company_info: "Informações da Empresa",
     payment_setup: "Configuração de Pagamentos",
     upload_files: "Carregar Ficheiros",
+    agreement: "Acordo",
+    fleet_agreement: "Acordo de Frota",
+    agreement_sign: "Assinatura do Acordo",
+    agreement_details: "Detalhes do Acordo",
     finish_setup: "Finalizar Configuração",
 
     // register -> bank-details
@@ -544,6 +548,30 @@ export const pt = {
     personalDetailsDesc:
         "Vamos começar com as suas informações básicas",
     view_full_file: "Visualizar Arquivo Completo",
+
+    // create agreement
+    create_fleet_agreement: "Criar Acordo de Frota",
+    select_your_signatory_type: "Selecione o seu tipo de signatário para o acordo",
+    signatoryType: "Tipo de Signatário",
+    selectSignatoryType: "Selecionar Tipo de Signatário",
+    self: "Próprio",
+    authorized_representative: "Representante Autorizado",
+    partyRepresentativeName: "Nome do Representante da Parte",
+    partyRepresentativeNamePH: "ex.: Jane Doe",
+    // agreement viewer
+    agreement_pdf: "PDF do Acordo",
+    completed_continue: "Concluído - Continuar",
+    signature_method: "Método de Assinatura",
+    select_method: "Selecionar método",
+    draw_signature: "Desenhar Assinatura",
+    upload_signature: "Carregar Assinatura",
+    party_signature: "Assinatura da Parte",
+    clear_signature: "Limpar Assinatura",
+    submit_agreement: "Submeter Acordo",
+    by_clicking_submit_agreement_you_legally: "Ao clicar em 'Submeter Acordo', reconhece e aceita legalmente todos os termos e condições descritos neste contrato de prestação de serviços.",
+    uploaded_successfully: "Carregado com sucesso",
+    uploading: "A carregar...",
+    click_to_upload: "Clique para carregar",
 
     // registration-status
     registration_pending: "Registo Pendente",

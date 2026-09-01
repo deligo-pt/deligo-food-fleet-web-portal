@@ -91,6 +91,11 @@ export const uploadImagesReq = async (images: File[]) => {
 //     }
 // };
 
+export const submitForApprovalReq = async (id: string) => {
+    return catchAsync(async () => {
+        return await serverFetch.patch(`/auth/${id}/submitForApproval`);
+    });
+};
 
 export const updateFleetDocumentsReq = async (
     id: string,
