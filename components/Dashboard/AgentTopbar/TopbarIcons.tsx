@@ -14,6 +14,7 @@ import { logoutReq } from "@/services/auth/auth";
 import { useStore } from "@/store/store";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
+import { setLanguageCookie } from "@/utils/language";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -23,8 +24,8 @@ import {
   UserIcon,
 } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const PRIMARY = "#DC3173";
@@ -39,6 +40,28 @@ export default function TopbarIcons({ agent }: IProps) {
   const [openSosModal, setOpenSosModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const urlLang = searchParams.get("lang");
+    if (urlLang === "en" || urlLang === "pt") {
+      setLang(urlLang);
+    }
+  }, [searchParams, setLang]);
+
+  const handleLangChange = (value: "en" | "pt") => {
+    setLang(value);
+
+    // Save cookie
+    setLanguageCookie(value);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("lang", value);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const logOut = async () => {
     const toastId = toast.loading("Logging out...");
@@ -86,9 +109,7 @@ export default function TopbarIcons({ agent }: IProps) {
       <div className="relative z-1002">
         <Select
           value={lang}
-          onValueChange={(value: "en" | "pt") => {
-            setLang(value);
-          }}
+          onValueChange={(value: "en" | "pt") => handleLangChange(value)}
         >
           <SelectTrigger className="w-17.5 hover:border hover:border-[#DC3173]">
             <SelectValue placeholder="Language" />

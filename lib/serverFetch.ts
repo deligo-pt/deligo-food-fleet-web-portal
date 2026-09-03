@@ -14,12 +14,12 @@ async function createHeaders(
 
   const cookieStr = cookieStore.toString();
 
-  const accessToken =
-    cookieStore.get("accessToken")?.value || "";
+  const accessToken = cookieStore.get("accessToken")?.value || "";
+  const activeLang = cookieStore.get("lang")?.value === "pt" ? "pt" : "en";
 
   return {
     ...headers,
-
+    "Accept-Language": activeLang,
     Authorization: accessToken
       ? `Bearer ${accessToken}`
       : "",

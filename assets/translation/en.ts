@@ -375,6 +375,10 @@ export const en = {
     company_info: "Company Info",
     payment_setup: "Payment Setup",
     upload_files: "Upload Files",
+    agreement: "Agreement",
+    fleet_agreement: "Fleet Agreement",
+    agreement_sign: "Agreement Sign",
+    agreement_details: "Agreement Details",
     finish_setup: "Finish Setup",
 
     // register -> bank-details
@@ -421,6 +425,29 @@ export const en = {
     personalDetails: "Personal Details",
     personalDetailsDesc: "Let’s start with your basic information",
     view_full_file: "View Full File",
+    // create agreement
+    create_fleet_agreement: "Crate Fleet Agreement",
+    select_your_signatory_type: "Select your signatory type for the agreement",
+    signatoryType: "Signatory Type",
+    selectSignatoryType: "Select Signatory Type",
+    self: "Self",
+    authorized_representative: "Authorized Representative",
+    partyRepresentativeName: "Party Representative Name",
+    partyRepresentativeNamePH: "e.g. Jane Doe",
+    // agreement viewer
+    agreement_pdf: "Agreement PDF",
+    completed_continue: "Completed - Continue",
+    signature_method: "Signature Method",
+    select_method: "Select method",
+    draw_signature: "Draw Signature",
+    upload_signature: "Upload Signature",
+    party_signature: "Party Signature",
+    clear_signature: "Clear Signature",
+    submit_agreement: "Submit Agreement",
+    by_clicking_submit_agreement_you_legally: "By clicking 'Submit Agreement', you legally acknowledge and accept all terms and conditions outlined in this service provision contract.",
+    uploaded_successfully: "Uploaded successfully",
+    uploading: "Uploading...",
+    click_to_upload: "Click to upload",
     // registration-status
     registration_pending: "Registration Pending",
     registration_completed: "Registration Completed",
@@ -1274,6 +1301,14 @@ export const en = {
     street_address: "Street Address",
     account_activity: "Account Activity",
     two_factor_auth: "Two-Factor Auth",
+    signed: "Signed",
+    party_signed: "Party Signed",
+    agreement_history: "Agreement History",
+    no_agreements_found: "No agreements found.",
+    signed_at: "Party Signed At",
+    deligo_signed_at: "Deligo Signed At",
+    view_draft: "Draft PDF",
+    signed_pdf: "Signed Document",
 
 
 

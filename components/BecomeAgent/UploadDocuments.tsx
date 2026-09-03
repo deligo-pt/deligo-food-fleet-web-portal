@@ -19,10 +19,8 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
-import { TResponse } from "@/types";
 import { DocKey, FLEET_REQUIRED_DOCS, IDocs } from "@/types/documents.type";
 import { getCookie } from "@/utils/cookies";
-import { updateData } from "@/utils/requests";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -330,38 +328,16 @@ export default function UploadDocuments({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Continue button handler: stop confetti and close modal (later you can trigger API)
-  const handleContinue = async () => {
-    const toastId = toast.loading("Submitting...");
+  // next step handler
+  const handleNextStep = async () => {
+    const toastId = toast.loading("Processing...");
     setIsSubmitting(true);
-
-    try {
-      const accessToken = getCookie("accessToken");
-      const decoded = jwtDecode(accessToken || "") as { userId: string };
-      const result = (await updateData(
-        `/auth/${decoded.userId}/submitForApproval`,
-        {},
-        {
-          headers: { authorization: accessToken || "" },
-        },
-      )) as unknown as TResponse<any>;
-      if (result.success) {
-        toast.success("Request submitted successfully!", {
-          id: toastId,
-        });
-        setConfettiRunning(true);
-        setShowModal(true);
-      }
-    } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "Request submission failed",
-        { id: toastId },
-      );
-      console.log(error);
-    } finally {
+    setTimeout(() => {
+      router.push("/become-agent/agreement/create");
+      toast.success("Proceeding to next step...", { id: toastId });
       setIsSubmitting(false);
-    }
-  };
+    }, 2000);
+  }
 
   function getActualFileName(url: string): string {
     try {
@@ -535,10 +511,11 @@ export default function UploadDocuments({
             <div className="pt-4">
               <Button
                 disabled={!isFormValid || isSubmititng}
-                onClick={handleContinue}
+                onClick={handleNextStep}
                 className="bg-[#DC3173] hover:bg-[#b72a63] text-white px-6 py-3 rounded-xl shadow-lg"
               >
-                {t("completeRegistrationCTA")}
+                {t("saveContinue")}
+                {/* {t("completeRegistrationCTA")} */}
               </Button>
             </div>
           </CardContent>
