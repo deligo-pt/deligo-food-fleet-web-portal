@@ -510,6 +510,8 @@ export const en = {
 
 
     // dashboard contents
+    // topbar 
+    please_visit_profile_page: "Please visit your Profile for re-sign your agreement",
     // sidebar
     delivery_partners_management: "Delivery Partners Management",
     all_delivery_partners: "All Delivery Partners",
@@ -1309,7 +1311,9 @@ export const en = {
     deligo_signed_at: "Deligo Signed At",
     view_draft: "Draft PDF",
     signed_pdf: "Signed Document",
-
-
+    re_sign_agreement: "Re-Sign Agreement",
+    review_nd_sign_the_agreement_below: "Review and sign the agreement below. After signing, you can access everything",
+    redirecting: "Redirecting..",
+    agreement_signed_successfully: "Agreement signed successfully!",
 
 };

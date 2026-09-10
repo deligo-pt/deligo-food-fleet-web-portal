@@ -9,9 +9,9 @@ interface IProps {
 const DOC_TRANSLATION_MAP: Record<keyof IDocs, string> = {
   idProofFront: "id_proof_front",
   idProofBack: "id_proof_back",
-  businessLicense: "business_license",
+  businessLicense: "businessLicense",
   activityDocument: "activity_document",
-  myPhoto: "my_photo",
+  myPhoto: "myPhoto",
   proofOfAddress: "proof_of_address",
   ibanProof: "iban_proof",
 };

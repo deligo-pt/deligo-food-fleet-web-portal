@@ -6,7 +6,7 @@ import ProfilePhotoUpload from "@/components/Profile/ProfilePhotoUpload";
 import { ProfileSection } from "@/components/Profile/ProfileSection";
 import { USER_STATUS } from "@/consts/user.const";
 import { useTranslation } from "@/hooks/use-translation";
-import { IAgreementsResponse } from "@/types/agreement.type";
+import { IAgreement, IAgreementsResponse } from "@/types/agreement.type";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { motion } from "framer-motion";
 import {
@@ -26,9 +26,20 @@ import {
   UserIcon,
 } from "lucide-react";
 import AgreementHistory from "./AgreementHistory";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
-export default function Profile({ agent, agreementsData }: { agent: TFleetManager, agreementsData: IAgreementsResponse }) {
+interface IProps {
+  agent: TFleetManager;
+  agreementsData: IAgreementsResponse;
+  currentAgreement: IAgreement | null;
+}
+
+export default function Profile({ agent, agreementsData, currentAgreement = null }: IProps) {
   const { t } = useTranslation();
+  const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const getStatusColor = (status: keyof typeof USER_STATUS) => {
     const colors = {
       APPROVED: "bg-green-100 text-green-700 border-green-200",
@@ -85,7 +96,7 @@ export default function Profile({ agent, agreementsData }: { agent: TFleetManage
           }}
         >
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
-            <ProfilePhotoUpload currentPhoto={agent.profilePhoto} />
+            <ProfilePhotoUpload currentPhoto={agent?.documents?.myPhoto?.[0]} userId={agent?.userId} />
 
             <div className="flex-1 text-center lg:text-left">
               <div className="flex flex-col lg:flex-row lg:items-center gap-3 mb-2">
@@ -136,6 +147,19 @@ export default function Profile({ agent, agreementsData }: { agent: TFleetManage
             </div>
           </div>
         </motion.div>
+
+        {/* re sign agreement button */}
+        {(currentAgreement && currentAgreement?.status) && <div className="mb-4 flex flex-row justify-end items-center">
+          <Button type="button" disabled={isRedirecting} className="bg-[#DC3173] text-white" variant="outline" onClick={() => {
+            setTimeout(() => {
+              setIsRedirecting(true);
+              router.push('/agent/profile/re-sign-agreement');
+              setIsRedirecting(false);
+            }, 1000)
+          }}>
+            {isRedirecting ? t("redirecting") : t("re_sign_agreement")}
+          </Button>
+        </div>}
 
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
