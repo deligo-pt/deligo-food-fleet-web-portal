@@ -10,8 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "@/hooks/use-translation";
 import { logoutReq } from "@/services/auth/auth";
+import { getCurrentAgreementVersion } from "@/services/dashboard/agreement/agreement.service";
 import { useStore } from "@/store/store";
+import { IAgreement } from "@/types/agreement.type";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
 import { setLanguageCookie } from "@/utils/language";
@@ -36,10 +39,12 @@ type IProps = {
 
 export default function TopbarIcons({ agent }: IProps) {
   const { lang, setLang } = useStore();
+  const router = useRouter();
+  const { t } = useTranslation();
   const [profileOpen, setProfileOpen] = useState(false);
   const [openSosModal, setOpenSosModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  const [agreeVersion, setAgreeVersion] = useState<IAgreement | null>(null);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -103,8 +108,26 @@ export default function TopbarIcons({ agent }: IProps) {
     toast.error(result?.message || "Logout failed", { id: toastId });
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getCurrentAgreementVersion();
+
+        if (res?.data) {
+          setAgreeVersion(res.data);
+          router.refresh();
+        } else {
+          setAgreeVersion(null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch agreement version:", error);
+      }
+    })();
+  }, []);
+
   return (
     <>
+      {(agreeVersion?.status) && <p className="text-[#DC3173] italic font-semibold">{t("please_visit_profile_page")}</p>}
       {/* Language */}
       <div className="relative z-1002">
         <Select

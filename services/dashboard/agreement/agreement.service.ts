@@ -71,3 +71,17 @@ export const getAgreementHistory = async (fleetId: string, query?: string) => {
 
     return result;
 };
+
+// get vendor current agreement
+export const getCurrentAgreementVersion = async () => {
+    const result = await catchAsync(async () => {
+        return await serverFetch.get(`/agreements/current`, {
+            next: {
+                tags: ["agreements"]
+            }
+        });
+    });
+
+
+    return result;
+};
