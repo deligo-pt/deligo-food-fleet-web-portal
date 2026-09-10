@@ -25,11 +25,12 @@ import { FileUploadZone } from "./FileUploadZone";
 interface AgreementViewerProps {
     agreement: any;
     fleetId?: string;
+    type?: "new" | "re-sign";
 }
 
 type SignatureMethod = "DRAWN" | "UPLOADED";
 
-export default function AgreementViewer({ agreement, fleetId }: AgreementViewerProps) {
+export default function AgreementViewer({ agreement, fleetId, type = 'new' }: AgreementViewerProps) {
     const { t } = useTranslation();
     const router = useRouter();
     const [, startTransition] = useTransition();
@@ -175,6 +176,9 @@ export default function AgreementViewer({ agreement, fleetId }: AgreementViewerP
                 startTransition(() => {
                     router.refresh();
                 });
+                if (type === "re-sign") {
+                    router.push('/agent/profile');
+                }
                 return;
             }
 

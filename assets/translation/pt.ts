@@ -659,6 +659,8 @@ export const pt = {
 
 
     // dashboard contents
+    // topbar
+    please_visit_profile_page: "Por favor, visite o seu Perfil para voltar a assinar o seu acordo",
     // sidebar
     delivery_partners_management: "Gestão de Parceiros de Entrega",
     all_delivery_partners: "Todos os Parceiros de Entrega",
@@ -1473,5 +1475,8 @@ export const pt = {
     deligo_signed_at: "Assinado pela Deligo Em",
     view_draft: "Rascunho em PDF",
     signed_pdf: "Documento Assinado",
-
+    re_sign_agreement: "Voltar a Assinar Acordo",
+    redirecting: "A redirecionar...",
+    review_nd_sign_the_agreement_below: "Reveja e assine o acordo abaixo. Após assinar, terá acesso a tudo",
+    agreement_signed_successfully: "Acordo assinado com sucesso!",
 };
