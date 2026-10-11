@@ -41,8 +41,15 @@ const DeliveryPartnerPayouts = ({ partners, payouts }: IProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [settleId, setSettleId] = useState<string | null>(null);
     const sortOptions = getSortOptions(t);
-    const filteredPayouts = payouts?.data?.filter((payout: IPayout) => payout?.senderId?.role === 'FLEET_MANAGER') || [];
     const router = useRouter();
+
+    const payoutsList: IPayout[] = (() => {
+        if (Array.isArray(payouts)) return payouts;
+        if (Array.isArray(payouts?.data)) return payouts.data;
+        if (Array.isArray((payouts as any)?.data?.data)) return (payouts as any).data.data;
+        return [];
+    })();
+    const filteredPayouts = payoutsList?.filter((payout: IPayout) => payout?.senderId?.role === 'FLEET_MANAGER') || [];
 
     return (
         <>
