@@ -27,9 +27,7 @@ export default function AuthGuard({ children }: Props) {
     const [mustResign, setMustResign] = useState(false);
     const [agreement, setAgreement] = useState<IAgreement | null>(null);
 
-    // ─────────────────────────────────────────────
     // 1. Account Blocked check
-    // ─────────────────────────────────────────────
     const checkBlocked = useCallback(async () => {
         try {
             const { data } = await getFleetManagerProfile();
@@ -43,15 +41,12 @@ export default function AuthGuard({ children }: Props) {
         }
     }, [router]);
 
-    // ─────────────────────────────────────────────
     // 2. New Agreement version check
-    // ─────────────────────────────────────────────
     const checkAgreement = useCallback(async () => {
         try {
             const res = await getCurrentAgreementVersion();
             const data = res?.data as IAgreement | undefined;
 
-            // status === true  →  admin published a new version, force re-sign
             if (data?.status) {
                 setAgreement(data);
                 setMustResign(true);
@@ -95,7 +90,7 @@ export default function AuthGuard({ children }: Props) {
         <>
             {children}
 
-            {/* ───────── Force Re-sign Agreement Modal (non-dismissible) ───────── */}
+            {/* Force Re-sign Agreement Modal (non-dismissible) */}
             <Dialog open={mustResign} onOpenChange={() => { /* prevent close */ }}>
                 <DialogContent
                     onInteractOutside={(e) => e.preventDefault()}
@@ -135,21 +130,21 @@ export default function AuthGuard({ children }: Props) {
 
                     {/* Agreement content */}
                     {/* Agreement content */}
-<div className="p-0 md:p-2 w-full h-full">
-  {agreement ? (
-    <div className="w-full min-h-[70vh]">
-      <AgreementViewer
-        agreement={agreement}
-        type="re-sign"
-        onSuccess={handleAgreementSigned}
-      />
-    </div>
-  ) : (
-    <div className="py-16 text-center text-gray-500 text-sm">
-      Loading agreement...
-    </div>
-  )}
-</div>
+                    <div className="p-0 md:p-2 w-full h-full">
+                        {agreement ? (
+                            <div className="w-full min-h-[70vh]">
+                                <AgreementViewer
+                                    agreement={agreement}
+                                    type="re-sign"
+                                    onSuccess={handleAgreementSigned}
+                                />
+                            </div>
+                        ) : (
+                            <div className="py-16 text-center text-gray-500 text-sm">
+                                Loading agreement...
+                            </div>
+                        )}
+                    </div>
                 </DialogContent>
             </Dialog>
         </>
