@@ -26,11 +26,12 @@ interface AgreementViewerProps {
     agreement: any;
     fleetId?: string;
     type?: "new" | "re-sign";
+    onSuccess?: () => void;
 }
 
 type SignatureMethod = "DRAWN" | "UPLOADED";
 
-export default function AgreementViewer({ agreement, fleetId, type = 'new' }: AgreementViewerProps) {
+export default function AgreementViewer({ agreement, fleetId, type = 'new', onSuccess }: AgreementViewerProps) {
     const { t } = useTranslation();
     const router = useRouter();
     const [, startTransition] = useTransition();
@@ -176,6 +177,7 @@ export default function AgreementViewer({ agreement, fleetId, type = 'new' }: Ag
                 startTransition(() => {
                     router.refresh();
                 });
+                onSuccess?.();
                 if (type === "re-sign") {
                     router.push('/agent/profile');
                 }

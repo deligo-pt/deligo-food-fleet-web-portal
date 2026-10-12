@@ -12,9 +12,7 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/use-translation";
 import { logoutReq } from "@/services/auth/auth";
-import { getCurrentAgreementVersion } from "@/services/dashboard/agreement/agreement.service";
 import { useStore } from "@/store/store";
-import { IAgreement } from "@/types/agreement.type";
 import { TFleetManager } from "@/types/fleet-manager.type";
 import { removeCookie } from "@/utils/cookies";
 import { setLanguageCookie } from "@/utils/language";
@@ -44,7 +42,6 @@ export default function TopbarIcons({ agent }: IProps) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [openSosModal, setOpenSosModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [agreeVersion, setAgreeVersion] = useState<IAgreement | null>(null);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -58,13 +55,10 @@ export default function TopbarIcons({ agent }: IProps) {
 
   const handleLangChange = (value: "en" | "pt") => {
     setLang(value);
-
-    // Save cookie
     setLanguageCookie(value);
 
     const params = new URLSearchParams(searchParams.toString());
     params.set("lang", value);
-
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -73,32 +67,8 @@ export default function TopbarIcons({ agent }: IProps) {
 
     const result = await logoutReq();
 
-    if (result?.success) {
-      toast.success(result?.message || "Logout successful!", {
-        id: toastId,
-      });
-
-      removeCookie("accessToken");
-      removeCookie("refreshToken");
-      router.push("/login");
-      return;
-    }
-    if (result?.message === "NEXT_REDIRECT") {
-      toast.success("Logout successful!", {
-        id: toastId,
-      });
-
-      removeCookie("accessToken");
-      removeCookie("refreshToken");
-      router.push("/login");
-      return;
-    }
-
-    if (result?.success === false) {
-      toast.success("Logout successful!", {
-        id: toastId,
-      });
-
+    if (result?.success || result?.message === "NEXT_REDIRECT" || result?.success === false) {
+      toast.success(result?.message || "Logout successful!", { id: toastId });
       removeCookie("accessToken");
       removeCookie("refreshToken");
       router.push("/login");
@@ -108,26 +78,8 @@ export default function TopbarIcons({ agent }: IProps) {
     toast.error(result?.message || "Logout failed", { id: toastId });
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getCurrentAgreementVersion();
-
-        if (res?.data) {
-          setAgreeVersion(res.data);
-          router.refresh();
-        } else {
-          setAgreeVersion(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch agreement version:", error);
-      }
-    })();
-  }, []);
-
   return (
     <>
-      {(agreeVersion?.status) && <p className="text-[#DC3173] italic font-semibold">{t("please_visit_profile_page")}</p>}
       {/* Language */}
       <div className="relative z-1002">
         <Select
@@ -164,30 +116,25 @@ export default function TopbarIcons({ agent }: IProps) {
         <AlertTriangle size={18} />
       </motion.button>
 
-      {/* Notification */}
       <TopbarNotification />
-
-      {/* Messages */}
       <TopbarMessageIcon />
 
       {/* Profile */}
       <div className="relative shrink-0 z-3000">
         <button
-          onClick={() => {
-            setProfileOpen((s) => !s);
-          }}
+          onClick={() => setProfileOpen((s) => !s)}
           className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-pink-50 transition"
         >
           {agent?.profilePhoto ? (
             <Image
-              src={agent?.profilePhoto}
+              src={agent.profilePhoto}
               alt="avatar"
               width={36}
               height={36}
               className="rounded-full border-2 border-pink-200 object-cover w-9 h-9"
             />
           ) : (
-            <div className="flex items-center justify-center rounded-full border-2 border-pink-200 object-cover w-8 h-8">
+            <div className="flex items-center justify-center rounded-full border-2 border-pink-200 w-8 h-8">
               <UserIcon size={18} className="text-[#DC3173]" />
             </div>
           )}
@@ -226,7 +173,7 @@ export default function TopbarIcons({ agent }: IProps) {
                   logOut();
                 }}
               >
-                <LogOut size={16} /> Logout
+                <LogOut size={16} /> {t("logout")}
               </button>
             </motion.div>
           )}
