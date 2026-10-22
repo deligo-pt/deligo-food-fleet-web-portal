@@ -73,7 +73,7 @@ export default function SearchFilter({
   };
 
   return (
-    <div className={`relative w-full ${className}`}>
+    <div className={`relative ${className ? className : 'w-full lg:w-64'}`}>
       {/* Search icon */}
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
 
