@@ -851,6 +851,7 @@ export const en = {
     aggregate: "aggregate",
     avg_mins: "Avg (mins)",
     acceptance: "Acceptance",
+    disbursed_earnings: "Disbursed Earnings",
     trend: "Trend",
     canc: "canc",
     preview: "Preview",
@@ -929,8 +930,14 @@ export const en = {
     overview_fleet_financial: "Overview of your fleet’s financial performance",
     revenue_trend: "Revenue Trend",
     payout_distribution: "Payout Distribution",
+    net_fleet_earnings: "Net Fleet Earnings",
     monthly_earnings: "Monthly Earnings",
     weekly_earnings: "Weekly Earnings",
+    current_unpaid_balance: "Current Unpaid Balance",
+    gross_inflow: "Gross Inflow",
+    total_rider_payable: "Total Rider Payable",
+    rider_payable: "Rider Payable",
+    total_settled_to_riders: "Settled to Riders",
     no_earnings_to_show: "No earnings to show",
 
 

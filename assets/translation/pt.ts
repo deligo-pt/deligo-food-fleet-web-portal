@@ -1012,6 +1012,7 @@ export const pt = {
     aggregate: "agregado",
     avg_mins: "Média (min)",
     acceptance: "Aceitação",
+    disbursed_earnings: "Rendimentos Desembolsados",
     trend: "Tendência",
     canc: "cancel.",
     preview: "Pré-visualizar",
@@ -1085,8 +1086,14 @@ export const pt = {
     overview_fleet_financial: "Visão geral do desempenho financeiro da sua frota",
     revenue_trend: "Tendência de receitas",
     payout_distribution: "Distribuição de pagamentos",
+    net_fleet_earnings: "Rendimentos Líquidos da Frota",
     monthly_earnings: "Ganhos Mensais",
     weekly_earnings: "Ganhos Semanais",
+    current_unpaid_balance: "Saldo Não Pago Atual",
+    gross_inflow: "Entrada Bruta",
+    total_rider_payable: "Total a Pagar aos Estafetas",
+    rider_payable: "A Pagar ao Estafeta",
+    total_settled_to_riders: "Liquidado aos Estafetas",
     no_earnings_to_show: "Nenhum ganho para exibir",
 
     // delivery partners payouts
