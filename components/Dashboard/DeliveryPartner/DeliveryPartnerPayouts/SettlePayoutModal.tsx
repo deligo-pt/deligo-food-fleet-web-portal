@@ -27,13 +27,6 @@ import { useRouter } from "next/navigation";
 
 type PaymentMethod = "CASH" | "BANK_TRANSFER" | "MOBILE_BANKING" | "OTHER";
 
-const PAYMENT_METHODS: { value: PaymentMethod; labelKey: string; fallback: string }[] = [
-    { value: "BANK_TRANSFER", labelKey: "bank_transfer", fallback: "Bank Transfer" },
-    { value: "MOBILE_BANKING", labelKey: "mobile_banking", fallback: "Mobile Banking" },
-    { value: "CASH", labelKey: "cash", fallback: "Cash" },
-    { value: "OTHER", labelKey: "other", fallback: "Other" },
-];
-
 interface SettleProps {
     isOpen: boolean;
     onClose: () => void;
@@ -51,7 +44,12 @@ const SettlePayoutModal = ({ isOpen, onClose, payoutId }: SettleProps) => {
     const [referenceId, setReferenceId] = useState("");
     const [remarks, setRemarks] = useState("");
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
+    const PAYMENT_METHODS: { value: PaymentMethod; labelKey: string; fallback: string }[] = [
+        { value: "BANK_TRANSFER", labelKey: "bank_transfer", fallback: t("bank_transfer") },
+        { value: "MOBILE_BANKING", labelKey: "mobile_banking", fallback: t("mobile_banking") },
+        { value: "CASH", labelKey: "cash", fallback: t("cash") },
+        { value: "OTHER", labelKey: "other", fallback: t("other") },
+    ];
 
     const handleClose = () => {
         if (loading || uploading) return;
@@ -223,7 +221,7 @@ const SettlePayoutModal = ({ isOpen, onClose, payoutId }: SettleProps) => {
                     {/* Bank / transaction reference */}
                     <div className="space-y-2">
                         <Label htmlFor="referenceId">
-                            {t("bank_reference_id") || "Reference ID"}{" "}
+                            {t("reference_id") || "Reference ID"}/{t("transaction_id")}{" "}
                             <span className="text-slate-400 font-normal">
                                 ({t("optional") || "optional"})
                             </span>
