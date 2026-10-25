@@ -44,7 +44,9 @@ export default function DeliveryPartnerOrdersSection({
     const selectableOrders = useMemo(
         () =>
             (orderResult?.data || []).filter(
-                (o) => o.payoutMetadata?.rider?.isSettled === false
+                (o) =>
+                    o.orderStatus === "DELIVERED" &&
+                    o.payoutMetadata?.rider?.isSettled === false
             ),
         [orderResult?.data]
     );
@@ -213,6 +215,13 @@ export default function DeliveryPartnerOrdersSection({
                         columns={columns}
                         getRowKey={(row) => row._id as string}
                         emptyMessage={t("no_orders_found")}
+                        getRowClassName={(row) => {
+                            if (!isSelectMode) return "";
+                            const canSelect =
+                                row.orderStatus === "DELIVERED" &&
+                                row.payoutMetadata?.rider?.isSettled === false;
+                            return canSelect ? "" : "opacity-50 pointer-events-none";
+                        }}
                     />
 
                     {!!orderResult?.meta?.totalPage && (

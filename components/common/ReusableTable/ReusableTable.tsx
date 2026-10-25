@@ -9,8 +9,9 @@ import {
     TableCell,
     TableHead,
     TableHeader,
-    TableRow
+    TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 export interface Column<T> {
     header: React.ReactNode;
@@ -20,12 +21,13 @@ export interface Column<T> {
 
 interface TableProps<T> {
     data: T[];
-    meta: TMeta;
+    meta?: TMeta;
     columns: Column<T>[];
     getRowKey: (row: T) => string;
     emptyMessage?: string;
     isRefreshing?: boolean;
     showSerial?: boolean;
+    getRowClassName?: (row: T, index: number) => string | undefined;
 }
 
 function ReusableTable<T>({
@@ -36,12 +38,14 @@ function ReusableTable<T>({
     emptyMessage = "No records found",
     isRefreshing = false,
     showSerial = true,
+    getRowClassName,
 }: TableProps<T>) {
-    const serialStart = (meta?.page - 1) * meta?.limit + 1;
+    const page = meta?.page ?? 1;
+    const limit = meta?.limit ?? data.length;
+    const serialStart = (page - 1) * limit + 1;
 
     return (
         <div className="relative">
-            {/* refreshing overlay */}
             {isRefreshing && (
                 <div className="absolute inset-0 bg-background/50 backdrop-blur-[2px] flex items-center justify-center z-10 rounded-lg">
                     <div className="flex flex-col items-center gap-2">
@@ -51,14 +55,15 @@ function ReusableTable<T>({
                 </div>
             )}
 
-            {/* main table */}
             <Table>
                 <TableHeader>
                     <TableRow>
                         {showSerial && (
-                            <TableHead className="w-14 text-lg text-center text-[#DC3173]">#</TableHead>
+                            <TableHead className="w-14 text-lg text-center text-[#DC3173]">
+                                #
+                            </TableHead>
                         )}
-                        {columns?.map((column, colIndex) => (
+                        {columns.map((column, colIndex) => (
                             <TableHead key={colIndex} className={column.className}>
                                 {column.header}
                             </TableHead>
@@ -78,7 +83,10 @@ function ReusableTable<T>({
                         </TableRow>
                     ) : (
                         data.map((item, index) => (
-                            <TableRow key={getRowKey(item)}>
+                            <TableRow
+                                key={getRowKey(item)}
+                                className={cn(getRowClassName?.(item, index))}
+                            >
                                 {showSerial && (
                                     <TableCell className="text-center text-muted-foreground font-medium">
                                         {serialStart + index}
@@ -88,7 +96,7 @@ function ReusableTable<T>({
                                     <TableCell key={colIdx} className={col.className}>
                                         {typeof col.accessor === "function"
                                             ? col.accessor(item)
-                                            : String(item[col.accessor])}
+                                            : String(item[col.accessor] ?? "")}
                                     </TableCell>
                                 ))}
                             </TableRow>
