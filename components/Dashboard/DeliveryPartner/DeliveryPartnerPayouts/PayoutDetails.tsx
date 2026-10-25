@@ -33,6 +33,7 @@ import { TRiderSettlement } from "@/types/payout.type";
 import SettlePayoutModal from "./SettlePayoutModal";
 import { useState } from "react";
 import { useTranslation } from "@/hooks/use-translation";
+import CancelPartnerPayoutModal from "./CancelPartnerPayoutModal";
 
 interface PayoutDetailsProps {
     payout: TRiderSettlement;
@@ -40,6 +41,7 @@ interface PayoutDetailsProps {
 
 const PayoutDetails = ({ payout }: PayoutDetailsProps) => {
     const [settleId, setSettleId] = useState<string | null>(null);
+    const [cancelId, setCancelId] = useState<string | null>(null);
     const { t } = useTranslation();
 
     const getStatusStyles = (status: string) => {
@@ -476,14 +478,24 @@ const PayoutDetails = ({ payout }: PayoutDetailsProps) => {
                             {t("download_statement")}
                         </Button>
                     )}
-                    {payout.status === "PENDING" && (
-                        <Button
-                            onClick={() => setSettleId(payout?._id)}
-                            className="w-full bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"
-                        >
-                            {t("settle_payout")}
-                        </Button>
-                    )}
+                    <div className="flex flex-row gap-5 items-center w-full">
+                        {payout.status === "PENDING" && (
+                            <Button
+                                onClick={() => setSettleId(payout?._id)}
+                                className="flex-1 bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"
+                            >
+                                {t("settle_payout")}
+                            </Button>
+                        )}
+                        {payout.status === "PENDING" && (
+                            <Button
+                                onClick={() => setCancelId(payout?._id)}
+                                className="flex-1 bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"
+                            >
+                                {t("cancel_payout")}
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -491,6 +503,12 @@ const PayoutDetails = ({ payout }: PayoutDetailsProps) => {
                 isOpen={!!settleId}
                 onClose={() => setSettleId(null)}
                 payoutId={settleId || ""}
+            />
+
+            <CancelPartnerPayoutModal
+                isOpen={!!cancelId}
+                onClose={() => setCancelId(null)}
+                payoutId={cancelId || ""}
             />
         </div>
     );
