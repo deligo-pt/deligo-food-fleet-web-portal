@@ -39,6 +39,7 @@ export function getOrderColumns({
             className: "w-10",
             accessor: (order) => {
                 const canSelect =
+                    order.orderStatus === "DELIVERED" &&
                     order.payoutMetadata?.rider?.isSettled === false;
                 const isChecked = selectedIds.includes(order._id);
 
