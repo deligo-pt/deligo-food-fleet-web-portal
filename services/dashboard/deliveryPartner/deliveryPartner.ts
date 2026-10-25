@@ -11,7 +11,7 @@ import {
   getAllEntityData,
   getSingleEntityData,
 } from "@/utils/getAllEntityData";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 
 export const getDeliveryPartners = async (queryString?: string) => {
   return getAllEntityData<TDeliveryPartner>("/delivery-partners", queryString);
@@ -85,6 +85,26 @@ export const submitForApproval = async (id: string) => {
 /**
  * Payout related server actions
  */
+export const initiateRiderPayout = async (data: Partial<any>) => {
+  const result = await catchAsync(async () => {
+    return await serverFetch.post(`/payouts/fleet/initiate-rider-settlement`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  });
+
+  if (result.success) {
+    revalidateTag("orders", {});
+    updateTag("orders");
+    revalidatePath("/agent/delivery-partner-payouts");
+  };
+
+  return result;
+};
+
+
 export const initiatePartnerSettlement = async (targetUserId: string) => {
   const result = await catchAsync(async () => {
     return await serverFetch.post("/payouts/initiate-settlement", {
@@ -107,7 +127,7 @@ export const initiatePartnerSettlement = async (targetUserId: string) => {
 
 export const getDeliveryPartnerPayouts = async (queryString: string) => {
   const result = await catchAsync(async () => {
-    return await serverFetch.get(`/payouts?${queryString}`, {
+    return await serverFetch.get(`/payouts/fleet/rider-settlements${queryString ? `?${queryString}` : ""}`, {
       next: {
         tags: ["payouts"],
       },
@@ -134,6 +154,6 @@ export const settlePartnerPayout = async (payoutId: string, formData: FormData) 
 
 export const getSinglePayout = async (payoutId: string) => {
   return getSingleEntityData(
-    `/payouts/${payoutId}`,
+    `/payouts/fleet/rider-settlements/${payoutId}`,
   );
 };

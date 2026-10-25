@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { serverFetch } from "@/lib/serverFetch";
-
+import { catchAsync } from "@/utils/catchAsync";
 
 
 export const getAllDeliveries = async (queryString?: string) => {
@@ -29,4 +29,16 @@ export const getAllDeliveries = async (queryString?: string) => {
             message: `${process.env.NODE_ENV === 'development' ? error?.message : 'Something went wrong in deliveries fetching.'}`
         };
     }
+};
+
+export const getAllOrders = async (queryString?: string) => {
+    const result = await catchAsync(async () => {
+        return await serverFetch.get(`/orders${queryString ? `?${queryString}` : ""}`, {
+            next: {
+                tags: ["orders"]
+            }
+        });
+    });
+
+    return result;
 };
