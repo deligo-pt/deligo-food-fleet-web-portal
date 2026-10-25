@@ -28,12 +28,12 @@ import { formatDateTime } from "@/utils/formatter";
 import { formatPrice } from "@/utils/formatPrice";
 import Link from "next/link";
 import Image from "next/image";
-import { generatePaymentPDF } from "@/utils/pdf/generatePaymentPDF";
 import { TRiderSettlement } from "@/types/payout.type";
 import SettlePayoutModal from "./SettlePayoutModal";
 import { useState } from "react";
 import { useTranslation } from "@/hooks/use-translation";
 import CancelPartnerPayoutModal from "./CancelPartnerPayoutModal";
+import { generatePayoutPDF } from "@/utils/pdf/generatePayoutPDF";
 
 interface PayoutDetailsProps {
     payout: TRiderSettlement;
@@ -472,7 +472,7 @@ const PayoutDetails = ({ payout }: PayoutDetailsProps) => {
 
                     {payout.status === "PAID" && (
                         <Button
-                            onClick={() => generatePaymentPDF(payout as TRiderSettlement)}
+                            onClick={() => generatePayoutPDF(payout as TRiderSettlement)}
                             className="w-full bg-[#DC3173] hover:bg-[#DC3173]/90 text-white"
                         >
                             {t("download_statement")}
