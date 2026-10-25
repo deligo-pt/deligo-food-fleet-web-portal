@@ -1,38 +1,46 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IPayout } from "@/types/payout.type";
+import { TRiderSettlement } from "@/types/payout.type";
 import { formatPrice } from "@/utils/formatPrice";
-import { removeUnderscore } from "@/utils/formatter";
 import { format } from "date-fns";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export const generatePaymentPDF = (payment: IPayout) => {
+export const generatePaymentPDF = (payment: TRiderSettlement) => {
   const doc = new jsPDF("p", "mm", "a4");
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const marginX = 15;
-  const userName = `${payment.userId?.name?.firstName} ${payment.userId?.name?.lastName}`
 
-  // header section
+  const partner = payment.deliveryPartnerId;
+  const manager = payment.fleetManagerId;
+
+  const partnerName = `${partner?.name?.firstName || ""} ${partner?.name?.lastName || ""}`.trim() || "—";
+  const managerName = `${manager?.name?.firstName || ""} ${manager?.name?.lastName || ""}`.trim() || "—";
+  const totalAmount = payment.totalAmount ?? 0;
+  const settlementId = payment._id?.slice(-10).toUpperCase() || "—";
+
+  // ── Header ──────────────────────────────────────────────
   const headerTop = 15;
   const logoSize = 18;
 
-  // Logo
-  doc.addImage(
-    "/deligoLogo.png",
-    "PNG",
-    marginX,
-    headerTop,
-    logoSize,
-    logoSize,
-  );
+  try {
+    doc.addImage(
+      "/deligoLogo.png",
+      "PNG",
+      marginX,
+      headerTop,
+      logoSize,
+      logoSize
+    );
+  } catch {
+    // logo optional
+  }
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(15);
   doc.setTextColor(220, 49, 115);
   doc.text("DeliGo", marginX, headerTop + logoSize + 5);
 
-  // Company info
   const textX = marginX + logoSize + 6;
   let currentY = headerTop + 5;
 
@@ -46,142 +54,110 @@ export const generatePaymentPDF = (payment: IPayout) => {
 
   currentY += 5;
   doc.text("Avenida do Brasil, nº 43, 6º D", textX, currentY);
-
   currentY += 4;
   doc.text("1700-062 Lisboa, Portugal", textX, currentY);
-
   currentY += 4;
   doc.text("NIF: 518758176", textX, currentY);
-
   currentY += 4;
   doc.text("Email: contact@deligo.pt", textX, currentY);
-
   currentY += 4;
   doc.setTextColor(220, 49, 115);
   doc.text("www.deligo.pt", textX, currentY);
   doc.setTextColor(0);
 
-  // Right meta
+  // Right title
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.text(
-    "Comprovativo de Pagamento do Gestor de Frota",
+    "Comprovativo de Liquidação do Estafeta",
     pageWidth - marginX,
     headerTop + 5,
-    {
-      align: "right",
-    },
+    { align: "right" }
   );
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
-
-  // Update: Date format changed to yyyy-MM-dd
   doc.text(
     `Gerado em: ${format(new Date(), "yyyy-MM-dd")}`,
     pageWidth - marginX,
     headerTop + 11,
-    { align: "right" },
+    { align: "right" }
   );
 
-  // divider
+  // Divider
   const dividerY = Math.max(headerTop + logoSize, currentY) + 13;
-
   doc.setDrawColor(220, 49, 115);
   doc.line(marginX, dividerY, pageWidth - marginX, dividerY);
 
-  // Payment summary
+  // ── Settlement summary ──────────────────────────────────
   let y = dividerY + 10;
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
-  doc.text("Resumo de pagamento", marginX, y);
+  doc.text("Resumo da liquidação", marginX, y);
 
   y += 6;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
 
-  doc.text(
-    `Nome do Gestor de Frota: ${userName}`,
-    marginX,
-    y,
-  );
+  doc.text(`Estafeta: ${partnerName}`, marginX, y);
   y += 5;
-  doc.text(
-    `NIF: ${payment.userId?.NIF}`,
-    marginX,
-    y,
-  );
+  doc.text(`ID Estafeta: ${partner?.userId || "—"}`, marginX, y);
   y += 5;
-  doc.text(`N° de Fatura: ${payment.payoutId}`, marginX, y);
-  y += 5;
-  doc.text(`Referência Bancária: ${payment.bankReferenceId || "-"}`, marginX, y);
-  y += 5;
-  doc.text(`Montante total: €${formatPrice(payment.amount)}`, marginX, y);
-
-  // Bank Details
-  y += 12;
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(12);
-  doc.text("Detalhes da Conta Bancária", marginX, y);
-
-  y += 6;
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-
-  doc.text(`Nome do banco: ${payment.bankDetails?.bankName}`, marginX, y);
-  y += 5;
-  doc.text(
-    `Titular da Conta: ${payment.bankDetails?.accountHolderName}`,
-    marginX,
-    y,
-  );
-  y += 5;
-  doc.text(`IBAN: ${payment.bankDetails?.iban}`, marginX, y);
-  y += 5;
-  doc.text(`Código SWIFT: ${payment.bankDetails?.swiftCode}`, marginX, y);
-  y += 5;
-  if (payment?.bankDetails?.accountNumber) {
-    doc.text(
-      `Número de conta: ${payment.bankDetails?.accountNumber}`,
-      marginX,
-      y,
-    )
+  if (partner?.email) {
+    doc.text(`Email: ${partner.email}`, marginX, y);
+    y += 5;
   }
+  if (partner?.contactNumber) {
+    doc.text(`Contacto: ${partner.contactNumber}`, marginX, y);
+    y += 5;
+  }
+  doc.text(`ID Liquidação: ${settlementId}`, marginX, y);
+  y += 5;
+  doc.text(`Iniciado por: ${managerName} (${manager?.userId || "—"})`, marginX, y);
+  y += 5;
+  doc.text(`Montante total: €${formatPrice(totalAmount)}`, marginX, y);
+  y += 5;
+  doc.text(
+    `Estado: ${payment.status === "PAID" ? "Pago" : payment.status}`,
+    marginX,
+    y
+  );
 
-  // Payout Details
+  // ── Orders breakdown table ──────────────────────────────
   y += 12;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
-  doc.text("Detalhes de pagamento", marginX, y);
-
+  doc.text("Detalhe por encomenda", marginX, y);
   y += 4;
 
-  // Prepare modified row values
-  const dateFormatted = format(new Date(payment.createdAt), "yyyy-MM-dd");
+  const breakdownRows =
+    payment.breakdown?.map((item) => [
+      item.orderId || "—",
+      `€${formatPrice(item.grossEarnings)}`,
+      `€${formatPrice(item.fleetFee)}`,
+      `€${formatPrice(item.riderSlice)}`,
+    ]) || [];
 
-  const paymentType = payment.paymentMethod === "BANK_TRANSFER"
-    ? "Transferência Bancária"
-    : removeUnderscore(payment.paymentMethod);
-
-  const description = `Pagamento relativo ao período ${format(new Date(payment.createdAt), "yyyy-MM-dd")} até ${format(new Date(payment.updatedAt), "yyyy-MM-dd")}`;
-
-  const statusLabel = payment.status === "PAID" ? "Pago" : payment.status;
+  // Fallback: if no breakdown, show orderIds only
+  if (breakdownRows.length === 0 && payment.orderIds?.length) {
+    payment.orderIds.forEach((o) => {
+      breakdownRows.push([
+        o.orderId || o._id || "—",
+        "—",
+        "—",
+        "—",
+      ]);
+    });
+  }
 
   autoTable(doc, {
     startY: y,
-    // Update: Fifth column header changed to "Estado"
-    head: [["Data", "Tipo de Pagamento", "Descrição", "Valor", "Estado"]],
-    body: [
-      [
-        dateFormatted, // Update: Format yyyy-MM-dd
-        paymentType,   // Update: Translated to Transferência Bancária
-        description,   // Update: Pagamento relativo ao período...
-        `€${formatPrice(payment.amount)}`,
-        statusLabel,   // Update: Translated to Pago
-      ],
-    ],
+    head: [["Nº Encomenda", "Ganhos Brutos", "Taxa Frota", "Parte Estafeta"]],
+    body:
+      breakdownRows.length > 0
+        ? breakdownRows
+        : [["—", "—", "—", "—"]],
     styles: {
       fontSize: 9,
       cellPadding: 3,
@@ -197,29 +173,64 @@ export const generatePaymentPDF = (payment: IPayout) => {
     margin: { left: marginX, right: marginX },
   });
 
-  // Footer / Final Amount
-  const finalY = (doc as any).lastAutoTable.finalY + 15;
+  // ── Included orders (status + date) ─────────────────────
+  let afterBreakdownY = (doc as any).lastAutoTable.finalY + 10;
 
+  if (payment.orderIds?.length) {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Encomendas incluídas", marginX, afterBreakdownY);
+    afterBreakdownY += 4;
+
+    autoTable(doc, {
+      startY: afterBreakdownY,
+      head: [["Nº Encomenda", "Estado", "Data"]],
+      body: payment.orderIds.map((o) => [
+        o.orderId || "—",
+        o.orderStatus || "—",
+        o.createdAt ? format(new Date(o.createdAt), "yyyy-MM-dd") : "—",
+      ]),
+      styles: {
+        fontSize: 9,
+        cellPadding: 3,
+      },
+      headStyles: {
+        fillColor: [220, 49, 115],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245],
+      },
+      margin: { left: marginX, right: marginX },
+    });
+
+    afterBreakdownY = (doc as any).lastAutoTable.finalY + 12;
+  }
+
+  // ── Final amount ────────────────────────────────────────
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.text(
-    `Valor Pago: €${formatPrice(payment.amount)}`,
+    `Valor a pagar ao estafeta: €${formatPrice(totalAmount)}`,
     pageWidth - marginX,
-    finalY,
-    { align: "right" },
+    afterBreakdownY,
+    { align: "right" }
   );
 
-  // Auto Generated note
+  // ── Footer note ─────────────────────────────────────────
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
+  doc.setTextColor(80);
   doc.text(
-    "Este é um extrato de pagamento automatizado para os Gestores de Frota da DeliGo Food.",
+    "Este é um extrato de liquidação automatizado para estafetas da DeliGo Food.",
     pageWidth / 2,
-    260,
-    { align: "center" },
+    270,
+    { align: "center" }
   );
+  doc.setTextColor(0);
 
-  // page numbers
+  // Page numbers
   const pageCount = doc.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
@@ -230,7 +241,9 @@ export const generatePaymentPDF = (payment: IPayout) => {
     });
   }
 
+  // Filename
+  const safeName = partnerName.replace(/\s+/g, "_") || "rider";
   doc.save(
-    `${format(new Date(), "yyyy-MM-dd_HH-mm-ss")} - ${payment?.userId?.NIF}_${userName} - ${payment?.amount}€.pdf`,
+    `${format(new Date(), "yyyy-MM-dd_HH-mm-ss")}_${partner?.userId || "DP"}_${safeName}_${totalAmount}€.pdf`
   );
 };
