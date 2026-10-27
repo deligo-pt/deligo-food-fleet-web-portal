@@ -8,7 +8,7 @@ import React from "react";
 
 
 const PublicLayout = async ({ children }: { children: React.ReactNode }) => {
-    const fleetData = await getFleetManagerProfile();
+    const { data: fleetData } = await getFleetManagerProfile();
 
     return (
         <div>

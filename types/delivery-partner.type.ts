@@ -281,4 +281,5 @@ export interface PartnerRow {
   acceptance: string;
   avgMins: string;
   earnings: string;
+  disbursedEarnings: number;
 }

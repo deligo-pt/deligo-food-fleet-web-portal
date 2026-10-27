@@ -28,12 +28,19 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PartnerDetailsDoc } from "./PartnerDetailsDoc";
+import { TOrder } from "@/types/order-deliveries";
+import { TMeta } from "@/types";
+import DeliveryPartnerOrdersSection from "./DeliveryPartnerOrdersSection";
 
 interface IProps {
   partner: TDeliveryPartner;
+  orderResult: {
+    data: TOrder[];
+    meta: TMeta;
+  }
 }
 
-export const DeliveryPartnerDetails = ({ partner }: IProps) => {
+export const DeliveryPartnerDetails = ({ partner, orderResult }: IProps) => {
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -58,7 +65,7 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
     <div>
       <div className="flex flex-row justify-between items-center mb-4">
         <Button
-          onClick={() => router.push("/agent/delivery-partners")}
+          onClick={() => router.back()}
           variant="link"
           className="inline-flex items-center text-sm gap-2 text-[#DC3173] px-0! py-0 h-4 cursor-pointer"
         >
@@ -550,6 +557,9 @@ export const DeliveryPartnerDetails = ({ partner }: IProps) => {
             </div>
           </div>
         </DeliveryPartnerSection>
+
+        {/* order section */}
+        <DeliveryPartnerOrdersSection orderResult={orderResult} deliveryPartnerId={partner?._id as string} />
       </div>
     </div>
   );

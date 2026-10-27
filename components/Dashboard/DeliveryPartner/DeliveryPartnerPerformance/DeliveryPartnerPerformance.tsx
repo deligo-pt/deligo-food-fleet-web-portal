@@ -121,6 +121,7 @@ const DeliveryPartnerPerformance = ({
         <SearchFilter
           paramName="searchTerm"
           placeholder="Search name, city or vehicle"
+          className="w-72"
         />
         <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
           <SelectFilter
@@ -198,7 +199,7 @@ const DeliveryPartnerPerformance = ({
                 {t("avg_mins")}
               </TableHead>
               <TableHead>{t("acceptance")}</TableHead>
-              <TableHead>{t("earnings")}</TableHead>
+              <TableHead>{t("disbursed_earnings")}</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -254,8 +255,8 @@ const DeliveryPartnerPerformance = ({
                   <span className="font-medium">{p.acceptance}</span>
                 </TableCell>
 
-                {/* Earnings */}
-                <TableCell>€{p.earnings}</TableCell>
+                {/* disbursed earnings*/}
+                <TableCell>€{p.disbursedEarnings}</TableCell>
               </TableRow>
             ))}
           </TableBody>

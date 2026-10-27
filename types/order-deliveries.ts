@@ -30,77 +30,306 @@ export type TAddress = {
     geoAccuracy?: number;
 };
 
-export type TOrderItemSnapshot = {
-    productId: string;
-    name: string;
-    image?: string;
-    variantName?: string;
-    addons?: {
-        name: string;
-        price: number;
-        quantity: number;
-    }[];
-    quantity: number;
+export interface TOfferApplied {
+    rewardSnapshot?: Record<string, unknown>;
+    promoId: string;
+    title: string;
+    promoType: string;
+    discountType: string;
+    discountValue: number;
+    maxDiscountAmount?: number | null;
+}
 
-    price: number;
-    taxRate?: number;
-    taxAmount?: number;
-    totalBeforeTax: number;
-    subtotal: number;
-};
+export interface TOrderAddress {
+    street: string;
+    city: string;
+    state: string;
+    country: string;
+    postalCode: string;
+    longitude: number;
+    latitude: number;
+    geoAccuracy: number | null;
+    detailedAddress: string;
+}
 
-export type TOrder = {
-    _id?: string;
-
+export interface TOrder {
+    _id: string;
     orderId: string;
 
-    customerId: string;
-    vendorId: string;
-
-    deliveryPartnerId?: string | null;
-    deliveryPartnerCancelReason?: string | null;
-
-    items: TOrderItemSnapshot[];
-
-    totalItems: number;
-    totalPrice: number;
-    taxAmount?: number;
-    deliveryCharge?: number;
-    discount?: number;
-    subTotal: number;
-
-    couponId?: string | null;
-
-    paymentMethod: 'CARD' | 'MOBILE';
-    paymentStatus: 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
-    transactionId?: string;
-    isPaid: boolean;
-
-    orderStatus: OrderStatus;
-    cancelReason?: string;
-    rejectReason?: string;
-    remarks?: string;
-
-    deliveryOtp?: string;
-    isOtpVerified?: boolean;
-
-    dispatchPartnerPool?: string[];
-
-    deliveryAddress: TAddress;
-    pickupAddress?: TAddress;
-
-    estimatedDeliveryTime?: string;
-    deliveredAt?: Date;
-    preparationTime?: number;
-
-    isDeleted: boolean;
-
-    rating?: {
-        foodRating?: number;
-        deliveryRating?: number;
-        review?: string;
+    customerId: {
+        _id: string;
+        userId: string;
+        role: string;
+        name: {
+            firstName: string;
+            lastName: string;
+        };
+        profilePhoto?: string;
+        contactNumber?: string;
+        NIF?: string;
+        currentSessionLocation?: {
+            type: string;
+            coordinates: number[];
+            geoAccuracy?: number;
+            isMocked?: boolean;
+            lastLocationUpdate?: string;
+        };
     };
 
-    createdAt: Date;
-    updatedAt: Date;
-};
+    vendorId: {
+        _id: string;
+        userId: string;
+        role: string;
+        name: {
+            firstName: string;
+            lastName: string;
+        };
+        contactNumber?: string;
+        businessDetails?: {
+            businessName: string;
+            openingHours?: string;
+            closingHours?: string;
+            closingDays?: string[];
+            businessType?: {
+                _id: string;
+                name: {
+                    en: string;
+                    pt: string;
+                };
+            };
+        };
+        documents?: {
+            storePhoto?: string[];
+        };
+    };
+
+    deliveryPartnerId?: {
+        _id: string;
+        userId: string;
+        role: string;
+        name: {
+            firstName: string;
+            lastName: string;
+        };
+        contactNumber?: string;
+        profilePhoto?: string;
+        currentSessionLocation?: {
+            type: string;
+            coordinates: number[];
+            geoAccuracy?: number;
+            lastLocationUpdate?: string;
+        };
+    } | null;
+
+    deliveryPartnerCancelReason?: string | null;
+    fulfillmentType: string;
+    emailThreadMessageId?: string;
+
+    items: Array<{
+        productId: string;
+        vendorId: string;
+        name: string;
+        image?: string;
+        hasVariations: boolean;
+        variationSku?: string | null;
+        isPromoRewardLine?: boolean;
+        addons?: Array<{
+            _id: string;
+            vendorId?: string;
+            title: {
+                en: string;
+                pt: string;
+            };
+            minSelectable: number;
+            maxSelectable: number;
+            isActive: boolean;
+            isDeleted: boolean;
+        }>;
+        productPricing: {
+            originalPrice: number;
+            productDiscountAmount: number;
+            discountType: string;
+            priceAfterProductDiscount: number;
+            promoDiscountAmount: number;
+            unitPrice: number;
+            lineTotal: number;
+            taxRate: number;
+            taxAmount: number;
+        };
+        itemSummary: {
+            quantity: number;
+            totalTaxAmount: number;
+            totalPromoDiscount: number;
+            totalProductDiscount: number;
+            grandTotal: number;
+        };
+        commission: {
+            deliGoCommissionRate: number;
+            deliGoCommissionAmount: number;
+            deliGoCommissionVatRate: number;
+            deliGoCommissionVatAmount: number;
+        };
+        vendor: {
+            vendorEarningsWithoutTax: number;
+            payableTax: number;
+            vendorNetEarnings: number;
+        };
+    }>;
+
+    totalItems: number;
+    totalQuantity: number;
+
+    orderCalculation: {
+        totalOriginalPrice: number;
+        totalProductDiscount: number;
+        totalOfferDiscount: number;
+        totalTaxAmount: number;
+        itemsSubtotal: number;
+        serviceCharge: number;
+        serviceChargeVatRate: number;
+        serviceChargeVatAmount: number;
+    };
+
+    delivery: {
+        charge: number;
+        vatRate: number;
+        vatAmount: number;
+        totalDeliveryCharge: number;
+        distance: number;
+        estimatedTime: number;
+        estimatedTotalMinutes?: number;
+        notes?: string;
+    };
+
+    payoutSummary: {
+        grandTotal: number;
+        deliGoCommission: {
+            rate: number;
+            amount: number;
+            vatAmount: number;
+            totalDeduction: number;
+            earnedServiceCharge: number;
+            serviceChargeVatAmount: number;
+            deliveryVatAmount?: number;
+            totalPlatformNetRevenue: number;
+            totalPlatformPayableTax: number;
+            totalPlatformGrossHolding: number;
+        };
+        fleet: {
+            rate: number;
+            fee: number;
+        };
+        vendor: {
+            earningsWithoutTax: number;
+            payableTax: number;
+            vendorNetPayout: number;
+        };
+        rider: {
+            earningsWithoutTax?: number;
+            payableTax?: number;
+            riderNetPayout?: number;
+            riderNetEarnings?: number; // legacy field, keep optional
+        };
+    };
+
+    offer?: {
+        isApplied: boolean;
+        offerApplied: TOfferApplied | null;
+    } | null;
+
+    paymentMethod: string;
+    paymentStatus: string;
+    transactionId?: string;
+    checkoutSummaryId?: string;
+    isPaid: boolean;
+
+    orderStatus: string;
+    statusHistory: Array<{
+        status: string;
+        timestamp: string;
+        updatedBy?: string;
+        note?: string | null;
+    }>;
+
+    refundStatus: string;
+    remarks?: string;
+    vendorInstructions?: string;
+
+    dispatchPartnerPool?: Array<{
+        _id: string;
+        name: {
+            en: string;
+            pt: string;
+        };
+        userId: string;
+    }>;
+    dispatchRejectedPartnerPool?: Array<{
+        _id: string;
+        name: {
+            en: string;
+            pt: string;
+        };
+        userId: string;
+    }>;
+    dispatchEscalatedAt?: string | null;
+    dispatchExpiresAt?: string;
+
+    deliveryAddress: TOrderAddress;
+    pickupAddress?: TOrderAddress;
+
+    preparationTime?: number;
+    autoAcceptDeadlineAt?: string;
+    estimatedReadyAt?: string;
+    foodReadyAt?: string | null;
+    vendorRespondedAt?: string | null;
+    needMoreTimeCount?: number;
+
+    ratingStatus?: {
+        isProductRated: boolean;
+        isDeliveryRated: boolean;
+    };
+    isRated?: boolean;
+
+    /** Payout settlement tracking */
+    payoutMetadata?: {
+        vendor?: {
+            isSettled: boolean;
+            payoutId?: string | null;
+        };
+        rider?: {
+            isSettled: boolean;
+            payoutId?: string | null;
+            payoutModel?: string;
+        };
+        fleet?: {
+            isSettled: boolean;
+            payoutId?: string | null;
+        };
+    };
+
+    invoiceSync?: {
+        isSynced: boolean;
+        invoiceNo?: string;
+        atcud?: string;
+        signature?: string;
+        syncedAt?: string;
+        syncError?: string | null;
+    };
+
+    deliveryOtp?: {
+        generatedAt?: string;
+        verifiedAt?: string;
+        verifiedBy?: string;
+        attempts?: number;
+        lockedAt?: string | null;
+        generation?: number;
+        resetCount?: number;
+        resetAt?: string | null;
+        resetBy?: string | null;
+    };
+
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v?: number;
+}

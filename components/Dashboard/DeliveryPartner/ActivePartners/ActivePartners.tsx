@@ -5,7 +5,7 @@ import { TMeta } from "@/types";
 import { TDeliveryPartner } from "@/types/delivery-partner.type";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { JSX, } from "react";
+import { JSX, useState, } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,8 @@ import { CircleCheckBig, Cog, IdCard, Mail, MoreVertical, Phone } from "lucide-r
 import { useTranslation } from "@/hooks/use-translation";
 import DashboardPageHeader from "@/components/common/DashboardPageHeader/DashboardPageHeader";
 import { getSortOptions } from "@/utils/sortOptions";
+import { toast } from "sonner";
+import { initiateRiderPayout } from "@/services/dashboard/deliveryPartner/deliveryPartner";
 
 
 interface IProps {
@@ -36,6 +38,44 @@ export default function ActiveDeliveryPartners({
   const { t } = useTranslation();
   const router = useRouter();
   const sortOptions = getSortOptions(t);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInitiatePayout = async (id: string) => {
+    setIsSubmitting(true);
+    const toastId = toast.loading("Initiating rider payout...");
+
+    try {
+      const result = await initiateRiderPayout({
+        deliveryPartnerId: id,
+      });
+
+      if (result.success) {
+        toast.success(
+          result.message || "Rider payout initiated successfully",
+          { id: toastId }
+        );
+        router.refresh();
+        return;
+      }
+
+      const errorSources = result?.data?.errorSources;
+      if (errorSources?.length > 0) {
+        toast.error(
+          errorSources
+            ?.map((err: { path: string; message: string }) => err?.message)
+            .join(", "),
+          { id: toastId }
+        );
+      } else {
+        toast.error(
+          result.message || "Failed to initiate payout",
+          { id: toastId }
+        );
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -127,6 +167,15 @@ export default function ActiveDeliveryPartners({
                             }
                           >
                             {t("viewCTA")}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className=""
+                            disabled={isSubmitting}
+                            onClick={() =>
+                              handleInitiatePayout(partner?._id as string)
+                            }
+                          >
+                            {t("initiate_payout")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

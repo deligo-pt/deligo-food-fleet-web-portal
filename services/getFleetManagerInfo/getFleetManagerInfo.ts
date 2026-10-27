@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 import { serverFetch } from "@/lib/serverFetch";
+import { catchAsync } from "@/utils/catchAsync";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 
@@ -32,27 +33,34 @@ export const getFleetManagerInfo = async () => {
 };
 
 export const getFleetManagerProfile = async () => {
+    const result = await catchAsync(async () => {
+        return await serverFetch.get(`/profile`);
+    });
 
-    try {
-        const res = await serverFetch.get("/profile");
-
-        if (!res.ok) {
-            const errorData = await res.json().catch(() => ({}));
-            throw new Error(errorData.message || "Failed to fetch fleet info");
-        }
-
-        const result = await res.json();
-
-        return result?.data;
-
-    } catch (error: any) {
-        console.log(error);
-        return {
-            success: false,
-            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong in fetching profile info.'}`
-        };
-    }
+    return result;
 };
+// export const getFleetManagerProfile = async () => {
+
+//     try {
+//         const res = await serverFetch.get("/profile");
+
+//         if (!res.ok) {
+//             const errorData = await res.json().catch(() => ({}));
+//             throw new Error(errorData.message || "Failed to fetch fleet info");
+//         }
+
+//         const result = await res.json();
+
+//         return result?.data;
+
+//     } catch (error: any) {
+//         console.log(error);
+//         return {
+//             success: false,
+//             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong in fetching profile info.'}`
+//         };
+//     }
+// };
 
 
 
