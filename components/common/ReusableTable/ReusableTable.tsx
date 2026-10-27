@@ -1,0 +1,111 @@
+'use client';
+
+import React from "react";
+import { Loader2 } from "lucide-react";
+import { TMeta } from "@/types";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+
+export interface Column<T> {
+    header: React.ReactNode;
+    accessor: keyof T | ((row: T) => React.ReactNode);
+    className?: string;
+}
+
+interface TableProps<T> {
+    data: T[];
+    meta?: TMeta;
+    columns: Column<T>[];
+    getRowKey: (row: T) => string;
+    emptyMessage?: string;
+    isRefreshing?: boolean;
+    showSerial?: boolean;
+    getRowClassName?: (row: T, index: number) => string | undefined;
+}
+
+function ReusableTable<T>({
+    data = [],
+    meta,
+    columns = [],
+    getRowKey,
+    emptyMessage = "No records found",
+    isRefreshing = false,
+    showSerial = true,
+    getRowClassName,
+}: TableProps<T>) {
+    const page = meta?.page ?? 1;
+    const limit = meta?.limit ?? data.length;
+    const serialStart = (page - 1) * limit + 1;
+
+    return (
+        <div className="relative">
+            {isRefreshing && (
+                <div className="absolute inset-0 bg-background/50 backdrop-blur-[2px] flex items-center justify-center z-10 rounded-lg">
+                    <div className="flex flex-col items-center gap-2">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                        <p className="text-sm text-muted-foreground">Refreshing...</p>
+                    </div>
+                </div>
+            )}
+
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        {showSerial && (
+                            <TableHead className="w-14 text-lg text-center text-[#DC3173]">
+                                #
+                            </TableHead>
+                        )}
+                        {columns.map((column, colIndex) => (
+                            <TableHead key={colIndex} className={column.className}>
+                                {column.header}
+                            </TableHead>
+                        ))}
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    {data.length === 0 ? (
+                        <TableRow>
+                            <TableCell
+                                colSpan={columns.length + (showSerial ? 1 : 0)}
+                                className="text-[#DC3173] text-lg text-center"
+                            >
+                                {emptyMessage}
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        data.map((item, index) => (
+                            <TableRow
+                                key={getRowKey(item)}
+                                className={cn(getRowClassName?.(item, index))}
+                            >
+                                {showSerial && (
+                                    <TableCell className="text-center text-muted-foreground font-medium">
+                                        {serialStart + index}
+                                    </TableCell>
+                                )}
+                                {columns.map((col, colIdx) => (
+                                    <TableCell key={colIdx} className={col.className}>
+                                        {typeof col.accessor === "function"
+                                            ? col.accessor(item)
+                                            : String(item[col.accessor] ?? "")}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))
+                    )}
+                </TableBody>
+            </Table>
+        </div>
+    );
+}
+
+export default ReusableTable;

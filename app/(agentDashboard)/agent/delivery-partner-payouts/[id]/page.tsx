@@ -1,6 +1,6 @@
 import PayoutDetails from "@/components/Dashboard/DeliveryPartner/DeliveryPartnerPayouts/PayoutDetails";
 import { getSinglePayout } from "@/services/dashboard/deliveryPartner/deliveryPartner";
-import { IPayout } from "@/types/payout.type";
+import { TRiderSettlement } from "@/types/payout.type";
 
 interface PageProps {
     params: {
@@ -14,7 +14,7 @@ const PayoutDetailsPage = async ({ params }: PageProps) => {
 
     return (
         <div>
-            <PayoutDetails payout={response as IPayout} />
+            <PayoutDetails payout={response as TRiderSettlement} />
         </div>
     );
 };

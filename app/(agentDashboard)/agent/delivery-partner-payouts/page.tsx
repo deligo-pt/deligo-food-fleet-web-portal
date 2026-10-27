@@ -15,7 +15,7 @@ const DeliveryPartnerPayoutsPage = async ({ searchParams }: IProps) => {
 
     return (
         <div>
-            <DeliveryPartnerPayouts partners={deliveryPartners?.data as TDeliveryPartner[]} payouts={payoutsData} />
+            <DeliveryPartnerPayouts partners={deliveryPartners?.data as TDeliveryPartner[]} payouts={{ data: payoutsData.data ?? [], meta: payoutsData?.meta }} />
         </div>
     );
 };

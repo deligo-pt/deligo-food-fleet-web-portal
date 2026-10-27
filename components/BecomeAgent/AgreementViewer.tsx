@@ -13,7 +13,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ArrowLeftCircle, CheckCircle2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/hooks/use-translation";
@@ -26,13 +26,15 @@ interface AgreementViewerProps {
     agreement: any;
     fleetId?: string;
     type?: "new" | "re-sign";
+    onSuccess?: () => void;
 }
 
 type SignatureMethod = "DRAWN" | "UPLOADED";
 
-export default function AgreementViewer({ agreement, fleetId, type = 'new' }: AgreementViewerProps) {
+export default function AgreementViewer({ agreement, fleetId, type = 'new', onSuccess }: AgreementViewerProps) {
     const { t } = useTranslation();
     const router = useRouter();
+    const pathname = usePathname();
     const [, startTransition] = useTransition();
 
     // modal open state (auto-opened when all files selected)
@@ -176,6 +178,7 @@ export default function AgreementViewer({ agreement, fleetId, type = 'new' }: Ag
                 startTransition(() => {
                     router.refresh();
                 });
+                onSuccess?.();
                 if (type === "re-sign") {
                     router.push('/agent/profile');
                 }
@@ -235,7 +238,7 @@ export default function AgreementViewer({ agreement, fleetId, type = 'new' }: Ag
     return (
         <div className="w-full max-w-4xl mx-auto p-4">
             <div className="space-y-4">
-                <div className="relative p-0">
+                {pathname !== "/agent/dashboard" && <div className="relative p-0">
                     <Button
                         onClick={() => router.back()}
                         variant="link"
@@ -243,7 +246,7 @@ export default function AgreementViewer({ agreement, fleetId, type = 'new' }: Ag
                     >
                         <ArrowLeftCircle className="w-4 h-4" /> {t("go_back")}
                     </Button>
-                </div>
+                </div>}
                 <Card className="overflow-hidden border-none shadow-inner bg-slate-200 min-h-175 flex flex-col">
                     {/* PDF Viewer */}
                     <div className="grow relative">

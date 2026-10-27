@@ -4,6 +4,7 @@ import Sidebar from "@/components/Dashboard/AgentDashboardSidebar/AgentDashboard
 import DesktopSidebar from "@/components/Dashboard/AgentDashboardSidebar/DesktopSidebar";
 import Topbar from "@/components/Dashboard/AgentTopbar/Topbar";
 import { getFleetManagerProfile } from "@/services/getFleetManagerInfo/getFleetManagerInfo";
+import AuthGuard from "@/store/authGuard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default async function AgentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const agentData = await getFleetManagerProfile();
+  const { data: agentData } = await getFleetManagerProfile();
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
@@ -28,11 +29,19 @@ export default async function AgentLayout({
         <div className="w-full sticky top-0 z-40">
           <Topbar agent={agentData} />
         </div>
-        <main className="flex-1 p-4 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-4 overflow-y-auto">
+          <AuthGuard>
+            {children}
+          </AuthGuard>
+        </main>
       </div>
 
       {/* Desktop view */}
-      <DesktopSidebar agentData={agentData}>{children}</DesktopSidebar>
+      <AuthGuard>
+        <DesktopSidebar agentData={agentData}>
+          {children}
+        </DesktopSidebar>
+      </AuthGuard>
     </div>
   );
 }
